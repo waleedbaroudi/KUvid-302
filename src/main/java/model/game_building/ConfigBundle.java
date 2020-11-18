@@ -1,4 +1,4 @@
-package model.game_building;
+package main.java.model.game_building;
 
 public class ConfigBundle {
     private int numOfAtomsPerType, numOfBlockersPerType, numOfPowerUpsPerType, numOfMoleculePerType;
