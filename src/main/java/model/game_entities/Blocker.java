@@ -4,9 +4,6 @@ import model.game_entities.enums.BlockerType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import utils.Coordinates;
-
-import java.nio.file.Path;
-
 /**
  * Blocker: Handles the Blocker game object.
  */
@@ -16,8 +13,8 @@ public class Blocker extends AutonomousEntity {
     private double explosionRadius;
     private BlockerType type;
 
-    public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern path, BlockerType type, double blockingRadius, double explosionRadius) {
-        super(coordinates, hitbox, path);
+    public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, BlockerType type, double blockingRadius, double explosionRadius) {
+        super(coordinates, hitbox, pathPattern);
         this.type = type;
         this.blockingRadius = blockingRadius;
         this.explosionRadius = explosionRadius;
@@ -41,6 +38,6 @@ public class Blocker extends AutonomousEntity {
 
     @Override
     public void move() {
-        setCoordinates(this.getPath().move());
+        setCoordinates(this.getPathPattern().move());
     }
 }

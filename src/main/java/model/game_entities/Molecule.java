@@ -1,4 +1,11 @@
 package model.game_entities;
+
+import model.game_entities.enums.MoleculeStructure;
+import model.game_entities.enums.MoleculeType;
+import model.game_physics.hitbox.Hitbox;
+import model.game_physics.path_patterns.PathPattern;
+import utils.Coordinates;
+
 /**
  * Molecule: Handles the Molecule game object.
  */
@@ -7,8 +14,8 @@ public class Molecule extends AutonomousEntity{
     private MoleculeType type;
     private MoleculeStructure structure;
 
-    public Molecule(Coordinates coordinates, Hitbox hitbox, Path path, MoleculeType type, MoleculeStructure structure) {
-        super(coordinates, hitbox, path);
+    public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, MoleculeType type, MoleculeStructure structure) {
+        super(coordinates, hitbox, pathPattern);
         this.type = type;
         this.structure = structure;
 
@@ -32,6 +39,6 @@ public class Molecule extends AutonomousEntity{
 
     @Override
     public void move() {
-        setCoordinates(this.getPath().move());
+        setCoordinates(this.getPathPattern().move());
     }
 }

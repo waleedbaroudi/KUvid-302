@@ -19,7 +19,7 @@ public class Shooter {
         return null;
     }
 
-    public Boolean switchAtom() {
+    public boolean switchAtom() {
         return false;
     }
 
@@ -27,7 +27,7 @@ public class Shooter {
 
     }
 
-    public Boolean reload() {
+    public boolean reload() {
         return false;
     }
 

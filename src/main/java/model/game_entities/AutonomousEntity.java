@@ -3,8 +3,6 @@ package model.game_entities;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import utils.Coordinates;
-
-
 /**
  * AutonomousEntity: a Superclass for all the game objects that move autonomously
  */
@@ -12,12 +10,12 @@ abstract public class AutonomousEntity {
 
     private Coordinates coordinates;
     private Hitbox hitbox;
-    private PathPattern path;
+    private PathPattern pathPattern;
 
-    public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern path){
+    public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern){
         this.coordinates = coordinates;
         this.hitbox = hitbox;
-        this.path = path;
+        this.pathPattern = pathPattern;
     }
 
     public void setCoordinates(Coordinates coordinate){
@@ -28,8 +26,8 @@ abstract public class AutonomousEntity {
         this.hitbox = hitbox;
     }
 
-    public void setPath(PathPattern path){
-        this.path = path;
+    public void setPathPattern(PathPattern path){
+        this.pathPattern = pathPattern;
     }
 
     public Coordinates getCoordinate() {
@@ -40,8 +38,8 @@ abstract public class AutonomousEntity {
         return this.hitbox;
     }
 
-    public PathPattern getPath() {
-        return this.path;
+    public PathPattern getPathPattern() {
+        return this.pathPattern;
     }
     /**
      * move: moves the corresponding object according to the path variable.
