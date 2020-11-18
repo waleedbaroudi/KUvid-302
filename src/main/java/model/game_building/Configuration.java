@@ -34,7 +34,7 @@ public class Configuration {
      * to the Configuration singleton.
      * @param configBundle
      */
-    public void setConfig(ConfigBundle configBundle){
+    public synchronized void setConfig(ConfigBundle configBundle){
         if(this.configBundle == null) {
             this.configBundle = configBundle;
         } else {
@@ -42,7 +42,7 @@ public class Configuration {
             // we can use the logger instance
             if(instance == null)
                 System.out.println("Configuration instance has not been initialised");
-            logger.info("Configuration has already been set. Build the game against to change it.");
+            logger.info("Configuration has already been set. Build the game again to change it.");
         }
     }
 
