@@ -1,46 +1,41 @@
-package main.java.model.game_building;
-
+package model.game_building;
 
 
 public class BuildingMode {
-	
-	int numberOfِAtomsPerType;
-	int numberOfِMoleculesPerType;
-	int numberOfِBlockersPerType;
-	int numberOFPowerupsPerType;
-	double length;
-	int difficulty;
-	ConfigBundle configBundle;
-	
-	/**
-	 * // BuildingMode constructor that take a ConfigBundle instance object as parameter.
-	 * @param configBundle
-	 */
-	public BuildingMode(ConfigBundle configBundle){
-		// this.configBundle = configBundle;
-		
-		this.difficulty = configBundle.getDifficulty();
-		this.length = configBundle.getL();
-		this.numberOFPowerupsPerType = configBundle.getNumOfPowerUpsPerType();
-		this.numberOfِAtomsPerType = configBundle.getNumOfAtomsPerType();
-		this.numberOfِBlockersPerType = configBundle.getNumOfBlockersPerType();
-		this.numberOfِMoleculesPerType = configBundle.getNumOfMoleculePerType();
-		
+
+	private boolean isValidParameters;
+	private ParametersValidationListener listener;
+
+	public BuildingMode(ParametersValidationListener listener){
+		isValidParameters = true;
+		this.listener = listener;
 	}
-	
-	
+
 	/**
 	 * this method is to check if all the parameters of the object ConfigBundle are valid or not at the same time. 
 	 * @return true if the parameters are valid, or false otherwise
 	 */
-	public boolean validateParameters() {
-		
-		boolean validNumbers = isValidNumber(numberOFPowerupsPerType) && isValidNumber(numberOfِAtomsPerType)
-				&& isValidNumber(numberOfِBlockersPerType) && isValidNumber(numberOfِMoleculesPerType);
-		
-		boolean valid = validNumbers && isValidDifficulty(difficulty) && isValidLength(length);
-		
-		return valid;
+	public void validateParameters(ConfigBundle bundle) {
+		String invalidFields = "";
+		if(!isValidNumber(bundle.getNumOfPowerUpsPerType()))
+			invalidFields+= "Number of Power-ups per type\n";
+		if(!isValidNumber(bundle.getNumOfAtomsPerType()))
+			invalidFields+= "Number of Atoms per type\n";
+		if(!isValidNumber(bundle.getNumOfBlockersPerType()))
+			invalidFields+= "Number of Blockers per type\n";
+		if(!isValidNumber(bundle.getNumOfMoleculePerType()))
+			invalidFields+= "Number of Molecule per type\n";
+		if(!isValidDifficulty(bundle.getDifficulty()))
+			invalidFields+= "Invalid Difficulty number\n";
+		if(!isValidLength(bundle.getL()))
+			invalidFields+= "Invalid Value for L\n";
+		if (isValidParameters)
+			listener.onValidParameters();
+		else {
+			invalidFields = "== Invalid Fields Entered:\n" + invalidFields;
+			listener.onInvalidParameters(invalidFields);
+		}
+
 	}
 	
 	
@@ -50,9 +45,11 @@ public class BuildingMode {
 	 * @return true if number > 0
 	 */
 	private boolean isValidNumber(int number) {
-		
-		return number > 0;
-		
+		if (number > 0){
+			return true;
+		}
+		isValidParameters = false;
+		return false;
 	}
 	
 	
@@ -62,8 +59,11 @@ public class BuildingMode {
 	 * @return true if difficulty is in range [0,2].
 	 */
 	private boolean isValidDifficulty(int difficulty) {
-		
-		return difficulty >= 0 && difficulty <= 2;
+		if(difficulty >= 0 && difficulty <= 2){
+			return true;
+		}
+		isValidParameters = false;
+		return false;
 	}
 	
 	
@@ -73,9 +73,15 @@ public class BuildingMode {
 	 * @return true if l > 0.
 	 */
 	private boolean isValidLength(double l) {
-		
-		return l > 0;
-		
+		if (l > 0)
+			return true;
+		isValidParameters = false;
+		return false;
+	}
+
+	public interface ParametersValidationListener{
+		void onValidParameters();
+		void onInvalidParameters(String message);
 	}
 
 }

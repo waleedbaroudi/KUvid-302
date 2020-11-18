@@ -1,23 +1,22 @@
 package ui.windows;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
  * This class draws the game building window.
  * through this window, the player can specify game parameters.
  */
-public class BuildingWindow {
+public class BuildingWindow implements BuildingMode.ParametersValidationListener {
     Scanner scanner;
     ConfigBundle bundle;
     BuildingMode buildingMode;
 
     public BuildingWindow() {
         scanner = new Scanner(System.in);
-        buildingMode = new BuildingMode();
+        buildingMode = new BuildingMode(this);
     }
 
     /**
@@ -55,7 +54,6 @@ public class BuildingWindow {
         int difficulty = (int) promptForNumParameter("Difficulty level: [0/1/2]\t");
 
         bundle = new ConfigBundle(numOfAtoms, numOfBlockers, numOfPowerUps, numOfMolecules, lengthOfL, linearAlpha,linearBeta,spinningAlpha,spinningBeta,difficulty);
-        System.out.println("BUNDLE CREATED");
     }
 
     public double promptForNumParameter(String message){
@@ -63,7 +61,7 @@ public class BuildingWindow {
         double results = -1;
         try{
             results = scanner.nextDouble();
-        } catch(TypeMismatchException e){
+        } catch(InputMismatchException e){
             System.out.println("wrong type entered");
         }
         return results;
@@ -71,13 +69,16 @@ public class BuildingWindow {
 
     public boolean promptForBoolParameter(String message){
         System.out.print(message);
-        boolean result = false;
-        try{
-            result = scanner.nextBoolean();
-        } catch (TypeMismatchException e){
-            System.out.println("wrong type entered");
-        }
-        return result;
+        return scanner.nextLine().equals("true");
     }
 
+    public void onValidParameters() {
+        ConfirmationWindow confirmationWindow = new ConfirmationWindow();
+        confirmationWindow.show();
+    }
+
+    public void onInvalidParameters(String message) {
+        ErrorWindow errorWindow = new ErrorWindow(message);
+        errorWindow.popError();
+    }
 }

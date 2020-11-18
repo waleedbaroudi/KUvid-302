@@ -1,4 +1,4 @@
-package main.java.ui.windows;
+package ui.windows;
 
 public class ErrorWindow {
 	
@@ -18,7 +18,7 @@ public class ErrorWindow {
 	
 	public void popError() {
 		
-		System.err.println(this.error);
+		System.out.println(this.error);
 		
 	}
 
