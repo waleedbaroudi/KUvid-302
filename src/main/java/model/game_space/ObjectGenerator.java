@@ -1,5 +1,8 @@
 package model.game_space;
 
+import model.game_entities.Blocker;
+import model.game_entities.Molecule;
+import model.game_entities.Powerup;
 import model.game_entities.enums.BlockerType;
 import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.MoleculeType;

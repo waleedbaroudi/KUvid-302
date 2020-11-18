@@ -1,6 +1,8 @@
 package model.game_physics.hitbox;
 
 import model.game_entities.enums.Direction;
+import utils.Coordinates;
+import utils.Vector;
 
 public class RectangularHitbox extends Hitbox {
 
@@ -14,8 +16,9 @@ public class RectangularHitbox extends Hitbox {
         this.cornerVector = cornerVector;
     }
 
-    public RectangularHitbox(int height, int width){
+    public RectangularHitbox(int height, int width,Coordinates centerCoordinates){
         super(centerCoordinates);
+
     }
 
     @Override
@@ -32,11 +35,11 @@ public class RectangularHitbox extends Hitbox {
         return null;
     }
 
-    public Coordinate getCenterCoordinates() {
+    public Coordinates getCenterCoordinates() {
         return centerCoordinates;
     }
 
-    public void setCenterCoordinates(Coordinate centerCoordinates) {
+    public void setCenterCoordinates(Coordinates centerCoordinates) {
         this.centerCoordinates = centerCoordinates;
     }
 }

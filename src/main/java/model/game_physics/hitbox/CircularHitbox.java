@@ -1,12 +1,14 @@
 package model.game_physics.hitbox;
 
 import model.game_entities.enums.Direction;
+import utils.Coordinates;
+import utils.Vector;
 
 public class CircularHitbox extends Hitbox {
 
     Vector arcVector;
 
-    public CircularHitbox(int height, int width, Coordinate centerCoordinates){
+    public CircularHitbox(int height, int width, Coordinates centerCoordinates){
         super(centerCoordinates);
     }
 

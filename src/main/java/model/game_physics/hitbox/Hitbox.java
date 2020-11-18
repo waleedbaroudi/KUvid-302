@@ -1,11 +1,12 @@
 package model.game_physics.hitbox;
 
 import model.game_entities.enums.Direction;
+import utils.Coordinates;
 
 public abstract class Hitbox {
-    Coordinate centerCoordinates;
+    Coordinates centerCoordinates;
 
-    public Hitbox(Coordinate centerCoordinates){
+    public Hitbox(Coordinates centerCoordinates){
         this.centerCoordinates = centerCoordinates;
     }
 

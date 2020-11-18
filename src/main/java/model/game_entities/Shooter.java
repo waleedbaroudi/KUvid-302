@@ -3,9 +3,10 @@ package model.game_entities;
 import model.game_entities.enums.AtomType;
 import model.game_entities.enums.PowerupType;
 import model.game_physics.hitbox.Hitbox;
+import utils.Coordinates;
 
 public class Shooter {
-    Coordinate coordinate;
+    Coordinates coordinate;
     Hitbox hitbox;
     Projectile currentProjectile;
     AtomType previousAtom;
@@ -34,11 +35,11 @@ public class Shooter {
         return null;
     }
 
-    public Coordinate getCoordinate() {
+    public Coordinates getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(Coordinate coordinate) {
+    public void setCoordinate(Coordinates coordinate) {
         this.coordinate = coordinate;
     }
 
