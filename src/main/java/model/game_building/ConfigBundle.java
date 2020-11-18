@@ -1,11 +1,27 @@
 package model.game_building;
 
+/**
+ * a container for game parameters
+ */
 public class ConfigBundle {
     private int numOfAtomsPerType, numOfBlockersPerType, numOfPowerUpsPerType, numOfMoleculePerType;
     private double l;
-    private boolean isLinearAlpha,isLinearBeta , isSpinningAlpha, isSpinningBeta ; //TODO: convert to enums
+    private boolean isLinearAlpha, isLinearBeta, isSpinningAlpha, isSpinningBeta; //TODO: convert to enums
     private int difficulty; //0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
 
+    /**
+     *  Constructor to initialize game parameter attributes
+     * @param numOfAtomsPerType /
+     * @param numOfBlockersPerType /
+     * @param numOfPowerUpsPerType /
+     * @param numOfMoleculePerType /
+     * @param l /
+     * @param isLinearAlpha /
+     * @param isLinearBeta /
+     * @param isSpinningAlpha /
+     * @param isSpinningBeta /
+     * @param difficulty /
+     */
     public ConfigBundle(int numOfAtomsPerType, int numOfBlockersPerType, int numOfPowerUpsPerType, int numOfMoleculePerType, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha, boolean isSpinningBeta, int difficulty) {
         this.numOfAtomsPerType = numOfAtomsPerType;
         this.numOfBlockersPerType = numOfBlockersPerType;
@@ -18,6 +34,7 @@ public class ConfigBundle {
         this.isSpinningBeta = isSpinningBeta;
         this.difficulty = difficulty;
     }
+
 
     public int getNumOfAtomsPerType() {
         return numOfAtomsPerType;

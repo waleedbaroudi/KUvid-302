@@ -80,7 +80,15 @@ public class BuildingMode {
 	}
 
 	public interface ParametersValidationListener{
+		/**
+		 * this method is called after game parameters get checked and proved valid.
+		 */
 		void onValidParameters();
+
+		/**
+		 * this method is called after game parameters get checked and proved invalid.
+		 * @param message takes a message indicating that some parameters are invalid as well as those parameters.
+		 */
 		void onInvalidParameters(String message);
 	}
 

@@ -14,6 +14,9 @@ public class BuildingWindow implements BuildingMode.ParametersValidationListener
     ConfigBundle bundle;
     BuildingMode buildingMode;
 
+    /**
+     * Constructor initiates the Scanner and BuildingMode instances
+     */
     public BuildingWindow() {
         scanner = new Scanner(System.in);
         buildingMode = new BuildingMode(this);
@@ -56,6 +59,11 @@ public class BuildingWindow implements BuildingMode.ParametersValidationListener
         bundle = new ConfigBundle(numOfAtoms, numOfBlockers, numOfPowerUps, numOfMolecules, lengthOfL, linearAlpha,linearBeta,spinningAlpha,spinningBeta,difficulty);
     }
 
+    /**
+     *
+     * @param message prompt message shown to the user
+     * @return returns the numeric value read from user input
+     */
     public double promptForNumParameter(String message){
         System.out.print(message);
         double results = -1;
@@ -67,6 +75,11 @@ public class BuildingWindow implements BuildingMode.ParametersValidationListener
         return results;
     }
 
+    /**
+     *
+     * @param message prompt message shown to the user
+     * @return returns the boolean value read from user input
+     */
     public boolean promptForBoolParameter(String message){
         System.out.print(message);
         return scanner.nextLine().equals("true");
