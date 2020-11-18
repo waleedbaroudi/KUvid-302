@@ -34,7 +34,7 @@ public class Configuration {
      * to the Configuration singleton.
      * @param configBundle
      */
-    public void setConfigBundle(ConfigBundle configBundle){
+    public void setConfig(ConfigBundle configBundle){
         if(this.configBundle == null) {
             this.configBundle = configBundle;
         } else {
@@ -51,7 +51,7 @@ public class Configuration {
      * An example of using this method outside of this class would be: Configuration.getInstance().getConfigBundle().getDifficulty()
      * @return configBundle
      */
-    private ConfigBundle getConfigBundle(){
+    private ConfigBundle getConfig(){
         if(this.configBundle == null)
             logger.warn("ConfigBundle hasn't been set in the Configuration singleton");
         return this.configBundle;
