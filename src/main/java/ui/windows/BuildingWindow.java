@@ -68,10 +68,8 @@ public class BuildingWindow implements BuildingMode.ParametersValidationListener
         System.out.print(message);
         double results = -1;
         try{
-            results = scanner.nextDouble();
-        } catch(InputMismatchException e){
-            System.out.println("wrong type entered");
-        }
+            results = Double.parseDouble(scanner.next());
+        } catch(Exception ignored){}
         return results;
     }
 
