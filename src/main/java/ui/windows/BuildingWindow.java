@@ -82,7 +82,8 @@ public class BuildingWindow implements BuildingMode.ParametersValidationListener
      */
     public boolean promptForBoolParameter(String message){
         System.out.print(message);
-        return scanner.nextLine().equals("true");
+        String result = scanner.next();
+        return result.trim().toLowerCase().equals("true");
     }
 
     public void onValidParameters() {
