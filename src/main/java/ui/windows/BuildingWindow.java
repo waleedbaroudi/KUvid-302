@@ -2,95 +2,174 @@ package ui.windows;
 
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import sun.awt.image.BufferedImageDevice;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * This class draws the game building window.
  * through this window, the player can specify game parameters.
  */
-public class BuildingWindow implements BuildingMode.ParametersValidationListener {
-    Scanner scanner;
+public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
     ConfigBundle bundle;
     BuildingMode buildingMode;
+
+    // JTextFields
+    JTextField atomsTextField;
+    JTextField moleculesTextField;
+    JTextField powerupsTextField;
+    JTextField blockersTextField;
+    JTextField lengthTextField;
+    JTextField difficultyTextField;
+
+    // JRadioButtons
+    JRadioButton isLinearAlpha;
+    JRadioButton isSpinningAlpha;
+    JRadioButton isLinearBeta;
+    JRadioButton isSpinningBeta;
+
+    // Configuration variables
+    int atomsNum, moleculesNum, blockersNum, powerupsNum, difficulty;
+    double l;
+    boolean isLinearA, isLinearB, isSpinningA, isSpinningB;
 
     /**
      * Constructor initiates the Scanner and BuildingMode instances
      */
-    public BuildingWindow() {
-        scanner = new Scanner(System.in);
+    public BuildingWindow(String title) {
         buildingMode = new BuildingMode(this);
+
+        this.setSize(800, 800);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        this.add(panel);
+
+        /* calling user defined method for adding components
+         * to the panel.
+         */
+        placeComponents(panel);
+
+        // Fits the borders to the content
+        this.pack();
+        // Setting the frame visibility to true.
+        this.setVisible(true);
     }
 
     /**
-     * starts building mode UI
+     * Here we place our components to the panel that will be added to the JFrame after.
+     * @param panel
      */
-    public void start(){
-        promptForParameters();
-        buildingMode.validateParameters(bundle);
-        /// do other stuff
+    private void placeComponents(JPanel panel){
+        // Setting the layout of the panel
+        panel.setLayout(new GridBagLayout());
+        panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
+        //GridBagConstraints c = new GridBagConstraints();
+
+        /*
+         * Creating labels and text fields
+         * */
+        JLabel atomsLabel = new JLabel("Atoms");
+        panel.add(atomsLabel);
+
+        atomsTextField = new JTextField(4);
+        panel.add(atomsTextField);
+
+        JLabel moleculesLabel = new JLabel("Molecules");
+        panel.add(moleculesLabel);
+
+        moleculesTextField = new JTextField(4);
+        panel.add(moleculesTextField);
+
+        JLabel powerupsLabel = new JLabel("Power-ups");
+        panel.add(powerupsLabel);
+
+        powerupsTextField = new JTextField(4);
+        panel.add(powerupsTextField);
+
+        JLabel blockersLabel = new JLabel("Blockers");
+        panel.add(blockersLabel);
+
+        blockersTextField = new JTextField(4);
+        panel.add(blockersTextField);
+
+        JLabel lengthLabel = new JLabel("L unit");
+        panel.add(lengthLabel);
+
+        lengthTextField = new JTextField(4);
+        panel.add(lengthTextField);
+
+        JLabel difficultyLabel = new JLabel("Difficulty (0-2)");
+        panel.add(difficultyLabel);
+
+        difficultyTextField = new JTextField(4);
+        panel.add(difficultyTextField);
+
+
+        /*
+         * Radio Button Groups
+         * */
+
+        ButtonGroup alphaMoleculesGroup = new ButtonGroup();
+        ButtonGroup betaMoleculesGroup = new ButtonGroup();
+
+        isLinearAlpha = new JRadioButton("Linear Alpha Molecules");
+        alphaMoleculesGroup.add(isLinearAlpha);
+        panel.add(isLinearAlpha);
+
+        isSpinningAlpha = new JRadioButton("Spinning Alpha Molecules");
+        alphaMoleculesGroup.add(isSpinningAlpha);
+        panel.add(isSpinningAlpha);
+
+        isLinearBeta = new JRadioButton("Linear Beta Molecules");
+        betaMoleculesGroup.add(isLinearBeta);
+        panel.add(isLinearBeta);
+
+        isSpinningBeta = new JRadioButton("Spinning Beta Molecules");
+        betaMoleculesGroup.add(isSpinningBeta);
+        panel.add(isSpinningBeta);
+
+        /*
+         * Building Game Button
+         * */
+
+        JButton buildGameButton = new JButton("Build Game!");
+        addButtonActionListener(buildGameButton);
+        panel.add(buildGameButton);
+
     }
 
-    /**
-     * this method handles asking for game parameters, recording them, and collecting them in bundle.
-     */
-    public void promptForParameters() {
-        System.out.println("=== Welcome to KUvid! ===");
-        System.out.println("Please specify game parameters");
-
-        int numOfAtoms = (int) promptForNumParameter("Number of atoms:\t");
-        int numOfMolecules = (int) promptForNumParameter("Number of molecules:\t");
-        int numOfPowerUps = (int) promptForNumParameter("Number of power-ups:\t");
-        int numOfBlockers = (int) promptForNumParameter("Number of reaction blockers:\t");
-
-        double lengthOfL = promptForNumParameter("Length of unit L:\t");
-        boolean linearAlpha = promptForBoolParameter("Linear Alpha molecules? [true/false]\t");
-        boolean spinningAlpha = false;
-        if(linearAlpha)
-            spinningAlpha = promptForBoolParameter("Spinning Alpha molecules? [true/false]\t");
-
-        boolean linearBeta = promptForBoolParameter("Linear Beta molecules? [true/false]\t");
-        boolean spinningBeta = false;
-        if(linearBeta)
-            spinningBeta = promptForBoolParameter("Spinning Beta molecules? [true/false]\t");
-
-        int difficulty = (int) promptForNumParameter("Difficulty level: [0/1/2]\t");
-
-        bundle = new ConfigBundle(numOfAtoms, numOfBlockers, numOfPowerUps, numOfMolecules, lengthOfL, linearAlpha,linearBeta,spinningAlpha,spinningBeta,difficulty);
-    }
-
-    /**
-     *
-     * @param message prompt message shown to the user
-     * @return returns the numeric value read from user input
-     */
-    public double promptForNumParameter(String message){
-        System.out.print(message);
-        double results = -1;
-        try{
-            results = Double.parseDouble(scanner.next());
-        } catch(Exception ignored){}
-        return results;
-    }
-
-    /**
-     *
-     * @param message prompt message shown to the user
-     * @return returns the boolean value read from user input
-     */
-    public boolean promptForBoolParameter(String message){
-        System.out.print(message);
-        String result = scanner.next();
-        return result.trim().toLowerCase().equals("true");
+    private void addButtonActionListener(JButton btn){
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create bundle
+                // TODO: ADD TRY AND CATCH TO CONFIRM THESE PARAMETERS HAVE THE CORRECT TYPE
+//                try{
+//                    confirmParameters(...)
+//                } catch(NumberFormatException){
+//                    // Create error window
+//                    System.out.println("Please enter correct types");
+//                }
+                bundle = new ConfigBundle(Integer.parseInt(atomsTextField.getText()), Integer.parseInt(blockersTextField.getText()), Integer.parseInt(powerupsTextField.getText()),
+                        Integer.parseInt(moleculesTextField.getText()), Double.parseDouble(lengthTextField.getText()), isLinearAlpha.isSelected(),
+                        isLinearBeta.isSelected(), isSpinningAlpha.isSelected(), isSpinningBeta.isSelected(), Integer.parseInt(difficultyTextField.getText())
+                );
+                // Validate the fields.
+                buildingMode.validateParameters(bundle);
+            }
+        });
     }
 
     public void onValidParameters() {
-        ConfirmationWindow confirmationWindow = new ConfirmationWindow();
-        confirmationWindow.show();
+        // TODO: Pass the bundle to the confirmation window to have a little summary on the window.
+        ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this);
     }
 
     public void onInvalidParameters(String message) {
-        ErrorWindow errorWindow = new ErrorWindow(message);
-        errorWindow.popError();
+        ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, message);
     }
 }

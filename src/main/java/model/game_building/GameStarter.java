@@ -4,7 +4,6 @@ import ui.windows.BuildingWindow;
 
 public class GameStarter {
     public static void main(String[] args) {
-        BuildingWindow window = new BuildingWindow();
-        window.start();
+        BuildingWindow window = new BuildingWindow("Game Build");
     }
 }

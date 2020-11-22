@@ -1,32 +1,17 @@
 package ui.windows;
 
-/**
- * Handles the error frames that might appear throughout the program.
- */
-public class ErrorWindow {
+import com.sun.javaws.util.JfxHelper;
 
-    private final String errorMessage; //error message to be displayed
+import javax.swing.*;
 
-    /**
-     * default constructor. specifies a default error message.
-     */
-    public ErrorWindow() {
-        this.errorMessage = "There is an Error!";
+public class ErrorWindow{
+
+
+    public ErrorWindow(JFrame frame, String errorMessage){
+        displayError(frame, errorMessage);
     }
 
-    /**
-     * constructor that specifies the error message.
-     * @param errorMessage message to be displayed for the user
-     */
-    public ErrorWindow(String errorMessage) {
-        this.errorMessage = errorMessage;
+    private void displayError(JFrame frame, String errorMessage){
+        JOptionPane.showMessageDialog(frame, errorMessage,"Enter Valid Fields:", JOptionPane.ERROR_MESSAGE);
     }
-
-    /**
-     * triggers the error window
-     */
-    public void popError() {
-        System.out.println(this.errorMessage);
-    }
-
 }

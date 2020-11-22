@@ -1,22 +1,19 @@
 package ui.windows;
 
-import java.util.Scanner;
+import com.sun.javaws.util.JfxHelper;
 
-/**
- * Handles the frame that asks the user to confirm their entered parameters
- */
-public class ConfirmationWindow {
-    private final Scanner scanner;
-    public ConfirmationWindow(){
-        scanner = new Scanner(System.in);
-    }
+import javax.swing.*;
 
-    /**
-     * triggers the confirmation window
-     */
-    public void show(){
-        System.out.println("Parameters set, enter any text to proceed");
-        scanner.nextLine();
-        System.out.println("Initiating Game...");
+public class ConfirmationWindow{
+
+
+    public ConfirmationWindow(JFrame frame){
+        int replay = JOptionPane.showConfirmDialog(frame, "Are you sure?" ,"Confirmation", JOptionPane.YES_NO_OPTION);
+        if(replay == JOptionPane.YES_OPTION)
+            // Create the game window
+            System.out.println("Starting Game...");
+        else
+            System.out.println("Returning to building window");
+
     }
 }
