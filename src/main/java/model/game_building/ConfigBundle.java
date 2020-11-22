@@ -10,17 +10,18 @@ public class ConfigBundle {
     private int difficulty; //0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
 
     /**
-     *  Constructor to initialize game parameter attributes
-     * @param numOfAtomsPerType /
+     * Constructor to initialize game parameter attributes
+     *
+     * @param numOfAtomsPerType    /
      * @param numOfBlockersPerType /
      * @param numOfPowerUpsPerType /
      * @param numOfMoleculePerType /
-     * @param l /
-     * @param isLinearAlpha /
-     * @param isLinearBeta /
-     * @param isSpinningAlpha /
-     * @param isSpinningBeta /
-     * @param difficulty /
+     * @param l                    /
+     * @param isLinearAlpha        /
+     * @param isLinearBeta         /
+     * @param isSpinningAlpha      /
+     * @param isSpinningBeta       /
+     * @param difficulty           /
      */
     public ConfigBundle(int numOfAtomsPerType, int numOfBlockersPerType, int numOfPowerUpsPerType, int numOfMoleculePerType, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha, boolean isSpinningBeta, int difficulty) {
         this.numOfAtomsPerType = numOfAtomsPerType;
@@ -48,7 +49,7 @@ public class ConfigBundle {
         return numOfPowerUpsPerType;
     }
 
-    public int getNumOfMoleculePerType() {
+    public int getNumOfMoleculesPerType() {
         return numOfMoleculePerType;
     }
 

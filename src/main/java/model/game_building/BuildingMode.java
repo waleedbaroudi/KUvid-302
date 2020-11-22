@@ -23,7 +23,7 @@ public class BuildingMode {
 			invalidFields+= "Number of Atoms per type\n";
 		if(!isValidNumber(bundle.getNumOfBlockersPerType()))
 			invalidFields+= "Number of Blockers per type\n";
-		if(!isValidNumber(bundle.getNumOfMoleculePerType()))
+		if(!isValidNumber(bundle.getNumOfMoleculesPerType()))
 			invalidFields+= "Number of Molecule per type\n";
 		if(!isValidDifficulty(bundle.getDifficulty()))
 			invalidFields+= "Invalid Difficulty number\n";
