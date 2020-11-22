@@ -92,6 +92,13 @@ public class BuildingMode {
 		void onInvalidParameters(String message);
 	}
 
+	public interface ParametersConfirmationListener{
+		/**
+		 * this method is called after game parameters get checked and proved valid.
+		 */
+		void onConfirmedParameters();
+	}
+
 }
 
 
