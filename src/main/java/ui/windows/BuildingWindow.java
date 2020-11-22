@@ -166,7 +166,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     public void onValidParameters() {
         // TODO: Pass the bundle to the confirmation window to have a little summary on the window.
-        ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this);
+        ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
     }
 
     public void onInvalidParameters(String message) {

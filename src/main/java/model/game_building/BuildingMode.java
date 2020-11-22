@@ -6,6 +6,7 @@ public class BuildingMode {
 	private boolean isValidParameters;
 	private ParametersValidationListener listener;
 
+
 	public BuildingMode(ParametersValidationListener listener){
 		isValidParameters = true;
 		this.listener = listener;
@@ -92,12 +93,7 @@ public class BuildingMode {
 		void onInvalidParameters(String message);
 	}
 
-	public interface ParametersConfirmationListener{
-		/**
-		 * this method is called after game parameters get checked and proved valid.
-		 */
-		void onConfirmedParameters();
-	}
+
 
 }
 
