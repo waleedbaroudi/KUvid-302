@@ -1,15 +1,16 @@
 package model.game_running;
 
 import model.game_entities.AutonomousEntity;
-
 import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 
+/**
+ * this class is a controller for the running phase of the game.
+ */
 public class RunningMode {
     Logger logger;
     private static ArrayList<AutonomousEntity> autonomousEntities;
-    boolean isInitialized = false;
+    boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
     MovementRunnable movementRunnable;
     Thread movementThread;
 
@@ -19,13 +20,19 @@ public class RunningMode {
         initialize();
     }
 
-    private void initialize() throws IllegalThreadStateException { //todo: catch this exception and skip the drawing loop
+    /**
+     * instantiates the threads and runnables. fills the list. sets "initialized" to true
+     */
+    private void initialize() {
         //todo: fill autonomous entity list and containers here
         movementRunnable = new MovementRunnable();
         movementThread = new Thread(this.movementRunnable);
         this.isInitialized = true;
     }
 
+    /**
+     * starts the movement and collision threads
+     */
     public void startThreads() {
         if (!isInitialized) {
             logger.error("Game is not yet initialized");
@@ -35,23 +42,43 @@ public class RunningMode {
         //todo: start threads
     }
 
+    /**
+     *
+     * @param entity the entity to be added to the list of entities
+     * @return a boolean indicating whether the entity was added successfully
+     */
     public boolean addEntity(AutonomousEntity entity) {
         return autonomousEntities.add(entity);
     }
 
+    /**
+     *
+     * @param entity the entity to be removed to the list of entities
+     * @return a boolean indicating whether the entity was removed successfully
+     */
     public boolean removeEntity(AutonomousEntity entity) {
         return autonomousEntities.remove(entity);
     }
 
+    /**
+     * stops the movement loop and interrupts the movement thread
+     */
     public void stop() {
         this.pause();
         movementThread.interrupt();
     }
 
+    /**
+     * stops the movement loop, keeps the thread uninterrupted
+     */
     public void pause() {
         movementRunnable.pause();
     }
 
+    /**
+     * static so that all classes
+     * @return returns the list of autonomous entities
+     */
     public static ArrayList<AutonomousEntity> getAutonomousEntities() {
         return autonomousEntities;
     }

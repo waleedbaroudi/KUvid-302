@@ -1,13 +1,13 @@
 package model.game_running;
 
 import model.game_entities.AutonomousEntity;
-import ui.windows.RunningWindow;
 
-import java.util.ArrayList;
-
+/**
+ * This runnable handles moving objets in the background
+ */
 public class MovementRunnable implements Runnable {
 
-    private boolean running;
+    private boolean running; //to control the running loop
 
     @Override
     public void run() {
@@ -24,10 +24,16 @@ public class MovementRunnable implements Runnable {
         }
     }
 
+    /**
+     * sets running to false, stopping the movement loop
+     */
     public void pause() {
         this.running = false;
     }
 
+    /**
+     * calls run, starting the movement loop
+     */
     public void resume() {
         this.run();
     }
