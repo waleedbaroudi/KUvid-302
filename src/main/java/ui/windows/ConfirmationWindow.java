@@ -28,7 +28,7 @@ public class ConfirmationWindow implements ConfigConfirmation.ParametersConfirma
 
     @Override
     public void onConfirmedParameters() {
-        // Close the current frame.
+        // Close the current game-building frame.
         buildingGameFrame.dispose();
     }
 }

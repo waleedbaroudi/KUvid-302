@@ -8,7 +8,10 @@ public class ConfigConfirmation {
 
     public void confirm(ConfigBundle bundle){
         Configuration.getInstance().setConfig(bundle);
+        // Send a signal to close the building-mode window (Frame)
         confirmationListener.onConfirmedParameters();
+
+        // TODO: Create the game session
 
     }
 

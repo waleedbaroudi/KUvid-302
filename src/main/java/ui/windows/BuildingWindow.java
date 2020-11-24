@@ -25,11 +25,11 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     JTextField lengthTextField;
     JTextField difficultyTextField;
 
-    // JRadioButtons
-    JRadioButton isLinearAlpha;
-    JRadioButton isSpinningAlpha;
-    JRadioButton isLinearBeta;
-    JRadioButton isSpinningBeta;
+    // JCheckBoxes
+    JCheckBox isLinearAlpha;
+    JCheckBox isLinearBeta;
+    JCheckBox isSpinningBeta;
+    JCheckBox isSpinningAlpha;
 
     // Configuration variables
     int atomsNum, moleculesNum, blockersNum, powerupsNum, difficulty;
@@ -65,7 +65,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      */
     private void placeComponents(JPanel panel){
         // Setting the layout of the panel
-        panel.setLayout(new GridBagLayout());
+        panel.setLayout(new GridLayout(9, 2));
         panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
         //GridBagConstraints c = new GridBagConstraints();
 
@@ -108,29 +108,26 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         difficultyTextField = new JTextField(4);
         panel.add(difficultyTextField);
 
-
         /*
-         * Radio Button Groups
-         * */
-
-        ButtonGroup alphaMoleculesGroup = new ButtonGroup();
-        ButtonGroup betaMoleculesGroup = new ButtonGroup();
-
-        isLinearAlpha = new JRadioButton("Linear Alpha Molecules");
-        alphaMoleculesGroup.add(isLinearAlpha);
+        * Checkboxes
+        * */
+        isLinearAlpha = new JCheckBox("Spinning Alpha Molecules");
         panel.add(isLinearAlpha);
 
-        isSpinningAlpha = new JRadioButton("Spinning Alpha Molecules");
-        alphaMoleculesGroup.add(isSpinningAlpha);
+        isSpinningAlpha = new JCheckBox("Spinning Alpha Molecules");
+        isSpinningAlpha.setEnabled(false);
         panel.add(isSpinningAlpha);
 
-        isLinearBeta = new JRadioButton("Linear Beta Molecules");
-        betaMoleculesGroup.add(isLinearBeta);
+
+        isLinearBeta = new JCheckBox("Spinning Alpha Molecules");
         panel.add(isLinearBeta);
 
-        isSpinningBeta = new JRadioButton("Spinning Beta Molecules");
-        betaMoleculesGroup.add(isSpinningBeta);
+        isSpinningBeta = new JCheckBox("Spinning Beta Molecules");
+        isSpinningBeta.setEnabled(false);
         panel.add(isSpinningBeta);
+
+        addAlphaCheckboxActionListener();
+        addBetaCheckboxActionListener();
 
         /*
          * Building Game Button
@@ -160,6 +157,36 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
                 );
                 // Validate the fields.
                 buildingMode.validateParameters(bundle);
+            }
+        });
+    }
+
+    /**
+     * Sets the behavior for the checkbox to disable the corresponding spinning checkbox and un-tick it
+     * if the linear Alpha option is un-ticked.
+     */
+    private void addAlphaCheckboxActionListener(){
+        isLinearAlpha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSpinningAlpha.setEnabled(isLinearAlpha.isSelected());
+                if(!isLinearAlpha.isSelected())
+                    isSpinningAlpha.setSelected(false);
+            }
+        });
+    }
+
+    /**
+     *  Sets the behavior for the checkbox to disable the corresponding spinning checkbox and un-tick it
+     *  if the linear Beta option is un-ticked.
+     */
+    private void addBetaCheckboxActionListener(){
+        isLinearBeta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSpinningBeta.setEnabled(isLinearBeta.isSelected());
+                if(!isLinearBeta.isSelected())
+                    isSpinningBeta.setSelected(false);
             }
         });
     }
