@@ -124,13 +124,13 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 		blockersTextField = new JTextField(4);
 		panel.add(blockersTextField);
 
-		JLabel lengthLabel = new JLabel("L unit");
+		JLabel lengthLabel = new JLabel("L unit ");
 		panel.add(lengthLabel);
 
 		lengthTextField = new JTextField(4);
 		panel.add(lengthTextField);
 
-		JLabel difficultyLabel = new JLabel("Difficulty (0-2)");
+		JLabel difficultyLabel = new JLabel("Difficulty ");
 		panel.add(difficultyLabel);
 
 		difficultyBox = new JComboBox<String>(difficultyLevels);

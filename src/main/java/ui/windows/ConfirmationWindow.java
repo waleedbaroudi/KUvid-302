@@ -1,7 +1,7 @@
-package ui.windows;
+package main.java.ui.windows;
 
-import com.sun.javaws.util.JfxHelper;
-import model.game_building.BuildingMode;
+
+import main.java.model.game_building.BuildingMode;
 
 import javax.swing.*;
 
