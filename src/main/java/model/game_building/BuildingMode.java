@@ -4,12 +4,12 @@ package model.game_building;
 public class BuildingMode {
 
 	private boolean isValidParameters;
-	private ParametersValidationListener listener;
+	private ParametersValidationListener validationListener;
 
 
-	public BuildingMode(ParametersValidationListener listener){
+	public BuildingMode(ParametersValidationListener validationListener){
 		isValidParameters = true;
-		this.listener = listener;
+		this.validationListener = validationListener;
 	}
 
 	/**
@@ -31,10 +31,10 @@ public class BuildingMode {
 		if(!isValidLength(bundle.getL()))
 			invalidFields+= "Invalid Value for L\n";
 		if (isValidParameters)
-			listener.onValidParameters();
+			validationListener.onValidParameters();
 		else {
 			invalidFields = "== Invalid Fields Entered:\n" + invalidFields;
-			listener.onInvalidParameters(invalidFields);
+			validationListener.onInvalidParameters(invalidFields);
 		}
 
 	}

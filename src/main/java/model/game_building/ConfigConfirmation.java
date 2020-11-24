@@ -1,14 +1,14 @@
 package model.game_building;
 
 public class ConfigConfirmation {
-    private ParametersConfirmationListener listener;
-    public ConfigConfirmation(ParametersConfirmationListener listener){
-        this.listener = listener;
+    private ParametersConfirmationListener confirmationListener;
+    public ConfigConfirmation(ParametersConfirmationListener confirmationListener){
+        this.confirmationListener = confirmationListener;
     }
 
     public void confirm(ConfigBundle bundle){
         Configuration.getInstance().setConfig(bundle);
-        listener.onConfirmedParameters();
+        confirmationListener.onConfirmedParameters();
 
     }
 
