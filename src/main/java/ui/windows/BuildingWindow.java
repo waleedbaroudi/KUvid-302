@@ -1,175 +1,224 @@
-package ui.windows;
+package main.java.ui.windows;
 
-import model.game_building.BuildingMode;
-import model.game_building.ConfigBundle;
+import main.java.model.game_building.BuildingMode;
+import main.java.model.game_building.ConfigBundle;
 import sun.awt.image.BufferedImageDevice;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.IllegalFormatException;
+import java.util.Stack;
 
 /**
- * This class draws the game building window.
- * through this window, the player can specify game parameters.
+ * This class draws the game building window. through this window, the player
+ * can specify game parameters.
  */
 public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
-    ConfigBundle bundle;
-    BuildingMode buildingMode;
+	ConfigBundle bundle;
+	BuildingMode buildingMode;
 
-    // JTextFields
-    JTextField atomsTextField;
-    JTextField moleculesTextField;
-    JTextField powerupsTextField;
-    JTextField blockersTextField;
-    JTextField lengthTextField;
-    JTextField difficultyTextField;
+	// JTextFields
+	JTextField gammaAtomsTextField;
+	JTextField alphaAtomsTextField;
+	JTextField betaAtomsTextField;
+	JTextField sigmaAtomsTextField;
 
-    // JRadioButtons
-    JRadioButton isLinearAlpha;
-    JRadioButton isSpinningAlpha;
-    JRadioButton isLinearBeta;
-    JRadioButton isSpinningBeta;
+	JTextField moleculesTextField;
+	JTextField powerupsTextField;
+	JTextField blockersTextField;
 
-    // Configuration variables
-    int atomsNum, moleculesNum, blockersNum, powerupsNum, difficulty;
-    double l;
-    boolean isLinearA, isLinearB, isSpinningA, isSpinningB;
+	JTextField lengthTextField;
+	String[] difficultyLevels = { "Easy", "Medium", "Hard" };
+	JComboBox<String> difficultyBox;
+	ArrayList<Integer> atoms = new ArrayList<Integer>();
+	// JRadioButtons
+	JRadioButton isLinearAlpha;
+	JRadioButton isSpinningAlpha;
+	JRadioButton isLinearBeta;
+	JRadioButton isSpinningBeta;
 
-    /**
-     * Constructor initiates the Scanner and BuildingMode instances
-     */
-    public BuildingWindow(String title) {
-        buildingMode = new BuildingMode(this);
+	// Configuration variables
+	int alphaatomsNum, betaatomsNum, sigmaatomsNum, gammaatomsNum, moleculesNum, blockersNum, powerupsNum;
+	double l;
 
-        this.setSize(800, 800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	/**
+	 * Constructor initiates the Scanner and BuildingMode instances
+	 */
+	public BuildingWindow(String title) {
+		buildingMode = new BuildingMode(this);
 
-        JPanel panel = new JPanel();
-        this.add(panel);
+		this.setSize(800, 800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        /* calling user defined method for adding components
-         * to the panel.
-         */
-        placeComponents(panel);
+		JPanel panel = new JPanel();
+		this.add(panel);
 
-        // Fits the borders to the content
-        this.pack();
-        // Setting the frame visibility to true.
-        this.setVisible(true);
-    }
+		/*
+		 * calling user defined method for adding components to the panel.
+		 */
+		placeComponents(panel);
 
-    /**
-     * Here we place our components to the panel that will be added to the JFrame after.
-     * @param panel
-     */
-    private void placeComponents(JPanel panel){
-        // Setting the layout of the panel
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
-        //GridBagConstraints c = new GridBagConstraints();
+		// Fits the borders to the content
+		this.pack();
+		// Setting the frame visibility to true.
+		this.setVisible(true);
+	}
 
-        /*
-         * Creating labels and text fields
-         * */
-        JLabel atomsLabel = new JLabel("Atoms");
-        panel.add(atomsLabel);
+	/**
+	 * Here we place our components to the panel that will be added to the JFrame
+	 * after.
+	 * 
+	 * @param panel
+	 */
+	private void placeComponents(JPanel panel) {
+		// Setting the layout of the panel
+		panel.setLayout(new GridBagLayout());
+		panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
+		// GridBagConstraints c = new GridBagConstraints();
 
-        atomsTextField = new JTextField(4);
-        panel.add(atomsTextField);
+		/*
+		 * Creating labels and text fields
+		 */
+		JLabel alphaLabel = new JLabel("Alpha Atoms");
+		panel.add(alphaLabel);
 
-        JLabel moleculesLabel = new JLabel("Molecules");
-        panel.add(moleculesLabel);
+		alphaAtomsTextField = new JTextField(4);
+		panel.add(alphaAtomsTextField);
 
-        moleculesTextField = new JTextField(4);
-        panel.add(moleculesTextField);
+		JLabel betaLabel = new JLabel("Beta Atoms");
+		panel.add(betaLabel);
 
-        JLabel powerupsLabel = new JLabel("Power-ups");
-        panel.add(powerupsLabel);
+		betaAtomsTextField = new JTextField(4);
+		panel.add(betaAtomsTextField);
 
-        powerupsTextField = new JTextField(4);
-        panel.add(powerupsTextField);
+		JLabel sigmaLabel = new JLabel("Segma Atoms");
+		panel.add(sigmaLabel);
 
-        JLabel blockersLabel = new JLabel("Blockers");
-        panel.add(blockersLabel);
+		sigmaAtomsTextField = new JTextField(4);
+		panel.add(sigmaAtomsTextField);
 
-        blockersTextField = new JTextField(4);
-        panel.add(blockersTextField);
+		JLabel gammaLabel = new JLabel("Gamma Atoms");
+		panel.add(gammaLabel);
 
-        JLabel lengthLabel = new JLabel("L unit");
-        panel.add(lengthLabel);
+		gammaAtomsTextField = new JTextField(4);
+		panel.add(gammaAtomsTextField);
 
-        lengthTextField = new JTextField(4);
-        panel.add(lengthTextField);
+		JLabel moleculesLabel = new JLabel("Molecules");
+		panel.add(moleculesLabel);
 
-        JLabel difficultyLabel = new JLabel("Difficulty (0-2)");
-        panel.add(difficultyLabel);
+		moleculesTextField = new JTextField(4);
+		panel.add(moleculesTextField);
 
-        difficultyTextField = new JTextField(4);
-        panel.add(difficultyTextField);
+		JLabel powerupsLabel = new JLabel("Power-ups");
+		panel.add(powerupsLabel);
 
+		powerupsTextField = new JTextField(4);
+		panel.add(powerupsTextField);
 
-        /*
-         * Radio Button Groups
-         * */
+		JLabel blockersLabel = new JLabel("Blockers");
+		panel.add(blockersLabel);
 
-        ButtonGroup alphaMoleculesGroup = new ButtonGroup();
-        ButtonGroup betaMoleculesGroup = new ButtonGroup();
+		blockersTextField = new JTextField(4);
+		panel.add(blockersTextField);
 
-        isLinearAlpha = new JRadioButton("Linear Alpha Molecules");
-        alphaMoleculesGroup.add(isLinearAlpha);
-        panel.add(isLinearAlpha);
+		JLabel lengthLabel = new JLabel("L unit");
+		panel.add(lengthLabel);
 
-        isSpinningAlpha = new JRadioButton("Spinning Alpha Molecules");
-        alphaMoleculesGroup.add(isSpinningAlpha);
-        panel.add(isSpinningAlpha);
+		lengthTextField = new JTextField(4);
+		panel.add(lengthTextField);
 
-        isLinearBeta = new JRadioButton("Linear Beta Molecules");
-        betaMoleculesGroup.add(isLinearBeta);
-        panel.add(isLinearBeta);
+		JLabel difficultyLabel = new JLabel("Difficulty (0-2)");
+		panel.add(difficultyLabel);
 
-        isSpinningBeta = new JRadioButton("Spinning Beta Molecules");
-        betaMoleculesGroup.add(isSpinningBeta);
-        panel.add(isSpinningBeta);
+		difficultyBox = new JComboBox<String>(difficultyLevels);
+		difficultyBox.setSelectedIndex(1);
+		panel.add(difficultyBox);
 
-        /*
-         * Building Game Button
-         * */
+		/*
+		 * Radio Button Groups
+		 */
 
-        JButton buildGameButton = new JButton("Build Game!");
-        addButtonActionListener(buildGameButton);
-        panel.add(buildGameButton);
+		ButtonGroup alphaMoleculesGroup = new ButtonGroup();
+		ButtonGroup betaMoleculesGroup = new ButtonGroup();
 
-    }
+		isLinearAlpha = new JRadioButton("Linear Alpha Molecules");
+		alphaMoleculesGroup.add(isLinearAlpha);
+		panel.add(isLinearAlpha);
 
-    private void addButtonActionListener(JButton btn){
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create bundle
-                // TODO: ADD TRY AND CATCH TO CONFIRM THESE PARAMETERS HAVE THE CORRECT TYPE
-//                try{
-//                    confirmParameters(...)
-//                } catch(NumberFormatException){
-//                    // Create error window
-//                    System.out.println("Please enter correct types");
-//                }
-                bundle = new ConfigBundle(Integer.parseInt(atomsTextField.getText()), Integer.parseInt(blockersTextField.getText()), Integer.parseInt(powerupsTextField.getText()),
-                        Integer.parseInt(moleculesTextField.getText()), Double.parseDouble(lengthTextField.getText()), isLinearAlpha.isSelected(),
-                        isLinearBeta.isSelected(), isSpinningAlpha.isSelected(), isSpinningBeta.isSelected(), Integer.parseInt(difficultyTextField.getText())
-                );
-                // Validate the fields.
-                buildingMode.validateParameters(bundle);
-            }
-        });
-    }
+		isSpinningAlpha = new JRadioButton("Spinning Alpha Molecules");
+		alphaMoleculesGroup.add(isSpinningAlpha);
+		panel.add(isSpinningAlpha);
 
-    public void onValidParameters() {
-        // TODO: Pass the bundle to the confirmation window to have a little summary on the window.
-        ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this);
-    }
+		isLinearBeta = new JRadioButton("Linear Beta Molecules");
+		betaMoleculesGroup.add(isLinearBeta);
+		panel.add(isLinearBeta);
 
-    public void onInvalidParameters(String message) {
-        ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, message);
-    }
+		isSpinningBeta = new JRadioButton("Spinning Beta Molecules");
+		betaMoleculesGroup.add(isSpinningBeta);
+		panel.add(isSpinningBeta);
+
+		/*
+		 * Building Game Button
+		 */
+
+		JButton buildGameButton = new JButton("Build Game!");
+		addButtonActionListener(buildGameButton);
+		panel.add(buildGameButton);
+
+	}
+
+	// need to try an catch exceptions ... etc.
+	private void addButtonActionListener(JButton btn) {
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Create bundle
+				// TODO: ADD TRY AND CATCH TO CONFIRM THESE PARAMETERS HAVE THE CORRECT TYPE
+
+				try {
+					getParametersValues();
+					bundle = new ConfigBundle(atoms, blockersNum, powerupsNum, moleculesNum, l,
+							isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
+							isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
+					// Validate the fields.
+					buildingMode.validateParameters(bundle);
+
+				} catch (NumberFormatException ex) {
+					
+					onInvalidParameters("One of the parameter has invalid format! .. recheck");
+				}
+
+			}
+		});
+	}
+
+	private void getParametersValues() throws IllegalArgumentException {
+		
+		alphaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
+		atoms.add(alphaatomsNum);
+		betaatomsNum = Integer.parseInt(betaAtomsTextField.getText());
+		atoms.add(betaatomsNum);
+		gammaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
+		atoms.add(gammaatomsNum);
+		sigmaatomsNum = Integer.parseInt(sigmaAtomsTextField.getText());
+		atoms.add(sigmaatomsNum);
+		moleculesNum = Integer.parseInt(moleculesTextField.getText());
+		blockersNum = Integer.parseInt(blockersTextField.getText());
+		powerupsNum = Integer.parseInt(powerupsTextField.getText());
+		l = Double.parseDouble(lengthTextField.getText());
+
+	}
+
+	public void onValidParameters() {
+		// TODO: Pass the bundle to the confirmation window to have a little summary on
+		// the window.
+		ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this);
+	}
+
+	public void onInvalidParameters(String message) {
+		ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, message);
+	}
 }

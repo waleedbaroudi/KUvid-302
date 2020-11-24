@@ -1,6 +1,5 @@
-package ui.windows;
+package main.java.ui.windows;
 
-import com.sun.javaws.util.JfxHelper;
 
 import javax.swing.*;
 

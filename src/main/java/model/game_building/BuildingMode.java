@@ -1,4 +1,4 @@
-package model.game_building;
+package main.java.model.game_building;
 
 
 public class BuildingMode {
@@ -19,8 +19,14 @@ public class BuildingMode {
 		String invalidFields = "";
 		if(!isValidNumber(bundle.getNumOfPowerUpsPerType()))
 			invalidFields+= "Number of Power-ups per type\n";
-		if(!isValidNumber(bundle.getNumOfAtomsPerType()))
-			invalidFields+= "Number of Atoms per type\n";
+		if(!isValidNumber(bundle.getNumOfAlphaAtoms()))
+			invalidFields+= "Number of Alpha Atoms\n";
+		if(!isValidNumber(bundle.getNumOfBetaAtoms()))
+			invalidFields+= "Number of Beta Atoms\n";
+		if(!isValidNumber(bundle.getNumOfGammaAtoms()))
+			invalidFields+= "Number of Gamma Atoms\n";
+		if(!isValidNumber(bundle.getNumOfSigmaAtoms()))
+			invalidFields+= "Number of Sigma Atoms\n";
 		if(!isValidNumber(bundle.getNumOfBlockersPerType()))
 			invalidFields+= "Number of Blockers per type\n";
 		if(!isValidNumber(bundle.getNumOfMoleculePerType()))
