@@ -56,6 +56,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 		JPanel panel = new JPanel();
 		this.add(panel);
 
+
 		/*
 		 * calling user defined method for adding components to the panel.
 		 */
@@ -195,7 +196,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 		});
 	}
 
-	private void getParametersValues() throws IllegalArgumentException {
+	private void getParametersValues() throws NumberFormatException {
 		
 		alphaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
 		atoms.add(alphaatomsNum);
@@ -221,4 +222,5 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 	public void onInvalidParameters(String message) {
 		ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, message);
 	}
+
 }
