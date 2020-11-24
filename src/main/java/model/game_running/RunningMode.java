@@ -10,9 +10,16 @@ import org.apache.log4j.Logger;
 public class RunningMode {
     Logger logger;
     private static ArrayList<AutonomousEntity> autonomousEntities;
+
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
+
+    // Runnables
     MovementRunnable movementRunnable;
+    CollisionRunnable collisionRunnable;
+
+    // Threads
     Thread movementThread;
+    Thread collisionThread;
 
     public RunningMode() {
         autonomousEntities = new ArrayList<>();
@@ -25,8 +32,13 @@ public class RunningMode {
      */
     private void initialize() {
         //todo: fill autonomous entity list and containers here
+
         movementRunnable = new MovementRunnable();
+        collisionRunnable = new CollisionRunnable();
+
         movementThread = new Thread(this.movementRunnable);
+        collisionThread = new Thread(this.collisionRunnable);
+
         this.isInitialized = true;
     }
 
@@ -38,8 +50,10 @@ public class RunningMode {
             logger.error("Game is not yet initialized");
             return;
         }
+
+        // Starting the threads.
         movementThread.start();
-        //todo: start threads
+        collisionThread.start();
     }
 
     /**
@@ -61,18 +75,20 @@ public class RunningMode {
     }
 
     /**
-     * stops the movement loop and interrupts the movement thread
+     * calls pause on all runnables and interrupts all threads.
      */
     public void stop() {
         this.pause();
         movementThread.interrupt();
+        collisionThread.interrupt();
     }
 
     /**
-     * stops the movement loop, keeps the thread uninterrupted
+     * Pauses all runnables.
      */
     public void pause() {
         movementRunnable.pause();
+        collisionRunnable.pause();
     }
 
     /**
@@ -82,4 +98,8 @@ public class RunningMode {
     public static ArrayList<AutonomousEntity> getAutonomousEntities() {
         return autonomousEntities;
     }
+    public static boolean removeAutonomousEntities(ArrayList<AutonomousEntity> removedEntities) {
+        return autonomousEntities.removeAll(removedEntities);
+    }
+
 }
