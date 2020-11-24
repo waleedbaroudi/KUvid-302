@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 
 public class RunningMode {
     Logger logger;
-    ArrayList<AutonomousEntity> autonomousEntities;
-    boolean initialized = false;
-    MovementHandler movementHandler;
+    private static ArrayList<AutonomousEntity> autonomousEntities;
+    boolean isInitialized = false;
+    MovementRunnable movementRunnable;
     Thread movementThread;
 
     public RunningMode() {
@@ -20,29 +20,39 @@ public class RunningMode {
     }
 
     private void initialize() throws IllegalThreadStateException { //todo: catch this exception and skip the drawing loop
-        //todo: fill autonomous entity list and containers
-        movementHandler = new MovementHandler(this.autonomousEntities);
-        movementThread = new Thread(this.movementHandler);
+        //todo: fill autonomous entity list and containers here
+        movementRunnable = new MovementRunnable();
+        movementThread = new Thread(this.movementRunnable);
+        this.isInitialized = true;
     }
 
-    public void beginHandlers() {
-        if (!initialized) {
+    public void startThreads() {
+        if (!isInitialized) {
             logger.error("Game is not yet initialized");
             return;
         }
-            movementThread.start();
+        movementThread.start();
         //todo: start threads
     }
 
     public boolean addEntity(AutonomousEntity entity) {
-        boolean added = this.autonomousEntities.add(entity);
-        movementHandler.setEntities(this.autonomousEntities);
-        return added;
+        return autonomousEntities.add(entity);
     }
 
     public boolean removeEntity(AutonomousEntity entity) {
-        boolean removed = this.autonomousEntities.remove(entity);
-        movementHandler.setEntities(this.autonomousEntities);
-        return removed;
+        return autonomousEntities.remove(entity);
+    }
+
+    public void stop() {
+        this.pause();
+        movementThread.interrupt();
+    }
+
+    public void pause() {
+        movementRunnable.pause();
+    }
+
+    public static ArrayList<AutonomousEntity> getAutonomousEntities() {
+        return autonomousEntities;
     }
 }
