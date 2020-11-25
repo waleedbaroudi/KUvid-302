@@ -32,4 +32,28 @@ class RectangularHitboxTest {
         point = new Coordinates(1.9,2);
         assertTrue(rectHitbox.isInside(ownerCoordinates, point));
     }
+
+    @Test
+    void isHitboxInside() {
+        Coordinates hitboxCoordinates = new Coordinates(0,0);
+        Coordinates targetCoordinates = new Coordinates(1,1);
+
+        RectangularHitbox hitbox = new RectangularHitbox(hitboxCoordinates, 1,1);
+        RectangularHitbox target = new RectangularHitbox(targetCoordinates,1,1);
+
+        System.out.println("________hitbox_______");
+        hitbox.print();
+        System.out.println("________target_______");
+        target.print();
+
+        assertTrue(hitbox.isHitboxInside(hitboxCoordinates, target.getCorners()));
+
+        hitboxCoordinates = new Coordinates(0,0);
+        targetCoordinates = new Coordinates(2,2);
+
+        hitbox = new RectangularHitbox(hitboxCoordinates, 1,1);
+        target = new RectangularHitbox(targetCoordinates,1,1);
+
+        assertTrue(hitbox.isHitboxInside(hitboxCoordinates, target.getCorners()));
+    }
 }

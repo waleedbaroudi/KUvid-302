@@ -19,4 +19,11 @@ public abstract class Hitbox {
      */
     public abstract boolean isInside(Coordinates ownerCoordinates, Coordinates coordinates);
 
+    /**
+     * Checks if a Hitbox is collided with a another Hitbox.
+     * @param ownerCoordinates The owner object coordinates.
+     * @param coordinates the target list of coordinates.
+     * @return True if the owner Hitbox is collided with the target Hitbox.
+     */
+    public abstract boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates);
 }

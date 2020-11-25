@@ -50,6 +50,15 @@ public class CircularHitbox extends Hitbox {
     }
 
     @Override
+    public boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
+        for (Coordinates c : coordinates){
+            if (this.isInside(ownerCoordinates, c))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "CircularHitbox: radius = " + radius +", angle = " + angle;
     }

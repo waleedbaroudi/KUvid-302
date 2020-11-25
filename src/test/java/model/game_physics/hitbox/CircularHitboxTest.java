@@ -26,4 +26,5 @@ class CircularHitboxTest {
         point = new Coordinates(2,2);
         assertTrue(rectHitbox.isInside(ownerCoordinates, point));
     }
+
 }
