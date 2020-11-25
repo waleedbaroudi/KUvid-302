@@ -1,7 +1,9 @@
 package model.game_running;
 
 import model.game_entities.AutonomousEntity;
+
 import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -57,7 +59,6 @@ public class RunningMode {
     }
 
     /**
-     *
      * @param entity the entity to be added to the list of entities
      * @return a boolean indicating whether the entity was added successfully
      */
@@ -66,7 +67,6 @@ public class RunningMode {
     }
 
     /**
-     *
      * @param entity the entity to be removed to the list of entities
      * @return a boolean indicating whether the entity was removed successfully
      */
@@ -92,14 +92,32 @@ public class RunningMode {
     }
 
     /**
+     * adds an entity to the movement queue where it will be moved
+     * and queues the entity for collision check and remove it if collided with another
+     * entity.
+     * @param entity the entity to be queued for movement and collision checking.
+     */
+    public void updateEntityState(AutonomousEntity entity) {
+        this.movementRunnable.queueEntityMovement(entity);
+        this.collisionRunnable.queueEntityMovement(entity);
+    }
+
+    /**
      * static so that all classes
+     *
      * @return returns the list of autonomous entities
      */
     public static ArrayList<AutonomousEntity> getAutonomousEntities() {
         return autonomousEntities;
     }
-    public static boolean removeAutonomousEntities(ArrayList<AutonomousEntity> removedEntities) {
-        return autonomousEntities.removeAll(removedEntities);
+
+    /**
+     *
+     * @param removedEntity autonomous entities to be removed from the list of elements in the space
+     * @return a boolean indicating whether the entities were removed successfully
+     */
+    public static boolean removeAutonomousEntity(AutonomousEntity removedEntity) {
+        return autonomousEntities.remove(removedEntity);
     }
 
 }

@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_entities.AutonomousEntity;
 
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This runnable handles collisions between entities.
@@ -10,27 +11,29 @@ import java.util.ArrayList;
 public class CollisionRunnable implements Runnable {
 
     private boolean running; // to control the running loop
-    private ArrayList<AutonomousEntity> collidedEntities;
+    LinkedBlockingQueue<AutonomousEntity> collisionQueue; //a queue to hold the elements that have collided
+
+    public CollisionRunnable(){
+        collisionQueue = new LinkedBlockingQueue<>();
+    }
+
     @Override
     public void run() {
         running = true;
         while (running) {
-            for (AutonomousEntity entity : RunningMode.getAutonomousEntities()) {
-                // AutonomousEntity collidedEntity = entity.checkCollision();
-                // if(entity != null) {
-                //      collidedEntities.add(collidedEntity);
-                //      collidedEntities.add(entity);
-                //  }
-            }
-            // RunningMode.removeAutonomousEntities(this.collidedEntities);
-            try {
-                Thread.sleep(15);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            if(!collisionQueue.isEmpty())
+                RunningMode.removeAutonomousEntity(collisionQueue.poll());
         }
     }
 
+    public void queueEntityMovement(AutonomousEntity entity){
+        try {
+            this.collisionQueue.put(entity);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
     /**
      * sets running to false, stops the collision checking loop.
      */

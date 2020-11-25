@@ -22,8 +22,10 @@ public class RunningWindow {
         int x = 0;
         mode.startThreads();
         while (x < 100) {
-            for (AutonomousEntity entity : RunningMode.getAutonomousEntities())
+            for (AutonomousEntity entity : RunningMode.getAutonomousEntities()) {
                 draw(entity);
+                this.mode.updateEntityState(entity);
+            }
             System.out.println();
             try {
                 Thread.sleep(15);
