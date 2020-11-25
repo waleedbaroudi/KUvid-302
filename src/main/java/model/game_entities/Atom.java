@@ -10,6 +10,8 @@ import utils.Coordinates;
 public class Atom extends Projectile{
 
     private AtomType type;
+    private double width;
+    private double height;
 
     public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, AtomType type) {
         super(coordinates, hitbox, pathPattern);
