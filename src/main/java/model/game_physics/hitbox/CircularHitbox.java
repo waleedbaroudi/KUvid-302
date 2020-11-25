@@ -45,6 +45,7 @@ public class CircularHitbox extends Hitbox {
     @Override
     public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
         objectCoordinates = MathUtils.applyRotation(angle, this.arcVector.getOriginCoordinate(), objectCoordinates);
+        Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.arcVector.getOriginCoordinate());
         return MathUtils.isWithinCircle(this.radius, this.arcVector.getOriginCoordinate(), objectCoordinates);
     }
 

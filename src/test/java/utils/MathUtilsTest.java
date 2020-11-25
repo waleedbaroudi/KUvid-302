@@ -112,27 +112,25 @@ class MathUtilsTest {
     }
 
     @Test
-    void translate() {
-        Coordinates point = new Coordinates(0, 0);
-        Coordinates translationCoordinates = new Coordinates(5, 3);
-        Coordinates translatedPoint = new Coordinates(5, 3);
+    void translationAmount() {
+        Coordinates origin = new Coordinates(1, 1);
+        Coordinates point = new Coordinates(50, 51);
+        Coordinates testPoint = new Coordinates(50, 51);
+        point = MathUtils.translationAmount(point, origin);
 
-        point = MathUtils.translate(point, translationCoordinates);
+        assertEquals(testPoint.getX(), point.getX() + origin.getX());
 
-        assertEquals(point, translatedPoint);
+        point = new Coordinates(-50, 51);
+        testPoint = new Coordinates(-50, 51);
+        point = MathUtils.translationAmount(point, origin);
 
-        translationCoordinates = new Coordinates(-10, 2);
-        translatedPoint = new Coordinates(-5, 5);
+        assertEquals(testPoint.getX(), point.getX() + origin.getX());
 
-        point = MathUtils.translate(point, translationCoordinates);
+        point = new Coordinates(-50, -51);
+        testPoint = new Coordinates(-50, -51);
+        point = MathUtils.translationAmount(point, origin);
 
-        assertEquals(point, translatedPoint);
+        assertEquals(testPoint.getX(), point.getX() + origin.getX());
 
-        translationCoordinates = new Coordinates(5, -5);
-        translatedPoint = new Coordinates(0, 0);
-
-        point = MathUtils.translate(point, translationCoordinates);
-
-        assertEquals(point, translatedPoint);
     }
 }

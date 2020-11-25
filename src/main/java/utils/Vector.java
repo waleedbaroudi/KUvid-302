@@ -46,7 +46,7 @@ public class Vector {
     }
 
     public double getMagnitude(){
-        return 0;
+        return MathUtils.vectorMagnitude(this);
     }
 
     @Override

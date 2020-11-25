@@ -91,14 +91,27 @@ public class MathUtils {
     }
 
     /**
-     * Translates a given coordinates according to a given parameter.
-     * @param point a given point to be translated.
-     * @param translatedCoordinates the amount of desired translation.
-     * @return the coordinates of the translated point.
+     * Given a point and origin coordinates, returns the amount of translation required to translate a point to a given origin.
+     * @param point a given point.
+     * @param origin The origin coordinates.
+     * @return The required amount of translation.
      */
-    public static Coordinates translate(Coordinates point, Coordinates translatedCoordinates){
-        double translatedX = translatedCoordinates.getX() + point.getX();
-        double translatedY = translatedCoordinates.getY() + point.getY();
-        return new Coordinates(translatedX, translatedY);
+    public static Coordinates translationAmount(Coordinates point, Coordinates origin){
+        double translatedAmountX = point.getX() - origin.getX();
+        double translatedAmountY = point.getY() - origin.getY();
+        return new Coordinates(translatedAmountX, translatedAmountY);
     }
+
+    /**
+     * Translates a point according to given amount.
+     * @param point a given point.
+     * @param translation the translation amount.
+     * @return returns the coordinates of the translated point.
+     */
+    public static Coordinates translate(Coordinates point, Coordinates translation){
+        double translatedAmountX = point.getX() + translation.getX();
+        double translatedAmountY = point.getY() + translation.getY();
+        return new Coordinates(translatedAmountX, translatedAmountY);
+    }
+
 }

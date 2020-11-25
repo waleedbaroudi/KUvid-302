@@ -1,6 +1,5 @@
 package model.game_physics.hitbox;
 
-import model.game_entities.enums.Direction;
 import utils.Coordinates;
 import utils.MathUtils;
 import utils.Vector;
@@ -53,7 +52,8 @@ public class RectangularHitbox extends Hitbox {
     @Override
     public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
         objectCoordinates = MathUtils.applyRotation(this.angle, cornerVector.getOriginCoordinate(), objectCoordinates);
-        //objectCoordinates = MathUtils.translate(objectCoordinates, cornerVector.getOriginCoordinate());
+        Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.cornerVector.getOriginCoordinate());
+        objectCoordinates = MathUtils.translate(objectCoordinates, translationAmount);
         return MathUtils.isWithinRectangle(cornerVector, objectCoordinates);
     }
 
