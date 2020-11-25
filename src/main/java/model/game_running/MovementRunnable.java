@@ -2,25 +2,41 @@ package model.game_running;
 
 import model.game_entities.AutonomousEntity;
 
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+
 /**
  * This runnable handles moving objets in the background
  */
 public class MovementRunnable implements Runnable {
 
     private boolean running; //to control the running loop
+    LinkedBlockingQueue<AutonomousEntity> movementQueue; //a queue to hold the elements we want to move
+
+    public MovementRunnable() {
+        movementQueue = new LinkedBlockingQueue<>();
+    }
 
     @Override
     public void run() {
         running = true;
         while (running) {
-            for (AutonomousEntity entity : RunningMode.getAutonomousEntities()) {
-                entity.move();
-            }
-            try {
-                Thread.sleep(15);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            if (movementQueue.isEmpty())
+                continue;
+            movementQueue.poll().move();
+        }
+    }
+
+    /**
+     * adds an entity to the movement queue where it will be moved
+     * @param entity the entity to be queue for movement
+     */
+    public void queueEntityMovement(AutonomousEntity entity) {
+        try {
+            movementQueue.put(entity);
+        } catch (InterruptedException e) {
+            System.out.println("THREAD IS INTERRUPTED: COULD NOT PUT INTO QUEUE");
         }
     }
 
