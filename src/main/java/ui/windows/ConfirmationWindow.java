@@ -1,4 +1,4 @@
-package main.java.ui.windows;
+package ui.windows;
 
 
 

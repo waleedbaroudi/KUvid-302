@@ -1,4 +1,4 @@
-package main.java.model.game_building;
+package model.game_building;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class ConfigBundle {
 	/**
 	 * Constructor to initialize game parameter attributes
 	 * 
-	 * @param numOfAtomsPerType    /
+	 * @param atoms    /
 	 * @param numOfBlockersPerType /
 	 * @param numOfPowerUpsPerType /
 	 * @param numOfMoleculePerType /

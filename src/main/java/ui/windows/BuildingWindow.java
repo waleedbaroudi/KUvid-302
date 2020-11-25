@@ -1,16 +1,14 @@
-package main.java.ui.windows;
+package ui.windows;
 
-import main.java.model.game_building.BuildingMode;
-import main.java.model.game_building.ConfigBundle;
-import sun.awt.image.BufferedImageDevice;
+import model.game_building.BuildingMode;
+import model.game_building.ConfigBundle;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
-import java.util.Stack;
+
 
 /**
  * This class draws the game building window. through this window, the player
@@ -25,20 +23,20 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 	JTextField alphaAtomsTextField;
 	JTextField betaAtomsTextField;
 	JTextField sigmaAtomsTextField;
-
 	JTextField moleculesTextField;
 	JTextField powerupsTextField;
 	JTextField blockersTextField;
-
 	JTextField lengthTextField;
+
+    // JCheckBoxes
+    JCheckBox isLinearAlpha;
+    JCheckBox isLinearBeta;
+    JCheckBox isSpinningBeta;
+    JCheckBox isSpinningAlpha;
+
 	String[] difficultyLevels = { "Easy", "Medium", "Hard" };
-	JComboBox<String> difficultyBox;
-	ArrayList<Integer> atoms = new ArrayList<Integer>();
-	// JRadioButtons
-	JRadioButton isLinearAlpha;
-	JRadioButton isSpinningAlpha;
-	JRadioButton isLinearBeta;
-	JRadioButton isSpinningBeta;
+    JComboBox<String> difficultyBox;
+    ArrayList<Integer> atoms = new ArrayList<Integer>();
 
 	// Configuration variables
 	int alphaatomsNum, betaatomsNum, sigmaatomsNum, gammaatomsNum, moleculesNum, blockersNum, powerupsNum;
@@ -49,7 +47,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 	 */
 	public BuildingWindow(String title) {
 		buildingMode = new BuildingMode(this);
-
 		this.setSize(800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -76,7 +73,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 	 */
 	private void placeComponents(JPanel panel) {
 		// Setting the layout of the panel
-		panel.setLayout(new GridBagLayout());
+		panel.setLayout(new GridLayout(12,2));
 		panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
 		// GridBagConstraints c = new GridBagConstraints();
 
@@ -138,33 +135,30 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 		difficultyBox.setSelectedIndex(1);
 		panel.add(difficultyBox);
 
-		/*
-		 * Radio Button Groups
-		 */
+        /*
+         * Checkboxes
+         * */
+        isLinearAlpha = new JCheckBox("Spinning Alpha Molecules");
+        panel.add(isLinearAlpha);
 
-		ButtonGroup alphaMoleculesGroup = new ButtonGroup();
-		ButtonGroup betaMoleculesGroup = new ButtonGroup();
+        isSpinningAlpha = new JCheckBox("Spinning Alpha Molecules");
+        isSpinningAlpha.setEnabled(false);
+        panel.add(isSpinningAlpha);
 
-		isLinearAlpha = new JRadioButton("Linear Alpha Molecules");
-		alphaMoleculesGroup.add(isLinearAlpha);
-		panel.add(isLinearAlpha);
 
-		isSpinningAlpha = new JRadioButton("Spinning Alpha Molecules");
-		alphaMoleculesGroup.add(isSpinningAlpha);
-		panel.add(isSpinningAlpha);
+        isLinearBeta = new JCheckBox("Spinning Alpha Molecules");
+        panel.add(isLinearBeta);
 
-		isLinearBeta = new JRadioButton("Linear Beta Molecules");
-		betaMoleculesGroup.add(isLinearBeta);
-		panel.add(isLinearBeta);
+        isSpinningBeta = new JCheckBox("Spinning Beta Molecules");
+        isSpinningBeta.setEnabled(false);
+        panel.add(isSpinningBeta);
 
-		isSpinningBeta = new JRadioButton("Spinning Beta Molecules");
-		betaMoleculesGroup.add(isSpinningBeta);
-		panel.add(isSpinningBeta);
+        addAlphaCheckboxActionListener();
+        addBetaCheckboxActionListener();
 
 		/*
 		 * Building Game Button
 		 */
-
 		JButton buildGameButton = new JButton("Build Game!");
 		addButtonActionListener(buildGameButton);
 		panel.add(buildGameButton);
@@ -177,8 +171,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Create bundle
-				// TODO: ADD TRY AND CATCH TO CONFIRM THESE PARAMETERS HAVE THE CORRECT TYPE
-
 				try {
 					getParametersValues();
 					bundle = new ConfigBundle(atoms, blockersNum, powerupsNum, moleculesNum, l,
@@ -188,21 +180,52 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 					buildingMode.validateParameters(bundle);
 
 				} catch (NumberFormatException ex) {
-					
-					onInvalidParameters("One of the parameter has invalid format! .. recheck");
+				    ArrayList<String> error = new ArrayList<>();
+				    error.add("One of the parameter has invalid format! .. recheck");
+					onInvalidParameters(error);
 				}
 
 			}
 		});
 	}
 
+    /**
+     * Sets the behavior for the checkbox to disable the corresponding spinning checkbox and un-tick it
+     * if the linear Alpha option is un-ticked.
+     */
+    private void addAlphaCheckboxActionListener(){
+        isLinearAlpha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSpinningAlpha.setEnabled(isLinearAlpha.isSelected());
+                if(!isLinearAlpha.isSelected())
+                    isSpinningAlpha.setSelected(false);
+            }
+        });
+    }
+
+    /**
+     *  Sets the behavior for the checkbox to disable the corresponding spinning checkbox and un-tick it
+     *  if the linear Beta option is un-ticked.
+     */
+    private void addBetaCheckboxActionListener(){
+        isLinearBeta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSpinningBeta.setEnabled(isLinearBeta.isSelected());
+                if(!isLinearBeta.isSelected())
+                    isSpinningBeta.setSelected(false);
+            }
+        });
+    }
+
 	private void getParametersValues() throws NumberFormatException {
-		
+        this.atoms.clear();
 		alphaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
 		atoms.add(alphaatomsNum);
 		betaatomsNum = Integer.parseInt(betaAtomsTextField.getText());
 		atoms.add(betaatomsNum);
-		gammaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
+		gammaatomsNum = Integer.parseInt(gammaAtomsTextField.getText());
 		atoms.add(gammaatomsNum);
 		sigmaatomsNum = Integer.parseInt(sigmaAtomsTextField.getText());
 		atoms.add(sigmaatomsNum);
@@ -210,17 +233,14 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 		blockersNum = Integer.parseInt(blockersTextField.getText());
 		powerupsNum = Integer.parseInt(powerupsTextField.getText());
 		l = Double.parseDouble(lengthTextField.getText());
-
 	}
 
 	public void onValidParameters() {
-		// TODO: Pass the bundle to the confirmation window to have a little summary on
-		// the window.
-		ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this);
+		ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
 	}
 
-	public void onInvalidParameters(String message) {
-		ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, message);
+    public void onInvalidParameters(ArrayList<String> invalidFields) {
+		ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, invalidFields);
 	}
 
 }
