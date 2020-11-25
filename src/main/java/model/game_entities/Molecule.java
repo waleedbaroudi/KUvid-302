@@ -21,6 +21,7 @@ public class Molecule extends AutonomousEntity{
 
     }
 
+
     public void setType(MoleculeType type) {
         this.type = type;
     }
@@ -37,4 +38,11 @@ public class Molecule extends AutonomousEntity{
         return type;
     }
 
+    @Override
+    public String toString() {
+        return "Molecule{" +
+                "type=" + type +
+                ", structure=" + structure +
+                '}';
+    }
 }

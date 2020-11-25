@@ -24,4 +24,11 @@ public class Atom extends Projectile{
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "Atom{" +
+                "type=" + type +
+                '}';
     }
+
+}

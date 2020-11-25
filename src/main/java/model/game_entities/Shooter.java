@@ -23,6 +23,7 @@ public class Shooter {
         return false;
     }
 
+
     public void mountPowerup(PowerupType powerupType) {
 
     }
@@ -67,4 +68,13 @@ public class Shooter {
         this.previousAtom = previousAtom;
     }
 
+    @Override
+    public String toString() {
+        return "Shooter{" +
+                "coordinate=" + coordinate +
+                ", hitbox=" + hitbox +
+                ", currentProjectile=" + currentProjectile +
+                ", previousAtom=" + previousAtom +
+                '}';
+    }
 }

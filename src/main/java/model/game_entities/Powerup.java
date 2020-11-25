@@ -24,4 +24,11 @@ public class Powerup extends Projectile{
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "Powerup{" +
+                "type=" + type +
+                '}';
+    }
+
 }
