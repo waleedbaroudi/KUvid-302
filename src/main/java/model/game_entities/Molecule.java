@@ -37,8 +37,4 @@ public class Molecule extends AutonomousEntity{
         return type;
     }
 
-    @Override
-    public void move() {
-        setCoordinates(this.getPathPattern().move());
-    }
 }

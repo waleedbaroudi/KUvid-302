@@ -35,9 +35,4 @@ public class Blocker extends AutonomousEntity {
     public double getExplosionRadius() {
         return explosionRadius;
     }
-
-    @Override
-    public void move() {
-        setCoordinates(this.getPathPattern().move());
-    }
 }

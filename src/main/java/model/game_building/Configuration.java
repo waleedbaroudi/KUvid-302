@@ -1,12 +1,13 @@
 package model.game_building;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class Configuration {
 
     private static Configuration instance;
     private ConfigBundle configBundle;
-    private final Logger logger;
+    private static Logger logger;
 
     // Difficulty is represented by  0 1 or 2 representing easy, medium, or difficult.
     //private int numAtoms, numMolecules, numBlockers, numPowerup, difficulty;
@@ -16,7 +17,7 @@ public class Configuration {
 
     // private constructor restricted to this class itself
     private Configuration() {
-        this.logger = Logger.getLogger(Configuration.class.getName());
+        logger = Logger.getLogger(Configuration.class.getName());
     }
 
     /**
@@ -25,8 +26,9 @@ public class Configuration {
      * @return instance
      */
     public synchronized static Configuration getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new Configuration(); //makeInstance
+        }
         return instance;
     }
 
@@ -45,7 +47,7 @@ public class Configuration {
             if (instance == null)
                 System.out.println("Configuration instance has not been initialised");
             else
-                logger.info("Configuration has already been set. Build the game again to change it.");
+                logger.info("[Configuration] Configuration has already been set. Build the game again to change it.");
         }
     }
 

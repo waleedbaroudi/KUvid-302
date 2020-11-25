@@ -24,8 +24,4 @@ public class Atom extends Projectile{
         this.type = type;
     }
 
-    @Override
-    public void move() {
-        setCoordinates(this.getPathPattern().move());
     }
-}
