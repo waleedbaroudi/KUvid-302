@@ -9,6 +9,7 @@ import model.game_running.RunningMode;
  */
 public class RunningWindow {
     RunningMode mode;
+    private boolean running;
 
     public RunningWindow(RunningMode mode) {
         this.mode = mode;
@@ -21,24 +22,17 @@ public class RunningWindow {
     private void start() {
         int x = 0;
         mode.startThreads();
-        while (x < 100) {
-            for (AutonomousEntity entity : RunningMode.getAutonomousEntities()) {
-                draw(entity);
-                this.mode.updateEntityState(entity);
-            }
-            System.out.println();
-            try {
-                Thread.sleep(15);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            x++;
+        while(running) {
+            draw();
         }
-
+        //stop other threads after drawing stops.
         mode.stop();
     }
 
-    private void draw(AutonomousEntity entity) {
-        //FOR TESTING: print a string representation of the object.
+    /**
+     * starts the loop that draws game elements.
+     */
+    private void draw() {
+        // todo: draw all elements here and trigger entity state update from 'mode'
     }
 }
