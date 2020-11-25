@@ -9,10 +9,6 @@ public class Coordinates {
         Y = y;
     }
 
-    public double getX() {
-        return X;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Coordinates){
@@ -20,10 +16,22 @@ public class Coordinates {
         }
         return super.equals(obj);
     }
-
-
+    public double getX() {
+        return X;
+    }
     public double getY() {
         return Y;
     }
 
+    public void setX(double x) {
+        X = x;
+    }
+    public void setY(double y) {
+        Y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates: (" + "X=" + X + ", Y=" + Y + ")";
+    }
 }
