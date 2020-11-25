@@ -99,7 +99,7 @@ public class RunningMode {
      */
     public void updateEntityState(AutonomousEntity entity) {
         this.movementRunnable.queueEntityMovement(entity);
-        this.collisionRunnable.queueEntityMovement(entity);
+        this.collisionRunnable.queueEntityCollision(entity);
     }
 
     /**

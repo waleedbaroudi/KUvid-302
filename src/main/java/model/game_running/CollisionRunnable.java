@@ -21,12 +21,15 @@ public class CollisionRunnable implements Runnable {
     public void run() {
         running = true;
         while (running) {
-            if(!collisionQueue.isEmpty())
-                RunningMode.removeAutonomousEntity(collisionQueue.poll());
+            if(!collisionQueue.isEmpty()) {
+                AutonomousEntity entity = collisionQueue.poll();
+                //if(entity.collided)
+                    RunningMode.removeAutonomousEntity(entity);
+            }
         }
     }
 
-    public void queueEntityMovement(AutonomousEntity entity){
+    public void queueEntityCollision(AutonomousEntity entity){
         try {
             this.collisionQueue.put(entity);
         } catch (InterruptedException e) {
