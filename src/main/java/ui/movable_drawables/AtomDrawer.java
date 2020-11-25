@@ -17,9 +17,10 @@ public class AtomDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        int r = (int) (Configuration.getInstance().getUnitL() * 0.05);
+        int l = 400;
+        int r = (int) (l * 0.05);
 
-        g.drawOval((int) atom.getCoordinate().getX() - r,
+        g.fillOval((int) atom.getCoordinate().getX() - r,
                 (int) atom.getCoordinate().getY() - r,
                 2 * r,
                 2 * r);

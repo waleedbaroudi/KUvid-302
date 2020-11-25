@@ -18,7 +18,7 @@ abstract public class AutonomousEntity {
         this.pathPattern = pathPattern;
     }
 
-    public void setCoordinates(Coordinates coordinate){
+    public void setCoordinates(Coordinates coordinates){
         this.coordinates = coordinates;
     }
 
