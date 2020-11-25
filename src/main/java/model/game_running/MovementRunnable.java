@@ -22,9 +22,8 @@ public class MovementRunnable implements Runnable {
     public void run() {
         running = true;
         while (running) {
-            if (movementQueue.isEmpty())
-                continue;
-            movementQueue.poll().move();
+            if (!movementQueue.isEmpty())
+                movementQueue.poll().move();
         }
     }
 

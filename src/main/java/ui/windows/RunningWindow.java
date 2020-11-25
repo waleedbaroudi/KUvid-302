@@ -24,7 +24,7 @@ public class RunningWindow {
         while (x < 100) {
             for (AutonomousEntity entity : RunningMode.getAutonomousEntities()) {
                 draw(entity);
-                this.mode.queueEntityMovement(entity);
+                this.mode.updateEntityState(entity);
             }
             System.out.println();
             try {
