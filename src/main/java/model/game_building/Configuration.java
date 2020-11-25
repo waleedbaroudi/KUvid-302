@@ -45,7 +45,7 @@ public class Configuration {
             // The logger is initialised in the constructor so we check if the instance was created so
             // we can use the logger instance
             if (instance == null)
-                System.out.println("Configuration instance has not been initialised");
+                logger.error("Configuration instance has not been initialised");
             else
                 logger.info("[Configuration] Configuration has already been set. Build the game again to change it.");
         }
