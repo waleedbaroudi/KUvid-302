@@ -3,17 +3,19 @@ package model.game_entities;
 import model.game_entities.enums.AtomType;
 import model.game_entities.enums.PowerupType;
 import model.game_physics.hitbox.Hitbox;
+import model.game_physics.path_patterns.PathPattern;
 import utils.Coordinates;
 
-public class Shooter {
+public class Shooter extends AutonomousEntity{
     Coordinates coordinate;
     Hitbox hitbox;
     Projectile currentProjectile;
     AtomType previousAtom;
 
-
-    public Shooter() {
+    public Shooter(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern) {
+        super(coordinates, hitbox, pathPattern);
     }
+
 
     public Projectile shoot() {
         return null;
