@@ -49,8 +49,20 @@ public class Configuration {
         }
     }
 
-    public int getNumOfAtomsPerType() {
-        return isConfigBundleSet() ? configBundle.getNumOfAtomsPerType() : -1;
+    public int getNumAlphaAtoms() {
+        return isConfigBundleSet() ? configBundle.getNumOfAlphaAtoms() : -1;
+    }
+
+    public int getNumBetaAtoms() {
+        return isConfigBundleSet() ? configBundle.getNumOfBetaAtoms() : -1;
+    }
+
+    public int getNumGammaAtoms() {
+        return isConfigBundleSet() ? configBundle.getNumOfGammaAtoms() : -1;
+    }
+
+    public int getNumSigmaAtoms() {
+        return isConfigBundleSet() ? configBundle.getNumOfSigmaAtoms() : -1;
     }
 
     public int getNumOfPowerUpsPerType() {

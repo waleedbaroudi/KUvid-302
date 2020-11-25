@@ -2,95 +2,245 @@ package ui.windows;
 
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 
 /**
- * This class draws the game building window.
- * through this window, the player can specify game parameters.
+ * This class draws the game building window. through this window, the player
+ * can specify game parameters.
  */
-public class BuildingWindow implements BuildingMode.ParametersValidationListener {
-    Scanner scanner;
-    ConfigBundle bundle;
-    BuildingMode buildingMode;
+public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
+	ConfigBundle bundle;
+	BuildingMode buildingMode;
+
+	// JTextFields
+	JTextField gammaAtomsTextField;
+	JTextField alphaAtomsTextField;
+	JTextField betaAtomsTextField;
+	JTextField sigmaAtomsTextField;
+	JTextField moleculesTextField;
+	JTextField powerupsTextField;
+	JTextField blockersTextField;
+	JTextField lengthTextField;
+
+    // JCheckBoxes
+    JCheckBox isLinearAlpha;
+    JCheckBox isLinearBeta;
+    JCheckBox isSpinningBeta;
+    JCheckBox isSpinningAlpha;
+
+	String[] difficultyLevels = { "Easy", "Medium", "Hard" };
+    JComboBox<String> difficultyBox;
+    ArrayList<Integer> atoms = new ArrayList<Integer>();
+
+	// Configuration variables
+	int alphaatomsNum, betaatomsNum, sigmaatomsNum, gammaatomsNum, moleculesNum, blockersNum, powerupsNum;
+	double l;
+
+	/**
+	 * Constructor initiates the Scanner and BuildingMode instances
+	 */
+	public BuildingWindow(String title) {
+		buildingMode = new BuildingMode(this);
+		this.setSize(800, 800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JPanel panel = new JPanel();
+		this.add(panel);
+
+
+		/*
+		 * calling user defined method for adding components to the panel.
+		 */
+		placeComponents(panel);
+
+		// Fits the borders to the content
+		this.pack();
+		// Setting the frame visibility to true.
+		this.setVisible(true);
+	}
+
+	/**
+	 * Here we place our components to the panel that will be added to the JFrame
+	 * after.
+	 * 
+	 * @param panel
+	 */
+	private void placeComponents(JPanel panel) {
+		// Setting the layout of the panel
+		panel.setLayout(new GridLayout(12,2));
+		panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
+		// GridBagConstraints c = new GridBagConstraints();
+
+		/*
+		 * Creating labels and text fields
+		 */
+		JLabel alphaLabel = new JLabel("Alpha Atoms");
+		panel.add(alphaLabel);
+
+		alphaAtomsTextField = new JTextField(4);
+		panel.add(alphaAtomsTextField);
+
+		JLabel betaLabel = new JLabel("Beta Atoms");
+		panel.add(betaLabel);
+
+		betaAtomsTextField = new JTextField(4);
+		panel.add(betaAtomsTextField);
+
+		JLabel sigmaLabel = new JLabel("Segma Atoms");
+		panel.add(sigmaLabel);
+
+		sigmaAtomsTextField = new JTextField(4);
+		panel.add(sigmaAtomsTextField);
+
+		JLabel gammaLabel = new JLabel("Gamma Atoms");
+		panel.add(gammaLabel);
+
+		gammaAtomsTextField = new JTextField(4);
+		panel.add(gammaAtomsTextField);
+
+		JLabel moleculesLabel = new JLabel("Molecules");
+		panel.add(moleculesLabel);
+
+		moleculesTextField = new JTextField(4);
+		panel.add(moleculesTextField);
+
+		JLabel powerupsLabel = new JLabel("Power-ups");
+		panel.add(powerupsLabel);
+
+		powerupsTextField = new JTextField(4);
+		panel.add(powerupsTextField);
+
+		JLabel blockersLabel = new JLabel("Blockers");
+		panel.add(blockersLabel);
+
+		blockersTextField = new JTextField(4);
+		panel.add(blockersTextField);
+
+		JLabel lengthLabel = new JLabel("L unit ");
+		panel.add(lengthLabel);
+
+		lengthTextField = new JTextField(4);
+		panel.add(lengthTextField);
+
+		JLabel difficultyLabel = new JLabel("Difficulty ");
+		panel.add(difficultyLabel);
+
+		difficultyBox = new JComboBox<String>(difficultyLevels);
+		difficultyBox.setSelectedIndex(1);
+		panel.add(difficultyBox);
+
+        /*
+         * Checkboxes
+         * */
+        isLinearAlpha = new JCheckBox("Spinning Alpha Molecules");
+        panel.add(isLinearAlpha);
+
+        isSpinningAlpha = new JCheckBox("Spinning Alpha Molecules");
+        isSpinningAlpha.setEnabled(false);
+        panel.add(isSpinningAlpha);
+
+
+        isLinearBeta = new JCheckBox("Spinning Alpha Molecules");
+        panel.add(isLinearBeta);
+
+        isSpinningBeta = new JCheckBox("Spinning Beta Molecules");
+        isSpinningBeta.setEnabled(false);
+        panel.add(isSpinningBeta);
+
+        addAlphaCheckboxActionListener();
+        addBetaCheckboxActionListener();
+
+		/*
+		 * Building Game Button
+		 */
+		JButton buildGameButton = new JButton("Build Game!");
+		addButtonActionListener(buildGameButton);
+		panel.add(buildGameButton);
+
+	}
+
+	// need to try an catch exceptions ... etc.
+	private void addButtonActionListener(JButton btn) {
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Create bundle
+				try {
+					getParametersValues();
+					bundle = new ConfigBundle(atoms, blockersNum, powerupsNum, moleculesNum, l,
+							isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
+							isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
+					// Validate the fields.
+					buildingMode.validateParameters(bundle);
+
+				} catch (NumberFormatException ex) {
+				    ArrayList<String> error = new ArrayList<>();
+				    error.add("One of the parameter has invalid format! .. recheck");
+					onInvalidParameters(error);
+				}
+
+			}
+		});
+	}
 
     /**
-     * Constructor initiates the Scanner and BuildingMode instances
+     * Sets the behavior for the checkbox to disable the corresponding spinning checkbox and un-tick it
+     * if the linear Alpha option is un-ticked.
      */
-    public BuildingWindow() {
-        scanner = new Scanner(System.in);
-        buildingMode = new BuildingMode(this);
+    private void addAlphaCheckboxActionListener(){
+        isLinearAlpha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSpinningAlpha.setEnabled(isLinearAlpha.isSelected());
+                if(!isLinearAlpha.isSelected())
+                    isSpinningAlpha.setSelected(false);
+            }
+        });
     }
 
     /**
-     * starts building mode UI
+     *  Sets the behavior for the checkbox to disable the corresponding spinning checkbox and un-tick it
+     *  if the linear Beta option is un-ticked.
      */
-    public void start(){
-        promptForParameters();
-        buildingMode.validateParameters(bundle);
-        /// do other stuff
+    private void addBetaCheckboxActionListener(){
+        isLinearBeta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isSpinningBeta.setEnabled(isLinearBeta.isSelected());
+                if(!isLinearBeta.isSelected())
+                    isSpinningBeta.setSelected(false);
+            }
+        });
     }
 
-    /**
-     * this method handles asking for game parameters, recording them, and collecting them in bundle.
-     */
-    public void promptForParameters() {
-        System.out.println("=== Welcome to KUvid! ===");
-        System.out.println("Please specify game parameters");
+	private void getParametersValues() throws NumberFormatException {
+        this.atoms.clear();
+		alphaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
+		atoms.add(alphaatomsNum);
+		betaatomsNum = Integer.parseInt(betaAtomsTextField.getText());
+		atoms.add(betaatomsNum);
+		gammaatomsNum = Integer.parseInt(gammaAtomsTextField.getText());
+		atoms.add(gammaatomsNum);
+		sigmaatomsNum = Integer.parseInt(sigmaAtomsTextField.getText());
+		atoms.add(sigmaatomsNum);
+		moleculesNum = Integer.parseInt(moleculesTextField.getText());
+		blockersNum = Integer.parseInt(blockersTextField.getText());
+		powerupsNum = Integer.parseInt(powerupsTextField.getText());
+		l = Double.parseDouble(lengthTextField.getText());
+	}
 
-        int numOfAtoms = (int) promptForNumParameter("Number of atoms:\t");
-        int numOfMolecules = (int) promptForNumParameter("Number of molecules:\t");
-        int numOfPowerUps = (int) promptForNumParameter("Number of power-ups:\t");
-        int numOfBlockers = (int) promptForNumParameter("Number of reaction blockers:\t");
+	public void onValidParameters() {
+		ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
+	}
 
-        double lengthOfL = promptForNumParameter("Length of unit L:\t");
-        boolean linearAlpha = promptForBoolParameter("Linear Alpha molecules? [true/false]\t");
-        boolean spinningAlpha = false;
-        if(linearAlpha)
-            spinningAlpha = promptForBoolParameter("Spinning Alpha molecules? [true/false]\t");
+    public void onInvalidParameters(ArrayList<String> invalidFields) {
+		ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, invalidFields);
+	}
 
-        boolean linearBeta = promptForBoolParameter("Linear Beta molecules? [true/false]\t");
-        boolean spinningBeta = false;
-        if(linearBeta)
-            spinningBeta = promptForBoolParameter("Spinning Beta molecules? [true/false]\t");
-
-        int difficulty = (int) promptForNumParameter("Difficulty level: [0/1/2]\t");
-
-        bundle = new ConfigBundle(numOfAtoms, numOfBlockers, numOfPowerUps, numOfMolecules, lengthOfL, linearAlpha,linearBeta,spinningAlpha,spinningBeta,difficulty);
-    }
-
-    /**
-     *
-     * @param message prompt message shown to the user
-     * @return returns the numeric value read from user input
-     */
-    public double promptForNumParameter(String message){
-        System.out.print(message);
-        double results = -1;
-        try{
-            results = Double.parseDouble(scanner.next());
-        } catch(Exception ignored){}
-        return results;
-    }
-
-    /**
-     *
-     * @param message prompt message shown to the user
-     * @return returns the boolean value read from user input
-     */
-    public boolean promptForBoolParameter(String message){
-        System.out.print(message);
-        String result = scanner.next();
-        return result.trim().toLowerCase().equals("true");
-    }
-
-    public void onValidParameters() {
-        ConfirmationWindow confirmationWindow = new ConfirmationWindow();
-        confirmationWindow.show();
-    }
-
-    public void onInvalidParameters(String message) {
-        ErrorWindow errorWindow = new ErrorWindow(message);
-        errorWindow.popError();
-    }
 }
