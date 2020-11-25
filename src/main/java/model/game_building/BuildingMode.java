@@ -1,14 +1,17 @@
 package model.game_building;
 
 
+import java.util.ArrayList;
+
 public class BuildingMode {
 
-	private boolean isValidParameters;
-	private ParametersValidationListener listener;
+	private ParametersValidationListener validationListener;
+	// This array will carry the invalid fields and we will use it to check if there are any invalid fields.
+	private ArrayList<String> invalidFields;
 
-	public BuildingMode(ParametersValidationListener listener){
-		isValidParameters = true;
-		this.listener = listener;
+	public BuildingMode(ParametersValidationListener validationListener){
+		this.validationListener = validationListener;
+		invalidFields = new ArrayList<>();
 	}
 
 	/**
@@ -16,24 +19,29 @@ public class BuildingMode {
 	 * @return true if the parameters are valid, or false otherwise
 	 */
 	public void validateParameters(ConfigBundle bundle) {
-		String invalidFields = "";
+		this.invalidFields.clear();
 		if(!isValidNumber(bundle.getNumOfPowerUpsPerType()))
-			invalidFields+= "Number of Power-ups per type\n";
-		if(!isValidNumber(bundle.getNumOfAtomsPerType()))
-			invalidFields+= "Number of Atoms per type\n";
+			invalidFields.add("Invalid number of Power-ups per type\n");
+		if(!isValidNumber(bundle.getNumOfAlphaAtoms()))
+			invalidFields.add("Invalid number of Alpha Atoms\n");
+		if(!isValidNumber(bundle.getNumOfBetaAtoms()))
+			invalidFields.add("Invalid number of Beta Atoms\n");
+		if(!isValidNumber(bundle.getNumOfGammaAtoms()))
+			invalidFields.add("Invalid number of Gamma Atoms\n");
+		if(!isValidNumber(bundle.getNumOfSigmaAtoms()))
+			invalidFields.add("Invalid number of Sigma Atoms\n");
 		if(!isValidNumber(bundle.getNumOfBlockersPerType()))
-			invalidFields+= "Number of Blockers per type\n";
-		if(!isValidNumber(bundle.getNumOfMoleculePerType()))
-			invalidFields+= "Number of Molecule per type\n";
+			invalidFields.add("Invalid number of Blockers per type\n");
+		if(!isValidNumber(bundle.getNumOfMoleculesPerType()))
+			invalidFields.add("Invalid number of Molecule per type\n");
 		if(!isValidDifficulty(bundle.getDifficulty()))
-			invalidFields+= "Invalid Difficulty number\n";
+			invalidFields.add("Invalid Difficulty number\n");
 		if(!isValidLength(bundle.getL()))
-			invalidFields+= "Invalid Value for L\n";
-		if (isValidParameters)
-			listener.onValidParameters();
+			invalidFields.add("Invalid Value for L\n");
+		if (invalidFields.isEmpty())
+			validationListener.onValidParameters();
 		else {
-			invalidFields = "== Invalid Fields Entered:\n" + invalidFields;
-			listener.onInvalidParameters(invalidFields);
+			validationListener.onInvalidParameters(invalidFields);
 		}
 
 	}
@@ -48,7 +56,6 @@ public class BuildingMode {
 		if (number > 0){
 			return true;
 		}
-		isValidParameters = false;
 		return false;
 	}
 	
@@ -62,7 +69,6 @@ public class BuildingMode {
 		if(difficulty >= 0 && difficulty <= 2){
 			return true;
 		}
-		isValidParameters = false;
 		return false;
 	}
 	
@@ -75,7 +81,6 @@ public class BuildingMode {
 	private boolean isValidLength(double l) {
 		if (l > 0)
 			return true;
-		isValidParameters = false;
 		return false;
 	}
 
@@ -89,8 +94,10 @@ public class BuildingMode {
 		 * this method is called after game parameters get checked and proved invalid.
 		 * @param message takes a message indicating that some parameters are invalid as well as those parameters.
 		 */
-		void onInvalidParameters(String message);
+		void onInvalidParameters(ArrayList<String> message);
 	}
+
+
 
 }
 

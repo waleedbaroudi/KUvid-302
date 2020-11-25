@@ -44,6 +44,8 @@ abstract public class AutonomousEntity {
     /**
      * move: moves the corresponding object according to the path variable.
      */
-    public abstract void move();
+    public void move(){
+        setCoordinates(this.getPathPattern().nextPosition());
+    };
 
 }

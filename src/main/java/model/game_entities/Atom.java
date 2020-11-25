@@ -25,7 +25,10 @@ public class Atom extends Projectile{
     }
 
     @Override
-    public void move() {
-        setCoordinates(this.getPathPattern().move());
+    public String toString() {
+        return "Atom{" +
+                "type=" + type +
+                '}';
     }
+
 }

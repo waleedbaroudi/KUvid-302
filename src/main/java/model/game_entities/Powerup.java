@@ -25,7 +25,10 @@ public class Powerup extends Projectile{
     }
 
     @Override
-    public void move() {
-        setCoordinates(this.getPathPattern().move());
+    public String toString() {
+        return "Powerup{" +
+                "type=" + type +
+                '}';
     }
+
 }

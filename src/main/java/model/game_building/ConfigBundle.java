@@ -1,78 +1,96 @@
 package model.game_building;
 
+import java.util.ArrayList;
+
 /**
  * a container for game parameters
  */
 public class ConfigBundle {
-    private int numOfAtomsPerType, numOfBlockersPerType, numOfPowerUpsPerType, numOfMoleculePerType;
-    private double l;
-    private boolean isLinearAlpha, isLinearBeta, isSpinningAlpha, isSpinningBeta; //TODO: convert to enums
-    private int difficulty; //0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
 
-    /**
-     *  Constructor to initialize game parameter attributes
-     * @param numOfAtomsPerType /
-     * @param numOfBlockersPerType /
-     * @param numOfPowerUpsPerType /
-     * @param numOfMoleculePerType /
-     * @param l /
-     * @param isLinearAlpha /
-     * @param isLinearBeta /
-     * @param isSpinningAlpha /
-     * @param isSpinningBeta /
-     * @param difficulty /
-     */
-    public ConfigBundle(int numOfAtomsPerType, int numOfBlockersPerType, int numOfPowerUpsPerType, int numOfMoleculePerType, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha, boolean isSpinningBeta, int difficulty) {
-        this.numOfAtomsPerType = numOfAtomsPerType;
-        this.numOfBlockersPerType = numOfBlockersPerType;
-        this.numOfPowerUpsPerType = numOfPowerUpsPerType;
-        this.numOfMoleculePerType = numOfMoleculePerType;
-        this.l = l;
-        this.isLinearAlpha = isLinearAlpha;
-        this.isLinearBeta = isLinearBeta;
-        this.isSpinningAlpha = isSpinningAlpha;
-        this.isSpinningBeta = isSpinningBeta;
-        this.difficulty = difficulty;
-    }
+	private int  numOfBlockersPerType, numOfPowerUpsPerType, numOfMoleculesPerType;
+	private double l;
+	private boolean isLinearAlpha, isLinearBeta, isSpinningAlpha, isSpinningBeta; // TODO: convert to enums
+	private int difficulty; // 0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
+	private ArrayList<Integer> atoms;
 
+	/**
+	 * Constructor to initialize game parameter attributes
+	 * 
+	 * @param atoms    /
+	 * @param numOfBlockersPerType /
+	 * @param numOfPowerUpsPerType /
+	 * @param numOfMoleculesPerType /
+	 * @param l                    /
+	 * @param isLinearAlpha        /
+	 * @param isLinearBeta         /
+	 * @param isSpinningAlpha      /
+	 * @param isSpinningBeta       /
+	 * @param difficulty           /
+	 */
+	public ConfigBundle(ArrayList<Integer> atoms, int numOfBlockersPerType, int numOfPowerUpsPerType,
+			int numOfMoleculesPerType, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha,
+			boolean isSpinningBeta, int difficulty) {
+		this.atoms = atoms;
+		this.numOfBlockersPerType = numOfBlockersPerType;
+		this.numOfPowerUpsPerType = numOfPowerUpsPerType;
+		this.numOfMoleculesPerType = numOfMoleculesPerType;
+		this.l = l;
+		this.isLinearAlpha = isLinearAlpha;
+		this.isLinearBeta = isLinearBeta;
+		this.isSpinningAlpha = isSpinningAlpha;
+		this.isSpinningBeta = isSpinningBeta;
+		this.difficulty = difficulty;
+	}
 
-    public int getNumOfAtomsPerType() {
-        return numOfAtomsPerType;
-    }
+	public int getNumOfAlphaAtoms() {
+		return atoms.get(0);
+	}
 
-    public int getNumOfBlockersPerType() {
-        return numOfBlockersPerType;
-    }
+	public int getNumOfBetaAtoms() {
+		return atoms.get(1);
+	}
 
-    public int getNumOfPowerUpsPerType() {
-        return numOfPowerUpsPerType;
-    }
+	public int getNumOfGammaAtoms() {
+		return atoms.get(2);
+	}
 
-    public int getNumOfMoleculePerType() {
-        return numOfMoleculePerType;
-    }
+	public int getNumOfSigmaAtoms() {
+		return atoms.get(3);
+	}
 
-    public double getL() {
-        return l;
-    }
+	public int getNumOfBlockersPerType() {
+		return numOfBlockersPerType;
+	}
 
-    public boolean isLinearAlpha() {
-        return isLinearAlpha;
-    }
+	public int getNumOfPowerUpsPerType() {
+		return numOfPowerUpsPerType;
+	}
 
-    public boolean isLinearBeta() {
-        return isLinearBeta;
-    }
+	public int getNumOfMoleculesPerType() {
+		return numOfMoleculesPerType;
+	}
 
-    public boolean isSpinningAlpha() {
-        return isSpinningAlpha;
-    }
+	public double getL() {
+		return l;
+	}
 
-    public boolean isSpinningBeta() {
-        return isSpinningBeta;
-    }
+	public boolean isLinearAlpha() {
+		return isLinearAlpha;
+	}
 
-    public int getDifficulty() {
-        return difficulty;
-    }
+	public boolean isLinearBeta() {
+		return isLinearBeta;
+	}
+
+	public boolean isSpinningAlpha() {
+		return isSpinningAlpha;
+	}
+
+	public boolean isSpinningBeta() {
+		return isSpinningBeta;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
 }

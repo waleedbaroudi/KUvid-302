@@ -13,6 +13,7 @@ public class Blocker extends AutonomousEntity {
     private double explosionRadius;
     private BlockerType type;
 
+
     public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, BlockerType type, double blockingRadius, double explosionRadius) {
         super(coordinates, hitbox, pathPattern);
         this.type = type;
@@ -37,7 +38,11 @@ public class Blocker extends AutonomousEntity {
     }
 
     @Override
-    public void move() {
-        setCoordinates(this.getPathPattern().move());
+    public String toString() {
+        return "Blocker{" +
+                "blockingRadius=" + blockingRadius +
+                ", explosionRadius=" + explosionRadius +
+                ", type=" + type +
+                '}';
     }
 }
