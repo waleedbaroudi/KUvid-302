@@ -40,7 +40,7 @@ class DrawerTest {
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setBackground(new Color(12, 17, 60));
+        frame.setBackground(new Color(12, 24, 60));
         frame.setSize(800, 800);
         frame.setVisible(true);
         frame.setFocusable(true);
@@ -50,7 +50,6 @@ class DrawerTest {
     void AtomDrawerTest() throws InterruptedException {
 
         frame.setVisible(true);
-
 
         StraightPattern path = new StraightPattern(new Coordinates(new Random().nextInt(50), new Random().nextInt(50)), new Velocity(1, 2));
         StraightPattern path2 = new StraightPattern(new Coordinates(new Random().nextInt(50), new Random().nextInt(50)), new Velocity(2, 1));
@@ -64,28 +63,24 @@ class DrawerTest {
 
         frame.repaint();
 
-        Long a = 0L;
         while (true) {
-            a++;
-            if (a % 1000000 == 0) {
-                a = 0L;
-                Drawable d1 = DrawableFactory.get(atom, EntityType.ATOM);
-                Drawable d2 = DrawableFactory.get(atom2, EntityType.ATOM);
-                Drawable d3 = DrawableFactory.get(atom3, EntityType.ATOM);
-                Drawable d4 = DrawableFactory.get(atom4, EntityType.ATOM);
+            Drawable d1 = DrawableFactory.get(atom, EntityType.ATOM);
+            Drawable d2 = DrawableFactory.get(atom2, EntityType.ATOM);
+            Drawable d3 = DrawableFactory.get(atom3, EntityType.ATOM);
+            Drawable d4 = DrawableFactory.get(atom4, EntityType.ATOM);
 
-                d1.draw(frame.getGraphics());
-                d2.draw(frame.getGraphics());
-                d3.draw(frame.getGraphics());
-                d4.draw(frame.getGraphics());
+            d1.draw(frame.getGraphics());
+            d2.draw(frame.getGraphics());
+            d3.draw(frame.getGraphics());
+            d4.draw(frame.getGraphics());
 
-                atom.move();
-                atom2.move();
-                atom3.move();
-                atom4.move();
+            atom.move();
+            atom2.move();
+            atom3.move();
+            atom4.move();
 
-                frame.repaint();
-            }
+            frame.repaint();
+            Thread.sleep(15);
         }
     }
 }
