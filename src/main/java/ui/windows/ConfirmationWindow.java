@@ -1,10 +1,5 @@
 package ui.windows;
 
-
-
-
-import com.sun.javaws.util.JfxHelper;
-import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigConfirmation;
 

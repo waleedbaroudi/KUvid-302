@@ -2,6 +2,8 @@ package ui.windows;
 
 import model.game_running.RunningMode;
 
+import javax.swing.*;
+
 /**
  * This class draws the game running window.
  * all game animations and actions will happen in this window

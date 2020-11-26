@@ -21,6 +21,10 @@ public class Blocker extends AutonomousEntity {
         this.explosionRadius = explosionRadius;
     }
 
+    public BlockerType getType() {
+        return type;
+    }
+
     public double getBlockingRadius() {
         return blockingRadius;
     }
