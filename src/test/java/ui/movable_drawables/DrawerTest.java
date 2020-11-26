@@ -46,41 +46,53 @@ class DrawerTest {
         frame.setFocusable(true);
     }
 
+    Coordinates randCord(int a, int b) {
+        return new Coordinates(new Random().nextInt(a), new Random().nextInt(b));
+    }
+
+    int rand(int a) {
+        return new Random().nextInt(a);
+    }
+
     @Test
     void AtomDrawerTest() throws InterruptedException {
 
         frame.setVisible(true);
 
-        StraightPattern path = new StraightPattern(new Coordinates(new Random().nextInt(50), new Random().nextInt(50)), new Velocity(1, 2));
-        StraightPattern path2 = new StraightPattern(new Coordinates(new Random().nextInt(50), new Random().nextInt(50)), new Velocity(2, 1));
-        StraightPattern path3 = new StraightPattern(new Coordinates(new Random().nextInt(50), new Random().nextInt(50)), new Velocity(2, 2));
-        StraightPattern path4 = new StraightPattern(new Coordinates(new Random().nextInt(50), new Random().nextInt(50)), new Velocity(1, 1));
+        StraightPattern path = new StraightPattern(randCord(800, 50), new Velocity(0, 0.2));
+        StraightPattern path2 = new StraightPattern(randCord(800, 50), new Velocity(0, 0.4));
+        StraightPattern path3 = new StraightPattern(randCord(800, 50), new Velocity(0, 0.8));
+        StraightPattern path4 = new StraightPattern(randCord(800, 50), new Velocity(0, 1));
 
-        Atom atom = new Atom(new Coordinates(new Random().nextInt(800), new Random().nextInt(800)), null, path, AtomType.ALPHA);
-        Atom atom2 = new Atom(new Coordinates(new Random().nextInt(800), new Random().nextInt(800)), null, path2, AtomType.BETA);
-        Atom atom3 = new Atom(new Coordinates(new Random().nextInt(800), new Random().nextInt(800)), null, path3, AtomType.SIGMA);
-        Atom atom4 = new Atom(new Coordinates(new Random().nextInt(800), new Random().nextInt(800)), null, path4, AtomType.GAMMA);
+        Atom atom = new Atom(new Coordinates(rand(800), rand(800)), null, path, AtomType.ALPHA);
+        Atom atom2 = new Atom(new Coordinates(rand(800), rand(800)), null, path2, AtomType.BETA);
+        Atom atom3 = new Atom(new Coordinates(rand(800), rand(800)), null, path3, AtomType.SIGMA);
+        Atom atom4 = new Atom(new Coordinates(rand(800), rand(800)), null, path4, AtomType.GAMMA);
 
         frame.repaint();
 
+        long l = 0L;
         while (true) {
-            Drawable d1 = DrawableFactory.get(atom, EntityType.ATOM);
-            Drawable d2 = DrawableFactory.get(atom2, EntityType.ATOM);
-            Drawable d3 = DrawableFactory.get(atom3, EntityType.ATOM);
-            Drawable d4 = DrawableFactory.get(atom4, EntityType.ATOM);
+            l++;
+            if (l % 1000000 == 0) {
+                l = 0L;
+                Drawable d1 = DrawableFactory.get(atom, EntityType.ATOM);
+                Drawable d2 = DrawableFactory.get(atom2, EntityType.ATOM);
+                Drawable d3 = DrawableFactory.get(atom3, EntityType.ATOM);
+                Drawable d4 = DrawableFactory.get(atom4, EntityType.ATOM);
 
-            d1.draw(frame.getGraphics());
-            d2.draw(frame.getGraphics());
-            d3.draw(frame.getGraphics());
-            d4.draw(frame.getGraphics());
+                d1.draw(frame.getGraphics());
+                d2.draw(frame.getGraphics());
+                d3.draw(frame.getGraphics());
+                d4.draw(frame.getGraphics());
 
-            atom.move();
-            atom2.move();
-            atom3.move();
-            atom4.move();
+                atom.move();
+                atom2.move();
+                atom3.move();
+                atom4.move();
 
-            frame.repaint();
-            Thread.sleep(15);
+                frame.repaint();
+            }
         }
     }
 }
