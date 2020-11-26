@@ -180,9 +180,20 @@ public class MathUtils {
         }
         return coordinatesArray;
     }
-    public static Coordinates[] concatenate(Coordinates[] a, Coordinates[] b, Coordinates[] c, Coordinates[] d){
-        return (Coordinates[]) Stream.of(a, b, c, d)
-                .flatMap(Stream::of)
-                .toArray();
+
+    /**
+     * Given vector that represents a circle and a number of points, returns a list of coordinates containing the specified number of points on the circumference of the circle.
+     * @param arcVector the vector representing a circle.
+     * @param numberOfPoints The number of points to generate.
+     * @return an array of coordinates around the circumference of the specified circle.
+     */
+    public static Coordinates[] coordinatesAroundCircle(Vector arcVector, int numberOfPoints){
+        Coordinates[] pointsCoordinates = new Coordinates[numberOfPoints];
+        double angle = 0.0;
+        for(int i = 0; i < numberOfPoints; i++){
+            pointsCoordinates[i] = applyRotation(angle, arcVector.getOriginCoordinate(), arcVector.getPositionCoordinate());
+            angle += (double) 360 / numberOfPoints;
+        }
+        return pointsCoordinates;
     }
 }

@@ -49,14 +49,8 @@ public class RectangularHitbox extends Hitbox {
         this.angle += angle;
     }
 
-    public Coordinates[] getCorners(){
-    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, 6);
-    }
-
-    public void print(){
-        for(Coordinates c : getCorners()) {
-            System.out.println(c);
-        }
+    public Coordinates[] getBoundaryCoordinates(int numberOfPoints){
+    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, numberOfPoints);
     }
 
     @Override

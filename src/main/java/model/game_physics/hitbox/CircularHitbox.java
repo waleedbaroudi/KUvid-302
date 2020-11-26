@@ -57,7 +57,9 @@ public class CircularHitbox extends Hitbox {
         }
         return false;
     }
-
+    public Coordinates[] getBoundaryCoordinates(int numberOfPoints){
+    return MathUtils.coordinatesAroundCircle(arcVector, numberOfPoints);
+    }
     @Override
     public String toString() {
         return "CircularHitbox: radius = " + radius +", angle = " + angle;
