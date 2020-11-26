@@ -3,7 +3,9 @@ import model.game_physics.hitbox.Hitbox;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 import static java.lang.Math.*;
 public class MathUtils {
@@ -132,12 +134,17 @@ public class MathUtils {
         double x1 = invertedCornerCoordinates.getX();
         double y1 = invertedCornerCoordinates.getY();
 
-        Coordinates[] bottomCpprdinates = topCoordinates(numberOfPoints, x1, x2, y2);
-        Coordinates[] topCpprdinates = topCoordinates(numberOfPoints, x1, x2, y1);
+        Coordinates[] topCoordinates = topCoordinates(numberOfPoints, x1, x2, y2);
+        Coordinates[] bottomCoordinates = topCoordinates(numberOfPoints, x1, x2, y1);
         Coordinates[] leftCoordinates = sideCoordinates(numberOfPoints, x1, y1, y2);
         Coordinates[] rightCoordinates = sideCoordinates(numberOfPoints, x2, y1, y2);
 
-        return bottomCpprdinates;
+        ArrayList<Coordinates> allCoordinates = new ArrayList<Coordinates>(Arrays.asList(topCoordinates));
+        allCoordinates.addAll(Arrays.asList(bottomCoordinates));
+        allCoordinates.addAll(Arrays.asList(leftCoordinates));
+        allCoordinates.addAll(Arrays.asList(rightCoordinates));
+
+        return allCoordinates.toArray(new Coordinates[0]);
     }
 
     /**
@@ -172,5 +179,10 @@ public class MathUtils {
             coordinatesArray[i] = new Coordinates(x1, y1 + (i * length/numberOfPoints));
         }
         return coordinatesArray;
+    }
+    public static Coordinates[] concatenate(Coordinates[] a, Coordinates[] b, Coordinates[] c, Coordinates[] d){
+        return (Coordinates[]) Stream.of(a, b, c, d)
+                .flatMap(Stream::of)
+                .toArray();
     }
 }

@@ -50,21 +50,7 @@ public class RectangularHitbox extends Hitbox {
     }
 
     public Coordinates[] getCorners(){
-        Vector invertedCornerVector = MathUtils.inverseVector(cornerVector);
-        Coordinates cornerCoordinates = cornerVector.getPositionCoordinate();
-        Coordinates invertedCornerCoordinates = invertedCornerVector.getPositionCoordinate();
-
-        double x1 = cornerCoordinates.getX();
-        double y1 = cornerCoordinates.getY();
-        double x2 = invertedCornerCoordinates.getX();
-        double y2 = invertedCornerCoordinates.getY();
-
-        Coordinates c1 = new Coordinates(x1,y1);
-        Coordinates c2 = new Coordinates(x2,y2);
-        Coordinates c3 = new Coordinates(x1,y2);
-        Coordinates c4 = new Coordinates(x2,y1);
-
-        return new Coordinates[]{c1, c2, c3, c4};
+    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, 6);
     }
 
     public void print(){
