@@ -21,7 +21,6 @@ public class Molecule extends AutonomousEntity{
 
     }
 
-
     public void setType(MoleculeType type) {
         this.type = type;
     }

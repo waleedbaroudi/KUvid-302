@@ -8,21 +8,21 @@ public class RectangularHitbox extends Hitbox {
 
     private Vector cornerVector;
 
-    private int height, width;
+    private double height, width;
     private double angle;
 
-    public RectangularHitbox(Coordinates centerCoordinates, int width, int height){
+    public RectangularHitbox(Coordinates centerCoordinates, double width, double height){
         this.height = height;
         this.width = width;
-        this.cornerVector = new Vector(centerCoordinates, new Coordinates(width + centerCoordinates.getX(), height + centerCoordinates.getY()));
+        this.cornerVector = new Vector(centerCoordinates, new Coordinates((width / 2) + centerCoordinates.getX(), (height / 2) + centerCoordinates.getY()));
         this.angle = 0;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return this.height;
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return this.width;
     }
 
@@ -88,7 +88,6 @@ public class RectangularHitbox extends Hitbox {
                 return true;
         }
         return false;
-
     }
 
     @Override

@@ -133,4 +133,23 @@ class MathUtilsTest {
         assertEquals(testPoint.getX(), point.getX() + origin.getX());
 
     }
+
+    @Test
+    void getRectangularBoundaryCoordinates() {
+        Vector vector = new Vector(new Coordinates(0,0), new Coordinates(1,1));
+        Coordinates[] coordinates = MathUtils.getRectangularBoundaryCoordinates(vector, 5);
+
+        for (Coordinates c : coordinates){
+            System.out.println(c);
+        }
+        System.out.println("\n");
+         vector = new Vector(new Coordinates(0,0), new Coordinates(2,1));
+         coordinates = MathUtils.getRectangularBoundaryCoordinates(vector, 5);
+
+        for (Coordinates c : coordinates){
+            System.out.println(c);
+        }
+
+
+    }
 }
