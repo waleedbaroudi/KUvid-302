@@ -2,6 +2,8 @@ package model.game_running;
 
 import model.game_entities.AutonomousEntity;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -9,11 +11,14 @@ import org.apache.log4j.Logger;
 /**
  * this class is a controller for the running phase of the game.
  */
-public class RunningMode {
+public class RunningMode implements KeyListener {
     Logger logger;
     private static ArrayList<AutonomousEntity> autonomousEntities;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
+
+    //Listener to handle game pause and resume commands
+    RunningStateListener listener;
 
     // Runnables
     MovementRunnable movementRunnable;
@@ -23,8 +28,9 @@ public class RunningMode {
     Thread movementThread;
     Thread collisionThread;
 
-    public RunningMode() {
+    public RunningMode(RunningStateListener listener) {
         autonomousEntities = new ArrayList<>();
+        this.listener = listener;
         logger = Logger.getLogger(this.getClass().getName());
         initialize();
     }
@@ -87,6 +93,7 @@ public class RunningMode {
      * Pauses all runnables.
      */
     public void pause() {
+        listener.onRunningStateChanged(true);
         movementRunnable.pause();
         collisionRunnable.pause();
     }
@@ -95,6 +102,7 @@ public class RunningMode {
      * adds an entity to the movement queue where it will be moved
      * and queues the entity for collision check and remove it if collided with another
      * entity.
+     *
      * @param entity the entity to be queued for movement and collision checking.
      */
     public void updateEntityState(AutonomousEntity entity) {
@@ -112,12 +120,31 @@ public class RunningMode {
     }
 
     /**
-     *
      * @param removedEntity autonomous entities to be removed from the list of elements in the space
      * @return a boolean indicating whether the entities were removed successfully
      */
     public static boolean removeAutonomousEntity(AutonomousEntity removedEntity) {
         return autonomousEntities.remove(removedEntity);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_P)
+            this.pause();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    public interface RunningStateListener {
+        void onRunningStateChanged(boolean paused);
     }
 
 }
