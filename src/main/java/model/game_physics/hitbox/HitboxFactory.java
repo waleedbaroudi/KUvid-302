@@ -1,6 +1,7 @@
 package model.game_physics.hitbox;
 
 import model.game_entities.enums.HitboxType;
+import utils.Coordinates;
 import utils.Vector;
 
 public class HitboxFactory {
@@ -18,14 +19,11 @@ public class HitboxFactory {
     }
 
     public Hitbox getHitbox(HitboxType type, Vector vector){
-        switch (type){
-            case RectangularHitbox:
-                return new RectangularHitbox(vector);
-            case CircularHitbox:
-                return new CircularHitbox(vector);
-            default: return new RectangularHitbox(vector);
+        if (type == HitboxType.CircularHitbox) {
+            Vector arcVector = new Vector(vector.getOriginCoordinate(), new Coordinates(vector.getOriginCoordinate().getY(), vector.getPositionCoordinate().getY()));
+            return new CircularHitbox(arcVector);
         }
-
+        return new RectangularHitbox(vector);
     }
 
 }
