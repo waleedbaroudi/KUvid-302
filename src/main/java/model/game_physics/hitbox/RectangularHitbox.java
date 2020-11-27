@@ -8,35 +8,28 @@ public class RectangularHitbox extends Hitbox {
 
     private Vector cornerVector;
 
-    private double height, width;
     private double angle;
     private final int NUMBER_OF_POINTS = 8;
 
-    public RectangularHitbox(Coordinates centerCoordinates, double width, double height){
-        this.height = height;
-        this.width = width;
-        this.cornerVector = new Vector(centerCoordinates, new Coordinates((width / 2) + centerCoordinates.getX(), (height / 2) + centerCoordinates.getY()));
+    public RectangularHitbox(Vector cornerVector){
+        Coordinates positionCoordinates = new Coordinates(cornerVector.getOriginCoordinate().getX() +
+                cornerVector.getPositionCoordinate().getX()/2, cornerVector.getOriginCoordinate().getY() +
+                cornerVector.getPositionCoordinate().getY()/2);
+        this.cornerVector = new Vector(cornerVector.getOriginCoordinate(), positionCoordinates);
+        //this.cornerVector = new Vector(centerCoordinates, new Coordinates((width / 2) + centerCoordinates.getX(), (height / 2) + centerCoordinates.getY()));
         this.angle = 0;
     }
 
     public double getHeight() {
-        return this.height;
+        return 2 * cornerVector.getPositionCoordinate().getY() - cornerVector.getOriginCoordinate().getY();
     }
 
     public double getWidth() {
-        return this.width;
+        return 2 * cornerVector.getPositionCoordinate().getX() - cornerVector.getOriginCoordinate().getX();
     }
 
     public Vector getCornerVector() {
         return this.cornerVector;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public void setCornerVector(Vector cornerVector) {
@@ -73,6 +66,6 @@ public class RectangularHitbox extends Hitbox {
 
     @Override
     public String toString() {
-        return "RectangularHitbox: height = " + height + ", width = " + width + ", angle = " + angle;
+        return "RectangularHitbox: height = " + this.getHeight() + ", width = " + this.getWidth() + ", angle = " + angle;
     }
 }

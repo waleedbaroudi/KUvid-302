@@ -2,6 +2,7 @@ package model.game_physics.hitbox;
 
 import org.junit.jupiter.api.Test;
 import utils.Coordinates;
+import utils.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +12,8 @@ class CircularHitboxTest {
     void isInside() {
         Coordinates ownerCoordinates = new Coordinates(0,0);
         Coordinates centerCoordinates = new Coordinates(0,0);
-        CircularHitbox rectHitbox = new CircularHitbox(3, centerCoordinates);
+        Vector arcVector = new Vector(ownerCoordinates, new Coordinates(0,3));
+        CircularHitbox rectHitbox = new CircularHitbox(arcVector);
 
         Coordinates point = new Coordinates(3,3);
 
