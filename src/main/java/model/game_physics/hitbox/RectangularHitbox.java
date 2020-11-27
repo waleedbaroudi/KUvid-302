@@ -10,6 +10,7 @@ public class RectangularHitbox extends Hitbox {
 
     private double height, width;
     private double angle;
+    private final int NUMBER_OF_POINTS = 8;
 
     public RectangularHitbox(Coordinates centerCoordinates, double width, double height){
         this.height = height;
@@ -49,8 +50,8 @@ public class RectangularHitbox extends Hitbox {
         this.angle += angle;
     }
 
-    public Coordinates[] getBoundaryCoordinates(int numberOfPoints){
-    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, numberOfPoints);
+    public Coordinates[] getBoundaryCoordinates(){
+    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class RectangularHitbox extends Hitbox {
     }
 
     @Override
-    public boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
+    public boolean isInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
         for (Coordinates c : coordinates){
             if (this.isInside(ownerCoordinates, c))
                 return true;

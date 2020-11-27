@@ -48,4 +48,8 @@ abstract public class AutonomousEntity {
         setCoordinates(this.getPathPattern().nextPosition());
     };
 
+    public boolean isCollidedWith(AutonomousEntity entity){
+        return this.getHitbox().isInside(this.getCoordinate(), entity.getHitbox().getBoundaryCoordinates());
+    }
+
 }

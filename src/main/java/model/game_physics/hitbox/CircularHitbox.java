@@ -10,6 +10,7 @@ public class CircularHitbox extends Hitbox {
     private Vector arcVector;
     private double radius;
     private double angle;
+    private final int NUMBER_OF_POINTS = 8;
 
     public CircularHitbox(double radius, Coordinates centerCoordinates){
         this.radius = radius;
@@ -50,15 +51,17 @@ public class CircularHitbox extends Hitbox {
     }
 
     @Override
-    public boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
+    public boolean isInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
         for (Coordinates c : coordinates){
             if (this.isInside(ownerCoordinates, c))
                 return true;
         }
         return false;
     }
-    public Coordinates[] getBoundaryCoordinates(int numberOfPoints){
-    return MathUtils.coordinatesAroundCircle(arcVector, numberOfPoints);
+
+    @Override
+    public Coordinates[] getBoundaryCoordinates(){
+    return MathUtils.coordinatesAroundCircle(arcVector, NUMBER_OF_POINTS);
     }
     @Override
     public String toString() {

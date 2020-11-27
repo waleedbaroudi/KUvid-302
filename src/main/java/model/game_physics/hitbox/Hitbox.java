@@ -25,5 +25,7 @@ public abstract class Hitbox {
      * @param coordinates the target list of coordinates.
      * @return True if the owner Hitbox is collided with the target Hitbox.
      */
-    public abstract boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates);
+    public abstract boolean isInside(Coordinates ownerCoordinates, Coordinates[] coordinates);
+
+    public abstract Coordinates[] getBoundaryCoordinates();
 }
