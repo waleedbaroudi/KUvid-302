@@ -13,7 +13,6 @@ public class Blocker extends AutonomousEntity {
     private double explosionRadius;
     private BlockerType type;
 
-
     public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, BlockerType type, double blockingRadius, double explosionRadius) {
         super(coordinates, hitbox, pathPattern);
         this.type = type;

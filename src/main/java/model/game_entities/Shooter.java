@@ -1,18 +1,23 @@
 package model.game_entities;
 
 import model.game_entities.enums.AtomType;
+import model.game_entities.enums.Direction;
 import model.game_entities.enums.PowerupType;
 import model.game_physics.hitbox.Hitbox;
 import utils.Coordinates;
+import utils.MathUtils;
 
 public class Shooter {
-    Coordinates coordinate;
-    Hitbox hitbox;
-    Projectile currentProjectile;
-    AtomType previousAtom;
+    private Coordinates coordinates;
+    private Hitbox hitbox;
+    private Projectile currentProjectile;
+    private AtomType previousAtom;
+    private final double DEFAULT_ANGLE = 10;
+    private double angle = 0;
 
-
-    public Shooter() {
+    public Shooter(Coordinates coordinates, Hitbox hitbox) {
+        this.coordinates = coordinates;
+        this.hitbox = hitbox;
     }
 
     public Projectile shoot() {
@@ -22,7 +27,6 @@ public class Shooter {
     public boolean switchAtom() {
         return false;
     }
-
 
     public void mountPowerup(PowerupType powerupType) {
 
@@ -37,11 +41,11 @@ public class Shooter {
     }
 
     public Coordinates getCoordinate() {
-        return coordinate;
+        return this.coordinates;
     }
 
     public void setCoordinate(Coordinates coordinate) {
-        this.coordinate = coordinate;
+        this.coordinates = coordinate;
     }
 
     public Hitbox getHitbox() {
@@ -64,14 +68,31 @@ public class Shooter {
         return previousAtom;
     }
 
+    public double getAngle(){
+        return this.angle;
+    }
+
     public void setPreviousAtom(AtomType previousAtom) {
         this.previousAtom = previousAtom;
+    }
+
+    public boolean rotate(Direction direction){
+        if (Math.abs(this.angle) >= 90)
+            return false;
+        if(direction == Direction.LEFT){
+            this.angle -= DEFAULT_ANGLE;
+            this.coordinates = MathUtils.applyRotation(-DEFAULT_ANGLE, this.coordinates, this.coordinates);
+        return true;
+        }
+        this.angle += DEFAULT_ANGLE;
+        this.coordinates = MathUtils.applyRotation(DEFAULT_ANGLE, this.coordinates, this.coordinates);
+        return true;
     }
 
     @Override
     public String toString() {
         return "Shooter{" +
-                "coordinate=" + coordinate +
+                "coordinate=" + coordinates +
                 ", hitbox=" + hitbox +
                 ", currentProjectile=" + currentProjectile +
                 ", previousAtom=" + previousAtom +

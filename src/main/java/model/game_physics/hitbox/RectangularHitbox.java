@@ -16,7 +16,6 @@ public class RectangularHitbox extends Hitbox {
                 cornerVector.getPositionCoordinate().getX()/2, cornerVector.getOriginCoordinate().getY() +
                 cornerVector.getPositionCoordinate().getY()/2);
         this.cornerVector = new Vector(cornerVector.getOriginCoordinate(), positionCoordinates);
-        //this.cornerVector = new Vector(centerCoordinates, new Coordinates((width / 2) + centerCoordinates.getX(), (height / 2) + centerCoordinates.getY()));
         this.angle = 0;
     }
 
@@ -49,7 +48,7 @@ public class RectangularHitbox extends Hitbox {
 
     @Override
     public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
-        objectCoordinates = MathUtils.applyRotation(this.angle, cornerVector.getOriginCoordinate(), objectCoordinates);
+        objectCoordinates = MathUtils.applyRotation( - this.angle, ownerCoordinates, objectCoordinates);
         Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.cornerVector.getOriginCoordinate());
         objectCoordinates = MathUtils.translate(objectCoordinates, translationAmount);
         return MathUtils.isWithinRectangle(cornerVector, objectCoordinates);

@@ -25,5 +25,4 @@ public class HitboxFactory {
         }
         return new RectangularHitbox(vector);
     }
-
 }

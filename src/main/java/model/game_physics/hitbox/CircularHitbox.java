@@ -20,7 +20,6 @@ public class CircularHitbox extends Hitbox {
         this.angle = 0;
     }
 
-
     public void setArcVector(Vector arcVector) {
         this.arcVector = arcVector;
     }
@@ -38,10 +37,12 @@ public class CircularHitbox extends Hitbox {
         arcVector.setPositionCoordinate(newPositionCoordinates);
         this.angle += angle;
     }
+
     @Override
     public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
-        objectCoordinates = MathUtils.applyRotation(angle, this.arcVector.getOriginCoordinate(), objectCoordinates);
+        objectCoordinates = MathUtils.applyRotation(-this.angle, ownerCoordinates, objectCoordinates);
         Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.arcVector.getOriginCoordinate());
+        objectCoordinates = MathUtils.translate(objectCoordinates, translationAmount);
         return MathUtils.isWithinCircle(MathUtils.vectorMagnitude(this.arcVector), this.arcVector.getOriginCoordinate(), objectCoordinates);
     }
 
