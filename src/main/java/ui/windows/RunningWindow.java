@@ -5,6 +5,7 @@ import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.enums.AtomType;
 import model.game_physics.path_patterns.StraightPattern;
+import model.game_physics.path_patterns.ZigzagPatten;
 import model.game_running.GameCommandListener;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
@@ -28,34 +29,28 @@ import java.util.Map;
  */
 public class RunningWindow extends JFrame implements RunningMode.RunningStateListener, RunningMode.GameEntitiesListener {
     RunningMode runningMode;
-    JPanel gameContentPanel;
-    GameCommandListener commandListener;
+    GamePanel gameContentPanel;
     private boolean running;
     private boolean paused;
     Configuration config;
-    private Map<AutonomousEntity, Drawable> drawableMap;
+    private final Map<AutonomousEntity, Drawable> drawableMap;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
         drawableMap = new HashMap<AutonomousEntity, Drawable>();
 
 
-        // TODO: DELETE ME !!!!
-        StraightPattern path = new StraightPattern(new Coordinates(50, 50), new Velocity(1,1));
-        Atom atom = new Atom(new Coordinates(50, 50), null, path, AtomType.ALPHA);
-        Drawable d1 = DrawableFactory.get(atom);
-
-        drawableMap.put(atom, d1);
+//        // TODO: BELOW CODE FOR DEMONSTRATION. REMOVE LATER !!!!
+//        ZigzagPatten path = new ZigzagPatten(new Coordinates(50, 50), new Velocity(3, 3), 150);
+//        Atom atom = new Atom(new Coordinates(50, 50), null, path, AtomType.ALPHA);
+//        Drawable d1 = DrawableFactory.get(atom);
+//        drawableMap.put(atom, d1);
         this.config = Configuration.getInstance();
         this.setSize(config.getGameWidth(), config.getGameHeight());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.runningMode = new RunningMode(this, this);
-        this.commandListener = new GameCommandListener(this.runningMode);
-        gameContentPanel = new JPanel();
+        gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         getContentPane().add(gameContentPanel);
-        gameContentPanel.setFocusable(true);
-        gameContentPanel.requestFocusInWindow();
-        gameContentPanel.addKeyListener(commandListener);
         setVisible(true);
         start();
     }
@@ -64,7 +59,6 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
      * starts the the game loop (drawing, movement, and collision checks)
      */
     private void start() {
-        System.out.println("CALLED START");
         running = true; // this will be made false somewhere else (when health or time are over)
         runningMode.startThreads();
         startDrawingThread();
@@ -73,7 +67,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private void startDrawingThread() {
         Timer gameTimer = new Timer(GameConstants.GAME_THREAD_DELAY, null);
         ActionListener listener = e -> {
-            if (running) {
+            if (running && !paused) {
                 repaint();
             } else {
                 runningMode.stop();
@@ -84,28 +78,10 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         gameTimer.start();
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paintComponents(g);
-        for(AutonomousEntity entity: drawableMap.keySet()) {
-            draw(drawableMap.get(entity), g);
-            runningMode.updateEntityState(entity); //give this an entity to move it and check collision
-        }
-
-    }
 
     /**
      * starts the loop that draws game elements.
      */
-    private void draw(Drawable drawableEntity, Graphics g) {
-        if (paused)
-            return;
-
-        drawableEntity.draw(g);
-        // todo: draw all elements here and trigger entity state update from 'runningMode'
-
-    }
-
     @Override
     public void onRunningStateChanged(int state) {
         System.out.println((state == GameConstants.GAME_STATE_PAUSED) ? "PAUSED" : "RESUMED");
