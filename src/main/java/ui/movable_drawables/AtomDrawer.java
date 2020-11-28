@@ -3,6 +3,7 @@ package ui.movable_drawables;
 import model.game_entities.Atom;
 import model.game_entities.enums.AtomType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class AtomDrawer implements Drawable {
