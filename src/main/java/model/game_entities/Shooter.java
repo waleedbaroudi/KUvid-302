@@ -14,7 +14,7 @@ public class Shooter {
     private AtomType previousAtom;
     private final double DEFAULT_ANGLE = 10;
     private double angle = 0;
-
+    private final double MOVEMENT = 2;
     public Shooter(Coordinates coordinates, Hitbox hitbox) {
         this.coordinates = coordinates;
         this.hitbox = hitbox;
@@ -91,11 +91,11 @@ public class Shooter {
 
     public boolean move(Direction direction){
         if (direction == Direction.LEFT){
-        this.coordinates.setX(this.coordinates.getX() - 2);
+        this.coordinates.setX(this.coordinates.getX() - MOVEMENT);
         return true;
         }
         else if (direction == Direction.RIGHT){
-        this.coordinates.setX(this.coordinates.getX() + 2);
+        this.coordinates.setX(this.coordinates.getX() + MOVEMENT);
         return true;
         }
         return false;
