@@ -13,7 +13,6 @@ public class ConfirmationWindow implements ConfigConfirmation.ParametersConfirma
         this.buildingGameFrame = frame;
         this.configConfirmation = new ConfigConfirmation(this);
 
-
         int replay = JOptionPane.showConfirmDialog(frame, "Are you sure?" ,"Confirmation", JOptionPane.YES_NO_OPTION);
         // TODO: View a summary of the bundle
         if(replay == JOptionPane.YES_OPTION)

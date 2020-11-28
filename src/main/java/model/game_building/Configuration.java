@@ -1,5 +1,6 @@
 package model.game_building;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -17,6 +18,7 @@ public class Configuration {
 
     // private constructor restricted to this class itself
     private Configuration() {
+        BasicConfigurator.configure();
         logger = Logger.getLogger(Configuration.class.getName());
     }
 
