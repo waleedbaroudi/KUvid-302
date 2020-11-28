@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import model.game_entities.enums.AtomType;
+import model.game_entities.enums.EntityType;
 import model.game_entities.enums.PowerupType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
@@ -13,7 +14,7 @@ public class Shooter extends AutonomousEntity{
     AtomType previousAtom;
 
     public Shooter(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern) {
-        super(coordinates, hitbox, pathPattern);
+        super(coordinates, hitbox, pathPattern, EntityType.SHOOTER); // TODO: THIS IS NOT AUTONOMOUS ENTITY
     }
 
 

@@ -19,7 +19,8 @@ public class RunningMode {
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
     //Listener to handle game pause and resume commands
-    RunningStateListener listener;
+    RunningStateListener runningStateListener;
+    GameEntitiesListener gameEntitiesListener;
 
     // Runnables
     MovementRunnable movementRunnable;
@@ -31,9 +32,10 @@ public class RunningMode {
     Thread collisionThread;
     Thread shooterThread;
 
-    public RunningMode(RunningStateListener listener) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new ArrayList<>();
-        this.listener = listener;
+        this.runningStateListener = runningStateListener;
+        this.gameEntitiesListener = gameEntitiesListener;
         logger = Logger.getLogger(this.getClass().getName());
         initialize();
     }
@@ -45,8 +47,8 @@ public class RunningMode {
         //todo: fill autonomous entity list and containers here
 
         movementRunnable = new MovementRunnable();
-        collisionRunnable = new CollisionRunnable();
-        shooterRunnable = new ShooterMovementRunnable(null); //TODO: PASS THE SHOOTER OBJECT HERE
+        collisionRunnable = new CollisionRunnable(this); // TODO: Pass the arraylist instead
+        shooterRunnable = new ShooterMovementRunnable(null); // TODO: PASS THE SHOOTER OBJECT HERE
 
         movementThread = new Thread(this.movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
@@ -71,22 +73,6 @@ public class RunningMode {
     }
 
     /**
-     * @param entity the entity to be added to the list of entities
-     * @return a boolean indicating whether the entity was added successfully
-     */
-    public boolean addEntity(AutonomousEntity entity) {
-        return autonomousEntities.add(entity);
-    }
-
-    /**
-     * @param entity the entity to be removed to the list of entities
-     * @return a boolean indicating whether the entity was removed successfully
-     */
-    public boolean removeEntity(AutonomousEntity entity) {
-        return autonomousEntities.remove(entity);
-    }
-
-    /**
      * calls pause on all runnables and interrupts all threads.
      */
     public void stop() {
@@ -101,7 +87,7 @@ public class RunningMode {
      */
 
     public void setRunningState(int state) {
-        listener.onRunningStateChanged(state);
+        runningStateListener.onRunningStateChanged(state);
         movementRunnable.setRunnableState(state);
         collisionRunnable.setRunnableState(state);
         shooterRunnable.setRunnableState(state);
@@ -116,7 +102,7 @@ public class RunningMode {
      */
     public void updateEntityState(AutonomousEntity entity) {
         this.movementRunnable.queueEntityMovement(entity);
-        this.collisionRunnable.queueEntityCollision(entity);
+       // this.collisionRunnable.queueEntityCollision(entity);
     }
 
     public void moveShooter(int direction) {
@@ -137,10 +123,20 @@ public class RunningMode {
     }
 
     /**
+     * @param entity the entity to be added to the list of entities
+     * @return a boolean indicating whether the entity was added successfully
+     */
+    public boolean addEntity(AutonomousEntity entity) {
+        gameEntitiesListener.onEntityAdd(entity);
+        return autonomousEntities.add(entity);
+    }
+
+    /**
      * @param removedEntity autonomous entities to be removed from the list of elements in the space
      * @return a boolean indicating whether the entities were removed successfully
      */
-    public static boolean removeAutonomousEntity(AutonomousEntity removedEntity) {
+    public boolean removeAutonomousEntity(AutonomousEntity removedEntity) {
+        gameEntitiesListener.onEntityRemove(removedEntity);
         return autonomousEntities.remove(removedEntity);
     }
 
@@ -148,4 +144,8 @@ public class RunningMode {
         void onRunningStateChanged(int state);
     }
 
+    public interface GameEntitiesListener {
+        void onEntityAdd(AutonomousEntity entity);
+        void onEntityRemove(AutonomousEntity entity);
+    }
 }

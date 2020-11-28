@@ -5,6 +5,7 @@ import model.game_entities.Atom;
 import model.game_entities.enums.AtomType;
 import model.game_entities.enums.MoleculeType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class AtomDrawer implements Drawable {

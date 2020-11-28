@@ -19,10 +19,18 @@ public class MovementRunnable extends GameRunnable {
 
     @Override
     public void run() {
+        System.out.println("IM IN RUN METHOD IN MOVEMENT");
         running = true;
         while (running) {
-            if (!movementQueue.isEmpty())
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(movementQueue.peek());
+            if (!movementQueue.isEmpty()) {
                 movementQueue.poll().move();
+            }
         }
     }
 

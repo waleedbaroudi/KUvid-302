@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import model.game_entities.enums.BlockerType;
+import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import utils.Coordinates;
@@ -15,7 +16,7 @@ public class Blocker extends AutonomousEntity {
 
 
     public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, BlockerType type, double blockingRadius, double explosionRadius) {
-        super(coordinates, hitbox, pathPattern);
+        super(coordinates, hitbox, pathPattern, EntityType.BLOCKER);
         this.type = type;
         this.blockingRadius = blockingRadius;
         this.explosionRadius = explosionRadius;

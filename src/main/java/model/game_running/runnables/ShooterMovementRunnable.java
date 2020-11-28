@@ -29,11 +29,12 @@ public class ShooterMovementRunnable extends GameRunnable {
             }
             if (this.rotationState != SHOOTER_ROTATION_STILL) {
                 //this.shooter.rotate(rotationState);
+                this.rotationState = SHOOTER_ROTATION_STILL;
                 System.out.println("gun rotating");
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

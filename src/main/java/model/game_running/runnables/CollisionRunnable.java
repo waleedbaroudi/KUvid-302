@@ -11,8 +11,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class CollisionRunnable extends GameRunnable {
 
     LinkedBlockingQueue<AutonomousEntity> collisionQueue; //a queue to hold the elements that have collided
-
-    public CollisionRunnable() {
+    RunningMode runningMode;
+    public CollisionRunnable(RunningMode runningMode) {
+        this.runningMode = runningMode;
         collisionQueue = new LinkedBlockingQueue<>();
     }
 
@@ -23,7 +24,7 @@ public class CollisionRunnable extends GameRunnable {
             if (!collisionQueue.isEmpty()) {
                 AutonomousEntity entity = collisionQueue.poll();
                 //if(entity.collided)
-                RunningMode.removeAutonomousEntity(entity);
+                runningMode.removeAutonomousEntity(entity);
             }
         }
     }

@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import model.game_entities.enums.EntityType;
 import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.MoleculeType;
 import model.game_physics.hitbox.Hitbox;
@@ -15,7 +16,7 @@ public class Molecule extends AutonomousEntity{
     private MoleculeStructure structure;
 
     public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, MoleculeType type, MoleculeStructure structure) {
-        super(coordinates, hitbox, pathPattern);
+        super(coordinates, hitbox, pathPattern, EntityType.MOLECULE);
         this.type = type;
         this.structure = structure;
 
