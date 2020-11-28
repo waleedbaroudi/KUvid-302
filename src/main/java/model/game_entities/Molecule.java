@@ -14,11 +14,11 @@ public class Molecule extends AutonomousEntity{
     private MoleculeType type;
     private MoleculeStructure structure;
 
+
     public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, MoleculeType type, MoleculeStructure structure) {
         super(coordinates, hitbox, pathPattern);
         this.type = type;
         this.structure = structure;
-
     }
 
 
@@ -45,4 +45,5 @@ public class Molecule extends AutonomousEntity{
                 ", structure=" + structure +
                 '}';
     }
+
 }

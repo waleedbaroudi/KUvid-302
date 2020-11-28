@@ -11,19 +11,12 @@ public class PowerupDrawer implements Drawable {
 
     private Powerup powerup;
 
-    public PowerupDrawer(Powerup powerup){
+    public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
     }
 
     @Override
     public void draw(Graphics g) {
-
-        int r = (int) (Configuration.getInstance().getUnitL() * 0.1);
-
-        g.drawRect((int) powerup.getCoordinate().getX() - r,
-                (int) powerup.getCoordinate().getY() - r,
-                2 * r,
-                4 * r);
 
         if (powerup.getType() == PowerupType._ALPHA_B) {
             g.setColor(Color.BLACK);
@@ -35,5 +28,15 @@ public class PowerupDrawer implements Drawable {
             g.setColor(Color.PINK);
         }
 
+        //int r = (int) (Configuration.getInstance().getUnitL() * 0.1);
+
+        int r = (int) (4000 * 0.1); //replace r with L
+        int l = (int) (0.25 * r);
+        int x = (int) (powerup.getCoordinate().getX() - 0.5 * l);
+        int y = (int) (powerup.getCoordinate().getY() - 0.5 * l);
+        int[] xPos = {(int) (x + 0.5 * l), x, x + l};
+        int[] yPos = {y, (int) (y + 0.5 * l), (int) (y + 0.5 * l)};
+
+        g.fillPolygon(xPos, yPos, 3);
     }
 }
