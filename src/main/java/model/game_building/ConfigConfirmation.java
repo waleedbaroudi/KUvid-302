@@ -1,7 +1,7 @@
 package model.game_building;
 
 public class ConfigConfirmation {
-    private ParametersConfirmationListener confirmationListener;
+    private final ParametersConfirmationListener confirmationListener;
     public ConfigConfirmation(ParametersConfirmationListener confirmationListener){
         this.confirmationListener = confirmationListener;
     }

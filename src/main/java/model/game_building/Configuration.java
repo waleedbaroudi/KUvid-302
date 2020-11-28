@@ -1,5 +1,6 @@
 package model.game_building;
 
+import model.game_running.GameConstants;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -103,8 +104,17 @@ public class Configuration {
         return isConfigBundleSet() && configBundle.isSpinningBeta();
     }
 
+    public int getGameHeight() {
+        return (int) (10 * getUnitL());
+    }
+
+    public int getGameWidth() {
+        return (int) (getGameHeight() * GameConstants.GAME_SIZE_RATIO);
+    }
+
     /**
      * checks whether the config bundle is set and, if not, signals potential invalid arguments.
+     *
      * @return whether the config bundle is null or not
      */
     private boolean isConfigBundleSet() {
