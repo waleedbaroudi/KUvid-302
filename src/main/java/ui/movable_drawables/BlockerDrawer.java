@@ -17,12 +17,6 @@ public class BlockerDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        int r = (int) (Configuration.getInstance().getUnitL() * 0.1);
-
-        g.drawRect((int) blocker.getCoordinate().getX() - r,
-                (int) blocker.getCoordinate().getY() - r,
-                2 * r,
-                2 * r);
 
         if (blocker.getType() == BlockerType.ALPHA_B) {
             g.setColor(Color.BLACK);
@@ -33,5 +27,13 @@ public class BlockerDrawer implements Drawable {
         } else {
             g.setColor(Color.PINK);
         }
+
+        //Configuration.getInstance().getUnitL()
+        int r = (int) (400 * 0.1);
+
+        g.fillRect((int) blocker.getCoordinate().getX() - r,
+                (int) blocker.getCoordinate().getY() - r,
+                2 * r,
+                2 * r);
     }
 }
