@@ -1,17 +1,16 @@
-package model.game_running;
+package model.game_running.runnables;
 
 import model.game_entities.AutonomousEntity;
+import model.game_running.runnables.GameRunnable;
 
-import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
  * This runnable handles moving objets in the background
  */
-public class MovementRunnable implements Runnable {
+public class MovementRunnable extends GameRunnable {
 
-    private boolean running; //to control the running loop
     LinkedBlockingQueue<AutonomousEntity> movementQueue; //a queue to hold the elements we want to move
 
     public MovementRunnable() {
@@ -29,6 +28,7 @@ public class MovementRunnable implements Runnable {
 
     /**
      * adds an entity to the movement queue where it will be moved
+     *
      * @param entity the entity to be queue for movement
      */
     public void queueEntityMovement(AutonomousEntity entity) {
@@ -39,17 +39,5 @@ public class MovementRunnable implements Runnable {
         }
     }
 
-    /**
-     * sets running to false, stopping the movement loop
-     */
-    public void pause() {
-        this.running = false;
-    }
 
-    /**
-     * calls run, starting the movement loop
-     */
-    public void resume() {
-        this.run();
-    }
 }

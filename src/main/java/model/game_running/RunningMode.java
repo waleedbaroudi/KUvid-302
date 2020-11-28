@@ -2,16 +2,17 @@ package model.game_running;
 
 import model.game_entities.AutonomousEntity;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import model.game_running.runnables.CollisionRunnable;
+import model.game_running.runnables.MovementRunnable;
+import model.game_running.runnables.ShooterMovementRunnable;
 import org.apache.log4j.Logger;
 
 /**
  * this class is a controller for the running phase of the game.
  */
-public class RunningMode implements KeyListener {
+public class RunningMode {
     Logger logger;
     private static ArrayList<AutonomousEntity> autonomousEntities;
 
@@ -23,10 +24,12 @@ public class RunningMode implements KeyListener {
     // Runnables
     MovementRunnable movementRunnable;
     CollisionRunnable collisionRunnable;
+    ShooterMovementRunnable shooterRunnable;
 
     // Threads
     Thread movementThread;
     Thread collisionThread;
+    Thread shooterThread;
 
     public RunningMode(RunningStateListener listener) {
         autonomousEntities = new ArrayList<>();
@@ -43,9 +46,11 @@ public class RunningMode implements KeyListener {
 
         movementRunnable = new MovementRunnable();
         collisionRunnable = new CollisionRunnable();
+        shooterRunnable = new ShooterMovementRunnable(null); //TODO: PASS THE SHOOTER OBJECT HERE
 
         movementThread = new Thread(this.movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
+        shooterThread = new Thread(this.shooterRunnable);
 
         this.isInitialized = true;
     }
@@ -62,6 +67,7 @@ public class RunningMode implements KeyListener {
         // Starting the threads.
         movementThread.start();
         collisionThread.start();
+        shooterThread.start();
     }
 
     /**
@@ -84,18 +90,21 @@ public class RunningMode implements KeyListener {
      * calls pause on all runnables and interrupts all threads.
      */
     public void stop() {
-        this.pause();
+        setRunningState(GameConstants.GAME_STATE_PAUSED);
         movementThread.interrupt();
         collisionThread.interrupt();
+        shooterThread.interrupt();
     }
 
     /**
      * Pauses all runnables.
      */
-    public void pause() {
-        listener.onRunningStateChanged(true);
-        movementRunnable.pause();
-        collisionRunnable.pause();
+
+    public void setRunningState(int state) {
+        listener.onRunningStateChanged(state);
+        movementRunnable.setRunnableState(state);
+        collisionRunnable.setRunnableState(state);
+        shooterRunnable.setRunnableState(state);
     }
 
     /**
@@ -108,6 +117,14 @@ public class RunningMode implements KeyListener {
     public void updateEntityState(AutonomousEntity entity) {
         this.movementRunnable.queueEntityMovement(entity);
         this.collisionRunnable.queueEntityCollision(entity);
+    }
+
+    public void moveShooter(int direction) {
+        shooterRunnable.setMovementState(direction);
+    }
+
+    public void rotateShooter(int direction) {
+        shooterRunnable.setRotationState(direction);
     }
 
     /**
@@ -127,24 +144,8 @@ public class RunningMode implements KeyListener {
         return autonomousEntities.remove(removedEntity);
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_P)
-            this.pause();
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
     public interface RunningStateListener {
-        void onRunningStateChanged(boolean paused);
+        void onRunningStateChanged(int state);
     }
 
 }
