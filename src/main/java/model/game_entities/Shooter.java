@@ -14,7 +14,8 @@ public class Shooter extends AutonomousEntity{
     AtomType previousAtom;
 
     public Shooter(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern) {
-        super(coordinates, hitbox, pathPattern, EntityType.SHOOTER); // TODO: THIS IS NOT AUTONOMOUS ENTITY
+        super(coordinates, hitbox, pathPattern);
+        setCoordinate(coordinates); //because this was not an AutonomousEntity
     }
 
 
@@ -40,8 +41,8 @@ public class Shooter extends AutonomousEntity{
     }
 
     public Coordinates getCoordinate() {
-        return coordinate;
-    }
+        return super.getCoordinate();
+    } //TODO check getCoordinate here
 
     public void setCoordinate(Coordinates coordinate) {
         this.coordinate = coordinate;

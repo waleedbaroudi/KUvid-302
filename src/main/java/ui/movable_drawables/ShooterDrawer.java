@@ -15,10 +15,14 @@ public class ShooterDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        int h = (int) (Configuration.getInstance().getUnitL());
-        int w = (int) (Configuration.getInstance().getUnitL() * 0.5);
 
-        g.drawRoundRect((int) (shooter.getCoordinate().getX() - 0.5 * w),
+//        Configuration.getInstance().getUnitL()
+        int r = (int) (2000 * 0.05);
+        g.setColor(Color.MAGENTA);
+        int h = (int) (r);
+        int w = (int) (r * 0.7);
+
+        g.fillRoundRect((int) (shooter.getCoordinate().getX() - 0.5 * w),
                 (int) (shooter.getCoordinate().getY() - 0.5 * h),
                 w, h,
                 10, 10);

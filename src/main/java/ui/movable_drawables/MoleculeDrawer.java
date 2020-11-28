@@ -17,14 +17,6 @@ public class MoleculeDrawer implements Drawable {
     @Override
     public void draw(Graphics g) {
 
-        int l = (int) (0.25 * Configuration.getInstance().getUnitL());
-        int x = (int) (molecule.getCoordinate().getX() - 0.5 * l);
-        int y = (int) (molecule.getCoordinate().getX() - 0.5 * l);
-        int[] xpos = {(int) (x + 0.5 * l),x, x + l, (int) (x + 0.5 * l)};
-        int[] ypos = {y, (int) (y + 0.5 * l),(int) (y + 0.5 * l), y};
-        g.drawPolygon(xpos, ypos, 4);
-
-
         if (molecule.getType() == MoleculeType.ALPHA_) {
             g.setColor(Color.BLACK);
         } else if (molecule.getType() == MoleculeType.BETA_) {
@@ -35,6 +27,15 @@ public class MoleculeDrawer implements Drawable {
             g.setColor(Color.PINK);
         }
 
+        int r = (int) (4000 * 0.05); //replace r with L
+
+        int l = (int) (0.25 * r);
+        int x = (int) (molecule.getCoordinate().getX() - 0.5 * l);
+        int y = (int) (molecule.getCoordinate().getY() - 0.5 * l);
+        int[] xPos = {(int) (x + 0.5 * l), x, (int) (x + 0.5 * l), x + l};
+        int[] yPos = {y, (int) (y + 0.5 * l), y + l, (int) (y + 0.5 * l)};
+
+        g.fillPolygon(xPos, yPos, 4);
 
     }
 }
