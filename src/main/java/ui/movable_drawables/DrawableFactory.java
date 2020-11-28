@@ -12,8 +12,8 @@ public class DrawableFactory {
                 return new AtomDrawer((Atom) entity);
             case BLOCKER:
                 return new BlockerDrawer((Blocker) entity);
-            case SHOOTER:
-                return new ShooterDrawer((Shooter) entity);
+//            case SHOOTER: TODO: @SARIA: UNCOMMENT
+//                return new ShooterDrawer((Shooter) entity);
             case POWERUP:
                 return new PowerupDrawer((Powerup) entity);
             default:
