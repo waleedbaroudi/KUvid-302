@@ -8,21 +8,16 @@ import utils.Vector;
 public class CircularHitbox extends Hitbox {
 
     private Vector arcVector;
-    private double radius;
+
     private double angle;
+    private final int NUMBER_OF_POINTS = 8;
 
-    public CircularHitbox(double radius, Coordinates centerCoordinates){
-        this.radius = radius;
-        this.arcVector = new Vector(centerCoordinates, new Coordinates(0,0));
+    public CircularHitbox(Vector arcVector){
+        Coordinates positionCoordinates = new Coordinates(arcVector.getOriginCoordinate().getX() +
+                arcVector.getPositionCoordinate().getX(), arcVector.getOriginCoordinate().getY() +
+                arcVector.getPositionCoordinate().getY());
+        this.arcVector = new Vector(arcVector.getOriginCoordinate(), positionCoordinates);
         this.angle = 0;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
-    public double getRadius(){
-        return this.radius;
     }
 
     public void setArcVector(Vector arcVector) {
@@ -42,15 +37,17 @@ public class CircularHitbox extends Hitbox {
         arcVector.setPositionCoordinate(newPositionCoordinates);
         this.angle += angle;
     }
+
     @Override
     public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
-        objectCoordinates = MathUtils.applyRotation(angle, this.arcVector.getOriginCoordinate(), objectCoordinates);
+        objectCoordinates = MathUtils.applyRotation(-this.angle, ownerCoordinates, objectCoordinates);
         Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.arcVector.getOriginCoordinate());
-        return MathUtils.isWithinCircle(this.radius, this.arcVector.getOriginCoordinate(), objectCoordinates);
+        objectCoordinates = MathUtils.translate(objectCoordinates, translationAmount);
+        return MathUtils.isWithinCircle(MathUtils.vectorMagnitude(this.arcVector), this.arcVector.getOriginCoordinate(), objectCoordinates);
     }
 
     @Override
-    public boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
+    public boolean isInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
         for (Coordinates c : coordinates){
             if (this.isInside(ownerCoordinates, c))
                 return true;
@@ -59,7 +56,11 @@ public class CircularHitbox extends Hitbox {
     }
 
     @Override
+    public Coordinates[] getBoundaryCoordinates(){
+    return MathUtils.coordinatesAroundCircle(arcVector, NUMBER_OF_POINTS);
+    }
+    @Override
     public String toString() {
-        return "CircularHitbox: radius = " + radius +", angle = " + angle;
+        return "CircularHitbox: radius = " + MathUtils.vectorMagnitude(this.arcVector) +", angle = " + angle;
     }
 }

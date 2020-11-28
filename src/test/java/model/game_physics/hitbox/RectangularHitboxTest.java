@@ -2,6 +2,7 @@ package model.game_physics.hitbox;
 
 import org.junit.jupiter.api.Test;
 import utils.Coordinates;
+import utils.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +12,8 @@ class RectangularHitboxTest {
     void isInside() {
         Coordinates ownerCoordinates = new Coordinates(2,1);
         Coordinates centerCoordinates = new Coordinates(2,1);
-        RectangularHitbox rectHitbox = new RectangularHitbox(centerCoordinates, 4,2);
+        Vector cornerVector = new Vector(centerCoordinates, new Coordinates(4,2));
+        RectangularHitbox rectHitbox = new RectangularHitbox(cornerVector);
 
         Coordinates point = new Coordinates(4,0);
 
@@ -35,25 +37,27 @@ class RectangularHitboxTest {
 
     @Test
     void isHitboxInside() {
+
         Coordinates hitboxCoordinates = new Coordinates(0,0);
         Coordinates targetCoordinates = new Coordinates(1,1);
 
-        RectangularHitbox hitbox = new RectangularHitbox(hitboxCoordinates, 1,1);
-        RectangularHitbox target = new RectangularHitbox(targetCoordinates,1,1);
+        Vector hitboxVector = new Vector(hitboxCoordinates, new Coordinates(1,1));
+        Vector targetVector = new Vector(targetCoordinates, new Coordinates(1,1));
+        RectangularHitbox hitbox = new RectangularHitbox(hitboxVector);
+        RectangularHitbox target = new RectangularHitbox(targetVector);
 
-        System.out.println("________hitbox_______");
-        hitbox.print();
-        System.out.println("________target_______");
-        target.print();
-
-        assertTrue(hitbox.isHitboxInside(hitboxCoordinates, target.getCorners()));
+        assertTrue(hitbox.isInside(hitboxCoordinates, target.getBoundaryCoordinates()));
 
         hitboxCoordinates = new Coordinates(0,0);
         targetCoordinates = new Coordinates(2,2);
 
-        hitbox = new RectangularHitbox(hitboxCoordinates, 1,1);
-        target = new RectangularHitbox(targetCoordinates,1,1);
+        hitboxVector = new Vector(hitboxCoordinates, new Coordinates(1,1));
+        targetVector = new Vector(targetCoordinates, new Coordinates(1,1));
 
-        assertTrue(hitbox.isHitboxInside(hitboxCoordinates, target.getCorners()));
+        hitbox = new RectangularHitbox(hitboxVector);
+        target = new RectangularHitbox(targetVector);
+
+        assertFalse(hitbox.isInside(hitboxCoordinates, target.getBoundaryCoordinates()));
+
     }
 }

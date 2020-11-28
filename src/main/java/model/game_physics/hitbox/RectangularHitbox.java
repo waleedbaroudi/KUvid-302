@@ -8,34 +8,27 @@ public class RectangularHitbox extends Hitbox {
 
     private Vector cornerVector;
 
-    private int height, width;
     private double angle;
+    private final int NUMBER_OF_POINTS = 8;
 
-    public RectangularHitbox(Coordinates centerCoordinates, int width, int height){
-        this.height = height;
-        this.width = width;
-        this.cornerVector = new Vector(centerCoordinates, new Coordinates(width + centerCoordinates.getX(), height + centerCoordinates.getY()));
+    public RectangularHitbox(Vector cornerVector){
+        Coordinates positionCoordinates = new Coordinates(cornerVector.getOriginCoordinate().getX() +
+                cornerVector.getPositionCoordinate().getX()/2, cornerVector.getOriginCoordinate().getY() +
+                cornerVector.getPositionCoordinate().getY()/2);
+        this.cornerVector = new Vector(cornerVector.getOriginCoordinate(), positionCoordinates);
         this.angle = 0;
     }
 
-    public int getHeight() {
-        return this.height;
+    public double getHeight() {
+        return 2 * cornerVector.getPositionCoordinate().getY() - cornerVector.getOriginCoordinate().getY();
     }
 
-    public int getWidth() {
-        return this.width;
+    public double getWidth() {
+        return 2 * cornerVector.getPositionCoordinate().getX() - cornerVector.getOriginCoordinate().getX();
     }
 
     public Vector getCornerVector() {
         return this.cornerVector;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public void setCornerVector(Vector cornerVector) {
@@ -49,50 +42,29 @@ public class RectangularHitbox extends Hitbox {
         this.angle += angle;
     }
 
-    public Coordinates[] getCorners(){
-        Vector invertedCornerVector = MathUtils.inverseVector(cornerVector);
-        Coordinates cornerCoordinates = cornerVector.getPositionCoordinate();
-        Coordinates invertedCornerCoordinates = invertedCornerVector.getPositionCoordinate();
-
-        double x1 = cornerCoordinates.getX();
-        double y1 = cornerCoordinates.getY();
-        double x2 = invertedCornerCoordinates.getX();
-        double y2 = invertedCornerCoordinates.getY();
-
-        Coordinates c1 = new Coordinates(x1,y1);
-        Coordinates c2 = new Coordinates(x2,y2);
-        Coordinates c3 = new Coordinates(x1,y2);
-        Coordinates c4 = new Coordinates(x2,y1);
-
-        return new Coordinates[]{c1, c2, c3, c4};
-    }
-
-    public void print(){
-        for(Coordinates c : getCorners()) {
-            System.out.println(c);
-        }
+    public Coordinates[] getBoundaryCoordinates(){
+    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
     }
 
     @Override
     public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
-        objectCoordinates = MathUtils.applyRotation(this.angle, cornerVector.getOriginCoordinate(), objectCoordinates);
+        objectCoordinates = MathUtils.applyRotation( - this.angle, ownerCoordinates, objectCoordinates);
         Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.cornerVector.getOriginCoordinate());
         objectCoordinates = MathUtils.translate(objectCoordinates, translationAmount);
         return MathUtils.isWithinRectangle(cornerVector, objectCoordinates);
     }
 
     @Override
-    public boolean isHitboxInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
+    public boolean isInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
         for (Coordinates c : coordinates){
             if (this.isInside(ownerCoordinates, c))
                 return true;
         }
         return false;
-
     }
 
     @Override
     public String toString() {
-        return "RectangularHitbox: height = " + height + ", width = " + width + ", angle = " + angle;
+        return "RectangularHitbox: height = " + this.getHeight() + ", width = " + this.getWidth() + ", angle = " + angle;
     }
 }

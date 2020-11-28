@@ -2,6 +2,10 @@ package utils;
 import model.game_physics.hitbox.Hitbox;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 import static java.lang.Math.*;
 public class MathUtils {
@@ -114,4 +118,82 @@ public class MathUtils {
         return new Coordinates(translatedAmountX, translatedAmountY);
     }
 
+    /**
+     * Given a vector representing a rectangle and the number of points to be generated, generates the specified number of points according to the given coordinates.
+     * @param vector a vector that represents a rectangle.
+     * @param numberOfPoints number of points on each side of the rectangle.
+     * @return a list of coordinates on the boundary of the rectangle.
+     */
+    public static Coordinates[] getRectangularBoundaryCoordinates(Vector vector, int numberOfPoints){
+        Vector invertedCornerVector = MathUtils.inverseVector(vector);
+        Coordinates cornerCoordinates = vector.getPositionCoordinate();
+        Coordinates invertedCornerCoordinates = invertedCornerVector.getPositionCoordinate();
+
+        double x2 = cornerCoordinates.getX();
+        double y2 = cornerCoordinates.getY();
+        double x1 = invertedCornerCoordinates.getX();
+        double y1 = invertedCornerCoordinates.getY();
+
+        Coordinates[] topCoordinates = topCoordinates(numberOfPoints, x1, x2, y2);
+        Coordinates[] bottomCoordinates = topCoordinates(numberOfPoints, x1, x2, y1);
+        Coordinates[] leftCoordinates = sideCoordinates(numberOfPoints, x1, y1, y2);
+        Coordinates[] rightCoordinates = sideCoordinates(numberOfPoints, x2, y1, y2);
+
+        ArrayList<Coordinates> allCoordinates = new ArrayList<Coordinates>(Arrays.asList(topCoordinates));
+        allCoordinates.addAll(Arrays.asList(bottomCoordinates));
+        allCoordinates.addAll(Arrays.asList(leftCoordinates));
+        allCoordinates.addAll(Arrays.asList(rightCoordinates));
+
+        return allCoordinates.toArray(new Coordinates[0]);
+    }
+
+    /**
+     * Given the x and y coordinates that can represent a rectangle, and the number of points to be generated, generates the specified number of points according to the given coordinates.
+     * @param numberOfPoints The number of points to generate.
+     * @param x1 the first x coordinate
+     * @param x2 the second x coordinate
+     * @param y2 the first y coordinate
+     * @return a list of coordinates on the top or the bottom side of the rectangle.
+     */
+    private static Coordinates[] topCoordinates(int numberOfPoints ,double x1, double x2, double y2){
+        Coordinates[] coordinatesArray = new Coordinates[numberOfPoints + 1];
+        double length = Math.abs(x2 - x1);
+        for(int i = 0; i <= numberOfPoints; i++){
+            coordinatesArray[i] = new Coordinates(x1 + (i * length/numberOfPoints), y2);
+        }
+        return coordinatesArray;
+    }
+
+    /**
+     * Given the x and y coordinates that can represent a rectangle, and the number of points to be generated, generates the specified number of points according to the given coordinates.
+     * @param numberOfPoints The number of points to generate.
+     * @param x1 the first x coordinate
+     * @param y1 the second x coordinate
+     * @param y2 the first y coordinate
+     * @return a list of coordinates on the left or the right side of the rectangle.
+     */
+    private static Coordinates[] sideCoordinates(int numberOfPoints ,double x1, double y1, double y2){
+        Coordinates[] coordinatesArray = new Coordinates[numberOfPoints + 1];
+        double length = Math.abs(y2 - y1);
+        for(int i = 0; i <= numberOfPoints; i++){
+            coordinatesArray[i] = new Coordinates(x1, y1 + (i * length/numberOfPoints));
+        }
+        return coordinatesArray;
+    }
+
+    /**
+     * Given vector that represents a circle and a number of points, returns a list of coordinates containing the specified number of points on the circumference of the circle.
+     * @param arcVector the vector representing a circle.
+     * @param numberOfPoints The number of points to generate.
+     * @return an array of coordinates around the circumference of the specified circle.
+     */
+    public static Coordinates[] coordinatesAroundCircle(Vector arcVector, int numberOfPoints){
+        Coordinates[] pointsCoordinates = new Coordinates[numberOfPoints];
+        double angle = 0.0;
+        for(int i = 0; i < numberOfPoints; i++){
+            pointsCoordinates[i] = applyRotation(angle, arcVector.getOriginCoordinate(), arcVector.getPositionCoordinate());
+            angle += (double) 360 / numberOfPoints;
+        }
+        return pointsCoordinates;
+    }
 }

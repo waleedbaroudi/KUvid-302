@@ -54,4 +54,8 @@ abstract public class AutonomousEntity {
     public EntityType getSuperType() {
         return superType;
     }
+
+    public boolean isCollidedWith(AutonomousEntity entity){
+        return this.getHitbox().isInside(this.getCoordinate(), entity.getHitbox().getBoundaryCoordinates());
+    }
 }

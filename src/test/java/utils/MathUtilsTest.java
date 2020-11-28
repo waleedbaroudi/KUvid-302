@@ -2,6 +2,8 @@ package utils;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -132,5 +134,34 @@ class MathUtilsTest {
 
         assertEquals(testPoint.getX(), point.getX() + origin.getX());
 
+    }
+
+    @Test
+    void getRectangularBoundaryCoordinates() {
+        /**
+        Vector vector = new Vector(new Coordinates(0,0), new Coordinates(1,1));
+        Coordinates[] coordinates = MathUtils.getRectangularBoundaryCoordinates(vector, 5);
+
+        for (Coordinates c : coordinates){
+            System.out.println(c);
+        }
+        System.out.println("\n");
+         vector = new Vector(new Coordinates(0,0), new Coordinates(2,1));
+         coordinates = MathUtils.getRectangularBoundaryCoordinates(vector, 5);
+
+        for (Coordinates c : coordinates){
+            System.out.println(c);
+        }**/
+
+    }
+
+    @Test
+    void coordinatesAroundCircle() {
+        /**
+        Vector arcVector = new Vector(new Coordinates(0,0 ), new Coordinates(1,1));
+        Coordinates[] points = MathUtils.coordinatesAroundCircle(arcVector, 6);
+        System.out.println(MathUtils.vectorMagnitude(arcVector));
+        System.out.println(Arrays.toString(points));
+        **/
     }
 }
