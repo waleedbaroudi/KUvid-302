@@ -89,6 +89,18 @@ public class Shooter {
         return true;
     }
 
+    public boolean move(Direction direction){
+        if (direction == Direction.LEFT){
+        this.coordinates.setX(this.coordinates.getX() - 2);
+        return true;
+        }
+        else if (direction == Direction.RIGHT){
+        this.coordinates.setX(this.coordinates.getX() + 2);
+        return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "Shooter{" +
