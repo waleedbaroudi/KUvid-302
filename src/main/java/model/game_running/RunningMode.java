@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class RunningMode {
     Logger logger;
-    private static ArrayList<AutonomousEntity> autonomousEntities;
+    private ArrayList<AutonomousEntity> autonomousEntities;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
@@ -117,7 +117,7 @@ public class RunningMode {
      *
      * @return returns the list of autonomous entities
      */
-    public static ArrayList<AutonomousEntity> getAutonomousEntities() {
+    public ArrayList<AutonomousEntity> getAutonomousEntities() {
         return autonomousEntities;
     }
 
