@@ -30,8 +30,8 @@ public class MoleculeDrawer implements Drawable {
         int r = (int) (4000 * 0.05); //replace r with L
 
         int l = (int) (0.25 * r);
-        int x = (int) (molecule.getCoordinate().getX() - 0.5 * l);
-        int y = (int) (molecule.getCoordinate().getY() - 0.5 * l);
+        int x = (int) (molecule.getCoordinates().getX() - 0.5 * l);
+        int y = (int) (molecule.getCoordinates().getY() - 0.5 * l);
         int[] xPos = {(int) (x + 0.5 * l), x, (int) (x + 0.5 * l), x + l};
         int[] yPos = {y, (int) (y + 0.5 * l), y + l, (int) (y + 0.5 * l)};
 

@@ -1,10 +1,9 @@
 package ui.movable_drawables;
 
 import model.game_entities.*;
-import model.game_entities.enums.EntityType;
 
 public class DrawableFactory {
-    public static Drawable get(AutonomousEntity entity) {
+    public static Drawable get(Entity entity) {
         switch (entity.getSuperType()) {
             case MOLECULE:
                 return new MoleculeDrawer((Molecule) entity);
@@ -12,8 +11,8 @@ public class DrawableFactory {
                 return new AtomDrawer((Atom) entity);
             case BLOCKER:
                 return new BlockerDrawer((Blocker) entity);
-//            case SHOOTER: TODO: @SARIA: UNCOMMENT
-//                return new ShooterDrawer((Shooter) entity);
+            case SHOOTER:
+                return new ShooterDrawer((Shooter) entity);
             case POWERUP:
                 return new PowerupDrawer((Powerup) entity);
             default:

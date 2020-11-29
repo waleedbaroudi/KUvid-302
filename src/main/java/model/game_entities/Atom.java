@@ -15,8 +15,9 @@ public class Atom extends Projectile{
     private double height;
 
     public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, AtomType type) {
-        super(coordinates, hitbox, pathPattern, EntityType.ATOM);
+        super(coordinates, hitbox, pathPattern);
         this.type = type;
+        setSuperType(EntityType.ATOM);
     }
 
     public AtomType getType() {

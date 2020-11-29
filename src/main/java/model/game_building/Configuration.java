@@ -1,10 +1,7 @@
 package model.game_building;
 
-import org.apache.log4j.BasicConfigurator;
-
 import model.game_running.GameConstants;
-
-import org.apache.log4j.Level;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 public class Configuration {

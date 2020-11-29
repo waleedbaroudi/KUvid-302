@@ -32,8 +32,8 @@ public class PowerupDrawer implements Drawable {
 
         int r = (int) (4000 * 0.1); //replace r with L
         int l = (int) (0.25 * r);
-        int x = (int) (powerup.getCoordinate().getX() - 0.5 * l);
-        int y = (int) (powerup.getCoordinate().getY() - 0.5 * l);
+        int x = (int) (powerup.getCoordinates().getX() - 0.5 * l);
+        int y = (int) (powerup.getCoordinates().getY() - 0.5 * l);
         int[] xPos = {(int) (x + 0.5 * l), x, x + l};
         int[] yPos = {y, (int) (y + 0.5 * l), (int) (y + 0.5 * l)};
 
