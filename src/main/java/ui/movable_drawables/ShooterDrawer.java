@@ -22,8 +22,8 @@ public class ShooterDrawer implements Drawable {
         int h = (int) (r);
         int w = (int) (r * 0.7);
 
-        g.fillRoundRect((int) (shooter.getCoordinate().getX() - 0.5 * w),
-                (int) (shooter.getCoordinate().getY() - 0.5 * h),
+        g.fillRoundRect((int) (shooter.getCoordinates().getX() - 0.5 * w),
+                (int) (shooter.getCoordinates().getY() - 0.5 * h),
                 w, h,
                 10, 10);
     }

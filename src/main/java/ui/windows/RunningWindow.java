@@ -1,25 +1,14 @@
 package ui.windows;
 
 import model.game_building.Configuration;
-import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
-import model.game_entities.enums.AtomType;
-import model.game_physics.path_patterns.StraightPattern;
-import model.game_physics.path_patterns.ZigzagPatten;
-import model.game_running.GameCommandListener;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
-import utils.Coordinates;
-import utils.Velocity;
 
 import javax.swing.*;
-import javax.swing.text.html.parser.Entity;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 

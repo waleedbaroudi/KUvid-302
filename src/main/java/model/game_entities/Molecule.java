@@ -17,9 +17,11 @@ public class Molecule extends AutonomousEntity{
 
 
     public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, MoleculeType type, MoleculeStructure structure) {
-        super(coordinates, hitbox, pathPattern, EntityType.MOLECULE);
+        super(coordinates, hitbox, pathPattern);
         this.type = type;
         this.structure = structure;
+        setSuperType(EntityType.MOLECULE);
+
     }
 
     public void setType(MoleculeType type) {

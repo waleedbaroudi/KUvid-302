@@ -3,7 +3,6 @@ package ui.movable_drawables;
 import model.game_entities.Atom;
 import model.game_entities.enums.AtomType;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class AtomDrawer implements Drawable {
@@ -29,8 +28,8 @@ public class AtomDrawer implements Drawable {
         int l = 400;
         int r = (int) (l * 0.05);
 
-        g.fillOval((int) atom.getCoordinate().getX() - r,
-                (int) atom.getCoordinate().getY() - r,
+        g.fillOval((int) atom.getCoordinates().getX() - r,
+                (int) atom.getCoordinates().getY() - r,
                 2 * r,
                 2 * r);
 

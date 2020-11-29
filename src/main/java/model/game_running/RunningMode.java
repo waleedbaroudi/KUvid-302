@@ -1,13 +1,12 @@
 package model.game_running;
 
 import model.game_entities.AutonomousEntity;
-
-import java.util.ArrayList;
-
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
 
 /**
  * this class is a controller for the running phase of the game.

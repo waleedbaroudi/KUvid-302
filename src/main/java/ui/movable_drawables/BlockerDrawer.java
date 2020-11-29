@@ -31,8 +31,8 @@ public class BlockerDrawer implements Drawable {
         //Configuration.getInstance().getUnitL()
         int r = (int) (400 * 0.1);
 
-        g.fillRect((int) blocker.getCoordinate().getX() - r,
-                (int) blocker.getCoordinate().getY() - r,
+        g.fillRect((int) blocker.getCoordinates().getX() - r,
+                (int) blocker.getCoordinates().getY() - r,
                 2 * r,
                 2 * r);
     }
