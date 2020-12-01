@@ -92,25 +92,25 @@ class MathUtilsTest {
         Coordinates center = new Coordinates(0, 0);
         Coordinates point = new Coordinates(-1, -1);
         double radius = 1.0;
-        assertFalse(MathUtils.isWithinCircle(radius, center, point));
+        assertFalse(MathUtils.isWithinCircle(center, radius, point));
 
         point = new Coordinates(0, 1);
-        assertTrue(MathUtils.isWithinCircle(radius, center, point));
+        assertTrue(MathUtils.isWithinCircle(center, radius, point));
 
         radius = 2.0;
         center = new Coordinates(1, 1);
         point = new Coordinates(2, -1);
-        assertFalse(MathUtils.isWithinCircle(radius, center, point));
+        assertFalse(MathUtils.isWithinCircle(center, radius, point));
 
         point = new Coordinates(3, 1);
-        assertTrue(MathUtils.isWithinCircle(radius, center, point));
+        assertTrue(MathUtils.isWithinCircle(center, radius, point));
 
         center = new Coordinates(-2, -2);
         point = new Coordinates(-2, -4);
-        assertTrue(MathUtils.isWithinCircle(radius, center, point));
+        assertTrue(MathUtils.isWithinCircle(center, radius, point));
 
         point = new Coordinates(-4, -4);
-        assertFalse(MathUtils.isWithinCircle(radius, center, point));
+        assertFalse(MathUtils.isWithinCircle(center, radius, point));
     }
 
     @Test

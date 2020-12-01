@@ -12,8 +12,7 @@ class CircularHitboxTest {
     void isInside() {
         Coordinates ownerCoordinates = new Coordinates(0,0);
         Coordinates centerCoordinates = new Coordinates(0,0);
-        Vector arcVector = new Vector(ownerCoordinates, new Coordinates(0,3));
-        CircularHitbox rectHitbox = new CircularHitbox(arcVector);
+        CircularHitbox rectHitbox = new CircularHitbox(3);
 
         Coordinates point = new Coordinates(3,3);
 
