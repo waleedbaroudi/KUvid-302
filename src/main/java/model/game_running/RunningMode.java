@@ -4,6 +4,7 @@ import model.game_entities.AutonomousEntity;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
+import model.game_space.ObjectGenerator;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -25,11 +26,13 @@ public class RunningMode {
     MovementRunnable movementRunnable;
     CollisionRunnable collisionRunnable;
     ShooterMovementRunnable shooterRunnable;
+    ObjectGenerator objectGenerator;
 
     // Threads
     Thread movementThread;
     Thread collisionThread;
     Thread shooterThread;
+    Thread objectGeneratorThread;
 
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new ArrayList<>();
@@ -48,10 +51,13 @@ public class RunningMode {
         movementRunnable = new MovementRunnable();
         collisionRunnable = new CollisionRunnable(this); // TODO: Pass the arraylist instead
         shooterRunnable = new ShooterMovementRunnable(null); // TODO: PASS THE SHOOTER OBJECT HERE
+        objectGenerator = new ObjectGenerator(this);
+
 
         movementThread = new Thread(this.movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
         shooterThread = new Thread(this.shooterRunnable);
+        objectGeneratorThread = new Thread(this.objectGenerator);
 
         this.isInitialized = true;
     }
@@ -69,6 +75,7 @@ public class RunningMode {
         movementThread.start();
         collisionThread.start();
         shooterThread.start();
+        objectGeneratorThread.start();
     }
 
     /**

@@ -1,9 +1,6 @@
 package model.game_space;
 
-import model.game_entities.Blocker;
-import model.game_entities.Entity;
-import model.game_entities.Molecule;
-import model.game_entities.Powerup;
+import model.game_entities.*;
 import model.game_entities.enums.BlockerType;
 import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.MoleculeType;
@@ -13,14 +10,16 @@ import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_physics.path_patterns.StraightPattern;
+import model.game_physics.path_patterns.ZigzagPatten;
 import model.game_running.GameConstants;
+import model.game_running.RunningMode;
+import org.apache.log4j.Logger;
 import utils.Coordinates;
 import utils.Velocity;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-
 /**
  * responsible for creating blockers, and powerups, molecules in the game space
  */
@@ -28,22 +27,22 @@ public class ObjectGenerator  implements Runnable{
     private Map<Map<MoleculeType, MoleculeStructure>, Integer> numberOfMolecules;
     private Map<BlockerType, Integer> numberOfBlockers;
     private Map<PowerupType, Integer> numberOfPowerup;
-    private ArrayList<Entity> spaceEntities;
+    private RunningMode runningMode;
 
     private static Random random = new Random();
+    private static Logger logger = Logger.getLogger(ObjectGenerator.class.getName());
 
     // TODO: obtain default arguments in a better way
-    PathPattern defaultBlockerPath = new StraightPattern(new Velocity(0, 10));
-    PathPattern defaultPowerupPath = new StraightPattern(new Velocity(0, 10));
-    PathPattern defaultMoleculePath = new StraightPattern(new Velocity(0, 10));
+    PathPattern defaultBlockerPath = new StraightPattern(new Velocity(0, 2));
+    PathPattern defaultPowerupPath = new ZigzagPatten(new Velocity(3, 3), 30);
+    PathPattern defaultMoleculePath = new ZigzagPatten(new Velocity(2, 2), new Velocity(-1, 1), 30, 30);
     Hitbox defaultBlockerHitbox = new CircularHitbox(GameConstants.BlockerDimensions.width/2.0);
     Hitbox defaultPowweupHitbox = new RectangularHitbox(GameConstants.PowerupDimensions.width, GameConstants.PowerupDimensions.height);
     Hitbox defaultMoleculeHitbox = new CircularHitbox(GameConstants.MoleculeDimensions.width/2.0);
 
 
-
-    public ObjectGenerator(ArrayList<Entity> spaceEntities) {
-        this.spaceEntities = spaceEntities;
+    public ObjectGenerator(RunningMode runningMode) {
+        this.runningMode = runningMode;
     }
 
     @Override
@@ -52,18 +51,18 @@ public class ObjectGenerator  implements Runnable{
             int choice = random.nextInt(3);
             switch (choice){
                 case 0:
-                    this.spaceEntities.add(generateMolecule());
+                    this.runningMode.addEntity(generateMolecule());
                     break;
                 case 1:
-                    this.spaceEntities.add(generateBlocker());
+                    this.runningMode.addEntity(generateBlocker());
                     break;
                 case 2:
-                    this.spaceEntities.add(generatePowerup());
+                    this.runningMode.addEntity(generatePowerup());
                     break;
             }
             //sleep before adding new objects
             try {
-                Thread.sleep(100);
+                Thread.sleep(10000);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -75,6 +74,7 @@ public class ObjectGenerator  implements Runnable{
      */
     public Blocker generateBlocker(){
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+        logger.info("[ObjectGenerator: generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
         return new Blocker(new Coordinates(x_coord, 0), defaultBlockerHitbox, defaultBlockerPath, BlockerType.ALPHA_B, 5, 10 );
     }
 
@@ -84,6 +84,7 @@ public class ObjectGenerator  implements Runnable{
      */
     public Powerup generatePowerup(){
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+        logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
         return new Powerup(new Coordinates(x_coord, 0), defaultPowweupHitbox, defaultPowerupPath, PowerupType._ALPHA_B);
     }
 
@@ -93,6 +94,7 @@ public class ObjectGenerator  implements Runnable{
      */
     public Molecule generateMolecule(){
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+        logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
         return  new Molecule(new Coordinates(x_coord, 0), defaultMoleculeHitbox, defaultMoleculePath, MoleculeType.ALPHA_, MoleculeStructure.CIRCULAR);
     }
 }

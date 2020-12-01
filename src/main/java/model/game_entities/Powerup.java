@@ -16,7 +16,7 @@ public class Powerup extends Projectile {
     public Powerup(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, PowerupType type) {
         super(coordinates, hitbox, pathPattern);
         this.type = type;
-        setSuperType(EntityType.ATOM);
+        setSuperType(EntityType.POWERUP);
     }
 
     public PowerupType getType() {
