@@ -22,7 +22,7 @@ public abstract class Hitbox {
      */
     public abstract boolean isInside(Coordinates entityCoords, Coordinates checkCoords);
 
-    public abstract ArrayList<Coordinates> getBoarderPoints(Coordinates entityCoords);
+    public abstract ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords);
 
     /**
      * Checks if a Hitbox is collided with a another Hitbox.
@@ -33,11 +33,10 @@ public abstract class Hitbox {
     public boolean isInside(Coordinates entityCoords, ArrayList<Coordinates> checkList){
         for(Coordinates checkPoint : checkList){
             if(!this.isInside(entityCoords, checkPoint)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public abstract Coordinates[] getBoundaryCoordinates();
 }

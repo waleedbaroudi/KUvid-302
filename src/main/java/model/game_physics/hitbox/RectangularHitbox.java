@@ -4,63 +4,46 @@ import utils.Coordinates;
 import utils.MathUtils;
 import utils.Vector;
 
+import java.util.ArrayList;
+
 public class RectangularHitbox extends Hitbox {
 
-    private Vector cornerVector;
-
+    private double width, height;
     private double angle;
     private final int NUMBER_OF_POINTS = 8;
 
-    public RectangularHitbox(Vector cornerVector){
-        Coordinates positionCoordinates = new Coordinates(cornerVector.getOriginCoordinate().getX() +
-                cornerVector.getPositionCoordinate().getX()/2, cornerVector.getOriginCoordinate().getY() +
-                cornerVector.getPositionCoordinate().getY()/2);
-        this.cornerVector = new Vector(cornerVector.getOriginCoordinate(), positionCoordinates);
+    public RectangularHitbox(double width, double height) {
+        this.width = width;
+        this.height = height;
         this.angle = 0;
     }
 
-    public double getHeight() {
-        return 2 * cornerVector.getPositionCoordinate().getY() - cornerVector.getOriginCoordinate().getY();
-    }
-
     public double getWidth() {
-        return 2 * cornerVector.getPositionCoordinate().getX() - cornerVector.getOriginCoordinate().getX();
+        return width;
     }
 
-    public Vector getCornerVector() {
-        return this.cornerVector;
-    }
-
-    public void setCornerVector(Vector cornerVector) {
-        this.cornerVector = cornerVector;
+    public double getHeight() {
+        return height;
     }
 
     @Override
     public void rotate(double angle) {
-        Coordinates newPositionCoordinates = MathUtils.applyRotation(angle, cornerVector.getOriginCoordinate(), cornerVector.getPositionCoordinate());
-        cornerVector.setPositionCoordinate(newPositionCoordinates);
         this.angle += angle;
     }
 
-    public Coordinates[] getBoundaryCoordinates(){
-    return MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
+    @Override
+    public ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords) {
+        Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth()/2, entityCoords.getY() + getHeight()/2);
+        Vector cornerVector = new Vector(entityCoords, cornerCoords);
+        return MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
     }
 
     @Override
-    public boolean isInside(Coordinates ownerCoordinates, Coordinates objectCoordinates) {
-        objectCoordinates = MathUtils.applyRotation( - this.angle, ownerCoordinates, objectCoordinates);
-        Coordinates translationAmount = MathUtils.translationAmount(ownerCoordinates, this.cornerVector.getOriginCoordinate());
-        objectCoordinates = MathUtils.translate(objectCoordinates, translationAmount);
-        return MathUtils.isWithinRectangle(cornerVector, objectCoordinates);
-    }
-
-    @Override
-    public boolean isInside(Coordinates ownerCoordinates, Coordinates[] coordinates) {
-        for (Coordinates c : coordinates){
-            if (this.isInside(ownerCoordinates, c))
-                return true;
-        }
-        return false;
+    public boolean isInside(Coordinates entityCoords, Coordinates checkCoords) {
+        checkCoords = MathUtils.applyRotation(-this.angle, entityCoords, checkCoords);
+        Coordinates cornerCoords = new Coordinates(entityCoords.getX() - getWidth()/2, entityCoords.getY() - getHeight()/2);
+        Vector cornerVector = new Vector(entityCoords, cornerCoords);
+        return MathUtils.isWithinRectangle(cornerVector, checkCoords);
     }
 
     @Override

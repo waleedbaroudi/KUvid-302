@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Stream;
 
 import static java.lang.Math.*;
@@ -70,7 +71,7 @@ public class MathUtils {
      * @param point The coordinates of a point to be tested.
      * @return True if the coordinates are inside the circle defined by the given vector. False otherwise.
      */
-    public static boolean isWithinCircle(double radius, Coordinates centerCoordinates , Coordinates point){
+    public static boolean isWithinCircle(Coordinates centerCoordinates, double radius, Coordinates point){
         double x = point.getX();
         double y = point.getY();
 
@@ -124,7 +125,7 @@ public class MathUtils {
      * @param numberOfPoints number of points on each side of the rectangle.
      * @return a list of coordinates on the boundary of the rectangle.
      */
-    public static Coordinates[] getRectangularBoundaryCoordinates(Vector vector, int numberOfPoints){
+    public static ArrayList<Coordinates> getRectangularBoundaryCoordinates(Vector vector, int numberOfPoints){
         Vector invertedCornerVector = MathUtils.inverseVector(vector);
         Coordinates cornerCoordinates = vector.getPositionCoordinate();
         Coordinates invertedCornerCoordinates = invertedCornerVector.getPositionCoordinate();
@@ -144,7 +145,7 @@ public class MathUtils {
         allCoordinates.addAll(Arrays.asList(leftCoordinates));
         allCoordinates.addAll(Arrays.asList(rightCoordinates));
 
-        return allCoordinates.toArray(new Coordinates[0]);
+        return allCoordinates;
     }
 
     /**
@@ -187,13 +188,13 @@ public class MathUtils {
      * @param numberOfPoints The number of points to generate.
      * @return an array of coordinates around the circumference of the specified circle.
      */
-    public static Coordinates[] coordinatesAroundCircle(Vector arcVector, int numberOfPoints){
+    public static ArrayList<Coordinates> coordinatesAroundCircle(Vector arcVector, int numberOfPoints){
         Coordinates[] pointsCoordinates = new Coordinates[numberOfPoints];
         double angle = 0.0;
         for(int i = 0; i < numberOfPoints; i++){
             pointsCoordinates[i] = applyRotation(angle, arcVector.getOriginCoordinate(), arcVector.getPositionCoordinate());
             angle += (double) 360 / numberOfPoints;
         }
-        return pointsCoordinates;
+        return new ArrayList<Coordinates>(Arrays.asList(pointsCoordinates));
     }
 }

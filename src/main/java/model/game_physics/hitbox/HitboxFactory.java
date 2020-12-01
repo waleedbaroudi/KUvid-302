@@ -18,11 +18,11 @@ public class HitboxFactory {
         return factory;
     }
 
-    public Hitbox getHitbox(HitboxType type, Vector vector){
-        if (type == HitboxType.CircularHitbox) {
-            Vector arcVector = new Vector(vector.getOriginCoordinate(), new Coordinates(vector.getOriginCoordinate().getY(), vector.getPositionCoordinate().getY()));
-            return new CircularHitbox(arcVector);
-        }
-        return new RectangularHitbox(vector);
-    }
+//    public Hitbox getHitbox(HitboxType type, Vector vector){
+//        if (type == HitboxType.CircularHitbox) {
+//            Vector arcVector = new Vector(vector.getOriginCoordinate(), new Coordinates(vector.getOriginCoordinate().getY(), vector.getPositionCoordinate().getY()));
+//            return new CircularHitbox(arcVector);
+//        }
+//        return new RectangularHitbox(vector);
+//    }
 }

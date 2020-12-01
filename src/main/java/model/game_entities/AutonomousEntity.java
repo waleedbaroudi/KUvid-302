@@ -14,6 +14,7 @@ abstract public class AutonomousEntity extends Entity {
     public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern) {
         super(coordinates, hitbox);
         this.pathPattern = pathPattern;
+        this.pathPattern.setCurrentCoords(coordinates);
     }
 
     public void setPathPattern(PathPattern pathPattern) {
@@ -32,6 +33,6 @@ abstract public class AutonomousEntity extends Entity {
     }
 
     public boolean isCollidedWith(AutonomousEntity entity) {
-        return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryCoordinates());
+        return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 }

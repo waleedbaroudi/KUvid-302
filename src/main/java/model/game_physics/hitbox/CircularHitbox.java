@@ -32,7 +32,7 @@ public class CircularHitbox extends Hitbox {
     }
 
     @Override
-    public ArrayList<Coordinates> getBoarderPoints(Coordinates entityCoords){
+    public ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords){
         Vector arcVector = new Vector(entityCoords, new Coordinates(entityCoords.getX()+this.radius, entityCoords.getY()));
         return MathUtils.coordinatesAroundCircle(arcVector, NUMBER_OF_POINTS);
     }
