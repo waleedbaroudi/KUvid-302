@@ -17,7 +17,8 @@ class ZigzagPattenTest {
         Coordinates initCoords = new Coordinates(0,0);
         Velocity rightv = new Velocity(1, 1);
         Velocity leftv = new Velocity(-2, 2);
-        ZigzagPatten zigzag = new ZigzagPatten(initCoords, rightv, leftv, 2, 3);
+        ZigzagPatten zigzag = new ZigzagPatten(rightv, leftv, 2, 3);
+        zigzag.setCurrentCoords(initCoords);
 
         // first step in right diagonal
         assertEquals(zigzag.nextPosition(), new Coordinates(1, 1));
@@ -40,7 +41,8 @@ class ZigzagPattenTest {
     void symmetricZigzag(){
         Coordinates initCoords = new Coordinates(0,0);
         // create a symmetric zigzag pattern where left diagonal is identical to right diagonal
-        ZigzagPatten zigzag = new ZigzagPatten(initCoords, new Velocity(2, 2), 2);
+        ZigzagPatten zigzag = new ZigzagPatten(new Velocity(2, 2), 2);
+        zigzag.setCurrentCoords(initCoords);
 
         // first step in right diagonal
         assertEquals(zigzag.nextPosition(), new Coordinates(2, 2));
@@ -70,7 +72,8 @@ class ZigzagPattenTest {
         Coordinates initCoords = new Coordinates(0,0);
         Velocity rightv = new Velocity(-2, 2);
         Velocity leftv = new Velocity(1, 1);
-        ZigzagPatten zigzag = new ZigzagPatten(initCoords, rightv, leftv, 3, 2, false);
+        ZigzagPatten zigzag = new ZigzagPatten(rightv, leftv, 3, 2, false);
+        zigzag.setCurrentCoords(initCoords);
 
         // first step in left diagonal
         assertEquals(zigzag.nextPosition(), new Coordinates(1, 1));
