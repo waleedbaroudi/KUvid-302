@@ -57,10 +57,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         Timer gameTimer = new Timer(15, null);
         ActionListener listener = e -> {
             if (running) {
-                System.out.println("game running");
-                System.out.println("PAUSED? " + paused);
                 if (!paused) {
-                    System.out.println("REPAINTING");
                     repaint();
                 }
             } else {
@@ -78,7 +75,6 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
      */
     @Override
     public void onRunningStateChanged(int state) {
-        System.out.println((state == GameConstants.GAME_STATE_PAUSED) ? "PAUSED" : "RESUMED");
         this.paused = (state == GameConstants.GAME_STATE_PAUSED);
     }
 

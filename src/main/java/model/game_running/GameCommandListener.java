@@ -16,7 +16,6 @@ public class GameCommandListener implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_P:
                 runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
-                System.out.println("PAUSING THE GAME///////////////////////////////////////////////////////////");
                 break;
             case KeyEvent.VK_R:
                 runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);

@@ -83,7 +83,6 @@ public class ObjectGenerator implements Runnable {
             case GameConstants.GAME_STATE_STOP:
                 this.running = false;
         }
-        System.out.println("PAUSED in objectGenerator? " + this.paused);
     }
 
 

@@ -7,15 +7,16 @@ public abstract class GameRunnable implements Runnable {
     protected boolean paused;
 
     public void setRunnableState(int state) {
-//        paused = state == GameConstants.GAME_STATE_PAUSED;
         switch (state) {
             case GameConstants.GAME_STATE_PAUSED:
+                this.paused = true;
+                break;
             case GameConstants.GAME_STATE_RESUMED:
-                this.paused = (state == GameConstants.GAME_STATE_PAUSED);
+                this.paused = false;
+                break;
             case GameConstants.GAME_STATE_STOP:
                 this.running = false;
+                break;
         }
-
-        System.out.println("PAUSED in runnable? " + this.paused);
     }
 }

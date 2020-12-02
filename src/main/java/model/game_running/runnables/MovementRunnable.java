@@ -19,13 +19,13 @@ public class MovementRunnable extends GameRunnable {
 
     @Override
     public void run() {
-        System.out.println("IM IN RUN METHOD IN MOVEMENT");
         running = true;
         while (running) {
-            if (!paused)
+            if (!paused) {
                 if (!movementQueue.isEmpty()) {
                     movementQueue.poll().move();
                 }
+            }
         }
     }
 
@@ -37,8 +37,7 @@ public class MovementRunnable extends GameRunnable {
     public void queueEntityMovement(AutonomousEntity entity) {
         try {
             movementQueue.put(entity);
-        } catch (InterruptedException e) {
-            System.out.println("THREAD IS INTERRUPTED: COULD NOT PUT INTO QUEUE");
+        } catch (InterruptedException ignored) {
         }
     }
 
