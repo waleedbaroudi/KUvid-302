@@ -31,8 +31,4 @@ abstract public class AutonomousEntity extends Entity {
     public void move() {
         setCoordinates(this.getPathPattern().nextPosition());
     }
-
-    public boolean isCollidedWith(AutonomousEntity entity) {
-        return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
-    }
 }
