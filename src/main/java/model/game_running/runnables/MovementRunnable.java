@@ -27,7 +27,8 @@ public class MovementRunnable extends GameRunnable {
         while (running) {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
-                for (AutonomousEntity entity : entities) entity.move();
+                for (AutonomousEntity entity : entities)
+                    entity.move(); //TODO: fix: ConcurrentModificationException because items are being added during the loop
 
                 Thread.sleep(GameConstants.GAME_THREAD_DELAY);
             } catch (InterruptedException e) {

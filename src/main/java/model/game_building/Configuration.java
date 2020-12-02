@@ -126,4 +126,8 @@ public class Configuration {
         return true;
     }
 
+    public double getShooterSpeed() {
+//        return getUnitL() / (double) GameConstants.FPS; //TODO: ask about the speed.
+        return getUnitL() / 15;
+    }
 }

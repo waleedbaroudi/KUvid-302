@@ -26,13 +26,13 @@ public class Shooter extends Entity {
     private AtomType previousAtom;
     private final double DEFAULT_ANGLE = 10;
     private double angle = 0;
-    private final double MOVEMENT = 15;
+    private final double MOVEMENT;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
     public Shooter(Coordinates coordinates, Hitbox hitbox) {
         super(coordinates, hitbox);
         super.setSuperType(EntityType.SHOOTER);
-
+        MOVEMENT = Configuration.getInstance().getShooterSpeed();
         // Turn off logger
         logger.setLevel(Level.OFF);
     }
@@ -86,16 +86,16 @@ public class Shooter extends Entity {
     }
 
     public boolean rotate(int direction) {
-        if(!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ANGLE * direction))
+        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ANGLE * direction))
             return false;
         this.angle += DEFAULT_ANGLE * direction;
-        this.getHitbox().rotate( DEFAULT_ANGLE * direction);
+        this.getHitbox().rotate(DEFAULT_ANGLE * direction);
         return true;
     }
 
     public boolean move(int direction) {
-        Coordinates newCoords = new Coordinates(getCoordinates().getX() + direction *  MOVEMENT, getCoordinates().getY());
-        if(!checkLegalMovement(newCoords, this.getAngle())) {
+        Coordinates newCoords = new Coordinates(getCoordinates().getX() + direction * MOVEMENT, getCoordinates().getY());
+        if (!checkLegalMovement(newCoords, this.getAngle())) {
             logger.info("[Shooter] shooter cannot move to the new coordinates" + this.getCoordinates());
             return false;
         }
@@ -104,13 +104,14 @@ public class Shooter extends Entity {
         return true;
     }
 
-    public boolean checkLegalMovement(Coordinates c, double angle){
-        if(c.getX() > Configuration.getInstance().getGameWidth())
+    public boolean checkLegalMovement(Coordinates c, double angle) {
+        if (c.getX() > Configuration.getInstance().getGameWidth())
             return false;
-        else if(c.getX() < 0)
+        else if (c.getX() < 0)
             return false;
         return true;
     }
+
     @Override
     public String toString() {
         return "Shooter{" +

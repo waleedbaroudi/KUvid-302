@@ -3,6 +3,9 @@ package model.game_running;
 import java.awt.*;
 
 public final class GameConstants {
+
+    private GameConstants(){}//this class should not be initialized.
+
     // Strings
     public static final String GAME_TITLE = "KUvid";
     // Values
@@ -23,4 +26,5 @@ public final class GameConstants {
     public static final Dimension AtomDimensions = new Dimension(10, 10);
     public static final Dimension ShooterDimensions = new Dimension(20, 50);
     public static final Dimension BlockerDimensions = new Dimension(20, 20);
+    public static final int FPS = 60;
 }

@@ -22,9 +22,9 @@ public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
 
     //space objects
-    private ArrayList<AutonomousEntity> autonomousEntities;
+    private final ArrayList<AutonomousEntity> autonomousEntities;
 
-    private Shooter atomShooter;
+    private final Shooter atomShooter;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
@@ -51,7 +51,7 @@ public class RunningMode {
 
         // TODO update the shooter inital coordinates from config
         // TODO fix the shooter position
-        this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() /2,
+        this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() / 2,
                 Configuration.getInstance().getGameHeight() - 2 * GameConstants.ShooterDimensions.height),
                 new RectangularHitbox(GameConstants.ShooterDimensions.width, GameConstants.ShooterDimensions.height));
         initialize();
@@ -92,7 +92,7 @@ public class RunningMode {
 
         // Starting the threads.
         movementThread.start();
-        collisionThread.start();
+//        collisionThread.start(); //TODO: fix then uncomment
         shooterThread.start();
         objectGeneratorThread.start();
     }
@@ -144,13 +144,14 @@ public class RunningMode {
         return autonomousEntities.add(entity);
     }
 
-    /** Shoot entity at the tip of the Shooter
-     *
+    /**
+     * Shoot entity at the tip of the Shooter
      */
-    public void shootProjectile(){
+    public void shootProjectile() {
         AutonomousEntity shotEntity = this.atomShooter.shoot();
         addEntity(shotEntity);
     }
+
     /**
      * @param removedEntities autonomous entities to be removed from the list of elements in the space
      * @return a boolean indicating whether the entities were removed successfully
