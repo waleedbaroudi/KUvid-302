@@ -1,5 +1,6 @@
 package model.game_running.runnables;
 
+import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_running.GameConstants;
 import model.game_running.runnables.GameRunnable;

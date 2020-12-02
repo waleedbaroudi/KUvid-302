@@ -27,7 +27,7 @@ public class GameCommandListener implements KeyListener {
 //                switchAtom
                 break;
             case KeyEvent.VK_UP:
-                //shoot
+                runningMode.shootProjectile();
                 break;
             case KeyEvent.VK_LEFT:
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_LEFT);

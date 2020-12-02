@@ -27,11 +27,17 @@ public class ShooterMovementRunnable extends GameRunnable {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
                 if (this.movementState != SHOOTER_MOVEMENT_STILL) {
-                    //this.shooter.move(int movementState); //TODO: @ABDUL: UNCOMMENT
+                  if (this.movementState == SHOOTER_MOVEMENT_RIGHT)
+                      this.shooter.move(1);
+                  else
+                      this.shooter.move(-1);
                 }
                 if (this.rotationState != SHOOTER_ROTATION_STILL) {
-//                this.shooter.rotate(int rotationState); //TODO: @ABDUL: UNCOMMENT
-                    this.rotationState = SHOOTER_ROTATION_STILL;
+                  if(this.rotationState == SHOOTER_ROTATION_RIGHT)
+                      this.shooter.rotate(1);
+                  else
+                      this.shooter.rotate(-1);
+                  this.rotationState = SHOOTER_ROTATION_STILL;
                 }
 
                 Thread.sleep(GAME_THREAD_DELAY);
