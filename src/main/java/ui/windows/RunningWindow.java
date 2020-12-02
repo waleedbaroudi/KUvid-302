@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class draws the game running window.
@@ -28,7 +29,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
-        drawableMap = new HashMap<AutonomousEntity, Drawable>();
+        drawableMap = new ConcurrentHashMap<>(); //concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
         this.setSize(config.getGameWidth(), config.getGameHeight());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
