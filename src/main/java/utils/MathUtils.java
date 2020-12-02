@@ -22,8 +22,8 @@ public class MathUtils {
     angle = Math.toRadians(angle);
     Vector vector = new Vector(new Coordinates((coordinates.getX() - rotationCenter.getX()) , (coordinates.getY() - rotationCenter.getY())));
 
-    double rotatedX = (cos(angle) * vector.getX() - sin(angle) * vector.getY()) + rotationCenter.getX();
-    double rotatedY = (sin(angle) * vector.getX() + cos(angle) * vector.getY()) + rotationCenter.getY();
+    double rotatedX = (float) (cos(angle) * vector.getX() - sin(angle) * vector.getY()) + rotationCenter.getX();
+    double rotatedY = (float) (sin(angle) * vector.getX() + cos(angle) * vector.getY()) + rotationCenter.getY();
 
     return new Coordinates(rotatedX, rotatedY);
     }

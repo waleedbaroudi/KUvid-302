@@ -32,7 +32,7 @@ public abstract class Hitbox {
      */
     public boolean isInside(Coordinates entityCoords, ArrayList<Coordinates> checkList){
         for(Coordinates checkPoint : checkList){
-            if(!this.isInside(entityCoords, checkPoint)){
+            if(this.isInside(entityCoords, checkPoint)){
                 return true;
             }
         }

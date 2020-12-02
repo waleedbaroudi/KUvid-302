@@ -92,7 +92,7 @@ public class RunningMode {
 
         // Starting the threads.
         movementThread.start();
-//        collisionThread.start(); //TODO: fix then uncomment
+        collisionThread.start(); //TODO: fix then uncomment
         shooterThread.start();
         objectGeneratorThread.start();
     }

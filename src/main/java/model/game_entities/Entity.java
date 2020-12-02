@@ -40,4 +40,8 @@ public class Entity {
     public void setHitbox(Hitbox hitbox) {
         this.hitbox = hitbox;
     }
+
+    public boolean isCollidedWith(AutonomousEntity entity) {
+        return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
 }
