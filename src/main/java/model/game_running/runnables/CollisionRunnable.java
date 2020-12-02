@@ -12,6 +12,7 @@ public class CollisionRunnable extends GameRunnable {
 
     LinkedBlockingQueue<AutonomousEntity> collisionQueue; //a queue to hold the elements that have collided
     RunningMode runningMode;
+
     public CollisionRunnable(RunningMode runningMode) {
         this.runningMode = runningMode;
         collisionQueue = new LinkedBlockingQueue<>();
@@ -21,11 +22,12 @@ public class CollisionRunnable extends GameRunnable {
     public void run() {
         running = true;
         while (running) {
-            if (!collisionQueue.isEmpty()) {
-                AutonomousEntity entity = collisionQueue.poll();
-                //if(entity.collided)
-                runningMode.removeAutonomousEntity(entity);
-            }
+            if (!paused)
+                if (!collisionQueue.isEmpty()) {
+                    AutonomousEntity entity = collisionQueue.poll();
+                    //if(entity.collided)
+                    runningMode.removeAutonomousEntity(entity);
+                }
         }
     }
 

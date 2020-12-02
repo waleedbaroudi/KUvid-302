@@ -97,6 +97,7 @@ public class RunningMode {
         movementRunnable.setRunnableState(state);
         collisionRunnable.setRunnableState(state);
         shooterRunnable.setRunnableState(state);
+        objectGenerator.setRunnableState(state);
     }
 
     /**
@@ -108,7 +109,7 @@ public class RunningMode {
      */
     public void updateEntityState(AutonomousEntity entity) {
         this.movementRunnable.queueEntityMovement(entity);
-       // this.collisionRunnable.queueEntityCollision(entity);
+        // this.collisionRunnable.queueEntityCollision(entity);
     }
 
     public void moveShooter(int direction) {
@@ -152,6 +153,7 @@ public class RunningMode {
 
     public interface GameEntitiesListener {
         void onEntityAdd(AutonomousEntity entity);
+
         void onEntityRemove(AutonomousEntity entity);
     }
 }

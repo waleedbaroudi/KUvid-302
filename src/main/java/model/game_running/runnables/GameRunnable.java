@@ -4,25 +4,18 @@ import model.game_running.GameConstants;
 
 public abstract class GameRunnable implements Runnable {
     protected boolean running;
+    protected boolean paused;
 
     public void setRunnableState(int state) {
-        if (state == GameConstants.GAME_STATE_PAUSED)
-            this.pause();
-        else
-            this.resume();
-    }
+//        paused = state == GameConstants.GAME_STATE_PAUSED;
+        switch (state) {
+            case GameConstants.GAME_STATE_PAUSED:
+            case GameConstants.GAME_STATE_RESUMED:
+                this.paused = (state == GameConstants.GAME_STATE_PAUSED);
+            case GameConstants.GAME_STATE_STOP:
+                this.running = false;
+        }
 
-    /**
-     * sets running to false, stopping the runnable loop
-     */
-    private void pause() {
-        this.running = false;
-    }
-
-    /**
-     * calls run, starting the runnable loop
-     */
-    private void resume() {
-        this.run();
+        System.out.println("PAUSED in runnable? " + this.paused);
     }
 }

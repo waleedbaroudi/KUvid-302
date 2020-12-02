@@ -20,10 +20,11 @@ import utils.Velocity;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+
 /**
  * responsible for creating blockers, and powerups, molecules in the game space
  */
-public class ObjectGenerator  implements Runnable{
+public class ObjectGenerator implements Runnable {
     private Map<Map<MoleculeType, MoleculeStructure>, Integer> numberOfMolecules;
     private Map<BlockerType, Integer> numberOfBlockers;
     private Map<PowerupType, Integer> numberOfPowerup;
@@ -36,10 +37,11 @@ public class ObjectGenerator  implements Runnable{
     PathPattern defaultBlockerPath = new StraightPattern(new Velocity(0, 2));
     PathPattern defaultPowerupPath = new ZigzagPatten(new Velocity(3, 3), 30);
     PathPattern defaultMoleculePath = new ZigzagPatten(new Velocity(2, 2), new Velocity(-1, 1), 30, 30);
-    Hitbox defaultBlockerHitbox = new CircularHitbox(GameConstants.BlockerDimensions.width/2.0);
+    Hitbox defaultBlockerHitbox = new CircularHitbox(GameConstants.BlockerDimensions.width / 2.0);
     Hitbox defaultPowweupHitbox = new RectangularHitbox(GameConstants.PowerupDimensions.width, GameConstants.PowerupDimensions.height);
-    Hitbox defaultMoleculeHitbox = new CircularHitbox(GameConstants.MoleculeDimensions.width/2.0);
+    Hitbox defaultMoleculeHitbox = new CircularHitbox(GameConstants.MoleculeDimensions.width / 2.0);
 
+    boolean running, paused;
 
     public ObjectGenerator(RunningMode runningMode) {
         this.runningMode = runningMode;
@@ -47,9 +49,12 @@ public class ObjectGenerator  implements Runnable{
 
     @Override
     public void run() {
-        while (true){
+        running = true;
+        while (running) {
+            if (paused)
+                continue;
             int choice = random.nextInt(3);
-            switch (choice){
+            switch (choice) {
                 case 0:
                     this.runningMode.addEntity(generateMolecule());
                     break;
@@ -63,26 +68,42 @@ public class ObjectGenerator  implements Runnable{
             //sleep before adding new objects
             try {
                 Thread.sleep(10000);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
+    public void setRunnableState(int state) {
+//        paused = state == GameConstants.GAME_STATE_PAUSED;
+        switch (state) {
+            case GameConstants.GAME_STATE_PAUSED:
+            case GameConstants.GAME_STATE_RESUMED:
+                this.paused = (state == GameConstants.GAME_STATE_PAUSED);
+            case GameConstants.GAME_STATE_STOP:
+                this.running = false;
+        }
+        System.out.println("PAUSED in objectGenerator? " + this.paused);
+    }
+
+
     /**
      * generates a random Blocker to be thrown in the space
+     *
      * @return a Blocker of a random type
      */
-    public Blocker generateBlocker(){
+    public Blocker generateBlocker() {
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
         logger.info("[ObjectGenerator: generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        return new Blocker(new Coordinates(x_coord, 0), defaultBlockerHitbox, defaultBlockerPath, BlockerType.ALPHA_B, 5, 10 );
+        return new Blocker(new Coordinates(x_coord, 0), defaultBlockerHitbox, defaultBlockerPath, BlockerType.ALPHA_B, 5, 10);
     }
 
     /**
      * generates a random powerup to be thrown in the space
+     *
      * @return a Powerup of a random type
      */
-    public Powerup generatePowerup(){
+    public Powerup generatePowerup() {
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
         return new Powerup(new Coordinates(x_coord, 0), defaultPowweupHitbox, defaultPowerupPath, PowerupType._ALPHA_B);
@@ -90,11 +111,12 @@ public class ObjectGenerator  implements Runnable{
 
     /**
      * generates a random Molecule to be thrown in the space
+     *
      * @return a Molecule of a random type
      */
-    public Molecule generateMolecule(){
+    public Molecule generateMolecule() {
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        return  new Molecule(new Coordinates(x_coord, 0), defaultMoleculeHitbox, defaultMoleculePath, MoleculeType.ALPHA_, MoleculeStructure.CIRCULAR);
+        return new Molecule(new Coordinates(x_coord, 0), defaultMoleculeHitbox, defaultMoleculePath, MoleculeType.ALPHA_, MoleculeStructure.CIRCULAR);
     }
 }

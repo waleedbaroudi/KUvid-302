@@ -8,7 +8,7 @@ public final class GameConstants {
     // Values
     public static final int GAME_STATE_PAUSED = -1;
     public static final int GAME_STATE_RESUMED = 1;
-    public static final int GAME_STATE_RUNNING = 10;
+    public static final int GAME_STATE_STOP = -10;
     public static final int SHOOTER_MOVEMENT_LEFT = 9;
     public static final int SHOOTER_MOVEMENT_RIGHT = 3;
     public static final int SHOOTER_MOVEMENT_STILL = 12;

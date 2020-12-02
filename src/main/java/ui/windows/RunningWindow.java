@@ -54,12 +54,17 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     }
 
     private void startDrawingThread() {
-        Timer gameTimer = new Timer(GameConstants.GAME_THREAD_DELAY, null);
+        Timer gameTimer = new Timer(15, null);
         ActionListener listener = e -> {
-            if (running && !paused) {
-                repaint();
+            if (running) {
+                System.out.println("game running");
+                System.out.println("PAUSED? " + paused);
+                if (!paused) {
+                    System.out.println("REPAINTING");
+                    repaint();
+                }
             } else {
-                runningMode.stop();
+                runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
                 gameTimer.stop();
             }
         };

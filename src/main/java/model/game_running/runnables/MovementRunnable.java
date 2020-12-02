@@ -22,9 +22,10 @@ public class MovementRunnable extends GameRunnable {
         System.out.println("IM IN RUN METHOD IN MOVEMENT");
         running = true;
         while (running) {
-            if (!movementQueue.isEmpty()) {
-                movementQueue.poll().move();
-            }
+            if (!paused)
+                if (!movementQueue.isEmpty()) {
+                    movementQueue.poll().move();
+                }
         }
     }
 
