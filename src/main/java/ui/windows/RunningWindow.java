@@ -6,6 +6,7 @@ import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
+import ui.movable_drawables.ShooterDrawer;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -23,22 +24,17 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private boolean paused;
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
+    private final ShooterDrawer shooterDrawable;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
         drawableMap = new HashMap<AutonomousEntity, Drawable>();
-
-
-//        // TODO: BELOW CODE FOR DEMONSTRATION. REMOVE LATER !!!!
-//        ZigzagPatten path = new ZigzagPatten(new Coordinates(50, 50), new Velocity(3, 3), 150);
-//        Atom atom = new Atom(new Coordinates(50, 50), null, path, AtomType.ALPHA);
-//        Drawable d1 = DrawableFactory.get(atom);
-//        drawableMap.put(atom, d1);
         this.config = Configuration.getInstance();
         this.setSize(config.getGameWidth(), config.getGameHeight());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.runningMode = new RunningMode(this, this);
-        gameContentPanel = new GamePanel(this.runningMode, drawableMap);
+        this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
+        gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
         getContentPane().add(gameContentPanel);
         setVisible(true);
         start();

@@ -1,5 +1,7 @@
 package model.game_physics.path_patterns;
 
+import utils.Velocity;
+
 public class PathPatternFactory {
     private static PathPatternFactory instance = null;
 
@@ -10,6 +12,19 @@ public class PathPatternFactory {
             instance = new PathPatternFactory();
         }
         return instance;
+    }
+
+    public PathPattern getBlockerPathPattern(){
+        return new StraightPattern(new Velocity(0, 10));
+    }
+    public PathPattern getAtomPathPattern(){
+        return new StraightPattern(new Velocity(0, -10));
+    }
+    public PathPattern getMoleculePathPattern(){
+        return new ZigzagPatten(new Velocity(3, 3), 30);
+    }
+    public PathPattern getPowerUpPathPattern(){
+        return new ZigzagPatten(new Velocity(2, 2), new Velocity(-1, 1), 30, 30);
     }
 
 

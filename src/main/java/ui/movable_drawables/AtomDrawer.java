@@ -24,7 +24,6 @@ public class AtomDrawer implements Drawable {
         } else {
             g.setColor(Color.PINK);
         }
-
         int l = 400;
         int r = (int) (l * 0.05);
 

@@ -1,6 +1,8 @@
 package model.game_running.runnables;
 
+import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
+import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.runnables.GameRunnable;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -23,7 +25,8 @@ public class MovementRunnable extends GameRunnable {
         running = true;
         while (running) {
             if (!movementQueue.isEmpty()) {
-                movementQueue.poll().move();
+                AutonomousEntity entity = movementQueue.poll();
+                entity.move();
             }
         }
     }

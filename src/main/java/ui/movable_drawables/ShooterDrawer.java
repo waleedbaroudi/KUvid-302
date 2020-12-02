@@ -21,7 +21,6 @@ public class ShooterDrawer implements Drawable {
         g.setColor(Color.MAGENTA);
         int h = (int) (r);
         int w = (int) (r * 0.7);
-
         g.fillRoundRect((int) (shooter.getCoordinates().getX() - 0.5 * w),
                 (int) (shooter.getCoordinates().getY() - 0.5 * h),
                 w, h,

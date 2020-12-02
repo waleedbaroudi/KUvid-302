@@ -1,11 +1,15 @@
 package model.game_running;
 
+import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Shooter;
+import model.game_physics.hitbox.RectangularHitbox;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
 import model.game_space.ObjectGenerator;
 import org.apache.log4j.Logger;
+import utils.Coordinates;
 
 import java.util.ArrayList;
 
@@ -13,8 +17,12 @@ import java.util.ArrayList;
  * this class is a controller for the running phase of the game.
  */
 public class RunningMode {
-    Logger logger;
+    public Logger logger = Logger.getLogger(this.getClass().getName());
+
+    //space objects
     private ArrayList<AutonomousEntity> autonomousEntities;
+
+    private Shooter atomShooter;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
@@ -38,8 +46,17 @@ public class RunningMode {
         autonomousEntities = new ArrayList<>();
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
-        logger = Logger.getLogger(this.getClass().getName());
+
+        // TODO update the shooter inital coordinates from config
+        // TODO fix the shooter position
+        this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() /2,
+                Configuration.getInstance().getGameHeight() - 2 * GameConstants.ShooterDimensions.height),
+                new RectangularHitbox(GameConstants.ShooterDimensions.width, GameConstants.ShooterDimensions.height));
         initialize();
+    }
+
+    public Shooter getAtomShooter() {
+        return atomShooter;
     }
 
     /**
@@ -50,7 +67,7 @@ public class RunningMode {
 
         movementRunnable = new MovementRunnable();
         collisionRunnable = new CollisionRunnable(this); // TODO: Pass the arraylist instead
-        shooterRunnable = new ShooterMovementRunnable(null); // TODO: PASS THE SHOOTER OBJECT HERE
+        shooterRunnable = new ShooterMovementRunnable(this.atomShooter);
         objectGenerator = new ObjectGenerator(this);
 
 
@@ -137,6 +154,13 @@ public class RunningMode {
         return autonomousEntities.add(entity);
     }
 
+    /** Shoot entity at the tip of the Shooter
+     *
+     */
+    public void shootProjectile(){
+        AutonomousEntity shotEntity = this.atomShooter.shoot();
+        addEntity(shotEntity);
+    }
     /**
      * @param removedEntity autonomous entities to be removed from the list of elements in the space
      * @return a boolean indicating whether the entities were removed successfully
