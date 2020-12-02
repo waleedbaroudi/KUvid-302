@@ -14,6 +14,7 @@ public class ShooterMovementRunnable extends GameRunnable {
     private int rotationState;
 
     public ShooterMovementRunnable(Shooter shooter) {
+        super();
         this.shooter = shooter;
         this.movementState = SHOOTER_MOVEMENT_STILL;
         this.rotationState = SHOOTER_ROTATION_STILL;
@@ -23,7 +24,8 @@ public class ShooterMovementRunnable extends GameRunnable {
     public void run() {
         this.running = true;
         while (running) {
-            if (!paused) {
+            try {
+                latch.await(); // if the game is paused, this latch clogs this runnable.
                 if (this.movementState != SHOOTER_MOVEMENT_STILL) {
                     //this.shooter.move(int movementState); //TODO: @ABDUL: UNCOMMENT
                 }
@@ -32,12 +34,11 @@ public class ShooterMovementRunnable extends GameRunnable {
                     this.rotationState = SHOOTER_ROTATION_STILL;
                 }
 
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Thread.sleep(GAME_THREAD_DELAY);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }
     }
 

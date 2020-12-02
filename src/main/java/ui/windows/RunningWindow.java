@@ -2,6 +2,7 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Entity;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
@@ -9,7 +10,9 @@ import ui.movable_drawables.DrawableFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -84,7 +87,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     }
 
     @Override
-    public void onEntityRemove(AutonomousEntity entity) {
-        drawableMap.remove(entity);
+    public void onEntitiesRemove(Collection<AutonomousEntity> entities) {
+        for (AutonomousEntity entity : entities)
+            drawableMap.remove(entity);
     }
 }

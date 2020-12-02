@@ -13,6 +13,7 @@ import model.game_physics.path_patterns.StraightPattern;
 import model.game_physics.path_patterns.ZigzagPatten;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
+import model.game_running.runnables.GameRunnable;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 import utils.Velocity;
@@ -24,7 +25,7 @@ import java.util.Random;
 /**
  * responsible for creating blockers, and powerups, molecules in the game space
  */
-public class ObjectGenerator implements Runnable {
+public class ObjectGenerator extends GameRunnable {
     private Map<Map<MoleculeType, MoleculeStructure>, Integer> numberOfMolecules;
     private Map<BlockerType, Integer> numberOfBlockers;
     private Map<PowerupType, Integer> numberOfPowerup;
@@ -41,9 +42,8 @@ public class ObjectGenerator implements Runnable {
     Hitbox defaultPowweupHitbox = new RectangularHitbox(GameConstants.PowerupDimensions.width, GameConstants.PowerupDimensions.height);
     Hitbox defaultMoleculeHitbox = new CircularHitbox(GameConstants.MoleculeDimensions.width / 2.0);
 
-    boolean running, paused;
-
     public ObjectGenerator(RunningMode runningMode) {
+        super();
         this.runningMode = runningMode;
     }
 
@@ -51,40 +51,28 @@ public class ObjectGenerator implements Runnable {
     public void run() {
         running = true;
         while (running) {
-            if (paused)
-                continue;
-            int choice = random.nextInt(3);
-            switch (choice) {
-                case 0:
-                    this.runningMode.addEntity(generateMolecule());
-                    break;
-                case 1:
-                    this.runningMode.addEntity(generateBlocker());
-                    break;
-                case 2:
-                    this.runningMode.addEntity(generatePowerup());
-                    break;
-            }
-            //sleep before adding new objects
             try {
-                Thread.sleep(10000);
+                latch.await(); // if the game is paused, this latch clogs this runnable.
+                int choice = random.nextInt(3);
+                switch (choice) {
+                    case 0:
+                        this.runningMode.addEntity(generateMolecule());
+                        break;
+                    case 1:
+                        this.runningMode.addEntity(generateBlocker());
+                        break;
+                    case 2:
+                        this.runningMode.addEntity(generatePowerup());
+                        break;
+                }
+                //sleep before adding new objects
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
     }
-
-    public void setRunnableState(int state) {
-//        paused = state == GameConstants.GAME_STATE_PAUSED;
-        switch (state) {
-            case GameConstants.GAME_STATE_PAUSED:
-            case GameConstants.GAME_STATE_RESUMED:
-                this.paused = (state == GameConstants.GAME_STATE_PAUSED);
-            case GameConstants.GAME_STATE_STOP:
-                this.running = false;
-        }
-    }
-
 
     /**
      * generates a random Blocker to be thrown in the space

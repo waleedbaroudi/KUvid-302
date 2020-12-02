@@ -8,13 +8,15 @@ import model.game_space.ObjectGenerator;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * this class is a controller for the running phase of the game.
  */
 public class RunningMode {
     Logger logger;
-    private ArrayList<AutonomousEntity> autonomousEntities;
+    private final ArrayList<AutonomousEntity> autonomousEntities;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
@@ -48,7 +50,7 @@ public class RunningMode {
     private void initialize() {
         //todo: fill autonomous entity list and containers here
 
-        movementRunnable = new MovementRunnable();
+        movementRunnable = new MovementRunnable(this.autonomousEntities);
         collisionRunnable = new CollisionRunnable(this); // TODO: Pass the arraylist instead
         shooterRunnable = new ShooterMovementRunnable(null); // TODO: PASS THE SHOOTER OBJECT HERE
         objectGenerator = new ObjectGenerator(this);
@@ -89,27 +91,14 @@ public class RunningMode {
     }
 
     /**
-     * Pauses all runnables.
+     * Pauses/Resumes/Stops all runnables.
      */
-
     public void setRunningState(int state) {
         runningStateListener.onRunningStateChanged(state);
         movementRunnable.setRunnableState(state);
         collisionRunnable.setRunnableState(state);
         shooterRunnable.setRunnableState(state);
         objectGenerator.setRunnableState(state);
-    }
-
-    /**
-     * adds an entity to the movement queue where it will be moved
-     * and queues the entity for collision check and remove it if collided with another
-     * entity.
-     *
-     * @param entity the entity to be queued for movement and collision checking.
-     */
-    public void updateEntityState(AutonomousEntity entity) {
-        this.movementRunnable.queueEntityMovement(entity);
-        // this.collisionRunnable.queueEntityCollision(entity);
     }
 
     public void moveShooter(int direction) {
@@ -139,13 +128,14 @@ public class RunningMode {
     }
 
     /**
-     * @param removedEntity autonomous entities to be removed from the list of elements in the space
+     * @param removedEntities autonomous entities to be removed from the list of elements in the space
      * @return a boolean indicating whether the entities were removed successfully
      */
-    public boolean removeAutonomousEntity(AutonomousEntity removedEntity) {
-        gameEntitiesListener.onEntityRemove(removedEntity);
-        return autonomousEntities.remove(removedEntity);
+    public boolean removeAutonomousEntities(Collection<AutonomousEntity> removedEntities) {
+        gameEntitiesListener.onEntitiesRemove(removedEntities);
+        return autonomousEntities.removeAll(removedEntities);
     }
+
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
@@ -154,6 +144,6 @@ public class RunningMode {
     public interface GameEntitiesListener {
         void onEntityAdd(AutonomousEntity entity);
 
-        void onEntityRemove(AutonomousEntity entity);
+        void onEntitiesRemove(Collection<AutonomousEntity> entity);
     }
 }

@@ -28,7 +28,7 @@ public class GamePanel extends JPanel {
         super.paintComponents(g);
         for (AutonomousEntity entity : drawableMap.keySet()) {
             drawableMap.get(entity).draw(g);
-            runningMode.updateEntityState(entity);
+//            runningMode.updateEntityState(entity);
         }
     }
 }

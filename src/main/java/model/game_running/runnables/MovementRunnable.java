@@ -1,8 +1,10 @@
 package model.game_running.runnables;
 
 import model.game_entities.AutonomousEntity;
+import model.game_running.GameConstants;
 import model.game_running.runnables.GameRunnable;
 
+import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -11,35 +13,25 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MovementRunnable extends GameRunnable {
 
-    LinkedBlockingQueue<AutonomousEntity> movementQueue; //a queue to hold the elements we want to move
+    ArrayList<AutonomousEntity> entities; // A reference to the list of autonomous game entities in the space.
 
-    public MovementRunnable() {
-        movementQueue = new LinkedBlockingQueue<>();
+    public MovementRunnable(ArrayList<AutonomousEntity> entities) {
+        super();
+        this.entities = entities;
     }
 
     @Override
     public void run() {
-        running = true;
+        running = true; //this will be set to false from somewhere else (when the game ends).
         while (running) {
-            if (!paused) {
-                if (!movementQueue.isEmpty()) {
-                    movementQueue.poll().move();
-                }
+            try {
+                latch.await(); // if the game is paused, this latch clogs this runnable.
+                for (AutonomousEntity entity : entities) entity.move();
+
+                Thread.sleep(GameConstants.GAME_THREAD_DELAY);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
-
-    /**
-     * adds an entity to the movement queue where it will be moved
-     *
-     * @param entity the entity to be queue for movement
-     */
-    public void queueEntityMovement(AutonomousEntity entity) {
-        try {
-            movementQueue.put(entity);
-        } catch (InterruptedException ignored) {
-        }
-    }
-
-
 }
