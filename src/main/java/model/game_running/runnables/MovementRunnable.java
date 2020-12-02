@@ -1,5 +1,6 @@
 package model.game_running.runnables;
 
+import model.game_building.Configuration;
 import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_running.GameConstants;
@@ -30,7 +31,7 @@ public class MovementRunnable extends GameRunnable {
                 for (AutonomousEntity entity : entities)
                     entity.move(); //TODO: fix: ConcurrentModificationException because items are being added during the loop
 
-                Thread.sleep(GameConstants.GAME_THREAD_DELAY);
+                Thread.sleep(Configuration.getInstance().getMovementDelay());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

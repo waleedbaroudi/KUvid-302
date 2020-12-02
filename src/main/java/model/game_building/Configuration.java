@@ -81,6 +81,22 @@ public class Configuration {
         return isConfigBundleSet() ? configBundle.getNumOfMoleculesPerType() : -1;
     }
 
+    public int getMovementDelay(){// TODO: modify when difficulty is converted to enum
+        if(!isConfigBundleSet())
+            return -1;
+        int difficulty = this.getDifficulty();
+        switch (difficulty){
+            case 0:
+                return GameConstants.EASY_MODE_GAME_THREAD_DELAY;
+            case 1:
+                return GameConstants.MEDIUM_MODE_GAME_THREAD_DELAY;
+            case 2:
+                return GameConstants.HARD_MODE_GAME_THREAD_DELAY;
+            default:
+                return GameConstants.GAME_THREAD_DELAY;
+        }
+    }
+
     public double getUnitL() {
         return isConfigBundleSet() ? configBundle.getL() : -1;
     }
