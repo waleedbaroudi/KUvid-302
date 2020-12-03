@@ -1,4 +1,4 @@
-package model.game_space;
+package model.game_running.runnables;
 
 import model.game_building.Configuration;
 import model.game_entities.*;
@@ -9,39 +9,28 @@ import model.game_entities.enums.PowerupType;
 import model.game_entities.factories.BlockerFactory;
 import model.game_entities.factories.MoleculeFactory;
 import model.game_entities.factories.PowerupFactory;
-import model.game_physics.hitbox.CircularHitbox;
-import model.game_physics.hitbox.Hitbox;
-import model.game_physics.hitbox.HitboxFactory;
-import model.game_physics.hitbox.RectangularHitbox;
-import model.game_physics.path_patterns.PathPattern;
-import model.game_physics.path_patterns.PathPatternFactory;
-import model.game_physics.path_patterns.StraightPattern;
-import model.game_physics.path_patterns.ZigzagPatten;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
-import model.game_running.runnables.GameRunnable;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
-import utils.Velocity;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
 /**
  * responsible for creating blockers, and powerups, molecules in the game space
  */
-public class ObjectGenerator extends GameRunnable {
+public class EntityGeneratorRunnable extends GameRunnable {
     private Map<Map<MoleculeType, MoleculeStructure>, Integer> numberOfMolecules;
     private Map<BlockerType, Integer> numberOfBlockers;
     private Map<PowerupType, Integer> numberOfPowerup;
     private RunningMode runningMode;
 
     private static Random random = new Random();
-    private static Logger logger = Logger.getLogger(ObjectGenerator.class.getName());
+    private static Logger logger = Logger.getLogger(EntityGeneratorRunnable.class.getName());
 
 
-    public ObjectGenerator(RunningMode runningMode) {
+    public EntityGeneratorRunnable(RunningMode runningMode) {
         super();
         this.runningMode = runningMode;
     }

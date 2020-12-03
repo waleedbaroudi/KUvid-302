@@ -7,7 +7,7 @@ import model.game_physics.hitbox.RectangularHitbox;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
-import model.game_space.ObjectGenerator;
+import model.game_running.runnables.EntityGeneratorRunnable;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 
@@ -35,7 +35,7 @@ public class RunningMode {
     MovementRunnable movementRunnable;
     CollisionRunnable collisionRunnable;
     ShooterMovementRunnable shooterRunnable;
-    ObjectGenerator objectGenerator;
+    EntityGeneratorRunnable entityGeneratorRunnable;
 
     // Threads
     Thread movementThread;
@@ -70,13 +70,13 @@ public class RunningMode {
         movementRunnable = new MovementRunnable(this.autonomousEntities);
         collisionRunnable = new CollisionRunnable(this); // TODO: Pass the arraylist instead
         shooterRunnable = new ShooterMovementRunnable(this.atomShooter);
-        objectGenerator = new ObjectGenerator(this);
+        entityGeneratorRunnable = new EntityGeneratorRunnable(this);
 
 
         movementThread = new Thread(this.movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
         shooterThread = new Thread(this.shooterRunnable);
-        objectGeneratorThread = new Thread(this.objectGenerator);
+        objectGeneratorThread = new Thread(this.entityGeneratorRunnable);
 
         this.isInitialized = true;
     }
@@ -115,7 +115,7 @@ public class RunningMode {
         movementRunnable.setRunnableState(state);
         collisionRunnable.setRunnableState(state);
         shooterRunnable.setRunnableState(state);
-        objectGenerator.setRunnableState(state);
+        entityGeneratorRunnable.setRunnableState(state);
     }
 
     public void moveShooter(int direction) {
