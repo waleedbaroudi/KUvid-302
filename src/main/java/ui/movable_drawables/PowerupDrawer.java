@@ -4,15 +4,20 @@ import model.game_building.Configuration;
 import model.game_entities.Powerup;
 import model.game_entities.enums.AtomType;
 import model.game_entities.enums.PowerupType;
+import model.game_running.GameConstants;
+import utils.Coordinates;
+import utils.MathUtils;
 
 import java.awt.*;
 
 public class PowerupDrawer implements Drawable {
 
-    private Powerup powerup;
+    private final Powerup powerup;
+    private final int radius;
 
     public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE);
     }
 
     @Override
@@ -28,14 +33,11 @@ public class PowerupDrawer implements Drawable {
             g.setColor(Color.PINK);
         }
 
-        //int r = (int) (Configuration.getInstance().getUnitL() * 0.1);
-
-        int r = (int) (4000 * 0.1); //replace r with L
-        int l = (int) (0.25 * r);
-        int x = (int) (powerup.getCoordinates().getX() - 0.5 * l);
-        int y = (int) (powerup.getCoordinates().getY() - 0.5 * l);
-        int[] xPos = {(int) (x + 0.5 * l), x, x + l};
-        int[] yPos = {y, (int) (y + 0.5 * l), (int) (y + 0.5 * l)};
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius / 2);
+        int x = (int) (drawingCoord.getX());
+        int y = (int) (drawingCoord.getY());
+        int[] xPos = {(x + radius / 2), x, x + radius};
+        int[] yPos = {y, (y + radius / 2), (y + radius / 2)};
 
         g.fillPolygon(xPos, yPos, 3);
     }
