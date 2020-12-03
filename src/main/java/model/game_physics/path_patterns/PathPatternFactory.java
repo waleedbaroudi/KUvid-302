@@ -21,10 +21,10 @@ public class PathPatternFactory {
         return new StraightPattern(new Velocity(0, -10));
     }
     public PathPattern getMoleculePathPattern(){
-        return new ZigzagPatten(new Velocity(3, 3), 30);
+        return new ZigzagPatten(new Velocity(3, 3), 100);
     }
     public PathPattern getPowerUpPathPattern(){
-        return new ZigzagPatten(new Velocity(2, 2), new Velocity(-1, 1), 30, 30);
+        return new ZigzagPatten(new Velocity(2, 2), new Velocity(-1, 1), 100, 50);
     }
 
 

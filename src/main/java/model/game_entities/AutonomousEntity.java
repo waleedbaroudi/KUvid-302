@@ -25,6 +25,13 @@ abstract public class AutonomousEntity extends Entity {
         return this.pathPattern;
     }
 
+    @Override
+    public void setCoordinates(Coordinates coordinates) {
+        super.setCoordinates(coordinates);
+        // update the path pattern coordinates
+        this.pathPattern.setCurrentCoords(coordinates);
+    }
+
     /**
      * move: moves the corresponding object according to the path variable.
      */
