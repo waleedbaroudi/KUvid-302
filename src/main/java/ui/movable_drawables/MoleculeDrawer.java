@@ -3,15 +3,18 @@ package ui.movable_drawables;
 import model.game_building.Configuration;
 import model.game_entities.Molecule;
 import model.game_entities.enums.MoleculeType;
+import model.game_running.GameConstants;
 
 import java.awt.*;
 
 public class MoleculeDrawer implements Drawable {
 
-    private Molecule molecule;
+    private final Molecule molecule;
+    private final int radius;
 
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_SIZE);
     }
 
     @Override
@@ -27,9 +30,7 @@ public class MoleculeDrawer implements Drawable {
             g.setColor(Color.PINK);
         }
 
-        int radius = (int) (Configuration.getInstance().getUnitL() * 0.05);
-
-        int l = (int) (0.25 * radius);
+        int l = (radius);
         int x = (int) (molecule.getCoordinates().getX() - 0.5 * l);
         int y = (int) (molecule.getCoordinates().getY() - 0.5 * l);
         int[] xPos = {(int) (x + 0.5 * l), x, (int) (x + 0.5 * l), x + l};
