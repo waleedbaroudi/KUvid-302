@@ -1,5 +1,6 @@
 package model.game_physics.hitbox;
 
+import model.game_building.Configuration;
 import model.game_entities.enums.HitboxType;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_physics.path_patterns.StraightPattern;
@@ -24,15 +25,16 @@ public class HitboxFactory {
     }
 
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(GameConstants.BlockerDimensions.width/2.0);
+        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_SIZE/2.0);
     }
     public Hitbox getAtomHitbox(){
-        return new CircularHitbox(GameConstants.AtomDimensions.width/2.0);
+        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.ATOM_SIZE/2.0);
     }
     public Hitbox getMoleculeHitbox(){
-        return new CircularHitbox(GameConstants.MoleculeDimensions.width/2.0);
+        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_SIZE/2.0);
     }
     public Hitbox getPowerUpHitbox(){
-        return new RectangularHitbox(GameConstants.PowerupDimensions.width, GameConstants.PowerupDimensions.height);
+        return new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE * 2,
+                Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE * 2);
     }
 }

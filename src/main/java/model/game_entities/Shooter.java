@@ -40,8 +40,17 @@ public class Shooter extends Entity {
 
     public Projectile shoot() {
         this.reload();
+        //TODO: currently we are building the atom on shooting, we need to change that (Maybe)
         Projectile tmpProjectile = this.getCurrentProjectile();
+        // rotate the path direction according to the shooter
+        Coordinates rotatedCoords = new Coordinates(this.getCoordinates().getX(),
+                this.getCoordinates().getY() - Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
+        System.out.println(rotatedCoords);
+        rotatedCoords = MathUtils.applyRotation(angle, this.getCoordinates(), rotatedCoords);
+        rotatedCoords = new Coordinates(rotatedCoords.getX() - this.getCoordinates().getX(), rotatedCoords.getY() - this.getCoordinates().getY());
         // set the coordinates of the projectile the same as the coordinates of hte shooter
+        double len = Math.sqrt(rotatedCoords.getX() * rotatedCoords.getX() + rotatedCoords.getY() * rotatedCoords.getY());
+        tmpProjectile.setPathPattern(new StraightPattern(new Velocity(10 * rotatedCoords.getX()/len, 10 * rotatedCoords.getY()/len)));
         tmpProjectile.setCoordinates(this.getCoordinates());
         return tmpProjectile;
     }
@@ -62,7 +71,7 @@ public class Shooter extends Entity {
 
     public Atom nextAtom() {
         // TODO: change the atom types to random
-        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), AtomType.GAMMA);
+        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), AtomType.BETA);
     }
 
     public Projectile getCurrentProjectile() {
@@ -108,6 +117,8 @@ public class Shooter extends Entity {
         if (c.getX() > Configuration.getInstance().getGameWidth())
             return false;
         else if (c.getX() < 0)
+            return false;
+        if(angle > 90 || angle < -90)
             return false;
         return true;
     }
