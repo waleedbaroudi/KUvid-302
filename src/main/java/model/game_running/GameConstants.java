@@ -31,6 +31,11 @@ public final class GameConstants {
     public static final int MEDIUM_MODE_GAME_THREAD_DELAY = 30;
     public static final int HARD_MODE_GAME_THREAD_DELAY = 15;
 
+    // Game difficulty drop rate values
+    public static final int EASY_MODE_GAME_DROP_RATE = 5000;
+    public static final int MEDIUM_MODE_GAME_DROP_RATE = 3000;
+    public static final int HARD_MODE_GAME_DROP_RATE = 1000;
+
     public static final int GAME_THREAD_DELAY = 15;
 
     // Objects Dimensions.

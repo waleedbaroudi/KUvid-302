@@ -1,5 +1,6 @@
 package model.game_space;
 
+import model.game_building.Configuration;
 import model.game_entities.*;
 import model.game_entities.enums.BlockerType;
 import model.game_entities.enums.MoleculeStructure;
@@ -64,7 +65,7 @@ public class ObjectGenerator extends GameRunnable {
                         break;
                 }
                 //sleep before adding new objects
-                Thread.sleep(1000);
+                Thread.sleep(Configuration.getInstance().getDropRate());
             } catch (Exception e) {
                 e.printStackTrace();
             }

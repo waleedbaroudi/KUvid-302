@@ -97,6 +97,22 @@ public class Configuration {
         }
     }
 
+    public int getDropRate(){// TODO: modify when difficulty is converted to enum
+        if(!isConfigBundleSet())
+            return -1;
+        int difficulty = this.getDifficulty();
+        switch (difficulty){
+            case 0:
+                return GameConstants.EASY_MODE_GAME_DROP_RATE;
+            case 1:
+                return GameConstants.MEDIUM_MODE_GAME_DROP_RATE;
+            case 2:
+                return GameConstants.HARD_MODE_GAME_DROP_RATE;
+            default:
+                return 1000;
+        }
+    }
+
     public double getUnitL() {
         return isConfigBundleSet() ? configBundle.getL() : -1;
     }
