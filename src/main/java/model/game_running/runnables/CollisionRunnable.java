@@ -39,14 +39,13 @@ public class CollisionRunnable extends GameRunnable {
                                 handle collision of atoms with blockers and increasing score when
                                 collecting molecules.
                              */
-                            collidedEntities.add(sourceEntity);
                             collidedEntities.add(targetEntity);
+                            collidedEntities.add(sourceEntity);
                             System.out.println("COLLIDED");
                         }
                     }
                 }
                 runningMode.removeAutonomousEntities(collidedEntities);
-
                 Thread.sleep(GameConstants.GAME_THREAD_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
