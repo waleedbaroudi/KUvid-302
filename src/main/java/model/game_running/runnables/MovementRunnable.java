@@ -6,6 +6,7 @@ import model.game_running.GameConstants;
 import model.game_running.runnables.GameRunnable;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -14,9 +15,9 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MovementRunnable extends GameRunnable {
 
-    ArrayList<AutonomousEntity> entities; // A reference to the list of autonomous game entities in the space.
+    CopyOnWriteArrayList<AutonomousEntity> entities; // A reference to the list of autonomous game entities in the space.
 
-    public MovementRunnable(ArrayList<AutonomousEntity> entities) {
+    public MovementRunnable(CopyOnWriteArrayList<AutonomousEntity> entities) {
         super();
         this.entities = entities;
     }

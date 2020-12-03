@@ -11,9 +11,8 @@ import model.game_space.ObjectGenerator;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * this class is a controller for the running phase of the game.
@@ -22,7 +21,7 @@ public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
 
     //space objects
-    private final ArrayList<AutonomousEntity> autonomousEntities;
+    private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
 
     private final Shooter atomShooter;
 
@@ -45,7 +44,8 @@ public class RunningMode {
     Thread objectGeneratorThread;
 
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
-        autonomousEntities = new ArrayList<>();
+        autonomousEntities = new CopyOnWriteArrayList<AutonomousEntity>();
+
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
@@ -131,7 +131,7 @@ public class RunningMode {
      *
      * @return returns the list of autonomous entities
      */
-    public ArrayList<AutonomousEntity> getAutonomousEntities() {
+    public CopyOnWriteArrayList<AutonomousEntity> getAutonomousEntities() {
         return autonomousEntities;
     }
 
@@ -156,9 +156,9 @@ public class RunningMode {
      * @param removedEntities autonomous entities to be removed from the list of elements in the space
      * @return a boolean indicating whether the entities were removed successfully
      */
-    public boolean removeAutonomousEntities(Collection<AutonomousEntity> removedEntities) {
+    public void removeAutonomousEntities(Collection<AutonomousEntity> removedEntities) {
         gameEntitiesListener.onEntitiesRemove(removedEntities);
-        return autonomousEntities.removeAll(removedEntities);
+        autonomousEntities.removeAll(removedEntities);
     }
 
 
@@ -169,6 +169,6 @@ public class RunningMode {
     public interface GameEntitiesListener {
         void onEntityAdd(AutonomousEntity entity);
 
-        void onEntitiesRemove(Collection<AutonomousEntity> entity);
+        void onEntitiesRemove(Collection<AutonomousEntity> entities);
     }
 }
