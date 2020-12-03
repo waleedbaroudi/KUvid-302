@@ -1,7 +1,10 @@
 package ui.movable_drawables;
 
+import model.game_building.Configuration;
 import model.game_entities.Atom;
 import model.game_entities.enums.AtomType;
+import utils.Coordinates;
+import utils.MathUtils;
 
 import java.awt.*;
 
@@ -24,14 +27,15 @@ public class AtomDrawer implements Drawable {
         } else {
             g.setColor(Color.PINK);
         }
-        int l = 400;
+
+        double l = Configuration.getInstance().getUnitL();
         int r = (int) (l * 0.05);
 
-        g.fillOval((int) atom.getCoordinates().getX() - r,
-                (int) atom.getCoordinates().getY() - r,
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), r);
+
+        g.fillOval((int) drawingCoord.getX(),
+                (int) drawingCoord.getY(),
                 2 * r,
                 2 * r);
-
-
     }
 }

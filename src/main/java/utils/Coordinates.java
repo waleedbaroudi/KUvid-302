@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.*;
+
 public class Coordinates {
 
     private double X, Y;

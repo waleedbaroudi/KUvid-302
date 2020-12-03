@@ -4,6 +4,8 @@ import model.game_building.Configuration;
 import model.game_entities.Blocker;
 import model.game_entities.enums.AtomType;
 import model.game_entities.enums.BlockerType;
+import utils.Coordinates;
+import utils.MathUtils;
 
 import java.awt.*;
 
@@ -28,12 +30,13 @@ public class BlockerDrawer implements Drawable {
             g.setColor(Color.PINK);
         }
 
-        //Configuration.getInstance().getUnitL()
-        int r = (int) (400 * 0.1);
 
-        g.fillRect((int) blocker.getCoordinates().getX() - r,
-                (int) blocker.getCoordinates().getY() - r,
-                2 * r,
-                2 * r);
+        int radius = (int) (Configuration.getInstance().getUnitL() * 0.1);
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(), radius);
+
+        g.fillRect((int) drawingCoord.getX(),
+                (int) drawingCoord.getY(),
+                2 * radius,
+                2 * radius);
     }
 }
