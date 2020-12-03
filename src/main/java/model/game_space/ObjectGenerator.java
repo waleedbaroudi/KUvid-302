@@ -5,6 +5,9 @@ import model.game_entities.enums.BlockerType;
 import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.MoleculeType;
 import model.game_entities.enums.PowerupType;
+import model.game_entities.factories.BlockerFactory;
+import model.game_entities.factories.MoleculeFactory;
+import model.game_entities.factories.PowerupFactory;
 import model.game_physics.hitbox.CircularHitbox;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
@@ -77,7 +80,14 @@ public class ObjectGenerator extends GameRunnable {
     public Blocker generateBlocker() {
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
         logger.info("[ObjectGenerator: generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        return new Blocker(new Coordinates(x_coord, 0), HitboxFactory.getInstance().getBlockerHitbox(), PathPatternFactory.getInstance().getBlockerPathPattern(), BlockerType.ALPHA_B, 5, 10 );
+
+        Random random = new Random();
+        int rand = random.nextInt(4);
+
+        Blocker blocker = BlockerFactory.getInstance().getBlocker(rand);
+        blocker.setCoordinates(new Coordinates(x_coord, 0));
+
+        return blocker;
     }
 
     /**
@@ -88,7 +98,14 @@ public class ObjectGenerator extends GameRunnable {
     public Powerup generatePowerup() {
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        return new Powerup(new Coordinates(x_coord, 0), HitboxFactory.getInstance().getPowerUpHitbox(), PathPatternFactory.getInstance().getPowerUpPathPattern(), PowerupType._ALPHA_B);
+
+        Random random = new Random();
+        int rand = random.nextInt(4);
+
+        Powerup powerup = PowerupFactory.getInstance().getPowerup(rand);
+        powerup.setCoordinates(new Coordinates(x_coord, 0));
+
+        return powerup;
     }
 
     /**
@@ -98,7 +115,15 @@ public class ObjectGenerator extends GameRunnable {
      */
     public Molecule generateMolecule() {
         double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        return  new Molecule(new Coordinates(x_coord, 0), HitboxFactory.getInstance().getMoleculeHitbox(), PathPatternFactory.getInstance().getMoleculePathPattern(), MoleculeType.ALPHA_, MoleculeStructure.CIRCULAR);
+
+        Random random = new Random();
+        int rand = random.nextInt(4);
+
+        Molecule molecule = MoleculeFactory.getInstance().getMolecule(rand);
+        molecule.setCoordinates(new Coordinates(x_coord, 0));
+
+        return molecule;
     }
 }
