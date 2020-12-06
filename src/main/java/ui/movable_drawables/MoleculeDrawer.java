@@ -36,6 +36,6 @@ public class MoleculeDrawer implements Drawable {
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(), radius);
-        g.drawImage(moleculeImage, (int) drawingCoord.getX(), (int) drawingCoord.getY(), null);
+        g.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }

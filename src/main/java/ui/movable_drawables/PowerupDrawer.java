@@ -2,7 +2,6 @@ package ui.movable_drawables;
 
 import model.game_building.Configuration;
 import model.game_entities.Powerup;
-import model.game_entities.enums.AtomType;
 import model.game_entities.enums.PowerupType;
 import model.game_running.GameConstants;
 import utils.Coordinates;
@@ -37,6 +36,6 @@ public class PowerupDrawer implements Drawable {
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius);
-        g.drawImage(powerupImage, (int) drawingCoord.getX(), (int) drawingCoord.getY(), null);
+        g.drawImage(powerupImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }

@@ -13,14 +13,16 @@ public class Coordinates {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Coordinates){
+        if (obj instanceof Coordinates) {
             return ((Coordinates) obj).getX() == this.getX() && ((Coordinates) obj).getY() == this.getY();
         }
         return super.equals(obj);
     }
+
     public double getX() {
         return X;
     }
+
     public double getY() {
         return Y;
     }
@@ -28,12 +30,17 @@ public class Coordinates {
     public void setX(double x) {
         X = x;
     }
+
     public void setY(double y) {
         Y = y;
     }
 
     @Override
     public String toString() {
-        return "( "+ X + ", " + Y + ")";
+        return "( " + X + ", " + Y + ")";
+    }
+
+    public Point getPoint() {
+        return new Point((int) X, (int) Y);
     }
 }

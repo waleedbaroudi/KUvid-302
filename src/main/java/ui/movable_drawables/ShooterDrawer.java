@@ -28,6 +28,6 @@ public class ShooterDrawer implements Drawable {
         Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), width / 2, height / 2);
         Graphics2D g2d = (Graphics2D) g;
         g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
-        g2d.drawImage(shooterImage, (int) drawingCoord.getX(), (int) drawingCoord.getY(), null);
+        g2d.drawImage(shooterImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }

@@ -35,10 +35,6 @@ public class BlockerDrawer implements Drawable {
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(), radius);
-
-        g.fillRect((int) drawingCoord.getX(),
-                (int) drawingCoord.getY(),
-                2 * radius,
-                2 * radius);
+        g.fillRect(drawingCoord.getPoint().x, drawingCoord.getPoint().y, 2 * radius, 2 * radius);
     }
 }

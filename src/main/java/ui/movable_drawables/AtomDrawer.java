@@ -34,9 +34,6 @@ public class AtomDrawer implements Drawable {
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), radius);
-        g.drawImage(atomImage,
-                (int) drawingCoord.getX(),
-                (int) drawingCoord.getY(),
-                null);
+        g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }
