@@ -47,12 +47,13 @@ public final class GameConstants {
     public static final Dimension ShooterDimensions = new Dimension(20, 50);
     public static final Dimension BlockerDimensions = new Dimension(20, 20);
     public static final int FPS = 60;
+
     //drawable sizes with regard to L
     public static final double ATOM_SIZE = 0.05;
     public static final double MOLECULE_SIZE = 0.5;
     public static final double BLOCKER_SIZE = 0.3;
     public static final double POWERUP_SIZE = 0.5;
-    public static final double SHOOTER_HEIGHT = 0.8;
+    public static final double SHOOTER_HEIGHT = 1;
     public static final double SHOOTER_WIDTH = 0.6;
 
 }

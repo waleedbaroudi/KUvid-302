@@ -13,11 +13,13 @@ public class ShooterDrawer implements Drawable {
     private final Shooter shooter;
     private final int height;
     private final int width;
+    private final Image shooterImage;
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
         this.height = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
         this.width = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_WIDTH);
+        this.shooterImage = ImageFactory.get(this.shooter, width, height);
     }
 
     @Override
@@ -25,15 +27,10 @@ public class ShooterDrawer implements Drawable {
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), width / 2, height / 2);
 
-        Rectangle shooterRect = new Rectangle(
-                (int) drawingCoord.getX(),
-                (int) drawingCoord.getY(),
-                width, height);
-
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.MAGENTA);
         g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
-        g2d.draw(shooterRect);
-        g2d.fill(shooterRect);
+        g2d.drawImage(shooterImage, (int) drawingCoord.getX(),
+                (int) drawingCoord.getY(), null);
     }
 }
