@@ -18,7 +18,7 @@ public class BlockerDrawer implements Drawable {
 
     public BlockerDrawer(Blocker blocker) {
         this.blocker = blocker;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_SIZE);
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_RADIUS);
     }
 
     @Override

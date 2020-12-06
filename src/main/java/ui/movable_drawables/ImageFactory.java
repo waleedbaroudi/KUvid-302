@@ -96,8 +96,9 @@ public class ImageFactory {
             System.err.println("error retrieving image: " + e.getMessage());
         }
 
-        if (img != null)
-            return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return null;
+        if (img == null){
+            System.out.println(new File("./images/" + image).getPath());
+            return null;}
+        return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 }

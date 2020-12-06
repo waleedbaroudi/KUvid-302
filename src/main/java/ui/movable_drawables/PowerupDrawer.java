@@ -14,10 +14,13 @@ public class PowerupDrawer implements Drawable {
 
     private final Powerup powerup;
     private final int radius;
+    private final Image powerupImage;
 
     public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE);
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
+        this.powerupImage = ImageFactory.get(powerup, 2 * radius, 2 * radius);
+
     }
 
     @Override
@@ -33,12 +36,7 @@ public class PowerupDrawer implements Drawable {
             g.setColor(Color.PINK);
         }
 
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius / 2);
-        int x = (int) (drawingCoord.getX());
-        int y = (int) (drawingCoord.getY());
-        int[] xPos = {(x + radius / 2), x, x + radius};
-        int[] yPos = {y, (y + radius / 2), (y + radius / 2)};
-
-        g.fillPolygon(xPos, yPos, 3);
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius);
+        g.drawImage(powerupImage, (int) drawingCoord.getX(), (int) drawingCoord.getY(), null);
     }
 }
