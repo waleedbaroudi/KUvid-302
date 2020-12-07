@@ -1,6 +1,7 @@
 package model.game_running.runnables;
 
 import model.game_entities.AutonomousEntity;
+import model.game_running.CollisionVisitor;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 
@@ -14,13 +15,15 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CollisionRunnable extends GameRunnable {
 
-    RunningMode runningMode;
-    CountDownLatch latch;
+    private RunningMode runningMode;
+    private CollisionVisitor collisionHandler;
+    private CountDownLatch latch;
 
-    public CollisionRunnable(RunningMode runningMode) {
+    public CollisionRunnable(RunningMode runningMode, CollisionVisitor collisionHandler) {
         super();
         this.runningMode = runningMode;
         this.latch = new CountDownLatch(0);
+        this.collisionHandler = collisionHandler;
     }
 
     @Override
@@ -39,13 +42,11 @@ public class CollisionRunnable extends GameRunnable {
                                 handle collision of atoms with blockers and increasing score when
                                 collecting molecules.
                              */
-                            collidedEntities.add(targetEntity);
-                            collidedEntities.add(sourceEntity);
+                            sourceEntity.acceptCollision(collisionHandler, targetEntity);
                             System.out.println("COLLIDED");
                         }
                     }
                 }
-                runningMode.removeAutonomousEntities(collidedEntities);
                 Thread.sleep(GameConstants.GAME_THREAD_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();

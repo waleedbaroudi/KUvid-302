@@ -2,6 +2,7 @@ package model.game_running;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Entity;
 import model.game_entities.Shooter;
 import model.game_physics.hitbox.RectangularHitbox;
 import model.game_running.runnables.CollisionRunnable;
@@ -51,9 +52,9 @@ public class RunningMode {
 
         // TODO update the shooter inital coordinates from config
         // TODO fix the shooter position
-        this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() / 2,
-                Configuration.getInstance().getGameHeight() - 2 * GameConstants.ShooterDimensions.height),
-                new RectangularHitbox(GameConstants.ShooterDimensions.width, GameConstants.ShooterDimensions.height));
+        this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() / 2.0,
+                Configuration.getInstance().getGameHeight() -  Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT),
+                new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_WIDTH, Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT));
         initialize();
     }
 
@@ -68,7 +69,7 @@ public class RunningMode {
         //todo: fill autonomous entity list and containers here
 
         movementRunnable = new MovementRunnable(this.autonomousEntities);
-        collisionRunnable = new CollisionRunnable(this); // TODO: Pass the arraylist instead
+        collisionRunnable = new CollisionRunnable(this, new CollisionHandler(this)); // TODO: Pass the arraylist instead
         shooterRunnable = new ShooterMovementRunnable(this.atomShooter);
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
 
@@ -159,6 +160,14 @@ public class RunningMode {
     public void removeAutonomousEntities(Collection<AutonomousEntity> removedEntities) {
         gameEntitiesListener.onEntitiesRemove(removedEntities);
         autonomousEntities.removeAll(removedEntities);
+    }
+
+    public void removeEntity(AutonomousEntity entity){
+        // TODO: change the gamerListenier to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
+        ArrayList<AutonomousEntity> tmp = new ArrayList<>();
+        tmp.add(entity);
+        gameEntitiesListener.onEntitiesRemove(tmp);
+        autonomousEntities.remove(entity);
     }
 
 

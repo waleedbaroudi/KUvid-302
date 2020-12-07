@@ -28,19 +28,19 @@ public class MoleculeFactory {
         switch (i){
             case 0:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.ALPHA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.ALPHA,
                         MoleculeStructure.CIRCULAR);
             case 1:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.BETA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.BETA,
                         MoleculeStructure.CIRCULAR);
             case 2:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.GAMMA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.GAMMA,
                         MoleculeStructure.CIRCULAR);
             case 3:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.SIGMA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.SIGMA,
                         MoleculeStructure.CIRCULAR);
             default:
                 return null;

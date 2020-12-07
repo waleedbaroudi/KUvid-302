@@ -38,7 +38,6 @@ public class Shooter extends Entity {
         // rotate the path direction according to the shooter
         Coordinates rotatedCoords = new Coordinates(this.getCoordinates().getX(),
                 this.getCoordinates().getY() - Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
-        System.out.println(rotatedCoords);
         rotatedCoords = MathUtils.applyRotation(angle, this.getCoordinates(), rotatedCoords);
         rotatedCoords = new Coordinates(rotatedCoords.getX() - this.getCoordinates().getX(), rotatedCoords.getY() - this.getCoordinates().getY());
         // set the coordinates of the projectile the same as the coordinates of hte shooter
