@@ -12,18 +12,9 @@ import utils.Coordinates;
 public abstract class Entity implements Collidable{
     private Coordinates coordinates;
     private Hitbox hitbox;
-    private EntityType superType;
     public Entity(Coordinates coordinates, Hitbox hitbox) {
         this.coordinates = coordinates;
         this.hitbox = hitbox;
-    }
-
-    public EntityType getSuperType() {
-        return superType;
-    }
-
-    public void setSuperType(EntityType superType) {
-        this.superType = superType;
     }
 
     public Coordinates getCoordinates() {

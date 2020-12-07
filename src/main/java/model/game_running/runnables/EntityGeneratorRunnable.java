@@ -4,8 +4,7 @@ import model.game_building.Configuration;
 import model.game_entities.*;
 import model.game_entities.enums.BlockerType;
 import model.game_entities.enums.MoleculeStructure;
-import model.game_entities.enums.MoleculeType;
-import model.game_entities.enums.PowerupType;
+import model.game_entities.enums.EntityType;
 import model.game_entities.factories.BlockerFactory;
 import model.game_entities.factories.MoleculeFactory;
 import model.game_entities.factories.PowerupFactory;
@@ -21,9 +20,9 @@ import java.util.Random;
  * responsible for creating blockers, and powerups, molecules in the game space
  */
 public class EntityGeneratorRunnable extends GameRunnable {
-    private Map<Map<MoleculeType, MoleculeStructure>, Integer> numberOfMolecules;
+    private Map<Map<EntityType, MoleculeStructure>, Integer> numberOfMolecules;
     private Map<BlockerType, Integer> numberOfBlockers;
-    private Map<PowerupType, Integer> numberOfPowerup;
+    private Map<EntityType, Integer> numberOfPowerup;
     private RunningMode runningMode;
 
     private static Random random = new Random();

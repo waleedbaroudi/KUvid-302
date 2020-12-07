@@ -8,7 +8,7 @@ import utils.Coordinates;
  * Projectile: a superclass for all the game objects that can be shot by the Shooter.
  */
 public abstract class Projectile extends AutonomousEntity{
-    public Projectile(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern) {
-        super(coordinates, hitbox, pathPattern);
+    public Projectile(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
+        super(coordinates, hitbox, pathPattern, type);
     }
 }

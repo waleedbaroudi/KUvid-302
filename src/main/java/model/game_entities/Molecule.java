@@ -2,7 +2,7 @@ package model.game_entities;
 
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.MoleculeStructure;
-import model.game_entities.enums.MoleculeType;
+import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -13,20 +13,12 @@ import utils.Coordinates;
  */
 public class Molecule extends AutonomousEntity{
 
-    private MoleculeType type;
     private MoleculeStructure structure;
 
 
-    public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, MoleculeType type, MoleculeStructure structure) {
-        super(coordinates, hitbox, pathPattern);
-        this.type = type;
+    public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
+        super(coordinates, hitbox, pathPattern, type);
         this.structure = structure;
-        setSuperType(EntityType.MOLECULE);
-
-    }
-
-    public void setType(MoleculeType type) {
-        this.type = type;
     }
 
     public void setStructure(MoleculeStructure structure) {
@@ -37,14 +29,11 @@ public class Molecule extends AutonomousEntity{
         return structure;
     }
 
-    public MoleculeType getType() {
-        return type;
-    }
 
     @Override
     public String toString() {
         return "Molecule{" +
-                "type=" + type +
+                "type=" + getType() +
                 ", structure=" + structure +
                 '}';
     }
