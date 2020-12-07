@@ -13,10 +13,12 @@ public class AtomDrawer implements Drawable {
 
     private final Atom atom;
     private final int radius;
+    private final Image atomImage;
 
     public AtomDrawer(Atom atom) {
         this.atom = atom;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_SIZE);
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
+        this.atomImage = ImageFactory.get(atom, 2 * radius, 2 * radius);
     }
 
     @Override
@@ -32,10 +34,6 @@ public class AtomDrawer implements Drawable {
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), radius);
-
-        g.fillOval((int) drawingCoord.getX(),
-                (int) drawingCoord.getY(),
-                2 * radius,
-                2 * radius);
+        g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }
