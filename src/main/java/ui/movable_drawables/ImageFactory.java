@@ -81,9 +81,8 @@ public class ImageFactory {
     }
 
     /**
-     *
-     * @param image the name of the image to be returned
-     * @param width the width of the image after scaling
+     * @param image  the name of the image to be returned
+     * @param width  the width of the image after scaling
      * @param height the height of the image after scaling
      * @return an image to draw in the space
      */
@@ -96,9 +95,10 @@ public class ImageFactory {
             System.err.println("error retrieving image: " + e.getMessage());
         }
 
-        if (img == null){
+        if (img == null) {
             System.out.println(new File("./images/" + image).getPath());
-            return null;}
+            return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 }
