@@ -2,7 +2,7 @@ package model.game_entities.factories;
 
 import model.game_building.Configuration;
 import model.game_entities.Blocker;
-import model.game_entities.enums.BlockerType;
+import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
@@ -29,19 +29,19 @@ public class BlockerFactory {
         switch (i){
             case 0:
                 return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(),
-                        PathPatternFactory.getInstance().getBlockerPathPattern(), BlockerType.ALPHA_B, blockingRadius,
+                        PathPatternFactory.getInstance().getBlockerPathPattern(), EntityType.ALPHA, blockingRadius,
                         explosionRadius);
             case 1:
                 return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(),
-                    PathPatternFactory.getInstance().getBlockerPathPattern(), BlockerType.BETA_B, blockingRadius,
+                    PathPatternFactory.getInstance().getBlockerPathPattern(), EntityType.BETA, blockingRadius,
                     explosionRadius);
             case 2:
                 return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(),
-                    PathPatternFactory.getInstance().getBlockerPathPattern(), BlockerType.GAMMA_B, blockingRadius,
+                    PathPatternFactory.getInstance().getBlockerPathPattern(), EntityType.GAMMA, blockingRadius,
                     explosionRadius);
             case 3:
                 return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(),
-                    PathPatternFactory.getInstance().getBlockerPathPattern(), BlockerType.SIGMA_B, blockingRadius,
+                    PathPatternFactory.getInstance().getBlockerPathPattern(), EntityType.SIGMA, blockingRadius,
                     explosionRadius);
             default:
                 return null;

@@ -25,16 +25,17 @@ public class HitboxFactory {
     }
 
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_SIZE/2.0);
+        return new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_SIZE * 2,
+                Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_SIZE * 2);
     }
     public Hitbox getAtomHitbox(){
-        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.ATOM_SIZE/2.0);
+        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.ATOM_SIZE);
     }
     public Hitbox getMoleculeHitbox(){
-        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_SIZE/2.0);
+        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_SIZE);
     }
     public Hitbox getPowerUpHitbox(){
-        return new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE * 2,
-                Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE * 2);
+        return new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE,
+                Configuration.getInstance().getUnitL() * GameConstants.POWERUP_SIZE);
     }
 }

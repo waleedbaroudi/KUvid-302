@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import utils.Coordinates;
@@ -9,12 +10,22 @@ import utils.Coordinates;
  */
 abstract public class AutonomousEntity extends Entity {
 
+    private EntityType type;
     private PathPattern pathPattern;
 
-    public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern) {
+    public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox);
         this.pathPattern = pathPattern;
         this.pathPattern.setCurrentCoords(coordinates);
+        this.type = type;
+    }
+
+    public void setType(EntityType type) {
+        this.type = type;
+    }
+
+    public EntityType getType() {
+        return type;
     }
 
     public void setPathPattern(PathPattern pathPattern) {

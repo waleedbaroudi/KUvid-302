@@ -2,8 +2,7 @@ package ui.movable_drawables;
 
 import model.game_building.Configuration;
 import model.game_entities.Blocker;
-import model.game_entities.enums.AtomType;
-import model.game_entities.enums.BlockerType;
+import model.game_entities.enums.EntityType;
 import model.game_running.GameConstants;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -24,11 +23,11 @@ public class BlockerDrawer implements Drawable {
     @Override
     public void draw(Graphics g) {
 
-        if (blocker.getType() == BlockerType.ALPHA_B) {
+        if (blocker.getType() == EntityType.ALPHA) {
             g.setColor(Color.BLACK);
-        } else if (blocker.getType() == BlockerType.BETA_B) {
+        } else if (blocker.getType() == EntityType.BETA) {
             g.setColor(Color.BLUE);
-        } else if (blocker.getType() == BlockerType.SIGMA_B) {
+        } else if (blocker.getType() == EntityType.SIGMA) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.PINK);

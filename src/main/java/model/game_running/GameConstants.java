@@ -41,11 +41,6 @@ public final class GameConstants {
 
     // Objects Dimensions.
     public static final Dimension BUILDING_WINDOW_SIZE = new Dimension(800, 800);
-    public static final Dimension PowerupDimensions = new Dimension(20, 20);
-    public static final Dimension MoleculeDimensions = new Dimension(30, 30);
-    public static final Dimension AtomDimensions = new Dimension(10, 10);
-    public static final Dimension ShooterDimensions = new Dimension(20, 50);
-    public static final Dimension BlockerDimensions = new Dimension(20, 20);
     public static final int FPS = 60;
     //drawable sizes with regard to L
     public static final double ATOM_SIZE = 0.05;
