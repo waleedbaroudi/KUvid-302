@@ -97,7 +97,7 @@ public class ImageFactory {
 
         if (img == null) {
             System.out.println(new File("./images/" + image).getPath());
-            return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
