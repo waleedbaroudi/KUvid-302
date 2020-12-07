@@ -2,7 +2,7 @@ package ui.movable_drawables;
 
 import model.game_building.Configuration;
 import model.game_entities.Molecule;
-import model.game_entities.enums.MoleculeType;
+import model.game_entities.enums.EntityType;
 import model.game_running.GameConstants;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -25,11 +25,11 @@ public class MoleculeDrawer implements Drawable {
     @Override
     public void draw(Graphics g) {
 
-        if (molecule.getType() == MoleculeType.ALPHA_) {
+        if (molecule.getType() == EntityType.ALPHA) {
             g.setColor(Color.BLACK);
-        } else if (molecule.getType() == MoleculeType.BETA_) {
+        } else if (molecule.getType() == EntityType.BETA) {
             g.setColor(Color.BLUE);
-        } else if (molecule.getType() == MoleculeType.GAMMA_) {
+        } else if (molecule.getType() == EntityType.GAMMA) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.PINK);

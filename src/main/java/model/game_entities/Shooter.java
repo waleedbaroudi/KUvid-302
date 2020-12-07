@@ -1,18 +1,12 @@
 package model.game_entities;
 
 import model.game_building.Configuration;
-import model.game_entities.enums.AtomType;
-import model.game_entities.enums.Direction;
 import model.game_entities.enums.EntityType;
-import model.game_entities.enums.PowerupType;
-import model.game_physics.hitbox.CircularHitbox;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
-import model.game_physics.hitbox.RectangularHitbox;
-import model.game_physics.path_patterns.PathPattern;
 import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_physics.path_patterns.StraightPattern;
-import model.game_physics.path_patterns.ZigzagPatten;
+import model.game_running.CollisionVisitor;
 import model.game_running.GameConstants;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -23,7 +17,7 @@ import java.util.logging.Logger;
 
 public class Shooter extends Entity {
     private Projectile currentProjectile;
-    private AtomType previousAtom;
+    private EntityType previousAtom;
     private final double DEFAULT_ANGLE = 10;
     private double angle = 0;
     private final double MOVEMENT;
@@ -31,7 +25,6 @@ public class Shooter extends Entity {
 
     public Shooter(Coordinates coordinates, Hitbox hitbox) {
         super(coordinates, hitbox);
-        super.setSuperType(EntityType.SHOOTER);
         MOVEMENT = Configuration.getInstance().getShooterSpeed();
         // Turn off logger
         logger.setLevel(Level.OFF);
@@ -45,7 +38,6 @@ public class Shooter extends Entity {
         // rotate the path direction according to the shooter
         Coordinates rotatedCoords = new Coordinates(this.getCoordinates().getX(),
                 this.getCoordinates().getY() - Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
-        System.out.println(rotatedCoords);
         rotatedCoords = MathUtils.applyRotation(angle, this.getCoordinates(), rotatedCoords);
         rotatedCoords = new Coordinates(rotatedCoords.getX() - this.getCoordinates().getX(), rotatedCoords.getY() - this.getCoordinates().getY());
         // set the coordinates of the projectile the same as the coordinates of hte shooter
@@ -60,7 +52,7 @@ public class Shooter extends Entity {
         return true;
     }
 
-    public void mountPowerup(PowerupType powerupType) {
+    public void mountPowerup(EntityType EntityType) {
 
     }
 
@@ -71,7 +63,7 @@ public class Shooter extends Entity {
 
     public Atom nextAtom() {
         // TODO: change the atom types to random
-        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), AtomType.BETA);
+        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.BETA);
     }
 
     public Projectile getCurrentProjectile() {
@@ -82,7 +74,7 @@ public class Shooter extends Entity {
         this.currentProjectile = currentProjectile;
     }
 
-    public AtomType getPreviousAtom() {
+    public EntityType getPreviousAtom() {
         return previousAtom;
     }
 
@@ -90,7 +82,7 @@ public class Shooter extends Entity {
         return this.angle;
     }
 
-    public void setPreviousAtom(AtomType previousAtom) {
+    public void setPreviousAtom(EntityType previousAtom) {
         this.previousAtom = previousAtom;
     }
 
@@ -131,5 +123,37 @@ public class Shooter extends Entity {
                 ", currentProjectile=" + currentProjectile +
                 ", previousAtom=" + previousAtom +
                 '}';
+    }
+
+
+    // visitor pattern. Double delegation
+    @Override
+    public void collideWith(CollisionVisitor visitor, Atom atom) {
+        visitor.handleCollision(this, atom);
+    }
+
+    @Override
+    public void collideWith(CollisionVisitor visitor, Blocker blocker) {
+        visitor.handleCollision(this, blocker);
+    }
+
+    @Override
+    public void collideWith(CollisionVisitor visitor, Molecule molecule) {
+        visitor.handleCollision(this, molecule);
+    }
+
+    @Override
+    public void collideWith(CollisionVisitor visitor, Powerup powerup) {
+        visitor.handleCollision(this, powerup);
+    }
+
+    @Override
+    public void collideWith(CollisionVisitor visitor, Shooter shooter) {
+        visitor.handleCollision(this, shooter);
+    }
+
+    @Override
+    public void acceptCollision(CollisionVisitor visitor, Entity entity) {
+        entity.collideWith(visitor, this);
     }
 }

@@ -2,7 +2,7 @@ package ui.movable_drawables;
 
 import model.game_building.Configuration;
 import model.game_entities.Powerup;
-import model.game_entities.enums.PowerupType;
+import model.game_entities.enums.EntityType;
 import model.game_running.GameConstants;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -25,11 +25,11 @@ public class PowerupDrawer implements Drawable {
     @Override
     public void draw(Graphics g) {
 
-        if (powerup.getType() == PowerupType._ALPHA_B) {
+        if (powerup.getType() == EntityType.ALPHA) {
             g.setColor(Color.BLACK);
-        } else if (powerup.getType() == PowerupType._BETA_B) {
+        } else if (powerup.getType() == EntityType.BETA) {
             g.setColor(Color.BLUE);
-        } else if (powerup.getType() == PowerupType._SIGMA_B) {
+        } else if (powerup.getType() == EntityType.SIGMA) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.PINK);

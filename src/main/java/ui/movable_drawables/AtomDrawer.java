@@ -2,7 +2,7 @@ package ui.movable_drawables;
 
 import model.game_building.Configuration;
 import model.game_entities.Atom;
-import model.game_entities.enums.AtomType;
+import model.game_entities.enums.EntityType;
 import model.game_running.GameConstants;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -23,11 +23,11 @@ public class AtomDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        if (atom.getType() == AtomType.ALPHA) {
+        if (atom.getType() == EntityType.ALPHA) {
             g.setColor(Color.BLACK);
-        } else if (atom.getType() == AtomType.BETA) {
+        } else if (atom.getType() == EntityType.BETA) {
             g.setColor(Color.BLUE);
-        } else if (atom.getType() == AtomType.SIGMA) {
+        } else if (atom.getType() == EntityType.SIGMA) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.PINK);

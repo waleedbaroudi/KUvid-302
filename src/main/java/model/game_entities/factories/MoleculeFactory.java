@@ -3,7 +3,7 @@ package model.game_entities.factories;
 import model.game_entities.Molecule;
 
 import model.game_entities.enums.MoleculeStructure;
-import model.game_entities.enums.MoleculeType;
+import model.game_entities.enums.EntityType;
 
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
@@ -28,19 +28,19 @@ public class MoleculeFactory {
         switch (i){
             case 0:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), MoleculeType.ALPHA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.ALPHA,
                         MoleculeStructure.CIRCULAR);
             case 1:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), MoleculeType.BETA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.BETA,
                         MoleculeStructure.CIRCULAR);
             case 2:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), MoleculeType.GAMMA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.GAMMA,
                         MoleculeStructure.CIRCULAR);
             case 3:
                 return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                        PathPatternFactory.getInstance().getMoleculePathPattern(), MoleculeType.SIGMA_,
+                        PathPatternFactory.getInstance().getMoleculePathPattern(), EntityType.SIGMA,
                         MoleculeStructure.CIRCULAR);
             default:
                 return null;
