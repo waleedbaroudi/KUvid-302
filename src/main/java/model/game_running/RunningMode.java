@@ -55,7 +55,7 @@ public class RunningMode {
         this.gameEntitiesListener = gameEntitiesListener;
 
         // Adding Blender
-        this.blender = new Blender(this);
+        // this.blender = new Blender(this);
         // TODO update the shooter inital coordinates from config
         // TODO fix the shooter position
         this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() / 2.0,

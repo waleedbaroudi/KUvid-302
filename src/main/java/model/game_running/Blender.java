@@ -7,14 +7,18 @@ import java.util.Arrays;
 public class Blender {
 
     private RunningMode container;
+    private BlenderListener blenderListener;
 
-    public Blender(RunningMode container){
+    public Blender(RunningMode container, BlenderListener blenderListener){
         this.container = container;
+        this.blenderListener = blenderListener;
     }
 
 
     public void blendAtom(Atom blendAtom, Atom resultAtom){
 
+
+        blenderListener.onBlend();
     }
 
     public void breakAtom(Atom blendAtom, Atom resultAtom){
