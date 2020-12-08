@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 public class Blender {
 
-    private ArrayList<Atom> container;
+    private RunningMode container;
 
-    public Blender(ArrayList<Atom> container){
+    public Blender(RunningMode container){
         this.container = container;
     }
 
@@ -22,10 +22,10 @@ public class Blender {
     }
 
     private void addAtomsToContainer(Atom atom){
-        this.container.add(atom);
+       // this.container.add(atom);
     }
     private void addAtomsToContainer(Atom[] atom){
-        this.container.addAll(Arrays.asList(atom));
+      //  this.container.addAll(Arrays.asList(atom));
     }
 
     public interface BlenderListener{

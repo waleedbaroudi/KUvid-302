@@ -31,6 +31,7 @@ public class RunningMode {
     //Listener to handle game pause and resume commands
     RunningStateListener runningStateListener;
     GameEntitiesListener gameEntitiesListener;
+    Blender.BlenderListener blenderListener;
 
     // Runnables
     MovementRunnable movementRunnable;
@@ -44,12 +45,17 @@ public class RunningMode {
     Thread shooterThread;
     Thread objectGeneratorThread;
 
+    // Blender
+    Blender blender;
+
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<AutonomousEntity>();
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
+        // Adding Blender
+        this.blender = new Blender(this);
         // TODO update the shooter inital coordinates from config
         // TODO fix the shooter position
         this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() / 2.0,
