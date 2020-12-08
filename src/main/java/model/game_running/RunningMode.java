@@ -20,10 +20,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
+    private Configuration config;
 
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
-
     private final Shooter atomShooter;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
@@ -45,16 +45,17 @@ public class RunningMode {
     Thread objectGeneratorThread;
 
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
-        autonomousEntities = new CopyOnWriteArrayList<AutonomousEntity>();
+        autonomousEntities = new CopyOnWriteArrayList<>();
+
+        config = Configuration.getInstance();
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
-        // TODO update the shooter inital coordinates from config
-        // TODO fix the shooter position
-        this.atomShooter = new Shooter(new Coordinates(Configuration.getInstance().getGameWidth() / 2.0,
-                Configuration.getInstance().getGameHeight() -  Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT),
-                new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_WIDTH, Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT));
+
+        this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
+                config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
+                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH, config.getUnitL() * GameConstants.SHOOTER_HEIGHT));
         initialize();
     }
 
@@ -162,7 +163,7 @@ public class RunningMode {
         autonomousEntities.removeAll(removedEntities);
     }
 
-    public void removeEntity(AutonomousEntity entity){
+    public void removeEntity(AutonomousEntity entity) {
         // TODO: change the gamerListenier to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
         ArrayList<AutonomousEntity> tmp = new ArrayList<>();
         tmp.add(entity);
