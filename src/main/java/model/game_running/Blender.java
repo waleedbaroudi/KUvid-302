@@ -8,13 +8,17 @@ public class Blender {
     private final int ALPHA = 1, BETA = 2, GAMMA = 3, SIGMA = 4;
 
     private RunningMode container;
+    private BlenderListener blenderListener;
 
-    public Blender(RunningMode container){
+    public Blender(RunningMode container, BlenderListener blenderListener){
         this.container = container;
+        this.blenderListener = blenderListener;
     }
 
     public void blendAtom(Atom blendAtom, Atom resultAtom){
 
+
+        blenderListener.onBlend();
     }
 
     public void breakAtom(Atom blendAtom, Atom resultAtom){
