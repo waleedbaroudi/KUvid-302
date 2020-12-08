@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -13,6 +14,7 @@ public class Powerup extends Projectile {
 
     public Powerup(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
+        superType = SuperType.POWERUP;
     }
 
 
@@ -22,7 +24,6 @@ public class Powerup extends Projectile {
                 "type=" + getType() +
                 '}';
     }
-
 
 
     // visitor pattern. Double delegation

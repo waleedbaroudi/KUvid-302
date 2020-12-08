@@ -9,27 +9,27 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageFactory {
+public class ImageResources {
     public static Image get(Entity entity, int width, int height) {
         switch (entity.getSuperType()) {
 
             //Entity is a Molecule, return an image according to its type
             case MOLECULE:
-                switch (((Molecule) entity).getType()) {
-                    case ALPHA_:
+                switch (((AutonomousEntity) entity).getType()) {
+                    case ALPHA:
                         return getImage("moleculeA.png", width, height);
-                    case BETA_:
+                    case BETA:
                         return getImage("moleculeB.png", width, height);
-                    case GAMMA_:
+                    case GAMMA:
                         return getImage("moleculeG.png", width, height);
-                    case SIGMA_:
+                    case SIGMA:
                         return getImage("moleculeS.png", width, height);
                     default:
                         throw new IllegalArgumentException("Molecule type is not correct");
                 }
                 //Entity is an Atom, return an image according to its type
             case ATOM:
-                switch (((Atom) entity).getType()) {
+                switch (((AutonomousEntity) entity).getType()) {
                     case ALPHA:
                         return getImage("atomA.png", width, height);
                     case BETA:
@@ -44,14 +44,14 @@ public class ImageFactory {
 
                 //Entity is a Blocker, return an image according to its type
             case BLOCKER:
-                switch (((Blocker) entity).getType()) {
-                    case ALPHA_B:
+                switch (((AutonomousEntity) entity).getType()) {
+                    case ALPHA:
                         return getImage("blockerA.png", width, height);
-                    case BETA_B:
+                    case BETA:
                         return getImage("blockerB.png", width, height);
-                    case GAMMA_B:
+                    case GAMMA:
                         return getImage("blockerG.png", width, height);
-                    case SIGMA_B:
+                    case SIGMA:
                         return getImage("blockerS.png", width, height);
                     default:
                         throw new IllegalArgumentException("Blocker type is not correct");
@@ -59,14 +59,14 @@ public class ImageFactory {
 
                 //Entity is a powerup, return an image according to its type
             case POWERUP:
-                switch (((Powerup) entity).getType()) {
-                    case _ALPHA_B:
+                switch (((AutonomousEntity) entity).getType()) {
+                    case ALPHA:
                         return getImage("powerupA.png", width, height);
-                    case _BETA_B:
+                    case BETA:
                         return getImage("powerupB.png", width, height);
-                    case _GAMMA_B:
+                    case GAMMA:
                         return getImage("powerupG.png", width, height);
-                    case _SIGMA_B:
+                    case SIGMA:
                         return getImage("powerupS.png", width, height);
                     default:
                         throw new IllegalArgumentException("Powerup type is not correct");

@@ -2,6 +2,7 @@ package model.game_entities;
 
 import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
@@ -26,6 +27,7 @@ public class Shooter extends Entity {
     public Shooter(Coordinates coordinates, Hitbox hitbox) {
         super(coordinates, hitbox);
         MOVEMENT = Configuration.getInstance().getShooterSpeed();
+        this.superType = SuperType.SHOOTER;
         // Turn off logger
         logger.setLevel(Level.OFF);
     }
@@ -42,7 +44,7 @@ public class Shooter extends Entity {
         rotatedCoords = new Coordinates(rotatedCoords.getX() - this.getCoordinates().getX(), rotatedCoords.getY() - this.getCoordinates().getY());
         // set the coordinates of the projectile the same as the coordinates of hte shooter
         double len = Math.sqrt(rotatedCoords.getX() * rotatedCoords.getX() + rotatedCoords.getY() * rotatedCoords.getY());
-        tmpProjectile.setPathPattern(new StraightPattern(new Velocity(10 * rotatedCoords.getX()/len, 10 * rotatedCoords.getY()/len)));
+        tmpProjectile.setPathPattern(new StraightPattern(new Velocity(10 * rotatedCoords.getX() / len, 10 * rotatedCoords.getY() / len)));
         tmpProjectile.setCoordinates(this.getCoordinates());
         return tmpProjectile;
     }
@@ -110,7 +112,7 @@ public class Shooter extends Entity {
             return false;
         else if (c.getX() < 0)
             return false;
-        if(angle > 90 || angle < -90)
+        if (angle > 90 || angle < -90)
             return false;
         return true;
     }

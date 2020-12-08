@@ -1,8 +1,6 @@
 package model.game_physics.hitbox;
 
-import model.game_entities.enums.Direction;
 import utils.Coordinates;
-import utils.Vector;
 
 import java.util.ArrayList;
 

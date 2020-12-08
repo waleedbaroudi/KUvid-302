@@ -18,7 +18,7 @@ public class AtomDrawer implements Drawable {
     public AtomDrawer(Atom atom) {
         this.atom = atom;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
-        this.atomImage = ImageFactory.get(atom, 2 * radius, 2 * radius);
+        this.atomImage = ImageResources.get(atom, 2 * radius, 2 * radius);
     }
 
     @Override

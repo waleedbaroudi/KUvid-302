@@ -3,6 +3,7 @@ package model.game_entities;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -11,13 +12,14 @@ import utils.Coordinates;
 /**
  * Molecule: Handles the Molecule game object.
  */
-public class Molecule extends AutonomousEntity{
+public class Molecule extends AutonomousEntity {
 
     private MoleculeStructure structure;
 
 
     public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
         super(coordinates, hitbox, pathPattern, type);
+        superType = SuperType.MOLECULE;
         this.structure = structure;
     }
 
@@ -37,7 +39,6 @@ public class Molecule extends AutonomousEntity{
                 ", structure=" + structure +
                 '}';
     }
-
 
 
     // visitor pattern. Double delegation

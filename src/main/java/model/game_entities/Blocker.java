@@ -1,10 +1,12 @@
 package model.game_entities;
 
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
 import utils.Coordinates;
+
 /**
  * Blocker: Handles the Blocker game object.
  */
@@ -15,6 +17,7 @@ public class Blocker extends AutonomousEntity {
 
     public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, double blockingRadius, double explosionRadius) {
         super(coordinates, hitbox, pathPattern, type);
+        this.superType = SuperType.BLOCKER;
         this.blockingRadius = blockingRadius;
         this.explosionRadius = explosionRadius;
     }
@@ -43,7 +46,6 @@ public class Blocker extends AutonomousEntity {
                 ", type=" + getType() +
                 '}';
     }
-
 
 
     // visitor pattern. Double delegation

@@ -19,7 +19,7 @@ public class MoleculeDrawer implements Drawable {
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_RADIUS);
-        this.moleculeImage = ImageFactory.get(molecule, 2 * radius, 2 * radius);
+        this.moleculeImage = ImageResources.get(molecule, 2 * radius, 2 * radius);
     }
 
     @Override
