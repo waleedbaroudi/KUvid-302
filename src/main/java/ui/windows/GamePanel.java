@@ -32,8 +32,7 @@ public class GamePanel extends JPanel {
     public void paint(Graphics g) {
         super.paintComponents(g);
         for (AutonomousEntity entity : drawableMap.keySet()) {
-            drawableMap.get(entity).draw(g);
-//            runningMode.updateEntityState(entity);
+            drawableMap.get(entity).draw(g); //todo: fix AWT-EventQueue-0 NPE
         }
         shooterDrawer.draw(g);
     }

@@ -9,6 +9,7 @@ import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.GameConstants;
+import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;
 import utils.Velocity;
@@ -18,23 +19,30 @@ import java.util.logging.Logger;
 
 public class Shooter extends Entity {
     private Projectile currentProjectile;
+    private ProjectileContainer container;
+
     private EntityType previousAtom;
     private final double DEFAULT_ANGLE = 10;
     private double angle = 0;
     private final double MOVEMENT;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
-    public Shooter(Coordinates coordinates, Hitbox hitbox) {
+    public Shooter(Coordinates coordinates, Hitbox hitbox, ProjectileContainer container) {
         super(coordinates, hitbox);
         MOVEMENT = Configuration.getInstance().getShooterSpeed();
         this.superType = SuperType.SHOOTER;
+
+        this.container = container;
         // Turn off logger
         logger.setLevel(Level.OFF);
     }
 
 
     public Projectile shoot() {
-        this.reload();
+        this.reload(); //todo: why reload before shoot?
+        if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
+            return null;
+
         //TODO: currently we are building the atom on shooting, we need to change that (Maybe)
         Projectile tmpProjectile = this.getCurrentProjectile();
         // rotate the path direction according to the shooter
@@ -54,7 +62,7 @@ public class Shooter extends Entity {
         return true;
     }
 
-    public void mountPowerup(EntityType EntityType) {
+    public void mountPowerup(EntityType EntityType) { //todo: what's this for?
 
     }
 
@@ -65,7 +73,8 @@ public class Shooter extends Entity {
 
     public Atom nextAtom() {
         // TODO: change the atom types to random
-        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.BETA);
+        return container.getAtom(this.getCoordinates(), EntityType.BETA);
+//        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.BETA);
     }
 
     public Projectile getCurrentProjectile() {
@@ -78,7 +87,7 @@ public class Shooter extends Entity {
 
     public EntityType getPreviousAtom() {
         return previousAtom;
-    }
+    } // todo: what dis?
 
     public double getAngle() {
         return this.angle;
@@ -86,7 +95,7 @@ public class Shooter extends Entity {
 
     public void setPreviousAtom(EntityType previousAtom) {
         this.previousAtom = previousAtom;
-    }
+    } // todo: what dis too?
 
     public boolean rotate(int direction) {
         if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ANGLE * direction))
