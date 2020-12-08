@@ -24,6 +24,7 @@ public class RunningMode {
 
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
+    private final ProjectileContainer projectileContainer;
     private final Shooter atomShooter;
 
     boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
@@ -52,10 +53,12 @@ public class RunningMode {
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
+        this.projectileContainer = new ProjectileContainer(config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
+                config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4);
 
         this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
                 config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
-                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH, config.getUnitL() * GameConstants.SHOOTER_HEIGHT));
+                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH, config.getUnitL() * GameConstants.SHOOTER_HEIGHT), projectileContainer);
         initialize();
     }
 
@@ -151,6 +154,10 @@ public class RunningMode {
      */
     public void shootProjectile() {
         AutonomousEntity shotEntity = this.atomShooter.shoot();
+        if (shotEntity == null) {
+            System.out.println("OUT OF ATOMS!!");
+            return;
+        }
         addEntity(shotEntity);
     }
 
@@ -164,7 +171,7 @@ public class RunningMode {
     }
 
     public void removeEntity(AutonomousEntity entity) {
-        // TODO: change the gamerListenier to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
+        // TODO: change the gamerListener to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
         ArrayList<AutonomousEntity> tmp = new ArrayList<>();
         tmp.add(entity);
         gameEntitiesListener.onEntitiesRemove(tmp);
