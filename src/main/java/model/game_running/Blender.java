@@ -1,17 +1,17 @@
 package model.game_running;
 
 import model.game_entities.Atom;
-import java.util.ArrayList;
-import java.util.Arrays;
+import utils.MathUtils;
+
 
 public class Blender {
+    private final int ALPHA = 1, BETA = 2, GAMMA = 3, SIGMA = 4;
 
     private RunningMode container;
 
     public Blender(RunningMode container){
         this.container = container;
     }
-
 
     public void blendAtom(Atom blendAtom, Atom resultAtom){
 
@@ -27,6 +27,7 @@ public class Blender {
     private void addAtomsToContainer(Atom[] atom){
       //  this.container.addAll(Arrays.asList(atom));
     }
+
 
     public interface BlenderListener{
         /**
