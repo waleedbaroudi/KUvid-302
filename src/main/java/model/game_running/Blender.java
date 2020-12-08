@@ -8,17 +8,13 @@ public class Blender {
     private final int ALPHA = 1, BETA = 2, GAMMA = 3, SIGMA = 4;
 
     private RunningMode container;
-    private BlenderListener blenderListener;
 
-    public Blender(RunningMode container, BlenderListener blenderListener){
+    public Blender(RunningMode container){
         this.container = container;
-        this.blenderListener = blenderListener;
     }
 
     public void blendAtom(Atom blendAtom, Atom resultAtom){
 
-
-        blenderListener.onBlend();
     }
 
     public void breakAtom(Atom blendAtom, Atom resultAtom){
@@ -32,6 +28,17 @@ public class Blender {
       //  this.container.addAll(Arrays.asList(atom));
     }
 
+    /**
+     * Given the indices of the source and target atoms, returns the number of source atoms needed for the blend.
+     *
+     * @param sourceIndex the index of the source atom.
+     * @param targetIndex the index of the target atom.
+     * @return the number of source atoms needed for the blend.
+     */
+    private double getBlendCoefficient(int sourceIndex, int targetIndex){
+        double[][] defaultMatrix = MathUtils.blendMatrix(new int[]{ALPHA, BETA, GAMMA, SIGMA}, 4);
+        return defaultMatrix[sourceIndex][targetIndex];
+    }
 
     public interface BlenderListener{
         /**
