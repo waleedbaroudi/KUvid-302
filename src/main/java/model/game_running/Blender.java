@@ -6,26 +6,17 @@ import utils.MathUtils;
 
 public class Blender {
     private final int ALPHA = 1, BETA = 2, GAMMA = 3, SIGMA = 4;
+    private ProjectileContainer atomsContainer;
 
-    private RunningMode container;
-
-    public Blender(RunningMode container){
-        this.container = container;
+    public Blender(ProjectileContainer atomsContainer){
+        this.atomsContainer = atomsContainer;
     }
 
-    public void blendAtom(Atom blendAtom, Atom resultAtom){
-
-    }
-
-    public void breakAtom(Atom blendAtom, Atom resultAtom){
+    public void blendAtom(int sourceAtom, int targetAtom){
 
     }
 
-    private void addAtomsToContainer(Atom atom){
-       // this.container.add(atom);
-    }
-    private void addAtomsToContainer(Atom[] atom){
-      //  this.container.addAll(Arrays.asList(atom));
+    public void breakAtom(int sourceAtom, int targetAtom){
     }
 
     /**
