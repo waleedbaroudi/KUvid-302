@@ -20,8 +20,6 @@ public class BuildingMode {
 	 */
 	public void validateParameters(ConfigBundle bundle) {
 		this.invalidFields.clear();
-		if(!isValidNumber(bundle.getNumOfPowerUpsPerType()))
-			invalidFields.add("Invalid number of Power-ups per type\n");
 		if(!isValidNumber(bundle.getNumOfAlphaAtoms()))
 			invalidFields.add("Invalid number of Alpha Atoms\n");
 		if(!isValidNumber(bundle.getNumOfBetaAtoms()))
@@ -30,10 +28,34 @@ public class BuildingMode {
 			invalidFields.add("Invalid number of Gamma Atoms\n");
 		if(!isValidNumber(bundle.getNumOfSigmaAtoms()))
 			invalidFields.add("Invalid number of Sigma Atoms\n");
-		if(!isValidNumber(bundle.getNumOfBlockersPerType()))
-			invalidFields.add("Invalid number of Blockers per type\n");
-		if(!isValidNumber(bundle.getNumOfMoleculesPerType()))
-			invalidFields.add("Invalid number of Molecule per type\n");
+
+		if(!isValidNumber(bundle.getNumAlphaPowerups()))
+			invalidFields.add("Invalid number of Alpha Powerups\n");
+		if(!isValidNumber(bundle.getNumBetaPowerups()))
+			invalidFields.add("Invalid number of Beta Powerups\n");
+		if(!isValidNumber(bundle.getNumGammaPowerups()))
+			invalidFields.add("Invalid number of Gamma Powerups\n");
+		if(!isValidNumber(bundle.getNumSigmaPowerups()))
+			invalidFields.add("Invalid number of Sigma Powerups\n");
+
+		if(!isValidNumber(bundle.getNumAlphaBlockers()))
+			invalidFields.add("Invalid number of Alpha Blockers\n");
+		if(!isValidNumber(bundle.getNumBetaBlockers()))
+			invalidFields.add("Invalid number of Beta Blockers\n");
+		if(!isValidNumber(bundle.getNumGammaBlockers()))
+			invalidFields.add("Invalid number of Gamma Blockers\n");
+		if(!isValidNumber(bundle.getNumSigmaBlockers()))
+			invalidFields.add("Invalid number of Sigma Blockers\n");
+
+		if(!isValidNumber(bundle.getNumAlphaMolecules()))
+			invalidFields.add("Invalid number of Alpha Molecules\n");
+		if(!isValidNumber(bundle.getNumBetaMolecules()))
+			invalidFields.add("Invalid number of Beta Molecules\n");
+		if(!isValidNumber(bundle.getNumGammaMolecules()))
+			invalidFields.add("Invalid number of Gamma Molecules\n");
+		if(!isValidNumber(bundle.getNumSigmaMolecules()))
+			invalidFields.add("Invalid number of Sigma Molecules\n");
+
 		if(!isValidDifficulty(bundle.getDifficulty()))
 			invalidFields.add("Invalid Difficulty number\n");
 		if(!isValidLength(bundle.getL()))

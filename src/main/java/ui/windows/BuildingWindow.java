@@ -19,14 +19,30 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     ConfigBundle bundle;
     BuildingMode buildingMode;
 
-    // JTextFields
-    JTextField gammaAtomsTextField;
+    // Atoms JTextFields
     JTextField alphaAtomsTextField;
     JTextField betaAtomsTextField;
+    JTextField gammaAtomsTextField;
     JTextField sigmaAtomsTextField;
-    JTextField moleculesTextField;
-    JTextField powerupsTextField;
-    JTextField blockersTextField;
+
+    // Powerups JTextFields
+    JTextField alphaPowerupsTextField;
+    JTextField betaPowerupsTextField;
+    JTextField gammaPowerupsTextField;
+    JTextField sigmaPowerupsTextField;
+
+    // Blockers JTextFields
+    JTextField alphaBlockersTextField;
+    JTextField betaBlockersTextField;
+    JTextField gammaBlockersTextField;
+    JTextField sigmaBlockersTextField;
+
+    // Molecules JTextFields
+    JTextField alphaMoleculesTextField;
+    JTextField betaMoleculesTextField;
+    JTextField gammaMoleculesTextField;
+    JTextField sigmaMoleculesTextField;
+
     JTextField lengthTextField;
 
     // JCheckBoxes
@@ -37,10 +53,8 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
-    ArrayList<Integer> atoms = new ArrayList<Integer>();
+    ArrayList<Integer> atoms, powerups, blockers, molecules;
 
-    // Configuration variables
-    int alphaatomsNum, betaatomsNum, sigmaatomsNum, gammaatomsNum, moleculesNum, blockersNum, powerupsNum;
     double l;
 
     /**
@@ -48,6 +62,11 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      */
     public BuildingWindow(String title) {
         super(title);
+        this.atoms = new ArrayList<Integer>();
+        this.powerups = new ArrayList<Integer>();
+        this.blockers = new ArrayList<Integer>();
+        this.molecules = new ArrayList<Integer>();
+
         this.setSize(GameConstants.BUILDING_WINDOW_SIZE);
         this.buildingMode = new BuildingMode(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,62 +94,130 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      */
     private void placeComponents(JPanel panel) {
         // Setting the layout of the panel
-        panel.setLayout(new GridLayout(12, 2));
+        panel.setLayout(new GridLayout(12, 4));
         panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
         // GridBagConstraints c = new GridBagConstraints();
 
-        /*
-         * Creating labels and text fields
-         */
-        JLabel alphaLabel = new JLabel("Alpha Atoms");
-        panel.add(alphaLabel);
+
+        // Atoms labels and text fields
+        JLabel alphaAtomLabel = new JLabel("Alpha Atoms");
+        panel.add(alphaAtomLabel);
 
         alphaAtomsTextField = new JTextField(4);
         alphaAtomsTextField.setText("5");
         panel.add(alphaAtomsTextField);
 
-        JLabel betaLabel = new JLabel("Beta Atoms");
-        panel.add(betaLabel);
+        JLabel betaAtomLabel = new JLabel("Beta Atoms");
+        panel.add(betaAtomLabel);
 
         betaAtomsTextField = new JTextField(4);
         betaAtomsTextField.setText("5");
         panel.add(betaAtomsTextField);
 
-        JLabel sigmaLabel = new JLabel("Sigma Atoms");
-        panel.add(sigmaLabel);
-
-        sigmaAtomsTextField = new JTextField(4);
-        sigmaAtomsTextField.setText("5");
-        panel.add(sigmaAtomsTextField);
-
-        JLabel gammaLabel = new JLabel("Gamma Atoms");
-        panel.add(gammaLabel);
+        JLabel gammaAtomLabel = new JLabel("Gamma Atoms");
+        panel.add(gammaAtomLabel);
 
         gammaAtomsTextField = new JTextField(4);
         gammaAtomsTextField.setText("5");
         panel.add(gammaAtomsTextField);
 
-        JLabel moleculesLabel = new JLabel("Molecules");
-        panel.add(moleculesLabel);
+        JLabel sigmaAtomLabel = new JLabel("Sigma Atoms");
+        panel.add(sigmaAtomLabel);
 
-        moleculesTextField = new JTextField(4);
-        moleculesTextField.setText("5");
-        panel.add(moleculesTextField);
+        sigmaAtomsTextField = new JTextField(4);
+        sigmaAtomsTextField.setText("5");
+        panel.add(sigmaAtomsTextField);
 
-        JLabel powerupsLabel = new JLabel("Power-ups");
-        panel.add(powerupsLabel);
+        // powerups labels and text fields
+        JLabel alphaPowerupLabel = new JLabel("Alpha Powerups");
+        panel.add(alphaPowerupLabel);
 
-        powerupsTextField = new JTextField(4);
-        powerupsTextField.setText("5");
-        panel.add(powerupsTextField);
+        alphaPowerupsTextField = new JTextField(4);
+        alphaPowerupsTextField.setText("5");
+        panel.add(alphaPowerupsTextField);
 
-        JLabel blockersLabel = new JLabel("Blockers");
-        panel.add(blockersLabel);
+        JLabel betaPowerupLabel = new JLabel("Beta Powerups");
+        panel.add(betaPowerupLabel);
 
-        blockersTextField = new JTextField(4);
-        blockersTextField.setText("5");
-        panel.add(blockersTextField);
+        betaPowerupsTextField = new JTextField(4);
+        betaPowerupsTextField.setText("5");
+        panel.add(betaPowerupsTextField);
 
+        JLabel gammaPowerupLabel = new JLabel("Gamma Powerups");
+        panel.add(gammaPowerupLabel);
+
+        gammaPowerupsTextField = new JTextField(4);
+        gammaPowerupsTextField.setText("5");
+        panel.add(gammaPowerupsTextField);
+
+        JLabel sigmaPowerupLabel = new JLabel("Sigma Powerups");
+        panel.add(sigmaPowerupLabel);
+
+        sigmaPowerupsTextField = new JTextField(4);
+        sigmaPowerupsTextField.setText("5");
+        panel.add(sigmaPowerupsTextField);
+
+
+        // Blockers labels and textfields
+        JLabel alphaBlockerLabel = new JLabel("Alpha Blockers");
+        panel.add(alphaBlockerLabel);
+
+        alphaBlockersTextField = new JTextField(4);
+        alphaBlockersTextField.setText("5");
+        panel.add(alphaBlockersTextField);
+
+        JLabel betaBlockerLabel = new JLabel("Beta Blockers");
+        panel.add(betaBlockerLabel);
+
+        betaBlockersTextField = new JTextField(4);
+        betaBlockersTextField.setText("5");
+        panel.add(betaBlockersTextField);
+
+        JLabel gammaBlockerLabel = new JLabel("Gamma Blockers");
+        panel.add(gammaBlockerLabel);
+
+        gammaBlockersTextField = new JTextField(4);
+        gammaBlockersTextField.setText("5");
+        panel.add(gammaBlockersTextField);
+
+        JLabel sigmaBlockerLabel = new JLabel("Sigma Blockers");
+        panel.add(sigmaBlockerLabel);
+
+        sigmaBlockersTextField = new JTextField(4);
+        sigmaBlockersTextField.setText("5");
+        panel.add(sigmaBlockersTextField);
+
+
+        // Molecules labels and textfields
+        JLabel alphaMoleculeLabel = new JLabel("Alpha Molecules");
+        panel.add(alphaMoleculeLabel);
+
+        alphaMoleculesTextField = new JTextField(4);
+        alphaMoleculesTextField.setText("5");
+        panel.add(alphaMoleculesTextField);
+
+        JLabel betaMoleculeLabel = new JLabel("Beta Molecules");
+        panel.add(betaMoleculeLabel);
+
+        betaMoleculesTextField = new JTextField(4);
+        betaMoleculesTextField.setText("5");
+        panel.add(betaMoleculesTextField);
+
+        JLabel gammaMoleculeLabel = new JLabel("Gamma Molecules");
+        panel.add(gammaMoleculeLabel);
+
+        gammaMoleculesTextField = new JTextField(4);
+        gammaMoleculesTextField.setText("5");
+        panel.add(gammaMoleculesTextField);
+
+        JLabel sigmaMoleculeLabel = new JLabel("Sigma Molecules");
+        panel.add(sigmaMoleculeLabel);
+
+        sigmaMoleculesTextField = new JTextField(4);
+        sigmaMoleculesTextField.setText("5");
+        panel.add(sigmaMoleculesTextField);
+
+        // Length label and textfield.
         JLabel lengthLabel = new JLabel("L unit ");
         panel.add(lengthLabel);
 
@@ -183,7 +270,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
                 // Create bundle
                 try {
                     getParametersValues();
-                    bundle = new ConfigBundle(atoms, blockersNum, powerupsNum, moleculesNum, l,
+                    bundle = new ConfigBundle(atoms, powerups, blockers, molecules, l,
                             isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
                             isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
                     // Validate the fields.
@@ -230,18 +317,34 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     }
 
     private void getParametersValues() throws NumberFormatException {
+        // Storing atom types
         this.atoms.clear();
-        alphaatomsNum = Integer.parseInt(alphaAtomsTextField.getText());
-        atoms.add(alphaatomsNum);
-        betaatomsNum = Integer.parseInt(betaAtomsTextField.getText());
-        atoms.add(betaatomsNum);
-        gammaatomsNum = Integer.parseInt(gammaAtomsTextField.getText());
-        atoms.add(gammaatomsNum);
-        sigmaatomsNum = Integer.parseInt(sigmaAtomsTextField.getText());
-        atoms.add(sigmaatomsNum);
-        moleculesNum = Integer.parseInt(moleculesTextField.getText());
-        blockersNum = Integer.parseInt(blockersTextField.getText());
-        powerupsNum = Integer.parseInt(powerupsTextField.getText());
+        atoms.add(Integer.parseInt(alphaAtomsTextField.getText()));
+        atoms.add(Integer.parseInt(betaAtomsTextField.getText()));
+        atoms.add(Integer.parseInt(gammaAtomsTextField.getText()));
+        atoms.add(Integer.parseInt(sigmaAtomsTextField.getText()));
+
+        // Storing powerups types
+        this.powerups.clear();
+        powerups.add(Integer.parseInt(alphaPowerupsTextField.getText()));
+        powerups.add(Integer.parseInt(betaPowerupsTextField.getText()));
+        powerups.add(Integer.parseInt(gammaPowerupsTextField.getText()));
+        powerups.add(Integer.parseInt(sigmaPowerupsTextField.getText()));
+
+        // Storing blockers types
+        this.blockers.clear();
+        blockers.add(Integer.parseInt(alphaBlockersTextField.getText()));
+        blockers.add(Integer.parseInt(betaBlockersTextField.getText()));
+        blockers.add(Integer.parseInt(gammaBlockersTextField.getText()));
+        blockers.add(Integer.parseInt(sigmaBlockersTextField.getText()));
+
+        // Storing molecules types
+        this.molecules.clear();
+        molecules.add(Integer.parseInt(alphaMoleculesTextField.getText()));
+        molecules.add(Integer.parseInt(betaMoleculesTextField.getText()));
+        molecules.add(Integer.parseInt(gammaMoleculesTextField.getText()));
+        molecules.add(Integer.parseInt(sigmaMoleculesTextField.getText()));
+
         l = Double.parseDouble(lengthTextField.getText());
     }
 
