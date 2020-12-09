@@ -27,10 +27,12 @@ public class ConfigBundle {
 	 * @param isSpinningBeta       /
 	 * @param difficulty           /
 	 */
-	public ConfigBundle(ArrayList<Integer> atoms, int numOfBlockersPerType, int numOfPowerUpsPerType,
-			int numOfMoleculesPerType, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha,
+	public ConfigBundle(ArrayList<Integer> atoms, ArrayList<Integer> powerups, ArrayList<Integer> blockers, ArrayList<Integer> molecules, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha,
 			boolean isSpinningBeta, int difficulty) {
 		this.atoms = atoms;
+		this.powerups = powerups;
+		this.blockers = blockers;
+		this.molecules = molecules;
 		this.numOfBlockersPerType = numOfBlockersPerType;
 		this.numOfPowerUpsPerType = numOfPowerUpsPerType;
 		this.numOfMoleculesPerType = numOfMoleculesPerType;
