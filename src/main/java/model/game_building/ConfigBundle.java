@@ -11,26 +11,27 @@ public class ConfigBundle {
 	private double l;
 	private boolean isLinearAlpha, isLinearBeta, isSpinningAlpha, isSpinningBeta; // TODO: convert to enums
 	private int difficulty; // 0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
-	private ArrayList<Integer> atoms;
+	private ArrayList<Integer> atoms, powerups, molecules, blockers;
 
 	/**
 	 * Constructor to initialize game parameter attributes
-	 * 
-	 * @param atoms    /
-	 * @param numOfBlockersPerType /
-	 * @param numOfPowerUpsPerType /
-	 * @param numOfMoleculesPerType /
-	 * @param l                    /
-	 * @param isLinearAlpha        /
-	 * @param isLinearBeta         /
-	 * @param isSpinningAlpha      /
-	 * @param isSpinningBeta       /
-	 * @param difficulty           /
+	 * @param atoms
+	 * @param powerups
+	 * @param blockers
+	 * @param molecules
+	 * @param l
+	 * @param isLinearAlpha
+	 * @param isLinearBeta
+	 * @param isSpinningAlpha
+	 * @param isSpinningBeta
+	 * @param difficulty
 	 */
-	public ConfigBundle(ArrayList<Integer> atoms, int numOfBlockersPerType, int numOfPowerUpsPerType,
-			int numOfMoleculesPerType, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha,
+	public ConfigBundle(ArrayList<Integer> atoms, ArrayList<Integer> powerups, ArrayList<Integer> blockers, ArrayList<Integer> molecules, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha,
 			boolean isSpinningBeta, int difficulty) {
 		this.atoms = atoms;
+		this.powerups = powerups;
+		this.blockers = blockers;
+		this.molecules = molecules;
 		this.numOfBlockersPerType = numOfBlockersPerType;
 		this.numOfPowerUpsPerType = numOfPowerUpsPerType;
 		this.numOfMoleculesPerType = numOfMoleculesPerType;
@@ -58,16 +59,52 @@ public class ConfigBundle {
 		return atoms.get(3);
 	}
 
-	public int getNumOfBlockersPerType() {
-		return numOfBlockersPerType;
+	public int getNumAlphaPowerups() {
+		return powerups.get(0);
 	}
 
-	public int getNumOfPowerUpsPerType() {
-		return numOfPowerUpsPerType;
+	public int getNumBetaPowerups() {
+		return powerups.get(1);
 	}
 
-	public int getNumOfMoleculesPerType() {
-		return numOfMoleculesPerType;
+	public int getNumGammaPowerups() {
+		return powerups.get(2);
+	}
+
+	public int getNumSigmaPowerups() {
+		return powerups.get(3);
+	}
+
+	public int getNumAlphaBlockers() {
+		return blockers.get(0);
+	}
+
+	public int getNumBetaBlockers() {
+		return blockers.get(1);
+	}
+
+	public int getNumGammaBlockers() {
+		return blockers.get(2);
+	}
+
+	public int getNumSigmaBlockers() {
+		return blockers.get(3);
+	}
+
+	public int getNumAlphaMolecules() {
+		return molecules.get(0);
+	}
+
+	public int getNumBetaMolecules() {
+		return molecules.get(1);
+	}
+
+	public int getNumGammaMolecules() {
+		return molecules.get(2);
+	}
+
+	public int getNumSigmaMolecules() {
+		return molecules.get(3);
 	}
 
 	public double getL() {
