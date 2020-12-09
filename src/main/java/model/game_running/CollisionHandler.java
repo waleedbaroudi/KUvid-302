@@ -14,11 +14,7 @@ public class CollisionHandler implements CollisionVisitor{
         controller.removeEntity(entity2);
     }
 
-    // Atom collision
-    @Override
-    public void handleCollision(Atom atom, Powerup powerup) {
-        defaultCollision(atom, powerup);
-    }
+
 
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
@@ -35,37 +31,19 @@ public class CollisionHandler implements CollisionVisitor{
         controller.removeEntity(atom);
     }
 
-    @Override
-    public void handleCollision(Atom atom1, Atom atom2) {
-    }
 
-    @Override
-    public void handleCollision(Powerup powerup1, Powerup powerup2) {
-    }
-
-    @Override
-    public void handleCollision(Powerup powerup, Molecule molecule) {
-    }
 
     @Override
     public void handleCollision(Powerup powerup, Blocker blocker) {
+        controller.removeEntity(blocker);
     }
 
     @Override
     public void handleCollision(Powerup powerup, Shooter shooter) {
+        controller.addEntity(powerup);
     }
 
-    @Override
-    public void handleCollision(Powerup powerup, Atom atom2) {
-    }
 
-    @Override
-    public void handleCollision(Molecule molecule, Powerup powerup) {
-    }
-
-    @Override
-    public void handleCollision(Molecule molecule1, Molecule molecule2) {
-    }
 
     @Override
     public void handleCollision(Molecule molecule, Blocker blocker) {
