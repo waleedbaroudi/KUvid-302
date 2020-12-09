@@ -15,17 +15,16 @@ public class ConfigBundle {
 
 	/**
 	 * Constructor to initialize game parameter attributes
-	 * 
-	 * @param atoms    /
-	 * @param numOfBlockersPerType /
-	 * @param numOfPowerUpsPerType /
-	 * @param numOfMoleculesPerType /
-	 * @param l                    /
-	 * @param isLinearAlpha        /
-	 * @param isLinearBeta         /
-	 * @param isSpinningAlpha      /
-	 * @param isSpinningBeta       /
-	 * @param difficulty           /
+	 * @param atoms
+	 * @param powerups
+	 * @param blockers
+	 * @param molecules
+	 * @param l
+	 * @param isLinearAlpha
+	 * @param isLinearBeta
+	 * @param isSpinningAlpha
+	 * @param isSpinningBeta
+	 * @param difficulty
 	 */
 	public ConfigBundle(ArrayList<Integer> atoms, ArrayList<Integer> powerups, ArrayList<Integer> blockers, ArrayList<Integer> molecules, double l, boolean isLinearAlpha, boolean isLinearBeta, boolean isSpinningAlpha,
 			boolean isSpinningBeta, int difficulty) {
