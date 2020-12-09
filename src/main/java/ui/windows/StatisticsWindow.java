@@ -3,13 +3,13 @@ package ui.windows;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.GameConstants;
+import model.game_space.GameStatistics;
 import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
-import javax.swing.plaf.SeparatorUI;
 import java.awt.*;
 
-public class StatisticsWindow extends JPanel {
+public class StatisticsWindow extends JPanel implements GameStatistics.GameStatisticsListener {
 
     //Icons
     private Image atomAlphaImg;
@@ -58,7 +58,6 @@ public class StatisticsWindow extends JPanel {
     private void setContent() {
 
         GridBagConstraints c = new GridBagConstraints();
-
 
         c.ipady = 10;
         //x = 0
@@ -149,5 +148,68 @@ public class StatisticsWindow extends JPanel {
         healthImg = ImageResources.getIcon(1, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         watchImg = ImageResources.getIcon(2, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         blenderImg = ImageResources.getIcon(3, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+    }
+
+    @Override
+    public void onHealthChanged(int health) {
+        healthLabel.setText(String.valueOf(health));
+    }
+
+    @Override
+    public void onTimerChanged(String currentTime) {
+        healthLabel.setText(currentTime);
+    }
+
+    @Override
+    public void onScoreChanged(int score) {
+        scoreLabel.setText(String.valueOf(score));
+    }
+
+    @Override
+    public void onProjectileCountChange(SuperType superType, EntityType type, int newCount) {
+        String newText = String.valueOf(newCount);
+        switch (type) {
+            case ALPHA:
+                if (superType == SuperType.ATOM)
+                    alphaAtomsNumberLabel.setText(newText);
+                else
+                    alphaPowerupsNumberLabel.setText(newText);
+                break;
+            case BETA:
+                if (superType == SuperType.ATOM)
+                    betaAtomsNumberLabel.setText(newText);
+                else
+                    betaPowerupsNumberLabel.setText(newText);
+                break;
+            case GAMMA:
+                if (superType == SuperType.ATOM)
+                    gammaAtomsNumberLabel.setText(newText);
+                else
+                    gammaPowerupsNumberLabel.setText(newText);
+                break;
+            case SIGMA:
+                if (superType == SuperType.ATOM)
+                    sigmaAtomsNumberLabel.setText(newText);
+                else
+                    sigmaPowerupsNumberLabel.setText(newText);
+                break;
+        }
+    }
+
+    public void update() {
+        //todo for later
+//        alphaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.ALPHA).toString());
+//        betaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.BETA).toString());
+//        sigmaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.SIGMA).toString());
+//        gammaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.GAMMA).toString());
+//
+//        alphaPowerupsNumberLabel.setText(tmp.powerUpMap.get(EntityType.ALPHA).toString());
+//        betaPowerupsNumberLabel.setText(tmp.powerUpMap.get(EntityType.BETA).toString());
+//        sigmaAtomsNumberLabel.setText(tmp.powerUpMap.get(EntityType.SIGMA).toString());
+//        gammaAtomsNumberLabel.setText(tmp.powerUpMap.get(EntityType.GAMMA).toString());
+//
+//        timeLabel.setText("some text");
+//        scoreLabel.setText("some text");
+//        healthLabel.setText("some text");
     }
 }
