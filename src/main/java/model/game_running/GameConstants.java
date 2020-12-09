@@ -41,6 +41,7 @@ public final class GameConstants {
 
     // Objects Dimensions.
     public static final Dimension BUILDING_WINDOW_SIZE = new Dimension(800, 800);
+    public static final Dimension STATISTICS_WINDOW_SIZE = new Dimension(100, 800);
     public static final int FPS = 60;
 
     //drawable sizes with regard to L
@@ -50,5 +51,8 @@ public final class GameConstants {
     public static final double POWERUP_RADIUS = 0.5; //not specified
     public static final double SHOOTER_HEIGHT = 1;
     public static final double SHOOTER_WIDTH = 0.5;
+
+    public static final int ICON_WIDTH = 50;
+    public static final int ICON_HEIGHT = 50;
 
 }

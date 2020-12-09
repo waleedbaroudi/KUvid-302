@@ -55,7 +55,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         JPanel panel = new JPanel();
         this.add(panel);
 
-
         /*
          * calling user defined method for adding components to the panel.
          */
