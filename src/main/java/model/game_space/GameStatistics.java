@@ -1,11 +1,14 @@
 package model.game_space;
 
+import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
+
 public class GameStatistics {
     int health, score; //might be doubles?
     GameTimer timer;
     GameStatisticsListener statisticsListener;
 
-    public GameStatistics(GameStatisticsListener statisticsListener) { //this should be given by the statistics window (possibly JPanel)
+    public GameStatistics(GameStatisticsListener statisticsListener) { //listener should be given by the statistics window (possibly JPanel)
         this.health = 100;
         this.timer = new GameTimer(10);
         this.score = 0;
@@ -43,13 +46,29 @@ public class GameStatistics {
         statisticsListener.onScoreChanged(score);
     }
 
+    /**
+     * called when the number of a certain projectile is changed. (by shooting, blending, catching, etc.)
+     *
+     * @param superType     the type of the projectile; atom or power-up
+     * @param type          the kind of the projectile; alpha, beta, gamma, or sigma.
+     * @param currentNumber the updated count of the specified projectile
+     */
+    public void changeProjectileCount(SuperType superType, EntityType type, int currentNumber) {// todo: this is called from projectile container via the controller
+        statisticsListener.onProjectileCountChange(superType, type, currentNumber);
+    }
+
+    /**
+     * a listener to notify the statistics window UI of any change to the statistics
+     */
     public interface GameStatisticsListener {
         void onHealthChanged(int health);
 
         void onTimerChanged(String currentTime);
 
         void onScoreChanged(int score);
+
+        void onProjectileCountChange(SuperType superType, EntityType type, int newCount);
     }
 
-    
+
 }
