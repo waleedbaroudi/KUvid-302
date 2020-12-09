@@ -63,7 +63,7 @@ public class RunningMode {
         // TODO update the shooter inital coordinates from config
         // TODO fix the shooter position
         this.projectileContainer = new ProjectileContainer(config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
-                config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4);
+                0, 0, 0, 0);
 
         this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
                 config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
