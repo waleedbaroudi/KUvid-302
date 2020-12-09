@@ -25,16 +25,6 @@ public class MoleculeDrawer implements Drawable {
     @Override
     public void draw(Graphics g) {
 
-        if (molecule.getType() == EntityType.ALPHA) {
-            g.setColor(Color.BLACK);
-        } else if (molecule.getType() == EntityType.BETA) {
-            g.setColor(Color.BLUE);
-        } else if (molecule.getType() == EntityType.GAMMA) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.PINK);
-        }
-
         Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(), radius);
         g.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }

@@ -23,15 +23,6 @@ public class AtomDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        if (atom.getType() == EntityType.ALPHA) {
-            g.setColor(Color.BLACK);
-        } else if (atom.getType() == EntityType.BETA) {
-            g.setColor(Color.BLUE);
-        } else if (atom.getType() == EntityType.SIGMA) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.PINK);
-        }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), radius);
         g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
