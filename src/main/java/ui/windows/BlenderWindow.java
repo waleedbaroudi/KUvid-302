@@ -17,16 +17,17 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JButton blendButton;
 
     Map<String, Integer> atomTypesWeights; // This map contains a mapping between atom types and their weights (1 to 4)
-
+    Blender blender;
     public BlenderWindow() {
         super("blender");
+        blender = new Blender(this);
         this.atomTypesWeights = new HashMap<>();
         this.contentPane = new JPanel();
 
         getContentPane().add(contentPane);
         addComponents(contentPane); // Add components to the panel
         this.pack(); // Pack the frame around the components
-        this.setVisible(true);
+        this.setVisible(false); // Keep it invisible by default
     }
 
     private void addComponents(JPanel contentPane) {
@@ -51,6 +52,10 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         contentPane.add(blendButton);
     }
 
+    public Blender getBlender(){
+        return this.blender;
+    }
+
     private void addButtonActionListener(JButton btn) {
         btn.addActionListener(new ActionListener() {
             @Override
@@ -59,14 +64,20 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
                 String destination = String.valueOf(sourceComboBox.getSelectedItem());
                 int sourceWeight = atomTypesWeights.get(source);
                 int destinationWeight = atomTypesWeights.get(destination);
-                // Blender.blend(sourceWeight, destinationWeight);
+                blender.blend(sourceWeight, destinationWeight);
             }
         });
     }
 
     @Override
     public void onBlend() {
-        this.setVisible(false);
+       this.setVisible(false);
+       // this.dispose();
+    }
+
+    @Override
+    public void onShow() {
+        this.setVisible(true);
     }
 }
 

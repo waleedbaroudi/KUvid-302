@@ -6,19 +6,23 @@ import java.util.Arrays;
 
 public class Blender {
 
-    private RunningMode container;
     private BlenderListener blenderListener;
 
-    public Blender(RunningMode container, BlenderListener blenderListener){
-        this.container = container;
+    public Blender(BlenderListener blenderListener){
+        // get the container through a static method since the runningMode will be a singleton
+        // this.container = container;
         this.blenderListener = blenderListener;
     }
 
 
-    public void blendAtom(Atom blendAtom, Atom resultAtom){
+    public void blend(int sourceAtom, int destinationAtom){
 
 
         blenderListener.onBlend();
+    }
+
+    public void showBlender(){
+        blenderListener.onShow();
     }
 
     public void breakAtom(Atom blendAtom, Atom resultAtom){
@@ -37,5 +41,6 @@ public class Blender {
          * this method is called after game parameters get checked and proved valid.
          */
         void onBlend();
+        void onShow();
     }
 }

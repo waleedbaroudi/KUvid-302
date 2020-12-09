@@ -3,6 +3,7 @@ package ui.windows;
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
+import model.game_running.Blender;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
@@ -29,14 +30,17 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private final ShooterDrawer shooterDrawable;
+    private Blender blender;
+    private BlenderWindow blenderWindow;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
-        drawableMap = new ConcurrentHashMap<>(); //concurrent so that it supports concurrent addition and deletion.
+        drawableMap = new ConcurrentHashMap<>(); // concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
         this.setSize(config.getGameWidth(), config.getGameHeight());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.runningMode = new RunningMode(this, this);
+        blenderWindow = new BlenderWindow(); // Window that implements the blending listener for the observer pattern
+        this.runningMode = new RunningMode(this, this, blenderWindow.getBlender());
         this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
         gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
         getContentPane().add(gameContentPanel);
