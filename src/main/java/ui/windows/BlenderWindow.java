@@ -1,6 +1,6 @@
 package ui.windows;
 
-import model.game_running.Blender;
+import model.game_space.Blender;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

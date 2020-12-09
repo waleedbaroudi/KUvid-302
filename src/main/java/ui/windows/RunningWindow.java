@@ -2,8 +2,7 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
-import model.game_entities.Entity;
-import model.game_running.Blender;
+import model.game_space.Blender;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
@@ -13,8 +12,6 @@ import ui.movable_drawables.ShooterDrawer;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -233,16 +233,19 @@ public class MathUtils {
     /**
      * Given an array ot integers and a size, generates a square matrix whose elements above the diagonal will gives coefficients that determine the weights of the atoms.
      *
-     * @param types an array of integers that contains the types of atoms. (The length of the types should be the same as the size variable.)
-     * @param size the size of the matrix
+     * @param types an array of integers that contains the types of atoms.
      * @return a square matrix whose elements above the diagonal will gives coefficients that determine the weights of the atoms.
      */
-    public static double[][] blendMatrix(int[] types, int size){
+    public static double[][] blendMatrix(int[] types){
+        int size = types.length;
         double[][] blendMatrix = new double[size][size];
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
                 if(i <= j) {
-                    blendMatrix[i][j] = types[j];
+                    blendMatrix[i][j] = types[j - i];
+                }
+                else {
+                    blendMatrix[i][j] = (double) 1 / types[i - j];
                 }
             }
         }
