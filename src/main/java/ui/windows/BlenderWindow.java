@@ -17,16 +17,18 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JButton blendButton;
 
     Map<String, Integer> atomTypesWeights; // This map contains a mapping between atom types and their weights (1 to 4)
-
-    public BlenderWindow() {
+    Blender blender;
+    public BlenderWindow(Blender blender) {
         super("blender");
+        this.blender = blender;
+        blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
         this.atomTypesWeights = new HashMap<>();
         this.contentPane = new JPanel();
 
         getContentPane().add(contentPane);
         addComponents(contentPane); // Add components to the panel
         this.pack(); // Pack the frame around the components
-        this.setVisible(true);
+        this.setVisible(false); // Keep it invisible by default
     }
 
     private void addComponents(JPanel contentPane) {
@@ -43,12 +45,15 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         blendButton = new JButton("Blend");
         addButtonActionListener(blendButton);
 
-
         contentPane.add(sourceLabel);
         contentPane.add(sourceComboBox);
         contentPane.add(destinationLabel);
         contentPane.add(destinationComboBox);
         contentPane.add(blendButton);
+    }
+
+    public Blender getBlender(){
+        return this.blender;
     }
 
     private void addButtonActionListener(JButton btn) {
@@ -59,14 +64,21 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
                 String destination = String.valueOf(sourceComboBox.getSelectedItem());
                 int sourceWeight = atomTypesWeights.get(source);
                 int destinationWeight = atomTypesWeights.get(destination);
-                // Blender.blend(sourceWeight, destinationWeight);
+                System.out.println(blender);
+                blender.blend(sourceWeight, destinationWeight);
             }
         });
     }
 
     @Override
     public void onBlend() {
-        this.setVisible(false);
+       this.setVisible(false);
+       // this.dispose();
+    }
+
+    @Override
+    public void onShow() {
+        this.setVisible(true);
     }
 }
 

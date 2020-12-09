@@ -57,6 +57,7 @@ public class RunningMode {
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
+        this.blender = new Blender(null);
         // Adding Blender
         // this.blender = new Blender(this);
         // TODO update the shooter inital coordinates from config
@@ -189,6 +190,10 @@ public class RunningMode {
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
+    }
+
+    public Blender getBlender(){
+        return this.blender;
     }
 
     public interface GameEntitiesListener {
