@@ -11,7 +11,7 @@ public class ConfigBundle {
 	private double l;
 	private boolean isLinearAlpha, isLinearBeta, isSpinningAlpha, isSpinningBeta; // TODO: convert to enums
 	private int difficulty; // 0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
-	private ArrayList<Integer> atoms;
+	private ArrayList<Integer> atoms, powerups, molecules, blockers;
 
 	/**
 	 * Constructor to initialize game parameter attributes
@@ -58,16 +58,52 @@ public class ConfigBundle {
 		return atoms.get(3);
 	}
 
-	public int getNumOfBlockersPerType() {
-		return numOfBlockersPerType;
+	public int getNumAlphaPowerups() {
+		return powerups.get(0);
 	}
 
-	public int getNumOfPowerUpsPerType() {
-		return numOfPowerUpsPerType;
+	public int getNumBetaPowerups() {
+		return powerups.get(1);
 	}
 
-	public int getNumOfMoleculesPerType() {
-		return numOfMoleculesPerType;
+	public int getNumGammaPowerups() {
+		return powerups.get(2);
+	}
+
+	public int getNumSigmaPowerups() {
+		return powerups.get(3);
+	}
+
+	public int getNumAlphaBlockers() {
+		return blockers.get(0);
+	}
+
+	public int getNumBetaBlockers() {
+		return blockers.get(1);
+	}
+
+	public int getNumGammaBlockers() {
+		return blockers.get(2);
+	}
+
+	public int getNumSigmaBlockers() {
+		return blockers.get(3);
+	}
+
+	public int getNumAlphaMolecules() {
+		return molecules.get(0);
+	}
+
+	public int getNumBetaMolecules() {
+		return molecules.get(1);
+	}
+
+	public int getNumGammaMolecules() {
+		return molecules.get(2);
+	}
+
+	public int getNumSigmaMolecules() {
+		return molecules.get(3);
 	}
 
 	public double getL() {
