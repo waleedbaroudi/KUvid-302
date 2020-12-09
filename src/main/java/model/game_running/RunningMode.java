@@ -49,7 +49,7 @@ public class RunningMode {
     // Blender
     Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, Blender blender) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         config = Configuration.getInstance();
@@ -57,7 +57,7 @@ public class RunningMode {
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
-        this.blender = blender;
+        this.blender = new Blender(null);
         // Adding Blender
         // this.blender = new Blender(this);
         // TODO update the shooter inital coordinates from config

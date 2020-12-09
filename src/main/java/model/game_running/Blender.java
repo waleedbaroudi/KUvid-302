@@ -49,6 +49,10 @@ public class Blender {
         return defaultMatrix[sourceIndex][targetIndex];
     }
 
+    public void setBlenderListener(BlenderListener blenderListener){
+        this.blenderListener = blenderListener;
+    }
+
     public interface BlenderListener{
         /**
          * this method is called after game parameters get checked and proved valid.

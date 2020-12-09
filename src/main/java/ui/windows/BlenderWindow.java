@@ -18,9 +18,10 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
 
     Map<String, Integer> atomTypesWeights; // This map contains a mapping between atom types and their weights (1 to 4)
     Blender blender;
-    public BlenderWindow() {
+    public BlenderWindow(Blender blender) {
         super("blender");
-        blender = new Blender(this);
+        this.blender = blender;
+        blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
         this.atomTypesWeights = new HashMap<>();
         this.contentPane = new JPanel();
 
@@ -44,7 +45,6 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         blendButton = new JButton("Blend");
         addButtonActionListener(blendButton);
 
-
         contentPane.add(sourceLabel);
         contentPane.add(sourceComboBox);
         contentPane.add(destinationLabel);
@@ -64,6 +64,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
                 String destination = String.valueOf(sourceComboBox.getSelectedItem());
                 int sourceWeight = atomTypesWeights.get(source);
                 int destinationWeight = atomTypesWeights.get(destination);
+                System.out.println(blender);
                 blender.blend(sourceWeight, destinationWeight);
             }
         });
