@@ -82,6 +82,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
         // Fits the borders to the content
         this.pack();
+        this.setLocationRelativeTo(null); //centers the window in the middle of the screen
         // Setting the frame visibility to true.
         this.setVisible(true);
     }

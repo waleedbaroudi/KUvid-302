@@ -40,6 +40,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
         gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
         getContentPane().add(gameContentPanel);
+        setLocationRelativeTo(null); //centers the window in the middle of the screen
         setVisible(true);
         start();
     }
