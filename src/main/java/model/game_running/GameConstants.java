@@ -45,7 +45,7 @@ public final class GameConstants {
 
     //drawable sizes with regard to L
     public static final double ATOM_RADIUS = 0.1/2;
-    public static final double MOLECULE_RADIUS = 0.25/2;
+    public static final double MOLECULE_RADIUS = 0.5;
     public static final double BLOCKER_RADIUS = 0.5;
     public static final double POWERUP_RADIUS = 0.5; //not specified
     public static final double SHOOTER_HEIGHT = 1;
