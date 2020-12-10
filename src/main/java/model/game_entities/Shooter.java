@@ -73,8 +73,7 @@ public class Shooter extends Entity {
 
     public Atom nextAtom() {
         // TODO: change the atom types to random
-//        return container.getAtom(this.getCoordinates(), EntityType.BETA);
-        return null; //TODO: CHANGE THIS
+        return container.getRandomAtom(this.getCoordinates());
 //        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.BETA);
     }
 
