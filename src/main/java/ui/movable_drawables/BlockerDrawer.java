@@ -13,11 +13,12 @@ public class BlockerDrawer implements Drawable {
 
     private final Blocker blocker;
     private final int radius;
-
+    private Image blockerImage;
 
     public BlockerDrawer(Blocker blocker) {
         this.blocker = blocker;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_RADIUS);
+        this.blockerImage = ImageResources.get(blocker, 2 * radius, 2 * radius);
     }
 
     @Override
@@ -34,6 +35,6 @@ public class BlockerDrawer implements Drawable {
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(), radius);
-        g.fillRect(drawingCoord.getPoint().x, drawingCoord.getPoint().y, 2 * radius, 2 * radius);
+        g.drawImage(blockerImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }
