@@ -19,8 +19,9 @@ public class Blender {
    }
 
     public void blend(int sourceAtom, int destinationAtom){
-        projectileBlender.decreaseAtoms(sourceAtom,(int) Math.ceil(sourceAtom * BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1]));
-        projectileBlender.increaseAtoms(destinationAtom, (int) Math.ceil(sourceAtom * BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1]));
+        System.out.println(projectileBlender.decreaseAtoms(sourceAtom,(int) Math.ceil(sourceAtom * BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
+        System.out.println(projectileBlender.increaseAtoms(destinationAtom, (int) Math.ceil(sourceAtom * BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1])));
+        System.out.println(projectileBlender.toString());
 
         blenderListener.onBlend();
     }

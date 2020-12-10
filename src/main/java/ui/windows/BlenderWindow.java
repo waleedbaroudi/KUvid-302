@@ -1,10 +1,14 @@
 package ui.windows;
 
+import model.game_running.GameConstants;
+import model.game_running.RunningMode;
 import model.game_space.Blender;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,18 +20,30 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JComboBox destinationComboBox;
     private JButton blendButton;
 
+    private RunningMode runningMode;
+
     Map<String, Integer> atomTypesWeights; // This map contains a mapping between atom types and their weights (1 to 4)
     Blender blender;
-    public BlenderWindow(Blender blender) {
+    public BlenderWindow(Blender blender, RunningMode runningMode) {
         super("blender");
         this.blender = blender;
         blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
         this.atomTypesWeights = new HashMap<>();
         this.contentPane = new JPanel();
 
+        this.runningMode = runningMode;
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+            }
+        });
         getContentPane().add(contentPane);
         addComponents(contentPane); // Add components to the panel
         this.pack(); // Pack the frame around the components
+        setLocationRelativeTo(null);
         this.setVisible(false); // Keep it invisible by default
     }
 
@@ -57,22 +73,20 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     }
 
     private void addButtonActionListener(JButton btn) {
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String source = String.valueOf(sourceComboBox.getSelectedItem());
-                String destination = String.valueOf(sourceComboBox.getSelectedItem());
-                int sourceWeight = atomTypesWeights.get(source);
-                int destinationWeight = atomTypesWeights.get(destination);
-                System.out.println(blender);
-                blender.blend(sourceWeight, destinationWeight);
-            }
+        btn.addActionListener(e -> {
+            String source = String.valueOf(sourceComboBox.getSelectedItem());
+            String destination = String.valueOf(sourceComboBox.getSelectedItem());
+            int sourceWeight = atomTypesWeights.get(source);
+            int destinationWeight = atomTypesWeights.get(destination);
+            System.out.println(blender);
+            blender.blend(sourceWeight, destinationWeight);
         });
     }
 
     @Override
     public void onBlend() {
        this.setVisible(false);
+       runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
        // this.dispose();
     }
 

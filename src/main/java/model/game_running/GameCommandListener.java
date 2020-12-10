@@ -21,6 +21,7 @@ public class GameCommandListener implements KeyListener {
                 runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
                 break;
             case KeyEvent.VK_B:
+                runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
                 runningMode.getBlender().showBlender();
                 break;
             case KeyEvent.VK_C:

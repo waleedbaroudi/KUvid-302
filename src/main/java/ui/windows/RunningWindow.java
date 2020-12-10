@@ -38,7 +38,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.runningMode = new RunningMode(this, this);
         System.out.println("in running window" + runningMode.getBlender());
-        blenderWindow = new BlenderWindow(runningMode.getBlender()); // Window that implements the blending listener for the observer pattern
+        blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
         this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
         gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
         getContentPane().add(gameContentPanel);
