@@ -31,7 +31,7 @@ public class ImageResources {
             case ATOM:
                 switch (((AutonomousEntity) entity).getType()) {
                     case ALPHA:
-                        return getImage("atomA.png", width, height);
+                        return getImage("alpha.png", width, height);
                     case BETA:
                         return getImage("atomB.png", width, height);
                     case GAMMA:
@@ -61,13 +61,13 @@ public class ImageResources {
             case POWERUP:
                 switch (((AutonomousEntity) entity).getType()) {
                     case ALPHA:
-                        return getImage("powerupA.png", width, height);
+                        return getImage("powerups/+alpha-b.png", width, height);
                     case BETA:
-                        return getImage("powerupB.png", width, height);
+                        return getImage("powerups/+beta-b.png", width, height);
                     case GAMMA:
-                        return getImage("powerupG.png", width, height);
+                        return getImage("powerups/+gama-b.png", width, height);
                     case SIGMA:
-                        return getImage("powerupS.png", width, height);
+                        return getImage("powerups/+sigma-b.png", width, height);
                     default:
                         throw new IllegalArgumentException("Powerup type is not correct");
                 }
