@@ -1,11 +1,18 @@
 package model.game_space;
 
+
+import javafx.util.Pair;
 import model.game_entities.Atom;
 import model.game_running.ProjectileContainer;
 import utils.MathUtils;
 
+import java.util.HashMap;
+
 
 public class Blender {
+
+    private HashMap<Pair<Integer, Integer>, Integer> blendingMap;
+
     private final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // TODO: Change to something cleaner.
     private ProjectileContainer projectileBlender;
 
@@ -14,6 +21,9 @@ public class Blender {
     public Blender(BlenderListener blenderListener, ProjectileContainer projectileBlender) {
         // get the container through a static method since the runningMode will be a singleton
         // this.container = container;
+        blendingMap = new HashMap<>();
+
+
         this.projectileBlender = projectileBlender;
         this.blenderListener = blenderListener;
     }
