@@ -3,10 +3,9 @@ package model.game_running.runnables;
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
 import model.game_running.CollisionVisitor;
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;

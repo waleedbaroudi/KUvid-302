@@ -1,12 +1,10 @@
 package ui.windows;
 
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import model.game_space.Blender;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;

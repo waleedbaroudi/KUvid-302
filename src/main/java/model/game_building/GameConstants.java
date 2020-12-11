@@ -1,4 +1,4 @@
-package model.game_running;
+package model.game_building;
 
 import model.game_building.Configuration;
 
@@ -50,5 +50,7 @@ public final class GameConstants {
     public static final double POWERUP_RADIUS = 0.5; //not specified
     public static final double SHOOTER_HEIGHT = 1;
     public static final double SHOOTER_WIDTH = 0.5;
+
+    public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
 
 }

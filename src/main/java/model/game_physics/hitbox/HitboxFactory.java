@@ -1,14 +1,7 @@
 package model.game_physics.hitbox;
 
 import model.game_building.Configuration;
-import model.game_entities.enums.HitboxType;
-import model.game_physics.path_patterns.PathPattern;
-import model.game_physics.path_patterns.StraightPattern;
-import model.game_physics.path_patterns.ZigzagPatten;
-import model.game_running.GameConstants;
-import utils.Coordinates;
-import utils.Vector;
-import utils.Velocity;
+import model.game_building.GameConstants;
 
 public class HitboxFactory {
 

@@ -1,6 +1,7 @@
 package model.game_running;
 
 import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Shooter;
 import model.game_physics.hitbox.RectangularHitbox;

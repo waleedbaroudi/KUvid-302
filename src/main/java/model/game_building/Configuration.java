@@ -1,6 +1,5 @@
 package model.game_building;
 
-import model.game_running.GameConstants;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 

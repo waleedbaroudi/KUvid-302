@@ -1,5 +1,6 @@
 package utils;
 
+import javafx.util.Pair;
 import model.game_physics.hitbox.Hitbox;
 
 import java.text.DecimalFormat;
@@ -251,5 +252,23 @@ public class MathUtils {
         }
         return blendMatrix;
     }
+
+    /**
+     *
+     *
+     * @param numberOfPairs
+     * @return
+     */
+    private ArrayList<Pair<Integer, Integer>> fillBlendPairs(int numberOfPairs){
+        ArrayList<javafx.util.Pair<Integer, Integer>> blendPairList = new ArrayList();
+        for(int i = 1; i <= numberOfPairs; i ++) {
+            for(int j = 1; j <= numberOfPairs; j++) {
+                if(i != j)
+                    blendPairList.add(new Pair<Integer, Integer>(i, j));
+            }
+        }
+        return blendPairList;
+    }
+
 
 }
