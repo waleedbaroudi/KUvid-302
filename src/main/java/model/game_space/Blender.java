@@ -29,6 +29,9 @@ public class Blender {
     }
 
     public void blend(int sourceAtom, int destinationAtom) {
+        Pair<Integer, Integer> blendPair = new Pair<>(sourceAtom, destinationAtom);
+        Pair<Integer, Integer> blendPair2 = new Pair<>(destinationAtom, sourceAtom);
+
         boolean canBlend = false;
         System.out.println(canBlend = projectileBlender.decreaseAtoms(sourceAtom, (int) Math.ceil(sourceAtom * BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
         if (canBlend)
@@ -45,7 +48,6 @@ public class Blender {
     public void setBlenderListener(BlenderListener blenderListener) {
         this.blenderListener = blenderListener;
     }
-
 
     public interface BlenderListener {
         /**

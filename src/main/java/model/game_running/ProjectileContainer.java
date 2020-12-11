@@ -121,7 +121,7 @@ public class ProjectileContainer {
     private boolean checkAndChange(int[] map, int type, int count) {
         System.out.println(type + " : " + count);
         int remaining = map[type];
-        if (remaining < 1)
+        if (remaining < -count)
             return false;
         map[type] = remaining + count;
         totalAtomCount += count;
