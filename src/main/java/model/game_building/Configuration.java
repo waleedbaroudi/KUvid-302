@@ -4,6 +4,8 @@ import model.game_running.GameConstants;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
+
 public class Configuration {
 
     private static Configuration instance;
@@ -81,11 +83,11 @@ public class Configuration {
         return isConfigBundleSet() ? configBundle.getNumOfMoleculesPerType() : -1;
     }
 
-    public int getMovementDelay(){// TODO: modify when difficulty is converted to enum
-        if(!isConfigBundleSet())
+    public int getMovementDelay() {// TODO: modify when difficulty is converted to enum
+        if (!isConfigBundleSet())
             return -1;
         int difficulty = this.getDifficulty();
-        switch (difficulty){
+        switch (difficulty) {
             case 0:
                 return GameConstants.EASY_MODE_GAME_THREAD_DELAY;
             case 1:
@@ -97,11 +99,11 @@ public class Configuration {
         }
     }
 
-    public int getDropRate(){// TODO: modify when difficulty is converted to enum
-        if(!isConfigBundleSet())
+    public int getDropRate() {// TODO: modify when difficulty is converted to enum
+        if (!isConfigBundleSet())
             return -1;
         int difficulty = this.getDifficulty();
-        switch (difficulty){
+        switch (difficulty) {
             case 0:
                 return GameConstants.EASY_MODE_GAME_DROP_RATE;
             case 1:
@@ -143,6 +145,18 @@ public class Configuration {
 
     public int getGameWidth() {
         return (int) (getGameHeight() * GameConstants.GAME_SIZE_RATIO);
+    }
+
+    public Dimension getGameDimension() {
+        return new Dimension((int) (getGameWidth() * 0.9), getGameHeight());
+    }
+
+    public Dimension getStatisticsDimension() {
+        return new Dimension((int) (getGameWidth() * 0.2), getGameHeight());
+    }
+
+    public Dimension getRunningWindowDimension() {
+        return new Dimension((int) (getGameWidth() * 1.1) + 3, getGameHeight());
     }
 
     /**

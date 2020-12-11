@@ -1,13 +1,17 @@
 package ui.windows;
 
+import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.GameConstants;
 import model.game_space.GameStatistics;
 import ui.movable_drawables.ImageResources;
+import utils.MathUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class StatisticsWindow extends JPanel implements GameStatistics.GameStatisticsListener {
 
@@ -43,8 +47,7 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
     JLabel scoreLabel;
 
     public StatisticsWindow() {
-        this.setSize(GameConstants.BUILDING_WINDOW_SIZE);
-        this.setVisible(true);
+        this.setPreferredSize(Configuration.getInstance().getStatisticsDimension());
 
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
@@ -52,7 +55,6 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
         retrieveImages();
         initializeTextFields();
         setContent();
-
     }
 
     private void setContent() {
@@ -108,6 +110,7 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
         c.gridy = 6;
         add(sigmaPowerupsNumberLabel, c);
         c.gridy = 8;
+        
         add(new JLabel(new ImageIcon(atomAlphaImg)), c);
         c.gridy = 9;
         add(new JLabel(new ImageIcon(atomBetaImg)), c);
@@ -194,22 +197,5 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
                     sigmaPowerupsNumberLabel.setText(newText);
                 break;
         }
-    }
-
-    public void update() {
-        //todo for later
-//        alphaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.ALPHA).toString());
-//        betaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.BETA).toString());
-//        sigmaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.SIGMA).toString());
-//        gammaAtomsNumberLabel.setText(tmp.atomMap.get(EntityType.GAMMA).toString());
-//
-//        alphaPowerupsNumberLabel.setText(tmp.powerUpMap.get(EntityType.ALPHA).toString());
-//        betaPowerupsNumberLabel.setText(tmp.powerUpMap.get(EntityType.BETA).toString());
-//        sigmaAtomsNumberLabel.setText(tmp.powerUpMap.get(EntityType.SIGMA).toString());
-//        gammaAtomsNumberLabel.setText(tmp.powerUpMap.get(EntityType.GAMMA).toString());
-//
-//        timeLabel.setText("some text");
-//        scoreLabel.setText("some text");
-//        healthLabel.setText("some text");
     }
 }
