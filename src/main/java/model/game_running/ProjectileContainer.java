@@ -8,6 +8,7 @@ import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * this class will keep information about the current amount of projectiles remaining as well as provide a projectile
@@ -18,18 +19,25 @@ public class ProjectileContainer {
     private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
     private final HashMap<EntityType, Integer> powerUpMap; // keeps the number of power-ups per type.
 
+    int totalAtomCount;
+
+    Random random;
+
     public ProjectileContainer(int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
         atomMap = new HashMap<>();
         atomMap.put(EntityType.ALPHA, numOfAlphaAtoms);
         atomMap.put(EntityType.BETA, numOfBetaAtoms);
         atomMap.put(EntityType.GAMMA, numOfGammaAtoms);
         atomMap.put(EntityType.SIGMA, numOfSigmaAtoms);
+        totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
         powerUpMap = new HashMap<>();
         powerUpMap.put(EntityType.ALPHA, numOfAlphaPowerUps);
         powerUpMap.put(EntityType.BETA, numOfBetaPowerUps);
         powerUpMap.put(EntityType.GAMMA, numOfGammaPowerUps);
         powerUpMap.put(EntityType.SIGMA, numOfSigmaPowerUps);
+
+        random = new Random();
     }
 
     /**
@@ -44,6 +52,19 @@ public class ProjectileContainer {
         if (checkAndChange(atomMap, type, -1))
             return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), type);
         return null;
+    }
+
+    public Atom getRandomAtom(Coordinates coordinates) { //needs some refactoring
+        if (totalAtomCount == 0)
+            return null; //out of atoms
+
+        Atom atom = null;
+        Object[] types = atomMap.keySet().toArray();
+        while (atom == null) {
+            EntityType atomType = (EntityType) types[random.nextInt(4)];
+            atom = getAtom(coordinates, atomType);
+        }
+        return atom;
     }
 
     /**
@@ -100,7 +121,8 @@ public class ProjectileContainer {
         int remaining = map.get(type);
         if (remaining < 1)
             return false;
-        map.replace(type, remaining - 1);
+        map.replace(type, remaining + count);
+        totalAtomCount += count;
         return true;
     }
 }
