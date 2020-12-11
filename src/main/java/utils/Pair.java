@@ -1,6 +1,6 @@
 package utils;
 
-public class Pair<F, S>{
+public class Pair<F extends Number, S extends Number> implements Comparable<Pair<F, S>>{
 
     private F first;
     private S second;
@@ -28,10 +28,21 @@ public class Pair<F, S>{
 
     @Override
     public boolean equals(Object obj) {
-        return ((Pair<?, ?>) obj).getFirst().equals(this.getFirst()) && ((Pair<?, ?>) obj).getSecond().equals(this.getSecond());
+        return ((Pair<F, S>) obj).getFirst().doubleValue() == this.getFirst().doubleValue() && ((Pair<F, S>) obj).getSecond().doubleValue() == this.getSecond().doubleValue();
+    }
+
+    @Override
+    public int compareTo(Pair<F, S> o) {
+        return (int) (this.getFirst().doubleValue() - o.getFirst().doubleValue() + (this.getSecond().doubleValue() - o.getSecond().doubleValue()));
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) Math.sqrt(Math.pow(this.getFirst().doubleValue(), 2) + Math.pow(this.getSecond().doubleValue(), 2));
     }
 
     public String toString() {
         return "(" + this.first.toString() + ", " + this.second.toString() + ")";
+
     }
 }
