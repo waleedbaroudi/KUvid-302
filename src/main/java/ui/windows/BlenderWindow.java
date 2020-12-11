@@ -75,7 +75,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private void addButtonActionListener(JButton btn) {
         btn.addActionListener(e -> {
             String source = String.valueOf(sourceComboBox.getSelectedItem());
-            String destination = String.valueOf(sourceComboBox.getSelectedItem());
+            String destination = String.valueOf(destinationComboBox.getSelectedItem());
             int sourceWeight = atomTypesWeights.get(source);
             int destinationWeight = atomTypesWeights.get(destination);
             System.out.println(blender);
