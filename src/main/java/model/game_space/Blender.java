@@ -28,12 +28,12 @@ public class Blender {
         blenderListener.onBlend();
     }
 
-    public void blend(int numberOfSourceAtoms, int sourceAtom, int destinationAtom) {// TODO: Use this method to blend after implementing multiple blending of a certain atom.
-        boolean canBlend = false;
-        System.out.println(canBlend = projectileContainer.decreaseAtoms(sourceAtom, numberOfSourceAtoms *
+    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {// TODO: Use this method to blend after implementing multiple blending of a certain atom.
+        boolean canBlend;
+        System.out.println(canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
                 (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
         if (canBlend)
-            System.out.println(projectileContainer.increaseAtoms(destinationAtom, numberOfSourceAtoms *
+            System.out.println(projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
                     (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1])));
         System.out.println(projectileContainer.toString());
 

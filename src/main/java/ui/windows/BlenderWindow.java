@@ -9,24 +9,31 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JPanel contentPane;
-    private JLabel sourceLabel;
-    private JComboBox sourceComboBox;
-    private JLabel destinationLabel;
-    private JComboBox destinationComboBox;
-    private JButton blendButton;
 
+    // Labels
+    private JLabel sourceLabel;
+    private JLabel destinationLabel;
+    private JLabel destinationQuantityLabel;
+
+    // ComboBoxes
+    private JComboBox sourceComboBox;
+    private JComboBox destinationComboBox;
+
+    private JTextField destinationQuantityField;
+    private JButton blendButton;
     private RunningMode runningMode;
 
-    Map<String, Integer> atomTypesWeights; // This map contains a mapping between atom types and their weights (1 to 4)
+    Map<String, Integer> atomTypesRanks; // This map contains a mapping between atom types and their weights (1 to 4)
     Blender blender;
     public BlenderWindow(Blender blender, RunningMode runningMode) {
         super("blender");
         this.blender = blender;
         blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
-        this.atomTypesWeights = new HashMap<>();
+        this.atomTypesRanks = new HashMap<>();
         this.contentPane = new JPanel();
 
         this.runningMode = runningMode;
@@ -46,16 +53,18 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     }
 
     private void addComponents(JPanel contentPane) {
-        this.atomTypesWeights.put("Alpha", 1);
-        this.atomTypesWeights.put("Beta", 2);
-        this.atomTypesWeights.put("Gamma", 3);
-        this.atomTypesWeights.put("Sigma", 4);
+        this.atomTypesRanks.put("Alpha", 1);
+        this.atomTypesRanks.put("Beta", 2);
+        this.atomTypesRanks.put("Gamma", 3);
+        this.atomTypesRanks.put("Sigma", 4);
 
         sourceLabel = new JLabel("Source");
-        sourceComboBox = new JComboBox((atomTypesWeights.keySet().toArray()));
+        sourceComboBox = new JComboBox((atomTypesRanks.keySet().toArray()));
         destinationLabel = new JLabel("Destination");
-        destinationComboBox = new JComboBox(atomTypesWeights.keySet().toArray());
-
+        destinationComboBox = new JComboBox(atomTypesRanks.keySet().toArray());
+        destinationQuantityLabel = new JLabel("Quantity");
+        destinationQuantityField = new JTextField(3);
+        destinationQuantityField.setText("1");
         blendButton = new JButton("Blend");
         addButtonActionListener(blendButton);
 
@@ -63,6 +72,8 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         contentPane.add(sourceComboBox);
         contentPane.add(destinationLabel);
         contentPane.add(destinationComboBox);
+        contentPane.add(destinationQuantityLabel);
+        contentPane.add(destinationQuantityField);
         contentPane.add(blendButton);
     }
 
@@ -74,10 +85,16 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         btn.addActionListener(e -> {
             String source = String.valueOf(sourceComboBox.getSelectedItem());
             String destination = String.valueOf(destinationComboBox.getSelectedItem());
-            int sourceWeight = atomTypesWeights.get(source);
-            int destinationWeight = atomTypesWeights.get(destination);
-            System.out.println(blender);
-            blender.blend(sourceWeight, destinationWeight);
+            int sourceRank = atomTypesRanks.get(source);
+            int destinationRank = atomTypesRanks.get(destination);
+            int destinationRankQuantity;
+            try {
+               destinationRankQuantity = Integer.parseInt(destinationQuantityField.getText());
+            } catch (NumberFormatException exception){
+                destinationRankQuantity = 1;
+            }
+
+            blender.blend(sourceRank, destinationRank, destinationRankQuantity);
         });
     }
 
