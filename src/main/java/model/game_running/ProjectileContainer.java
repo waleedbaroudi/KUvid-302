@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
@@ -23,9 +24,13 @@ public class ProjectileContainer {
     private final int[] atomMap;
     int totalAtomCount;
 
+    private RunningMode runningMode;
+
     Random random;
 
-    public ProjectileContainer(int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
+    public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
+        this.runningMode = runningMode;
+
         atomMap = new int[4];
         atomMap[0] = numOfAlphaAtoms;
         atomMap[1] = numOfBetaAtoms;
@@ -61,12 +66,13 @@ public class ProjectileContainer {
     public Atom getRandomAtom(Coordinates coordinates) { //needs some refactoring
         if (totalAtomCount == 0)
             return null; //out of atoms
-
+        int atomType = 0;
         Atom atom = null;
         while (atom == null) {
-            int atomType = random.nextInt(4);
+            atomType = random.nextInt(4);
             atom = getAtom(coordinates, atomType);
         }
+        runningMode.updateStatisticsAtomCount(atom.getType(), atomMap[atomType]);
         return atom;
     }
 
@@ -92,7 +98,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (player is not out of atoms)
      */
     public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, type - 1, -count);
+        return checkAndChange(atomMap, type - 1, -count); //todo: fix index
     }
 
 
@@ -104,7 +110,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (purpose TBD)
      */
     public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, type - 1, count);
+        return checkAndChange(atomMap, type - 1, count); //todo: fix index
     }
 
     /**
@@ -126,6 +132,10 @@ public class ProjectileContainer {
         map[type] = remaining + count;
         totalAtomCount += count;
         return true;
+    }
+
+    public int getAtomCountForType(EntityType type) {
+        return atomMap[type.getValue() - 1]; //todo: fix index
     }
 
     @Override

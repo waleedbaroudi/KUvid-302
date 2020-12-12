@@ -4,13 +4,19 @@ import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.GameConstants;
+import model.game_running.ProjectileContainer;
+import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
 import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class StatisticsWindow extends JPanel implements GameStatistics.GameStatisticsListener {
+public class StatisticsPanel extends JPanel implements GameStatistics.GameStatisticsListener {
+
+    //Controller
+    private GameStatistics gameStatistics;
+    private RunningMode runningMode;
 
     //Icons
     private Image atomAlphaImg;
@@ -43,9 +49,12 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
     JLabel SCORE;
     JLabel scoreLabel;
 
-    public StatisticsWindow() {
+    public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimension());
 
+        gameStatistics = new GameStatistics(this);
+        this.runningMode = runningMode;
+        runningMode.setStatisticsController(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
 
@@ -107,7 +116,7 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
         c.gridy = 6;
         add(sigmaPowerupsNumberLabel, c);
         c.gridy = 8;
-        
+
         add(new JLabel(new ImageIcon(atomAlphaImg)), c);
         c.gridy = 9;
         add(new JLabel(new ImageIcon(atomBetaImg)), c);
@@ -118,20 +127,21 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
     }
 
     private void initializeTextFields() {
-        gammaAtomsNumberLabel = new JLabel("dsfsdfsd");
-        alphaAtomsNumberLabel = new JLabel("sdfsdfsd");
-        betaAtomsNumberLabel = new JLabel("sdfsdf");
-        sigmaAtomsNumberLabel = new JLabel("sdfsdf");
+        ProjectileContainer container = this.runningMode.getProjectileContainer();
+        alphaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
+        betaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
+        gammaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
+        sigmaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
 
-        gammaPowerupsNumberLabel = new JLabel("sdfsdf");
-        alphaPowerupsNumberLabel = new JLabel("sdfsdf");
-        betaPowerupsNumberLabel = new JLabel("sdfsdf");
-        sigmaPowerupsNumberLabel = new JLabel("sdfsdf");
+        gammaPowerupsNumberLabel = new JLabel("0");
+        alphaPowerupsNumberLabel = new JLabel("0");
+        betaPowerupsNumberLabel = new JLabel("0");
+        sigmaPowerupsNumberLabel = new JLabel("0");
 
-        healthLabel = new JLabel("sdfsdfsd");
-        timeLabel = new JLabel("sdfsdfsd");
+        healthLabel = new JLabel("100");
+        timeLabel = new JLabel("10 : 00");
         SCORE = new JLabel("Score: ");
-        scoreLabel = new JLabel("100000000");
+        scoreLabel = new JLabel("0.0");
     }
 
     private void retrieveImages() {
@@ -167,31 +177,31 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
 
     @Override
     public void onProjectileCountChange(SuperType superType, EntityType type, int newCount) {
-        String newText = String.valueOf(newCount);
+        String stringValue = String.valueOf(newCount);
         switch (type) {
             case ALPHA:
                 if (superType == SuperType.ATOM)
-                    alphaAtomsNumberLabel.setText(newText);
+                    alphaAtomsNumberLabel.setText(stringValue);
                 else
-                    alphaPowerupsNumberLabel.setText(newText);
+                    alphaPowerupsNumberLabel.setText(stringValue);
                 break;
             case BETA:
                 if (superType == SuperType.ATOM)
-                    betaAtomsNumberLabel.setText(newText);
+                    betaAtomsNumberLabel.setText(stringValue);
                 else
-                    betaPowerupsNumberLabel.setText(newText);
+                    betaPowerupsNumberLabel.setText(stringValue);
                 break;
             case GAMMA:
                 if (superType == SuperType.ATOM)
-                    gammaAtomsNumberLabel.setText(newText);
+                    gammaAtomsNumberLabel.setText(stringValue);
                 else
-                    gammaPowerupsNumberLabel.setText(newText);
+                    gammaPowerupsNumberLabel.setText(stringValue);
                 break;
             case SIGMA:
                 if (superType == SuperType.ATOM)
-                    sigmaAtomsNumberLabel.setText(newText);
+                    sigmaAtomsNumberLabel.setText(stringValue);
                 else
-                    sigmaPowerupsNumberLabel.setText(newText);
+                    sigmaPowerupsNumberLabel.setText(stringValue);
                 break;
         }
     }

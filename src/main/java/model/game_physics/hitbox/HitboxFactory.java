@@ -1,14 +1,7 @@
 package model.game_physics.hitbox;
 
 import model.game_building.Configuration;
-import model.game_entities.enums.HitboxType;
-import model.game_physics.path_patterns.PathPattern;
-import model.game_physics.path_patterns.StraightPattern;
-import model.game_physics.path_patterns.ZigzagPatten;
 import model.game_running.GameConstants;
-import utils.Coordinates;
-import utils.Vector;
-import utils.Velocity;
 
 public class HitboxFactory {
 
@@ -27,7 +20,7 @@ public class HitboxFactory {
 
     //todo ask Moayad about these
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_RADIUS);
+        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_DIAMETER);
     }
     public Hitbox getAtomHitbox(){
         return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);

@@ -2,7 +2,6 @@ package ui.movable_drawables;
 
 import model.game_building.Configuration;
 import model.game_entities.Blocker;
-import model.game_entities.enums.EntityType;
 import model.game_running.GameConstants;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -17,8 +16,8 @@ public class BlockerDrawer implements Drawable {
 
     public BlockerDrawer(Blocker blocker) {
         this.blocker = blocker;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_RADIUS);
-        this.blockerImage = ImageResources.get(blocker, 2 * radius, 2 * radius);
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_DIAMETER);
+        this.blockerImage = ImageResources.get(blocker.getType(), blocker.getSuperType(), radius, radius);
     }
 
     @Override

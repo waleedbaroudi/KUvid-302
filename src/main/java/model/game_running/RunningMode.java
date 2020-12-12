@@ -2,13 +2,17 @@ package model.game_running;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Projectile;
 import model.game_entities.Shooter;
+import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.RectangularHitbox;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
 import model.game_running.runnables.EntityGeneratorRunnable;
 import model.game_space.Blender;
+import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 
@@ -21,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
     private Configuration config;
+    private GameStatistics statistics;
 
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
@@ -60,7 +65,7 @@ public class RunningMode {
 
         // TODO update the shooter inital coordinates from config
         // TODO fix the shooter position
-        this.projectileContainer = new ProjectileContainer(config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
+        this.projectileContainer = new ProjectileContainer(this, config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
                 0, 0, 0, 0);
 
         this.blender = new Blender(null, this.projectileContainer);
@@ -162,7 +167,7 @@ public class RunningMode {
      * Shoot entity at the tip of the Shooter
      */
     public void shootProjectile() {
-        AutonomousEntity shotEntity = this.atomShooter.shoot();
+        Projectile shotEntity = this.atomShooter.shoot();
         if (shotEntity == null) {
             System.out.println("OUT OF ATOMS!!");
             return;
@@ -187,13 +192,26 @@ public class RunningMode {
         autonomousEntities.remove(entity);
     }
 
+    public void setStatisticsController(GameStatistics gameStatistics) {
+        this.statistics = gameStatistics;
+    }
+
+    public void updateStatisticsAtomCount(EntityType type, int newCount) {
+        if (statistics != null)
+            statistics.changeProjectileCount(SuperType.ATOM, type, newCount);
+    }
+
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
     }
 
-    public Blender getBlender(){
+    public Blender getBlender() {
         return this.blender;
+    }
+
+    public ProjectileContainer getProjectileContainer() {
+        return this.projectileContainer;
     }
 
     public interface GameEntitiesListener {

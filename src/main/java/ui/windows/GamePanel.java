@@ -17,16 +17,15 @@ public class GamePanel extends JPanel {
     private final Map<AutonomousEntity, Drawable> drawableMap;
     ShooterDrawer shooterDrawer;
 
-    public GamePanel(RunningMode runningMode, Map<AutonomousEntity, Drawable> drawableMap, ShooterDrawer shooterDrawer) {
+    public GamePanel(RunningMode runningMode, Map<AutonomousEntity, Drawable> drawableMap) {
         this.setPreferredSize(Configuration.getInstance().getGamePanelDimension());
-
         this.runningMode = runningMode;
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.commandListener = new GameCommandListener(this.runningMode);
         this.addKeyListener(commandListener);
         this.drawableMap = drawableMap;
-        this.shooterDrawer = shooterDrawer;
+        this.shooterDrawer = new ShooterDrawer(runningMode.getAtomShooter());
     }
 
     @Override

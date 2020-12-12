@@ -10,7 +10,6 @@ import ui.movable_drawables.DrawableFactory;
 import ui.movable_drawables.ShooterDrawer;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -25,13 +24,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RunningWindow extends JFrame implements RunningMode.RunningStateListener, RunningMode.GameEntitiesListener {
     RunningMode runningMode;
     GamePanel gameContentPanel;
-    StatisticsWindow statisticsWindow;
+    StatisticsPanel statisticsPanel;
     private boolean running;
     private boolean paused;
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
-    private final ShooterDrawer shooterDrawable;
-    private Blender blender;
     private BlenderWindow blenderWindow;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
@@ -43,12 +40,11 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.runningMode = new RunningMode(this, this);
         System.out.println("in running window" + runningMode.getBlender());
         blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
-        this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
-        gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
-        statisticsWindow = new StatisticsWindow();
+        gameContentPanel = new GamePanel(this.runningMode, drawableMap);
+        statisticsPanel = new StatisticsPanel(this.runningMode);
 
         getContentPane().add(gameContentPanel, BorderLayout.LINE_START);
-        getContentPane().add(statisticsWindow, BorderLayout.LINE_END);
+        getContentPane().add(statisticsPanel, BorderLayout.LINE_END);
 
         //add separator
         JSeparator sep = new JSeparator(JSeparator.VERTICAL);
