@@ -1,46 +1,41 @@
 package model.game_space;
 
 
-import javafx.util.Pair;
 import model.game_building.GameConstants;
-import model.game_entities.Atom;
 import model.game_running.ProjectileContainer;
-import utils.MathUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class Blender {
 
-    private final ProjectileContainer projectileBlender;
+    private final ProjectileContainer projectileContainer;
     private BlenderListener blenderListener;
 
-    public Blender(BlenderListener blenderListener, ProjectileContainer projectileBlender) {
-        this.projectileBlender = projectileBlender;
+    public Blender(BlenderListener blenderListener, ProjectileContainer projectileContainer) {
+        this.projectileContainer = projectileContainer;
         this.blenderListener = blenderListener;
     }
 
     public void blend(int sourceAtom, int destinationAtom) { // TODO: Delete this method after implementing multiple blending of a certain atom.
         boolean canBlend = false;
-        System.out.println(canBlend = projectileBlender.decreaseAtoms(sourceAtom, (int) Math.ceil(sourceAtom *
+        System.out.println(canBlend = projectileContainer.decreaseAtoms(sourceAtom, (int) Math.ceil(sourceAtom *
                 GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
         if (canBlend)
-            System.out.println(projectileBlender.increaseAtoms(destinationAtom, (int) Math.ceil(destinationAtom *
+            System.out.println(projectileContainer.increaseAtoms(destinationAtom, (int) Math.ceil(destinationAtom *
                     GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1])));
-        System.out.println(projectileBlender.toString());
+        System.out.println(projectileContainer.toString());
 
         blenderListener.onBlend();
     }
 
     public void blend(int numberOfSourceAtoms, int sourceAtom, int destinationAtom) {// TODO: Use this method to blend after implementing multiple blending of a certain atom.
         boolean canBlend = false;
-        System.out.println(canBlend = projectileBlender.decreaseAtoms(sourceAtom, numberOfSourceAtoms *
+        System.out.println(canBlend = projectileContainer.decreaseAtoms(sourceAtom, numberOfSourceAtoms *
                 (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
         if (canBlend)
-            System.out.println(projectileBlender.increaseAtoms(destinationAtom, numberOfSourceAtoms *
+            System.out.println(projectileContainer.increaseAtoms(destinationAtom, numberOfSourceAtoms *
                     (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1])));
-        System.out.println(projectileBlender.toString());
+        System.out.println(projectileContainer.toString());
 
         blenderListener.onBlend();
     }
