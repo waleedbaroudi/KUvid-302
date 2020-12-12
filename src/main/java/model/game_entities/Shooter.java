@@ -19,6 +19,8 @@ public class Shooter extends Entity {
     private Projectile currentProjectile;
     private ProjectileContainer container;
 
+    Configuration config;
+
     private EntityType previousAtom;
     private final double DEFAULT_ANGLE = 10;
     private double angle = 0;
@@ -27,7 +29,9 @@ public class Shooter extends Entity {
 
     public Shooter(Coordinates coordinates, Hitbox hitbox, ProjectileContainer container) {
         super(coordinates, hitbox);
-        MOVEMENT = Configuration.getInstance().getShooterSpeed();
+        config = Configuration.getInstance();
+
+        MOVEMENT = config.getShooterSpeed();
         this.superType = SuperType.SHOOTER;
 
         this.container = container;
@@ -45,7 +49,7 @@ public class Shooter extends Entity {
         Projectile tmpProjectile = this.getCurrentProjectile();
         // rotate the path direction according to the shooter
         Coordinates rotatedCoords = new Coordinates(this.getCoordinates().getX(),
-                this.getCoordinates().getY() - Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
+                this.getCoordinates().getY() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT);
         rotatedCoords = MathUtils.applyRotation(angle, this.getCoordinates(), rotatedCoords);
         rotatedCoords = new Coordinates(rotatedCoords.getX() - this.getCoordinates().getX(), rotatedCoords.getY() - this.getCoordinates().getY());
         // set the coordinates of the projectile the same as the coordinates of hte shooter
@@ -115,13 +119,12 @@ public class Shooter extends Entity {
     }
 
     public boolean checkLegalMovement(Coordinates c, double angle) {
-        if (c.getX() > Configuration.getInstance().getGameWidth())
+        double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
+        if (c.getX() + gunWidth / 2 > config.getGamePanelDimensions().getWidth())
             return false;
-        else if (c.getX() < 0)
+        else if (c.getX() - gunWidth / 2 < 0)
             return false;
-        if (angle > 90 || angle < -90)
-            return false;
-        return true;
+        return !(angle > 90) && !(angle < -90);
     }
 
     @Override

@@ -1,7 +1,11 @@
 package model.game_building;
 
+
+import static model.game_building.GameConstants.*;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+
+import java.awt.*;
 
 public class Configuration {
 
@@ -121,29 +125,29 @@ public class Configuration {
         if(!isConfigBundleSet())
             return -1;
         int difficulty = this.getDifficulty();
-        switch (difficulty){
+        switch (difficulty) {
             case 0:
-                return GameConstants.EASY_MODE_GAME_THREAD_DELAY;
+                return EASY_MODE_GAME_THREAD_DELAY;
             case 1:
-                return GameConstants.MEDIUM_MODE_GAME_THREAD_DELAY;
+                return MEDIUM_MODE_GAME_THREAD_DELAY;
             case 2:
-                return GameConstants.HARD_MODE_GAME_THREAD_DELAY;
+                return HARD_MODE_GAME_THREAD_DELAY;
             default:
-                return GameConstants.GAME_THREAD_DELAY;
+                return GAME_THREAD_DELAY;
         }
     }
 
-    public int getDropRate(){// TODO: modify when difficulty is converted to enum
-        if(!isConfigBundleSet())
+    public int getDropRate() {// TODO: modify when difficulty is converted to enum
+        if (!isConfigBundleSet())
             return -1;
         int difficulty = this.getDifficulty();
-        switch (difficulty){
+        switch (difficulty) {
             case 0:
-                return GameConstants.EASY_MODE_GAME_DROP_RATE;
+                return EASY_MODE_GAME_DROP_RATE;
             case 1:
-                return GameConstants.MEDIUM_MODE_GAME_DROP_RATE;
+                return MEDIUM_MODE_GAME_DROP_RATE;
             case 2:
-                return GameConstants.HARD_MODE_GAME_DROP_RATE;
+                return HARD_MODE_GAME_DROP_RATE;
             default:
                 return 1000;
         }
@@ -178,7 +182,19 @@ public class Configuration {
     }
 
     public int getGameWidth() {
-        return (int) (getGameHeight() * GameConstants.GAME_SIZE_RATIO);
+        return (int) (getGameHeight() * GAME_SIZE_RATIO);
+    }
+
+    public Dimension getGamePanelDimensions() {
+        return new Dimension((int) (getGameWidth() * GAME_PANEL_WIDTH_RATIO), getGameHeight());
+    }
+
+    public Dimension getStatisticsPanelDimensions() {
+        return new Dimension((int) (getGameWidth() * STATISTICS_PANEL_WIDTH_RATIO), getGameHeight());
+    }
+
+    public Dimension getRunningWindowDimension() {
+        return new Dimension(getGameWidth() + PANEL_SEPARATOR_WIDTH, getGameHeight());
     }
 
     /**
@@ -195,7 +211,7 @@ public class Configuration {
     }
 
     public double getShooterSpeed() {
-        return getUnitL() / (double) GameConstants.FPS; //TODO: ask about the speed.
+        return getUnitL() / (double) FPS; //TODO: ask about the speed.
 //        return getUnitL() / 15;
     }
 }

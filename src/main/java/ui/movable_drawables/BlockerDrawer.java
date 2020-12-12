@@ -4,6 +4,7 @@ import model.game_building.Configuration;
 import model.game_entities.Blocker;
 import model.game_entities.enums.EntityType;
 import model.game_building.GameConstants;
+
 import utils.Coordinates;
 import utils.MathUtils;
 
@@ -17,22 +18,12 @@ public class BlockerDrawer implements Drawable {
 
     public BlockerDrawer(Blocker blocker) {
         this.blocker = blocker;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_RADIUS);
-        this.blockerImage = ImageResources.get(blocker, 2 * radius, 2 * radius);
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_DIAMETER);
+        this.blockerImage = ImageResources.get(blocker.getType(), blocker.getSuperType(), radius, radius);
     }
 
     @Override
     public void draw(Graphics g) {
-
-        if (blocker.getType() == EntityType.ALPHA) {
-            g.setColor(Color.BLACK);
-        } else if (blocker.getType() == EntityType.BETA) {
-            g.setColor(Color.BLUE);
-        } else if (blocker.getType() == EntityType.SIGMA) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.PINK);
-        }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(), radius);
         g.drawImage(blockerImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);

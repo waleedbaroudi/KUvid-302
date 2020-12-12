@@ -2,6 +2,7 @@ package ui.movable_drawables;
 
 import model.game_entities.*;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.SuperType;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,12 +11,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageResources {
-    public static Image get(Entity entity, int width, int height) {
-        switch (entity.getSuperType()) {
+    public static Image get(EntityType type, SuperType superType, int width, int height) {
+        switch (superType) {
 
             //Entity is a Molecule, return an image according to its type
             case MOLECULE:
-                switch (((AutonomousEntity) entity).getType()) {
+                switch (type) {
                     case ALPHA:
                         return getImage("molecules/alpha-1.png", width, height);
                     case BETA:
@@ -29,7 +30,7 @@ public class ImageResources {
                 }
                 //Entity is an Atom, return an image according to its type
             case ATOM:
-                switch (((AutonomousEntity) entity).getType()) {
+                switch (type) {
                     case ALPHA:
                         return getImage("atoms/alpha.png", width, height);
                     case BETA:
@@ -44,7 +45,7 @@ public class ImageResources {
 
                 //Entity is a Blocker, return an image according to its type
             case BLOCKER:
-                switch (((AutonomousEntity) entity).getType()) {
+                switch (type) {
                     case ALPHA:
                         return getImage("blockers/alpha-b.png", width, height);
                     case BETA:
@@ -59,7 +60,7 @@ public class ImageResources {
 
                 //Entity is a powerup, return an image according to its type
             case POWERUP:
-                switch (((AutonomousEntity) entity).getType()) {
+                switch (type) {
                     case ALPHA:
                         return getImage("powerups/+alpha-b.png", width, height);
                     case BETA:
@@ -99,5 +100,18 @@ public class ImageResources {
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
+
+    public static Image getIcon(int icon, int iconWidth, int iconHeight) {
+        switch (icon) {
+            case 1:
+                return getImage("image1", iconWidth, iconHeight);
+            case 2:
+                return getImage("image2", iconWidth, iconHeight);
+            case 3:
+                return getImage("image3", iconWidth, iconHeight);
+            default:
+                return getImage("default", iconWidth, iconHeight);
+        }
     }
 }

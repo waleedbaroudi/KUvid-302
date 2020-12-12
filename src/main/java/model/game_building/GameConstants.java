@@ -45,13 +45,20 @@ public final class GameConstants {
     public static final int FPS = 60;
 
     //drawable sizes with regard to L
-    public static final double ATOM_RADIUS = 0.1/2;
-    public static final double MOLECULE_RADIUS = 0.5;
-    public static final double BLOCKER_RADIUS = 0.5;
+    public static final double ATOM_RADIUS = 0.1;
+    public static final double MOLECULE_RADIUS = 0.25;
+    public static final double BLOCKER_DIAMETER = 1.0;
     public static final double POWERUP_RADIUS = 0.5; //not specified
     public static final double SHOOTER_HEIGHT = 1;
     public static final double SHOOTER_WIDTH = 0.5;
 
     public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
+    public static final int ICON_WIDTH = 50;
+    public static final int ICON_HEIGHT = 50;
+
+
+    public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
+    public static final double GAME_PANEL_WIDTH_RATIO = 0.8;
+    public static final int PANEL_SEPARATOR_WIDTH = 3;
 
 }

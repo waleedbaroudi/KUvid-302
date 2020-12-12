@@ -19,21 +19,11 @@ public class MoleculeDrawer implements Drawable {
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_RADIUS);
-        this.moleculeImage = ImageResources.get(molecule, 2 * radius, 2 * radius);
+        this.moleculeImage = ImageResources.get(molecule.getType(), molecule.getSuperType(), 2 * radius, 2 * radius);
     }
 
     @Override
     public void draw(Graphics g) {
-
-        if (molecule.getType() == EntityType.ALPHA) {
-            g.setColor(Color.BLACK);
-        } else if (molecule.getType() == EntityType.BETA) {
-            g.setColor(Color.BLUE);
-        } else if (molecule.getType() == EntityType.GAMMA) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.PINK);
-        }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(), radius);
         g.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);

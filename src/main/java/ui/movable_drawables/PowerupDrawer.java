@@ -18,23 +18,12 @@ public class PowerupDrawer implements Drawable {
     public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
-        this.powerupImage = ImageResources.get(powerup, 2 * radius, 2 * radius);
+        this.powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(), 2 * radius, 2 * radius);
 
     }
 
     @Override
     public void draw(Graphics g) {
-
-        if (powerup.getType() == EntityType.ALPHA) {
-            g.setColor(Color.BLACK);
-        } else if (powerup.getType() == EntityType.BETA) {
-            g.setColor(Color.BLUE);
-        } else if (powerup.getType() == EntityType.SIGMA) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.PINK);
-        }
-
         Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius);
         g.drawImage(powerupImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }

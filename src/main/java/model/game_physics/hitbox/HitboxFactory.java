@@ -20,7 +20,7 @@ public class HitboxFactory {
 
     //todo ask Moayad about these
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_RADIUS);
+        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_DIAMETER);
     }
     public Hitbox getAtomHitbox(){
         return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
