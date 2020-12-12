@@ -30,14 +30,15 @@ public class Blender {
 
     public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {// TODO: Use this method to blend after implementing multiple blending of a certain atom.
         boolean canBlend;
-        System.out.println(canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
-                (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
-        if (canBlend)
-            System.out.println(projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
-                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1])));
-        System.out.println(projectileContainer.toString());
-
-        blenderListener.onBlend();
+        canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
+                (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1]));
+        if (canBlend) {
+            projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
+                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1]));
+            blenderListener.onBlend();
+        } else {
+            blenderListener.onFailBlend();
+        }
     }
 
     public void showBlender() {
@@ -53,6 +54,7 @@ public class Blender {
          * this method is called after game parameters get checked and proved valid.
          */
         void onBlend();
+        void onFailBlend();
         void onShow();
     }
 }

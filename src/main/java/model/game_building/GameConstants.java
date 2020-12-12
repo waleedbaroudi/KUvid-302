@@ -41,6 +41,7 @@ public final class GameConstants {
 
     // Objects Dimensions.
     public static final Dimension BUILDING_WINDOW_SIZE = new Dimension(800, 800);
+    public static final Dimension BLENDER_WINDOW_SIZE = new Dimension(300, 100);
     public static final int FPS = 60;
 
     //drawable sizes with regard to L
