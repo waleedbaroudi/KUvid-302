@@ -89,15 +89,14 @@ public class ImageResources {
      */
     private static Image getImage(String image, int width, int height) {
         BufferedImage img = null;
-
+        System.out.println("directory: " + System.getProperty("user.dir"));
         try {
-            img = ImageIO.read(new File("./images/" + image));
+            img = ImageIO.read(new File(System.getProperty("user.dir") + "/2020_302_pepega/assets/" + image));
         } catch (IOException e) {
             System.err.println("error retrieving image: " + e.getMessage());
         }
 
         if (img == null) {
-            System.out.println(new File("./images/" + image).getPath());
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
