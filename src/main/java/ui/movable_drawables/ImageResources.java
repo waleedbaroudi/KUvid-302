@@ -105,11 +105,11 @@ public class ImageResources {
     public static Image getIcon(int icon, int iconWidth, int iconHeight) {
         switch (icon) {
             case 1:
-                return getImage("image1", iconWidth, iconHeight);
+                return getImage("health.png", iconWidth, iconHeight);
             case 2:
-                return getImage("image2", iconWidth, iconHeight);
+                return getImage("timer.png", iconWidth, iconHeight);
             case 3:
-                return getImage("image3", iconWidth, iconHeight);
+                return getImage("blender.png", iconWidth, iconHeight);
             default:
                 return getImage("default", iconWidth, iconHeight);
         }
