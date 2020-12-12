@@ -48,7 +48,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
 
         //add separator
         JSeparator sep = new JSeparator(JSeparator.VERTICAL);
-        sep.setBorder(new StrokeBorder(new BasicStroke(3)));
+        sep.setBorder(new StrokeBorder(new BasicStroke(GameConstants.PANEL_SEPARATOR_WIDTH)));
         getContentPane().add(sep, BorderLayout.CENTER);
         setLocationRelativeTo(null); //centers the window in the middle of the screen
         setVisible(true);
@@ -67,11 +67,12 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     }
 
     private void startDrawingThread() {
-        Timer gameTimer = new Timer(15, null);
+        Timer gameTimer = new Timer(GameConstants.GAME_THREAD_DELAY, null);
         ActionListener listener = e -> {
             if (running) {
                 if (!paused) {
                     repaint();
+                    runningMode.updateTimer(GameConstants.GAME_THREAD_DELAY);
                 }
             } else {
                 runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
@@ -89,6 +90,11 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     @Override
     public void onRunningStateChanged(int state) {
         this.paused = (state == GameConstants.GAME_STATE_PAUSED);
+    }
+
+    @Override
+    public void onGameOver() {
+        this.running = false;
     }
 
     @Override

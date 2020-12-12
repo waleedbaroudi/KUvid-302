@@ -18,7 +18,7 @@ public class GamePanel extends JPanel {
     ShooterDrawer shooterDrawer;
 
     public GamePanel(RunningMode runningMode, Map<AutonomousEntity, Drawable> drawableMap) {
-        this.setPreferredSize(Configuration.getInstance().getGamePanelDimension());
+        this.setPreferredSize(Configuration.getInstance().getGamePanelDimensions());
         this.runningMode = runningMode;
         this.setFocusable(true);
         this.requestFocusInWindow();

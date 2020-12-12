@@ -201,9 +201,19 @@ public class RunningMode {
             statistics.changeProjectileCount(SuperType.ATOM, type, newCount);
     }
 
+    public void updateTimer(int amountInMillis) {
+        if (statistics != null) {
+            boolean timerOver = !statistics.updateTimer(amountInMillis);
+            if (timerOver)
+                runningStateListener.onGameOver();
+        }
+    }
+
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
+
+        void onGameOver();
     }
 
     public Blender getBlender() {

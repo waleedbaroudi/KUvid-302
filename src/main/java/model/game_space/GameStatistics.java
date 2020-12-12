@@ -38,7 +38,7 @@ public class GameStatistics {
     public boolean updateTimer(int amountInMillis) {
         timer.decrease(amountInMillis);
         statisticsListener.onTimerChanged(timer.getCurrentTimer());
-        return timer.getRemainingTimeMillis() <= 0;
+        return timer.getRemainingTimeMillis() >= 1;
     }
 
     public void incrementScore() { //assuming the score will only be incremented by 1.

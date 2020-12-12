@@ -50,7 +50,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     JLabel scoreLabel;
 
     public StatisticsPanel(RunningMode runningMode) {
-        this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimension());
+        this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
 
         gameStatistics = new GameStatistics(this);
         this.runningMode = runningMode;
@@ -167,7 +167,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
 
     @Override
     public void onTimerChanged(String currentTime) {
-        healthLabel.setText(currentTime);
+        timeLabel.setText(currentTime);
     }
 
     @Override

@@ -19,18 +19,21 @@ import java.util.Random;
  * responsible for creating blockers, and powerups, molecules in the game space
  */
 public class EntityGeneratorRunnable extends GameRunnable {
+    private Configuration config;
+
     private Map<Map<EntityType, MoleculeStructure>, Integer> numberOfMolecules;
     private Map<EntityType, Integer> numberOfBlockers;
     private Map<EntityType, Integer> numberOfPowerup;
     private RunningMode runningMode;
 
-    private static Random random = new Random();
-    private static Logger logger = Logger.getLogger(EntityGeneratorRunnable.class.getName());
+    private static final Random random = new Random();
+    private static final Logger logger = Logger.getLogger(EntityGeneratorRunnable.class.getName());
 
 
     public EntityGeneratorRunnable(RunningMode runningMode) {
         super();
         this.runningMode = runningMode;
+        this.config = Configuration.getInstance();
     }
 
     @Override
@@ -52,7 +55,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
                         break;
                 }
                 //sleep before adding new objects
-                Thread.sleep(Configuration.getInstance().getDropRate());
+                Thread.sleep(config.getDropRate());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -60,18 +63,17 @@ public class EntityGeneratorRunnable extends GameRunnable {
         }
     }
     // TODO: generator ALWAYS generate entities of the same type
+
     /**
      * generates a random Blocker to be thrown in the space
      *
      * @return a Blocker of a random type
      */
     public Blocker generateBlocker() {
-        double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+        double x_coord = Math.random() * config.getGamePanelDimensions().getWidth();
         logger.info("[ObjectGenerator: generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
-        Random random = new Random();
         int rand = random.nextInt(4);
-
         Blocker blocker = BlockerFactory.getInstance().getBlocker(rand);
         blocker.setCoordinates(new Coordinates(x_coord, 0));
 
@@ -84,12 +86,10 @@ public class EntityGeneratorRunnable extends GameRunnable {
      * @return a Powerup of a random type
      */
     public Powerup generatePowerup() {
-        double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+        double x_coord = Math.random() * config.getGamePanelDimensions().getWidth();
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
-        Random random = new Random();
         int rand = random.nextInt(4);
-
         Powerup powerup = PowerupFactory.getInstance().getPowerup(rand);
         powerup.setCoordinates(new Coordinates(x_coord, 0));
 
@@ -102,13 +102,11 @@ public class EntityGeneratorRunnable extends GameRunnable {
      * @return a Molecule of a random type
      */
     public Molecule generateMolecule() {
-        double x_coord = Math.random() * GameConstants.BUILDING_WINDOW_SIZE.width;
+        double x_coord = Math.random() * config.getGamePanelDimensions().getWidth();
 
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
-        Random random = new Random();
         int rand = random.nextInt(4);
-
         Molecule molecule = MoleculeFactory.getInstance().getMolecule(rand);
         molecule.setCoordinates(new Coordinates(x_coord, 0));
 

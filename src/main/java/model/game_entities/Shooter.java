@@ -4,8 +4,6 @@ import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
-import model.game_physics.hitbox.HitboxFactory;
-import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.GameConstants;
@@ -122,7 +120,7 @@ public class Shooter extends Entity {
 
     public boolean checkLegalMovement(Coordinates c, double angle) {
         double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
-        if (c.getX() + gunWidth / 2 > config.getGamePanelDimension().getWidth())
+        if (c.getX() + gunWidth / 2 > config.getGamePanelDimensions().getWidth())
             return false;
         else if (c.getX() - gunWidth / 2 < 0)
             return false;

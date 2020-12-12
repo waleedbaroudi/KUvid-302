@@ -9,8 +9,8 @@ public class GameTimer {
      *
      * @param timeInMinutes the number of minutes with which the the timer will be initialized.
      */
-    public GameTimer(int timeInMinutes) {
-        this.remainingTimeMillis = timeInMinutes * MIN_TO_MILLS_CONVERSION_CONSTANT;
+    public GameTimer(double timeInMinutes) {
+        this.remainingTimeMillis = (int) (timeInMinutes * MIN_TO_MILLS_CONVERSION_CONSTANT);
     }
 
     /**
@@ -36,8 +36,9 @@ public class GameTimer {
      *
      * @return returns the remaining minutes (floored)
      */
-    private int getMinutesCounter() {
-        return remainingTimeMillis / MIN_TO_MILLS_CONVERSION_CONSTANT;
+    private String getMinutesCounter() {
+        int remainingMinutes = remainingTimeMillis / MIN_TO_MILLS_CONVERSION_CONSTANT;
+        return remainingMinutes >= 10 ? String.valueOf(remainingMinutes) : ("0" + remainingMinutes);
     }
 
     /**
@@ -45,8 +46,9 @@ public class GameTimer {
      *
      * @return the number of seconds remaining in a minute
      */
-    private int getSecondsCounter() {
+    private String getSecondsCounter() {
         int secondsInMillis = remainingTimeMillis % MIN_TO_MILLS_CONVERSION_CONSTANT;
-        return secondsInMillis / 1000;
+        int remainingSeconds = secondsInMillis / 1000;
+        return remainingSeconds >= 10 ? String.valueOf(remainingSeconds) : ("0" + remainingSeconds);
     }
 }

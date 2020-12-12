@@ -185,11 +185,11 @@ public class Configuration {
         return (int) (getGameHeight() * GAME_SIZE_RATIO);
     }
 
-    public Dimension getGamePanelDimension() {
+    public Dimension getGamePanelDimensions() {
         return new Dimension((int) (getGameWidth() * GAME_PANEL_WIDTH_RATIO), getGameHeight());
     }
 
-    public Dimension getStatisticsPanelDimension() {
+    public Dimension getStatisticsPanelDimensions() {
         return new Dimension((int) (getGameWidth() * STATISTICS_PANEL_WIDTH_RATIO), getGameHeight());
     }
 
