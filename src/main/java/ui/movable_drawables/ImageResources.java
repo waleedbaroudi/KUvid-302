@@ -91,7 +91,7 @@ public class ImageResources {
         BufferedImage img = null;
         System.out.println("directory: " + System.getProperty("user.dir"));
         try {
-            img = ImageIO.read(new File(System.getProperty("user.dir") + "/2020_302_pepega/assets/" + image));
+            img = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/" + image));
         } catch (IOException e) {
             System.err.println("error retrieving image: " + e.getMessage());
         }

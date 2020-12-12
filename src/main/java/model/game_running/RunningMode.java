@@ -159,6 +159,7 @@ public class RunningMode {
      * @return a boolean indicating whether the entity was added successfully
      */
     public boolean addEntity(AutonomousEntity entity) {
+        System.out.println("THE ENTITY TO BE ADDED IS OF TYPE: " + entity.getSuperType());
         gameEntitiesListener.onEntityAdd(entity);
         return autonomousEntities.add(entity);
     }
@@ -204,9 +205,15 @@ public class RunningMode {
     public void updateTimer(int amountInMillis) {
         if (statistics != null) {
             boolean timerOver = !statistics.updateTimer(amountInMillis);
-            if (timerOver)
-                runningStateListener.onGameOver();
+            if (timerOver) {
+                System.out.println("TIME IS OVER");
+                endGame();
+            }
         }
+    }
+
+    public void endGame() {
+        runningStateListener.onGameOver();
     }
 
 

@@ -11,35 +11,21 @@ public class PowerupFactory {
 
     private static PowerupFactory powerupFactory = new PowerupFactory();
 
-    private PowerupFactory(){
+    private PowerupFactory() {
     }
 
-    public static PowerupFactory getInstance(){
-        if(powerupFactory == null){
+    public static PowerupFactory getInstance() {
+        if (powerupFactory == null) {
             powerupFactory = new PowerupFactory();
         }
         return powerupFactory;
     }
 
-    public Powerup getPowerup(int i){// TODO : modify implementation.
-        Coordinates defaultCoordinates = new Coordinates(0,0);
+    public Powerup getPowerup(EntityType type) {// TODO : modify implementation.
+        Coordinates defaultCoordinates = new Coordinates(0, 0);
 
-        switch (i){
-            case 0:
-                return new Powerup(defaultCoordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
-                        PathPatternFactory.getInstance().getPowerUpPathPattern(), EntityType.ALPHA);
-            case 1:
-                return new Powerup(defaultCoordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
-                        PathPatternFactory.getInstance().getPowerUpPathPattern(), EntityType.BETA);
-            case 2:
-                return new Powerup(defaultCoordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
-                        PathPatternFactory.getInstance().getPowerUpPathPattern(), EntityType.GAMMA);
-            case 3:
-                return new Powerup(defaultCoordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
-                        PathPatternFactory.getInstance().getPowerUpPathPattern(), EntityType.SIGMA);
-            default:
-                return null;
-        }
+        return new Powerup(defaultCoordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
+                PathPatternFactory.getInstance().getPowerUpPathPattern(), type);
     }
 }
 
