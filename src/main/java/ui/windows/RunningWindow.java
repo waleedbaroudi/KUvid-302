@@ -2,7 +2,7 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
-import model.game_entities.Entity;
+import model.game_space.Blender;
 import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
@@ -15,8 +15,6 @@ import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,14 +31,18 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private final ShooterDrawer shooterDrawable;
+    private Blender blender;
+    private BlenderWindow blenderWindow;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
-        drawableMap = new ConcurrentHashMap<>(); //concurrent so that it supports concurrent addition and deletion.
+        drawableMap = new ConcurrentHashMap<>(); // concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.runningMode = new RunningMode(this, this);
+        System.out.println("in running window" + runningMode.getBlender());
+        blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
         this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
         gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
         statisticsWindow = new StatisticsWindow();
@@ -52,7 +54,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         JSeparator sep = new JSeparator(JSeparator.VERTICAL);
         sep.setBorder(new StrokeBorder(new BasicStroke(3)));
         getContentPane().add(sep, BorderLayout.CENTER);
-
+        setLocationRelativeTo(null); //centers the window in the middle of the screen
         setVisible(true);
         pack();
         start();

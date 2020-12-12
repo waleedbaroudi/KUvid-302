@@ -7,7 +7,9 @@ import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * this class will keep information about the current amount of projectiles remaining as well as provide a projectile
@@ -15,21 +17,30 @@ import java.util.HashMap;
  */
 public class ProjectileContainer {
 
-    private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
+    //    private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
     private final HashMap<EntityType, Integer> powerUpMap; // keeps the number of power-ups per type.
 
-    public ProjectileContainer(int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
-        atomMap = new HashMap<>();
-        atomMap.put(EntityType.ALPHA, numOfAlphaAtoms);
-        atomMap.put(EntityType.BETA, numOfBetaAtoms);
-        atomMap.put(EntityType.SIGMA, numOfSigmaAtoms);
-        atomMap.put(EntityType.GAMMA, numOfGammaAtoms);
+    private final int[] atomMap;
+    int totalAtomCount;
 
-        powerUpMap = new HashMap<>();
+    Random random;
+
+    public ProjectileContainer(int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
+        atomMap = new int[4];
+        atomMap[0] = numOfAlphaAtoms;
+        atomMap[1] = numOfBetaAtoms;
+        atomMap[2] = numOfGammaAtoms;
+        atomMap[3] = numOfSigmaAtoms;
+        System.out.println(Arrays.toString(atomMap));
+        totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
+
+        powerUpMap = new HashMap<>(); //todo make this an array too
         powerUpMap.put(EntityType.ALPHA, numOfAlphaPowerUps);
         powerUpMap.put(EntityType.BETA, numOfBetaPowerUps);
-        powerUpMap.put(EntityType.SIGMA, numOfSigmaPowerUps);
         powerUpMap.put(EntityType.GAMMA, numOfGammaPowerUps);
+        powerUpMap.put(EntityType.SIGMA, numOfSigmaPowerUps);
+
+        random = new Random();
     }
 
     /**
@@ -40,10 +51,23 @@ public class ProjectileContainer {
      * @param type:        the type of desired atom
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
-    public Atom getAtom(Coordinates coordinates, EntityType type) {
-        if (checkAndDecrement(atomMap, type))
-            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), type);
+    public Atom getAtom(Coordinates coordinates, int type) {
+        System.out.println(EntityType.forValue(type + 1));
+        if (checkAndChange(atomMap, type, -1))
+            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.forValue(type + 1)); //TODO: FIX IMMEDIATELY
         return null;
+    }
+
+    public Atom getRandomAtom(Coordinates coordinates) { //needs some refactoring
+        if (totalAtomCount == 0)
+            return null; //out of atoms
+
+        Atom atom = null;
+        while (atom == null) {
+            int atomType = random.nextInt(4);
+            atom = getAtom(coordinates, atomType);
+        }
+        return atom;
     }
 
     /**
@@ -54,10 +78,33 @@ public class ProjectileContainer {
      * @param type:        the type of desired power-up
      * @return the desired power-up if there are remaining power-ups of that type. null otherwise.
      */
-    public Powerup getPowerUp(Coordinates coordinates, EntityType type) {
-        if (checkAndDecrement(powerUpMap, type))
-            return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(), PathPatternFactory.getInstance().getPowerUpPathPattern(), type);
+    public Powerup getPowerUp(Coordinates coordinates, EntityType type) { //todo: to be implemented
+//        if (checkAndChange(powerUpMap, type, -1))
+//            return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(), PathPatternFactory.getInstance().getPowerUpPathPattern(), type);
         return null;
+    }
+
+    /**
+     * used in blending/breaking. it reduces the amount of the given type by the given amount.
+     *
+     * @param type  type to be reduced
+     * @param count amount of reduction
+     * @return returns whether the decrease was successful (player is not out of atoms)
+     */
+    public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
+        return checkAndChange(atomMap, type - 1, -count);
+    }
+
+
+    /**
+     * used in blending/breaking. it increases the amount of the given type by the given amount.
+     *
+     * @param type  type to be increased
+     * @param count the amount of increase
+     * @return returns whether the decrease was successful (purpose TBD)
+     */
+    public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
+        return checkAndChange(atomMap, type - 1, count);
     }
 
     /**
@@ -65,15 +112,26 @@ public class ProjectileContainer {
      * if the number is greater than zero, it decrements it and returns true (indicating successful decrement).
      * returns false otherwise (indicating there are no remaining items of the given type).
      *
-     * @param map  the map in which the check will happen
-     * @param type the type for which the check will happen
+     * @param map   the map in which the check will happen
+     * @param type  the type for which the check will happen
+     * @param count the amount of change. a negative number decreases the count of the given the type, a positive
+     *              number increases it
      * @return the result of the check and decrement.
      */
-    private boolean checkAndDecrement(HashMap<EntityType, Integer> map, EntityType type) {
-        int remaining = map.get(type);
+    private boolean checkAndChange(int[] map, int type, int count) {
+        System.out.println(type + " : " + count);
+        int remaining = map[type];
         if (remaining < 1)
             return false;
-        map.replace(type, remaining - 1);
+        map[type] = remaining + count;
+        totalAtomCount += count;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectileContainer{" +
+                "atomMap=" + Arrays.toString(atomMap) +
+                '}';
     }
 }

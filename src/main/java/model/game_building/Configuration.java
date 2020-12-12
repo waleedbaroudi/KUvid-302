@@ -72,20 +72,57 @@ public class Configuration {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaAtoms() : -1;
     }
 
-    public int getNumOfPowerUpsPerType() {
-        return isConfigBundleSet() ? configBundle.getNumOfPowerUpsPerType() : -1;
+    public int getNumAlphaPowerups() {
+        return isConfigBundleSet() ? configBundle.getNumAlphaPowerups() : -1;
     }
 
-    public int getNumOfBlockersPerType() {
-        return isConfigBundleSet() ? configBundle.getNumOfBlockersPerType() : -1;
+    public int getNumBetaPowerups() {
+        return isConfigBundleSet() ? configBundle.getNumBetaPowerups() : -1;
     }
 
-    public int getNumOfMoleculesPerType() {
-        return isConfigBundleSet() ? configBundle.getNumOfMoleculesPerType() : -1;
+    public int getNumGammaPowerups() {
+        return isConfigBundleSet() ? configBundle.getNumGammaPowerups() : -1;
     }
 
-    public int getMovementDelay() {// TODO: modify when difficulty is converted to enum
-        if (!isConfigBundleSet())
+    public int getNumSigmaPowerups() {
+        return isConfigBundleSet() ? configBundle.getNumSigmaPowerups() : -1;
+    }
+
+    public int getNumAlphaBlockers() {
+        return isConfigBundleSet() ? configBundle.getNumAlphaBlockers() : -1;
+    }
+
+    public int getNumBetaBlockers() {
+        return isConfigBundleSet() ? configBundle.getNumBetaBlockers() : -1;
+    }
+
+    public int getNumGammaBlockers() {
+        return isConfigBundleSet() ? configBundle.getNumGammaBlockers() : -1;
+    }
+
+    public int getNumSigmaBlockers() {
+        return isConfigBundleSet() ? configBundle.getNumSigmaBlockers() : -1;
+    }
+
+    public int getNumAlphaMolecules() {
+        return isConfigBundleSet() ? configBundle.getNumAlphaMolecules() : -1;
+    }
+
+    public int getNumBetaMolecules() {
+        return isConfigBundleSet() ? configBundle.getNumBetaMolecules() : -1;
+    }
+
+    public int getNumGammaMolecules() {
+        return isConfigBundleSet() ? configBundle.getNumGammaMolecules() : -1;
+    }
+
+    public int getNumSigmaMolecules() {
+        return isConfigBundleSet() ? configBundle.getNumSigmaMolecules() : -1;
+    }
+
+
+    public int getMovementDelay(){// TODO: modify when difficulty is converted to enum
+        if(!isConfigBundleSet())
             return -1;
         int difficulty = this.getDifficulty();
         switch (difficulty) {

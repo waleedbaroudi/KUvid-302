@@ -27,7 +27,25 @@ class ConfigurationTest {
             add(3);
         }};
 
-        ConfigBundle bundle = new ConfigBundle(atoms,3,3,3,1.2,true, true, true ,true,2);
+        ArrayList<Integer> powerups = new ArrayList<Integer>(){{
+            add(1);
+            add(2);
+            add(3);
+        }};
+
+        ArrayList<Integer> blockers = new ArrayList<Integer>(){{
+            add(1);
+            add(2);
+            add(3);
+        }};
+
+        ArrayList<Integer> molecules = new ArrayList<Integer>(){{
+            add(1);
+            add(2);
+            add(3);
+        }};
+
+        ConfigBundle bundle = new ConfigBundle(atoms,powerups,blockers,molecules,1.2,true, true, true ,true,2);
         Configuration.getInstance().setConfig(bundle);
 
         assertEquals(Configuration.getInstance().getDifficulty(), 2);

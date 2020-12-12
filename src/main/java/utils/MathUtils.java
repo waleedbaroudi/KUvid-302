@@ -197,7 +197,7 @@ public class MathUtils {
     /**
      * Given vector that represents a circle and a number of points, returns a list of coordinates containing the specified number of points on the circumference of the circle.
      *
-     * @param arcVector      the vector representing a circle.
+     * @param arcVector the vector representing a circle.
      * @param numberOfPoints The number of points to generate.
      * @return an array of coordinates around the circumference of the specified circle.
      */
@@ -212,7 +212,7 @@ public class MathUtils {
     }
 
     /**
-     * @param center      Coordinates that will be translated
+     * @param center Coordinates that will be translated
      * @param x amount for center x Coordinates to be translated
      * @param y amount for center y Coordinates to be translated
      * @return drawing Coordinates
@@ -222,11 +222,34 @@ public class MathUtils {
     }
 
     /**
-     * @param center      Coordinates that will be translated
+     * @param center Coordinates that will be translated
      * @param radius amount for center Coordinates to be translated
      * @return drawing Coordinates
      */
     public static Coordinates drawingCoordinates(Coordinates center, int radius) {
         return new Coordinates(center.getX() - radius, center.getY() - radius);
     }
+
+    /**
+     * Given an array ot integers and a size, generates a square matrix whose elements above the diagonal will gives coefficients that determine the weights of the atoms.
+     *
+     * @param types an array of integers that contains the types of atoms.
+     * @return a square matrix whose elements above the diagonal will gives coefficients that determine the weights of the atoms.
+     */
+    public static double[][] blendMatrix(int[] types){
+        int size = types.length;
+        double[][] blendMatrix = new double[size][size];
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                if(i <= j) {
+                    blendMatrix[i][j] = types[j - i];
+                }
+                else {
+                    blendMatrix[i][j] = (double) 1 / types[i - j];
+                }
+            }
+        }
+        return blendMatrix;
+    }
+
 }

@@ -18,13 +18,13 @@ public class ImageResources {
             case MOLECULE:
                 switch (type) {
                     case ALPHA:
-                        return getImage("moleculeA.png", width, height);
+                        return getImage("molecules/alpha-1.png", width, height);
                     case BETA:
-                        return getImage("moleculeB.png", width, height);
+                        return getImage("molecules/beta-1.png", width, height);
                     case GAMMA:
-                        return getImage("moleculeG.png", width, height);
+                        return getImage("molecules/gamma-.png", width, height);
                     case SIGMA:
-                        return getImage("moleculeS.png", width, height);
+                        return getImage("molecules/sigma-.png", width, height);
                     default:
                         throw new IllegalArgumentException("Molecule type is not correct");
                 }
@@ -32,13 +32,13 @@ public class ImageResources {
             case ATOM:
                 switch (type) {
                     case ALPHA:
-                        return getImage("atomA.png", width, height);
+                        return getImage("atoms/alpha.png", width, height);
                     case BETA:
-                        return getImage("atomB.png", width, height);
+                        return getImage("atoms/beta.png", width, height);
                     case GAMMA:
-                        return getImage("atomG.png", width, height);
+                        return getImage("atoms/gama.png", width, height);
                     case SIGMA:
-                        return getImage("atomS.png", width, height);
+                        return getImage("atoms/sigma.png", width, height);
                     default:
                         throw new IllegalArgumentException("Atom type is not correct");
                 }
@@ -47,13 +47,13 @@ public class ImageResources {
             case BLOCKER:
                 switch (type) {
                     case ALPHA:
-                        return getImage("blockerA.png", width, height);
+                        return getImage("blockers/alpha-b.png", width, height);
                     case BETA:
-                        return getImage("blockerB.png", width, height);
+                        return getImage("blockers/beta-b.png", width, height);
                     case GAMMA:
-                        return getImage("blockerG.png", width, height);
+                        return getImage("blockers/gamma-b.png", width, height);
                     case SIGMA:
-                        return getImage("blockerS.png", width, height);
+                        return getImage("blockers/sigma-b.png", width, height);
                     default:
                         throw new IllegalArgumentException("Blocker type is not correct");
                 }
@@ -62,13 +62,13 @@ public class ImageResources {
             case POWERUP:
                 switch (type) {
                     case ALPHA:
-                        return getImage("powerupA.png", width, height);
+                        return getImage("powerups/+alpha-b.png", width, height);
                     case BETA:
-                        return getImage("powerupB.png", width, height);
+                        return getImage("powerups/+beta-b.png", width, height);
                     case GAMMA:
-                        return getImage("powerupG.png", width, height);
+                        return getImage("powerups/+gamma-b.png", width, height);
                     case SIGMA:
-                        return getImage("powerupS.png", width, height);
+                        return getImage("powerups/+sigma-b.png", width, height);
                     default:
                         throw new IllegalArgumentException("Powerup type is not correct");
                 }

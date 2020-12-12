@@ -2,13 +2,13 @@ package model.game_running;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
-import model.game_entities.Entity;
 import model.game_entities.Shooter;
 import model.game_physics.hitbox.RectangularHitbox;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
 import model.game_running.runnables.EntityGeneratorRunnable;
+import model.game_space.Blender;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 
@@ -32,6 +32,7 @@ public class RunningMode {
     //Listener to handle game pause and resume commands
     RunningStateListener runningStateListener;
     GameEntitiesListener gameEntitiesListener;
+    Blender.BlenderListener blenderListener;
 
     // Runnables
     MovementRunnable movementRunnable;
@@ -45,6 +46,9 @@ public class RunningMode {
     Thread shooterThread;
     Thread objectGeneratorThread;
 
+    // Blender
+    Blender blender;
+
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
@@ -53,8 +57,13 @@ public class RunningMode {
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
+
+        // TODO update the shooter inital coordinates from config
+        // TODO fix the shooter position
         this.projectileContainer = new ProjectileContainer(config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
-                config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4, config.getNumOfPowerUpsPerType() / 4);
+                0, 0, 0, 0);
+
+        this.blender = new Blender(null, this.projectileContainer);
 
         this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
                 config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
@@ -181,6 +190,10 @@ public class RunningMode {
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
+    }
+
+    public Blender getBlender(){
+        return this.blender;
     }
 
     public interface GameEntitiesListener {
