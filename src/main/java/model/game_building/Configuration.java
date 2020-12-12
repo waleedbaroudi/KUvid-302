@@ -1,6 +1,7 @@
 package model.game_building;
 
-import model.game_running.GameConstants;
+import static model.game_running.GameConstants.*;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -89,13 +90,13 @@ public class Configuration {
         int difficulty = this.getDifficulty();
         switch (difficulty) {
             case 0:
-                return GameConstants.EASY_MODE_GAME_THREAD_DELAY;
+                return EASY_MODE_GAME_THREAD_DELAY;
             case 1:
-                return GameConstants.MEDIUM_MODE_GAME_THREAD_DELAY;
+                return MEDIUM_MODE_GAME_THREAD_DELAY;
             case 2:
-                return GameConstants.HARD_MODE_GAME_THREAD_DELAY;
+                return HARD_MODE_GAME_THREAD_DELAY;
             default:
-                return GameConstants.GAME_THREAD_DELAY;
+                return GAME_THREAD_DELAY;
         }
     }
 
@@ -105,11 +106,11 @@ public class Configuration {
         int difficulty = this.getDifficulty();
         switch (difficulty) {
             case 0:
-                return GameConstants.EASY_MODE_GAME_DROP_RATE;
+                return EASY_MODE_GAME_DROP_RATE;
             case 1:
-                return GameConstants.MEDIUM_MODE_GAME_DROP_RATE;
+                return MEDIUM_MODE_GAME_DROP_RATE;
             case 2:
-                return GameConstants.HARD_MODE_GAME_DROP_RATE;
+                return HARD_MODE_GAME_DROP_RATE;
             default:
                 return 1000;
         }
@@ -144,19 +145,19 @@ public class Configuration {
     }
 
     public int getGameWidth() {
-        return (int) (getGameHeight() * GameConstants.GAME_SIZE_RATIO);
+        return (int) (getGameHeight() * GAME_SIZE_RATIO);
     }
 
-    public Dimension getGameDimension() {
-        return new Dimension((int) (getGameWidth() * 0.9), getGameHeight());
+    public Dimension getGamePanelDimension() {
+        return new Dimension((int) (getGameWidth() * GAME_PANEL_WIDTH_RATIO), getGameHeight());
     }
 
-    public Dimension getStatisticsDimension() {
-        return new Dimension((int) (getGameWidth() * 0.2), getGameHeight());
+    public Dimension getStatisticsPanelDimension() {
+        return new Dimension((int) (getGameWidth() * STATISTICS_PANEL_WIDTH_RATIO), getGameHeight());
     }
 
     public Dimension getRunningWindowDimension() {
-        return new Dimension((int) (getGameWidth() * 1.1) + 3, getGameHeight());
+        return new Dimension(getGameWidth() + PANEL_SEPARATOR_WIDTH, getGameHeight());
     }
 
     /**
@@ -173,7 +174,7 @@ public class Configuration {
     }
 
     public double getShooterSpeed() {
-        return getUnitL() / (double) GameConstants.FPS; //TODO: ask about the speed.
+        return getUnitL() / (double) FPS; //TODO: ask about the speed.
 //        return getUnitL() / 15;
     }
 }

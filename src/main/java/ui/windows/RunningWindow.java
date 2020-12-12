@@ -38,14 +38,13 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         super(title);
         drawableMap = new ConcurrentHashMap<>(); //concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
-        this.setPreferredSize(config.getRunningWindowDimension());
+        this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.runningMode = new RunningMode(this, this);
         this.shooterDrawable = new ShooterDrawer(this.runningMode.getAtomShooter());
         gameContentPanel = new GamePanel(this.runningMode, drawableMap, this.shooterDrawable);
         statisticsWindow = new StatisticsWindow();
 
-        setLayout(new BorderLayout());
         getContentPane().add(gameContentPanel, BorderLayout.LINE_START);
         getContentPane().add(statisticsWindow, BorderLayout.LINE_END);
 

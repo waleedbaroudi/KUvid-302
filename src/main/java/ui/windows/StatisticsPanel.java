@@ -6,12 +6,9 @@ import model.game_entities.enums.SuperType;
 import model.game_running.GameConstants;
 import model.game_space.GameStatistics;
 import ui.movable_drawables.ImageResources;
-import utils.MathUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class StatisticsWindow extends JPanel implements GameStatistics.GameStatisticsListener {
 
@@ -47,7 +44,7 @@ public class StatisticsWindow extends JPanel implements GameStatistics.GameStati
     JLabel scoreLabel;
 
     public StatisticsWindow() {
-        this.setPreferredSize(Configuration.getInstance().getStatisticsDimension());
+        this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimension());
 
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);

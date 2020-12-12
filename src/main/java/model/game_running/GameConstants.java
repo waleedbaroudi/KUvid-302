@@ -44,8 +44,8 @@ public final class GameConstants {
     public static final int FPS = 60;
 
     //drawable sizes with regard to L
-    public static final double ATOM_RADIUS = 0.1/2;
-    public static final double MOLECULE_RADIUS = 0.25/2;
+    public static final double ATOM_RADIUS = 0.1 / 2;
+    public static final double MOLECULE_RADIUS = 0.25 / 2;
     public static final double BLOCKER_RADIUS = 0.5;
     public static final double POWERUP_RADIUS = 0.5; //not specified
     public static final double SHOOTER_HEIGHT = 1;
@@ -53,5 +53,10 @@ public final class GameConstants {
 
     public static final int ICON_WIDTH = 50;
     public static final int ICON_HEIGHT = 50;
+
+
+    public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
+    public static final double GAME_PANEL_WIDTH_RATIO = 0.8;
+    public static final int PANEL_SEPARATOR_WIDTH = 3;
 
 }

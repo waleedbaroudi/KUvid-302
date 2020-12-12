@@ -2,16 +2,13 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
-import model.game_entities.Entity;
 import model.game_running.GameCommandListener;
-import model.game_running.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.ShooterDrawer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class GamePanel extends JPanel {
@@ -21,7 +18,7 @@ public class GamePanel extends JPanel {
     ShooterDrawer shooterDrawer;
 
     public GamePanel(RunningMode runningMode, Map<AutonomousEntity, Drawable> drawableMap, ShooterDrawer shooterDrawer) {
-        this.setPreferredSize(Configuration.getInstance().getGameDimension());
+        this.setPreferredSize(Configuration.getInstance().getGamePanelDimension());
 
         this.runningMode = runningMode;
         this.setFocusable(true);
