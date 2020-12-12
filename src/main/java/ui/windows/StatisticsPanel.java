@@ -3,7 +3,7 @@ package ui.windows;
 import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_space.GameStatistics;

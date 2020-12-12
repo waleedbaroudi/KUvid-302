@@ -1,13 +1,8 @@
 package utils;
 
-import model.game_physics.hitbox.Hitbox;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Stream;
 
 import static java.lang.Math.*;
 
@@ -229,27 +224,4 @@ public class MathUtils {
     public static Coordinates drawingCoordinates(Coordinates center, int radius) {
         return new Coordinates(center.getX() - radius, center.getY() - radius);
     }
-
-    /**
-     * Given an array ot integers and a size, generates a square matrix whose elements above the diagonal will gives coefficients that determine the weights of the atoms.
-     *
-     * @param types an array of integers that contains the types of atoms.
-     * @return a square matrix whose elements above the diagonal will gives coefficients that determine the weights of the atoms.
-     */
-    public static double[][] blendMatrix(int[] types){
-        int size = types.length;
-        double[][] blendMatrix = new double[size][size];
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
-                if(i <= j) {
-                    blendMatrix[i][j] = types[j - i];
-                }
-                else {
-                    blendMatrix[i][j] = (double) 1 / types[i - j];
-                }
-            }
-        }
-        return blendMatrix;
-    }
-
 }

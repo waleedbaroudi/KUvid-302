@@ -1,4 +1,4 @@
-package model.game_running;
+package model.game_building;
 
 import model.game_building.Configuration;
 
@@ -41,6 +41,7 @@ public final class GameConstants {
 
     // Objects Dimensions.
     public static final Dimension BUILDING_WINDOW_SIZE = new Dimension(800, 800);
+    public static final Dimension BLENDER_WINDOW_SIZE = new Dimension(300, 100);
     public static final int FPS = 60;
 
     //drawable sizes with regard to L
@@ -51,6 +52,7 @@ public final class GameConstants {
     public static final double SHOOTER_HEIGHT = 1;
     public static final double SHOOTER_WIDTH = 0.5;
 
+    public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
     public static final int ICON_WIDTH = 50;
     public static final int ICON_HEIGHT = 50;
 

@@ -1,5 +1,7 @@
 package model.game_running;
 
+import model.game_building.GameConstants;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

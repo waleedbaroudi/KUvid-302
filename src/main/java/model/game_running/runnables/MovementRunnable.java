@@ -1,14 +1,9 @@
 package model.game_running.runnables;
 
 import model.game_building.Configuration;
-import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
-import model.game_running.GameConstants;
-import model.game_running.runnables.GameRunnable;
 
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**

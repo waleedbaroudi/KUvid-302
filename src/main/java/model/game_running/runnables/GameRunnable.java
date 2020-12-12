@@ -1,6 +1,6 @@
 package model.game_running.runnables;
 
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 
 import java.util.concurrent.CountDownLatch;
 

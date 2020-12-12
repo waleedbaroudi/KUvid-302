@@ -2,7 +2,7 @@ package ui.windows;
 
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigConfirmation;
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 
 import javax.swing.*;
 

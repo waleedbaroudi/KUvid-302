@@ -3,7 +3,7 @@ package ui.windows;
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
 import model.game_space.Blender;
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;

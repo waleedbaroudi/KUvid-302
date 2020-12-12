@@ -6,7 +6,7 @@ import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;

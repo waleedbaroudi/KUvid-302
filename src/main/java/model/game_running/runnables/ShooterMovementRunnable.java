@@ -1,10 +1,8 @@
 package model.game_running.runnables;
 
 import model.game_entities.Shooter;
-import model.game_running.GameConstants;
-import model.game_running.runnables.GameRunnable;
 
-import static model.game_running.GameConstants.*;
+import static model.game_building.GameConstants.*;
 
 public class ShooterMovementRunnable extends GameRunnable {
 

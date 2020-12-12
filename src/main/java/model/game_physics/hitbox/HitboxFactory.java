@@ -1,7 +1,7 @@
 package model.game_physics.hitbox;
 
 import model.game_building.Configuration;
-import model.game_running.GameConstants;
+import model.game_building.GameConstants;
 
 public class HitboxFactory {
 

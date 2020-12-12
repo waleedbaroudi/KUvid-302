@@ -1,7 +1,7 @@
 package model.game_building;
 
-import static model.game_running.GameConstants.*;
 
+import static model.game_building.GameConstants.*;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 

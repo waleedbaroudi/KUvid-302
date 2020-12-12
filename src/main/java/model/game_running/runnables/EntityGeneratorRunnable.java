@@ -6,6 +6,7 @@ import model.game_entities.enums.EntityType;
 import model.game_entities.factories.BlockerFactory;
 import model.game_entities.factories.MoleculeFactory;
 import model.game_entities.factories.PowerupFactory;
+import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
