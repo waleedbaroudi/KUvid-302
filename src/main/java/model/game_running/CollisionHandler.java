@@ -15,6 +15,8 @@ public class CollisionHandler implements CollisionVisitor {
         controller.removeEntity(entity2);
     }
 
+    // this is a temporary method to calculate to increment the score of the player.
+    // it will be changed a little when we connect this class to the statistics information.
     private int incrementScore(int score){ return score++;}
 
 
@@ -37,16 +39,20 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void handleCollision(Powerup powerup, Shooter shooter) {
         controller.addEntity(powerup);
+        controller.removeEntity(powerup);
     }
 
 
     @Override
     public void handleCollision(Molecule molecule, Blocker blocker) {
+        defaultCollision(molecule, blocker);
     }
 
 
     @Override
     public void handleCollision(Blocker blocker, Shooter shooter) {
+        // decrease the health of the player.
+        // check for close atom and molecules and destroy them.
     }
 
 
