@@ -4,9 +4,13 @@ package model.game_space;
 import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Blender {
+
+    private Logger logger = Logger.getLogger(Blender.class.getName());
 
     private final ProjectileContainer projectileContainer;
     private BlenderListener blenderListener;
@@ -14,30 +18,28 @@ public class Blender {
     public Blender(BlenderListener blenderListener, ProjectileContainer projectileContainer) {
         this.projectileContainer = projectileContainer;
         this.blenderListener = blenderListener;
+        logger.setLevel(Level.OFF);
     }
 
-    public void blend(int sourceAtom, int destinationAtom) { // TODO: Delete this method after implementing multiple blending of a certain atom.
-        boolean canBlend = false;
-        System.out.println(canBlend = projectileContainer.decreaseAtoms(sourceAtom, (int) Math.ceil(sourceAtom *
-                GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1])));
-        if (canBlend)
-            System.out.println(projectileContainer.increaseAtoms(destinationAtom, (int) Math.ceil(destinationAtom *
-                    GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1])));
-        System.out.println(projectileContainer.toString());
-
-        blenderListener.onBlend();
-    }
-
-    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {// TODO: Use this method to blend after implementing multiple blending of a certain atom.
+    /**
+     * Blends/Breaks a number of source atoms into a number of target atoms
+     *
+     * @param sourceAtom              The atom to be blended
+     * @param destinationAtom         The result atom
+     * @param destinationAtomQuantity The number of the desired atom.
+     */
+    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {
         boolean canBlend;
         canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
                 (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1]));
         if (canBlend) {
             projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
                     (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1]));
-            blenderListener.onBlend();
+            if (blenderListener != null)
+                blenderListener.onBlend();
         } else {
-            blenderListener.onFailBlend();
+            if (blenderListener != null)
+                blenderListener.onFailBlend();
         }
     }
 

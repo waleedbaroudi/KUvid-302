@@ -36,7 +36,7 @@ public class ProjectileContainer {
         atomMap[1] = numOfBetaAtoms;
         atomMap[2] = numOfGammaAtoms;
         atomMap[3] = numOfSigmaAtoms;
-        System.out.println(Arrays.toString(atomMap));
+
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
         powerUpMap = new HashMap<>(); //todo make this an array too
@@ -125,13 +125,19 @@ public class ProjectileContainer {
      * @return the result of the check and decrement.
      */
     private boolean checkAndChange(int[] map, int type, int count) {
-        System.out.println(type + " : " + count);
+        //System.out.println(type + " : " + count); //TODO: Change to logger
         int remaining = map[type];
         if (remaining < -count)
             return false;
         map[type] = remaining + count;
         totalAtomCount += count;
+        if (runningMode != null)
+            runningMode.updateStatisticsAtomCount(EntityType.forValue(type + 1), atomMap[type]);
         return true;
+    }
+
+    public int[] getAtomMap(){
+        return this.atomMap;
     }
 
     public int getAtomCountForType(EntityType type) {
