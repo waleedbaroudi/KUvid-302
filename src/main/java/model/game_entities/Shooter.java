@@ -39,7 +39,6 @@ public class Shooter extends Entity {
         logger.setLevel(Level.OFF);
     }
 
-
     public Projectile shoot() {
         this.reload(); //todo: why reload before shoot?
         if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
@@ -80,6 +79,7 @@ public class Shooter extends Entity {
     }
 
     public Projectile getCurrentProjectile() {
+
         return currentProjectile;
     }
 
@@ -136,7 +136,6 @@ public class Shooter extends Entity {
                 ", previousAtom=" + previousAtom +
                 '}';
     }
-
 
     // visitor pattern. Double delegation
     @Override
