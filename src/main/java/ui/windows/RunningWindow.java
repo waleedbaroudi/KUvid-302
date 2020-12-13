@@ -99,7 +99,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
 
     @Override
     public void onEntityAdd(AutonomousEntity entity) {
-        drawableMap.put(entity, DrawableFactory.get(entity));
+        drawableMap.put(entity, DrawableFactory.getDrawerObject(entity));
     }
 
     @Override

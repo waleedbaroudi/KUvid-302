@@ -4,17 +4,19 @@ import model.game_entities.*;
 
 public class DrawableFactory {
     public static Drawable get(Entity entity) {
-            if (entity instanceof  Molecule)
+        switch (entity.getSuperType()) {
+            case MOLECULE:
                 return new MoleculeDrawer((Molecule) entity);
-            else if (entity instanceof  Atom)
+            case ATOM:
                 return new AtomDrawer((Atom) entity);
-            else if (entity instanceof  Blocker)
+            case BLOCKER:
                 return new BlockerDrawer((Blocker) entity);
-            else if (entity instanceof  Shooter)
+            case SHOOTER:
                 return new ShooterDrawer((Shooter) entity);
-            else if (entity instanceof  Powerup)
+            case POWERUP:
                 return new PowerupDrawer((Powerup) entity);
-            else
+            default:
                 throw new IllegalArgumentException("Entity type is not correct");
+        }
     }
 }
