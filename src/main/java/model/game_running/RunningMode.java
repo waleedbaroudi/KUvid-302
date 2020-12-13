@@ -73,7 +73,8 @@ public class RunningMode {
 
         this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
                 config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
-                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH, config.getUnitL() * GameConstants.SHOOTER_HEIGHT), projectileContainer);
+                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH,
+                        config.getUnitL() * GameConstants.SHOOTER_HEIGHT), projectileContainer);
         initialize();
     }
 

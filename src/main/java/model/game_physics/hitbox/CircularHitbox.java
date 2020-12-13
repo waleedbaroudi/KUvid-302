@@ -28,7 +28,7 @@ public class CircularHitbox extends Hitbox {
     @Override
     public boolean isInside(Coordinates entityCoords, Coordinates checkCoords) {
         checkCoords = MathUtils.applyRotation(-this.angle, entityCoords, checkCoords);
-        return MathUtils.isWithinCircle(entityCoords, this.radius, checkCoords);
+        return MathUtils.isWithinCircle(entityCoords, this.radius   , checkCoords);
     }
 
     @Override

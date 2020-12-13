@@ -37,8 +37,8 @@ public class Shooter extends Entity {
         this.container = container;
         // Turn off logger
         logger.setLevel(Level.OFF);
+        reload();
     }
-
 
     public Projectile shoot() {
         this.reload(); //todo: why reload before shoot?
@@ -80,6 +80,7 @@ public class Shooter extends Entity {
     }
 
     public Projectile getCurrentProjectile() {
+
         return currentProjectile;
     }
 
@@ -136,7 +137,6 @@ public class Shooter extends Entity {
                 ", previousAtom=" + previousAtom +
                 '}';
     }
-
 
     // visitor pattern. Double delegation
     @Override
