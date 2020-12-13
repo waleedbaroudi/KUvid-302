@@ -37,6 +37,7 @@ public class Shooter extends Entity {
         this.container = container;
         // Turn off logger
         logger.setLevel(Level.OFF);
+        reload();
     }
 
     public Projectile shoot() {
