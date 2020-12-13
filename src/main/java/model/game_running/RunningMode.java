@@ -161,7 +161,6 @@ public class RunningMode {
      * @return a boolean indicating whether the entity was added successfully
      */
     public boolean addEntity(AutonomousEntity entity) {
-        System.out.println("THE ENTITY TO BE ADDED IS OF TYPE: " + entity.getSuperType());
         gameEntitiesListener.onEntityAdd(entity);
         return autonomousEntities.add(entity);
     }

@@ -41,7 +41,6 @@ public class Shooter extends Entity {
     }
 
     public Projectile shoot() {
-        this.reload(); //todo: why reload before shoot?
         if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
             return null;
 
@@ -56,6 +55,7 @@ public class Shooter extends Entity {
         double len = Math.sqrt(rotatedCoords.getX() * rotatedCoords.getX() + rotatedCoords.getY() * rotatedCoords.getY());
         tmpProjectile.setPathPattern(new StraightPattern(new Velocity(10 * rotatedCoords.getX() / len, 10 * rotatedCoords.getY() / len)));
         tmpProjectile.setCoordinates(this.getCoordinates());
+        this.reload();
         return tmpProjectile;
     }
 
