@@ -64,7 +64,7 @@ public class RunningMode {
         this.gameEntitiesListener = gameEntitiesListener;
 
 
-        // TODO update the shooter inital coordinates from config
+        // TODO update the shooter initial coordinates from config
         // TODO fix the shooter position
         this.projectileContainer = new ProjectileContainer(this, config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
                 0, 0, 0, 0);
