@@ -5,7 +5,7 @@ import model.game_entities.*;
 public class CollisionHandler implements CollisionVisitor {
 
     RunningMode controller;
-
+    int score = 0;
     CollisionHandler(RunningMode controller) {
         this.controller = controller;
     }
@@ -21,7 +21,6 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
         defaultCollision(atom, molecule);
-        int score = 0;
         incrementScore(score);
     }
 
