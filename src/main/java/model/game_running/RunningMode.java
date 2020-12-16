@@ -177,7 +177,8 @@ public class RunningMode {
     }
 
     /**
-     * @param entity
+     * TODO ADD DOCUMENTATION
+     * @param entity to be removed
      */
     public void removeEntity(AutonomousEntity entity) {
         // TODO: change the gamerListener to removeEntity. Handle multiple entities by calling removeEntity on them one by one.

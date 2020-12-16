@@ -51,7 +51,6 @@ public class Shooter extends Entity {
         reload();
     }
 
-
     public Projectile shoot() {
         if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
             return null;
@@ -66,9 +65,29 @@ public class Shooter extends Entity {
         // set the coordinates of the projectile the same as the coordinates of hte shooter
         double len = Math.sqrt(rotatedCoords.getX() * rotatedCoords.getX() + rotatedCoords.getY() * rotatedCoords.getY());
         tmpProjectile.setPathPattern(new StraightPattern(new Velocity(10 * rotatedCoords.getX() / len, 10 * rotatedCoords.getY() / len)));
-        tmpProjectile.setCoordinates(this.getCoordinates());
+        tmpProjectile.setCoordinates(getShootingCoords(getCoordinates(), tmpProjectile));
         this.reload();
         return tmpProjectile;
+    }
+
+    //todo: see if we can make these constants as attributes for the shooter
+    /**
+     *
+     * @param coordinates the coordinates of the shotoer
+     * @param projectile the projectile that is on the tip of the shooter
+     * @return the coordinate of the projectile where it will start moving
+     */
+    private Coordinates getShootingCoords(Coordinates coordinates, Projectile projectile) {
+        int height = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
+        int width = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_WIDTH);
+        int atomRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
+        int powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
+
+        int r = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
+        double theta = Math.toRadians(90 - Math.abs(getAngle()));
+        int h = (int) ((r + height/2) * Math.sin(theta));
+        int w = (int) ((r + width) * Math.cos(theta));
+        return new Coordinates(coordinates.getX() + (getAngle() < 0 ? -1*w : w), coordinates.getY() - h);
     }
 
     public boolean switchAtom() {

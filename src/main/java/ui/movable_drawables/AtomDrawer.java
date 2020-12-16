@@ -23,7 +23,6 @@ public class AtomDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-
         Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), radius);
         g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }

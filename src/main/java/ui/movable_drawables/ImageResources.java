@@ -88,16 +88,14 @@ public class ImageResources {
      * @return an image to draw in the space
      */
     private static Image getImage(String image, int width, int height) {
-        BufferedImage img = null;
+        BufferedImage img;
         try {
             img = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/" + image));
         } catch (IOException e) {
             System.err.println("error retrieving image: " + e.getMessage());
-        }
-
-        if (img == null) {
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
+
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
