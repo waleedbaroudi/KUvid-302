@@ -4,6 +4,7 @@ import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
+import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_building.GameConstants;
@@ -19,7 +20,7 @@ public class Shooter extends Entity {
     private Projectile currentProjectile;
     private ProjectileContainer container;
 
-    Configuration config;
+    Configuration config = Configuration.getInstance();
 
     private EntityType previousAtom;
     private final double DEFAULT_ANGLE = 10;
@@ -27,9 +28,19 @@ public class Shooter extends Entity {
     private final double MOVEMENT;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
-    public Shooter(Coordinates coordinates, Hitbox hitbox, ProjectileContainer container) {
-        super(coordinates, hitbox);
-        config = Configuration.getInstance();
+    public Shooter(ProjectileContainer container) {
+        super();
+
+        //sets the initial coordinates
+        setCoordinates(new Coordinates(
+                config.getGameWidth() / 2.0,
+                config.getGameHeight() - 0.5 * config.getUnitL() *
+                        GameConstants.SHOOTER_HEIGHT));
+
+        //sets the Hitbox
+        setHitbox(new RectangularHitbox(
+                config.getUnitL() * GameConstants.SHOOTER_WIDTH,
+                config.getUnitL() * GameConstants.SHOOTER_HEIGHT));
 
         MOVEMENT = config.getShooterSpeed();
         this.superType = SuperType.SHOOTER;
@@ -39,6 +50,7 @@ public class Shooter extends Entity {
         logger.setLevel(Level.OFF);
         reload();
     }
+
 
     public Projectile shoot() {
         if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)

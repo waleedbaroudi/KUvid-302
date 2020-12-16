@@ -10,15 +10,14 @@ import java.util.logging.Logger;
 
 public class Blender {
 
-    private Logger logger = Logger.getLogger(Blender.class.getName());
+    private static final Logger logger = Logger.getLogger(Blender.class.getName());
 
     private final ProjectileContainer projectileContainer;
     private BlenderListener blenderListener;
 
-    public Blender(BlenderListener blenderListener, ProjectileContainer projectileContainer) {
+    public Blender(ProjectileContainer projectileContainer) {
         this.projectileContainer = projectileContainer;
-        this.blenderListener = blenderListener;
-        logger.setLevel(Level.OFF);
+        logger.setLevel(Level.ALL);
     }
 
     /**
@@ -55,8 +54,16 @@ public class Blender {
         /**
          * this method is called after game parameters get checked and proved valid.
          */
-        void onBlend();
-        void onFailBlend();
-        void onShow();
+        default void onBlend() {
+            logger.warning("Listener is not yet initialized");
+        }
+
+        default void onFailBlend() {
+            logger.warning("Listener is not yet initialized");
+        }
+
+        default void onShow() {
+            logger.warning("Listener is not yet initialized");
+        }
     }
 }

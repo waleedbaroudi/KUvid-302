@@ -56,7 +56,6 @@ public final class GameConstants {
     public static final int ICON_WIDTH = 50;
     public static final int ICON_HEIGHT = 50;
 
-
     public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
     public static final double GAME_PANEL_WIDTH_RATIO = 0.8;
     public static final int PANEL_SEPARATOR_WIDTH = 3;

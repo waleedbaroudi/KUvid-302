@@ -20,6 +20,9 @@ public abstract class Entity implements Collidable {
         this.hitbox = hitbox;
     }
 
+    public Entity() {
+    }
+
     public Coordinates getCoordinates() {
         return coordinates;
     }
