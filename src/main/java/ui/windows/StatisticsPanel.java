@@ -155,9 +155,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         powerupSigmaImg = ImageResources.get(EntityType.SIGMA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         powerupGammaImg = ImageResources.get(EntityType.GAMMA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
 
-        healthImg = ImageResources.getIcon(1, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        watchImg = ImageResources.getIcon(2, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        blenderImg = ImageResources.getIcon(3, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        healthImg = ImageResources.getIcon("health", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        watchImg = ImageResources.getIcon("timer", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        blenderImg = ImageResources.getIcon("blender", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
     }
 
     @Override

@@ -1,10 +1,9 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
-import model.game_building.GameConstants;
-import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import utils.Coordinates;
 import utils.MathUtils;
