@@ -11,17 +11,23 @@ import java.awt.*;
 
 public class PowerupDrawer extends ProjectileDrawer implements Drawable {
 
-   // private final Powerup powerup;
-    //private final int radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
-    // private final Image powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(), 2 * radius, 2 * radius);
+   private final Powerup powerup;
+   private final int radius;
+   private final Image powerupImage;
 
-    public PowerupDrawer(Powerup powerup, Image powerupImage, int radius) {
-        super(powerup, powerupImage, radius);
+    public PowerupDrawer(Powerup powerup) {
+        super(powerup);
+        this.powerup = powerup;
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
+        this.powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(), 2 * radius, 2 * radius);
 
     }
 
     @Override
     public void draw(Graphics g) {
-        super.draw(g);
+
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius);
+        g.drawImage(powerupImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+
     }
 }

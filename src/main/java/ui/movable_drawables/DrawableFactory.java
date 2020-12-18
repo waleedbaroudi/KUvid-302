@@ -2,7 +2,12 @@ package ui.movable_drawables;
 
 import model.game_entities.*;
 
+// TODO we need to reorganize to include projectile.
+
+
+
 public class DrawableFactory {
+
     public static Drawable get(Entity entity) {
         switch (entity.getSuperType()) {
             case MOLECULE:
@@ -19,4 +24,6 @@ public class DrawableFactory {
                 throw new IllegalArgumentException("Entity type is not correct");
         }
     }
+
+
 }

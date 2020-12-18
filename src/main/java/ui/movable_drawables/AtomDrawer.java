@@ -11,18 +11,22 @@ import java.awt.*;
 
 public class AtomDrawer extends ProjectileDrawer implements Drawable {
 
-    /*
-    private final Atom atom;
-    private final int radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
-    private final Image atomImage = ImageResources.get(atom.getType(), atom.getSuperType(), 2 * radius, 2 * radius);
-    */
 
-    public AtomDrawer(Atom atom, Image atomImage, int radius) {
-        super(atom, atomImage, radius);
+    private final Atom atom;
+    private final int radius;
+    private final Image atomImage;
+
+
+    public AtomDrawer(Atom atom) {
+        super(atom);
+        this.atom = atom;
+        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
+        this.atomImage = ImageResources.get(atom.getType(), atom.getSuperType(), 2 * radius, 2 * radius);
     }
 
     @Override
     public void draw(Graphics g) {
-        super.draw(g);
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), radius);
+        g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 }
