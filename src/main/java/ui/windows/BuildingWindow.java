@@ -3,6 +3,7 @@ package ui.windows;
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
 import model.game_building.GameConstants;
+import utils.IOHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -350,6 +351,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     public void onValidParameters() {
         ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
+        IOHandler.writeConfigToYAML(this.bundle);
     }
 
     public void onInvalidParameters(ArrayList<String> invalidFields) {
