@@ -3,7 +3,6 @@ package model.game_entities;
 import model.game_building.Configuration;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
-import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
@@ -80,15 +79,16 @@ public class Shooter extends Entity {
      */
     private Coordinates getShootingCoords(Coordinates coordinates, Projectile projectile) {
         int height = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
-        int width = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_WIDTH);
         int atomRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
         int powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
 
-        int r = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
-        double theta = Math.toRadians(90 - Math.abs(getAngle()));
-        int h = (int) ((r + height/2) * Math.sin(theta));
-        int w = (int) ((r + width) * Math.cos(theta));
-        return new Coordinates(coordinates.getX() + (getAngle() < 0 ? -1*w : w), coordinates.getY() - h);
+        int projectileRadius = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
+        double theta = MathUtils.angleComplement(this.angle);
+
+        int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height / 2, theta);
+        int newWidth = MathUtils.getCompositeXComponent(projectileRadius, height / 2, theta);
+
+        return MathUtils.translate(this.getCoordinates(), new Coordinates(newWidth, - newHeight));
     }
 
     public boolean switchAtom() {
