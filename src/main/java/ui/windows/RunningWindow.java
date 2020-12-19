@@ -1,16 +1,14 @@
 package ui.windows;
 
 import model.game_building.Configuration;
-import model.game_entities.AutonomousEntity;
-import model.game_space.Blender;
 import model.game_building.GameConstants;
+import model.game_entities.AutonomousEntity;
 import model.game_running.RunningMode;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
-import ui.movable_drawables.ShooterDrawer;
+import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
-import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Collection;
@@ -30,6 +28,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow;
+    private Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
@@ -43,14 +42,26 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
 
+        background = ImageResources.getIcon("kuvid_bc", getWidth(), getHeight());
+        JPanel backgroundPanel = new JPanel() {
+            public void paintComponent(Graphics g) {
+                g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        };
+
+        setContentPane(backgroundPanel);
         getContentPane().add(gameContentPanel, BorderLayout.LINE_START);
         getContentPane().add(statisticsPanel, BorderLayout.LINE_END);
 
         //add separator
-        JSeparator sep = new JSeparator(JSeparator.VERTICAL);
-        sep.setBorder(new StrokeBorder(new BasicStroke(GameConstants.PANEL_SEPARATOR_WIDTH)));
-        getContentPane().add(sep, BorderLayout.CENTER);
+        JPanel separator = new JPanel();
+        separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
+        getContentPane().add(separator, BorderLayout.CENTER);
+        separator.setBackground(Color.BLACK);
+        getContentPane().add(statisticsPanel, BorderLayout.CENTER);
+
         setLocationRelativeTo(null); //centers the window in the middle of the screen
+
         setVisible(true);
         pack();
         start();

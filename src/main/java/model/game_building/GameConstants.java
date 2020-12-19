@@ -1,7 +1,5 @@
 package model.game_building;
 
-import model.game_building.Configuration;
-
 import java.awt.*;
 
 public final class GameConstants {
