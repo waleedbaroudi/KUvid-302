@@ -11,6 +11,7 @@ import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;
+import utils.Vector;
 import utils.Velocity;
 
 import java.util.logging.Level;
@@ -31,13 +32,13 @@ public class Shooter extends Entity {
     public Shooter(ProjectileContainer container) {
         super();
 
-        //sets the initial coordinates
+        // sets the initial coordinates
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
                         GameConstants.SHOOTER_HEIGHT));
 
-        //sets the Hitbox
+        // sets the Hitbox
         setHitbox(new RectangularHitbox(
                 config.getUnitL() * GameConstants.SHOOTER_WIDTH,
                 config.getUnitL() * GameConstants.SHOOTER_HEIGHT));
@@ -150,14 +151,47 @@ public class Shooter extends Entity {
         return true;
     }
 
-    public boolean checkLegalMovement(Coordinates c, double angle) {
+    /**
+     * Check if the shooter movement is within the game view
+     * @param c
+     * @param angle
+     * @return
+     */
+    private boolean checkLegalMovement(Coordinates c, double angle) {
         double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
         if (c.getX() + gunWidth / 2 > config.getGamePanelDimensions().getWidth())
             return false;
         else if (c.getX() - gunWidth / 2 < 0)
             return false;
-        return !(angle > 90) && !(angle < -90);
+        return checkLegalAngle(c, angle);
     }
+
+    /**
+     * Check if the shooter rotation is within the game view
+     * @param c
+     * @param angle
+     * @return
+     */
+    private boolean checkLegalAngle(Coordinates c, double angle){
+        double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
+        double gunHeight = config.getUnitL() * GameConstants.SHOOTER_HEIGHT;
+
+        // assume the left side if the shooter is in the left half of the screen, and right otherwise
+        Vector rotatedShooter;
+        if (c.getX() < Configuration.getInstance().getGameWidth() / 2.0){
+            rotatedShooter = new Vector(c.getX() - gunWidth / 2, c.getY(),
+                    c.getX() - gunWidth / 2, c.getY() - gunHeight / 2.0);
+            rotatedShooter = rotatedShooter.rotateVector(angle);
+        }
+        else{
+            rotatedShooter = new Vector(c.getX() + gunWidth / 2, c.getY(),
+                    c.getX() + gunWidth / 2, c.getY() - gunHeight / 2.0);
+            rotatedShooter = rotatedShooter.rotateVector(angle);
+        }
+        return !(angle > 90) && !(angle < -90) && rotatedShooter.getPositionCoordinate().getX() >= 0 &&
+                rotatedShooter.getPositionCoordinate().getX() <= config.getGamePanelDimensions().width;
+    }
+
 
     @Override
     public String toString() {

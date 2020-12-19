@@ -30,7 +30,6 @@ public class CompositePattern extends PathPattern {
         this.iterations = iterations;
         this.currentIteration = 0;
         this.circulate = circulate;
-
         // set the current pattern to the first pattern
         setCurrentPattern(patterns.get(0));
     }

@@ -32,6 +32,7 @@ public class CollisionRunnable extends GameRunnable {
     public void run() {
         running = true;
         Set<AutonomousEntity> toRemoveEntities = new HashSet<>();
+        Configuration config = Configuration.getInstance();
         while (running) {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
@@ -49,7 +50,7 @@ public class CollisionRunnable extends GameRunnable {
                     }
                     // check if the entity left the game view from the top or bottom boarder
                     if(sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY() > Configuration.getInstance().getGameHeight()){
+                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().width){
                         toRemoveEntities.add(sourceEntity);
                     }
                     // reflect if the entity collide with the left border
@@ -61,7 +62,7 @@ public class CollisionRunnable extends GameRunnable {
                     }
 
                     // reflect if the entity collide with the right border
-                    if(sourceEntity.getCoordinates().getX() > Configuration.getInstance().getGameWidth()){
+                    if(sourceEntity.getCoordinates().getX() > config.getGamePanelDimensions().width){
                         sourceEntity.getPathPattern().reflect(
                                 new Vector(new Coordinates(-1, 0)));
                         GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
