@@ -35,5 +35,6 @@ public class StraightPattern extends PathPattern{
     @Override
     public void reflect(Vector n) {
         this.initialVelocity = initialVelocity.reflect(n);
+        PathPattern.logger.debug("[StraightPattern] pattern reflected");
     }
 }

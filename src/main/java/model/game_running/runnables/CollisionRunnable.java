@@ -54,18 +54,24 @@ public class CollisionRunnable extends GameRunnable {
                     }
                     // reflect if the entity collide with the left border
                     if(sourceEntity.getCoordinates().getX() < 0){
-                        sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
+                        sourceEntity.getPathPattern().reflect(
+                                new Vector(new Coordinates(1, 0)));
+                        System.out.println(sourceEntity);
+                        GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
                     }
 
                     // reflect if the entity collide with the right border
                     if(sourceEntity.getCoordinates().getX() > Configuration.getInstance().getGameWidth()){
-                        sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
+                        sourceEntity.getPathPattern().reflect(
+                                new Vector(new Coordinates(-1, 0)));
+                        GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
                     }
 
 
                 }
                 runningMode.removeAutonomousEntities(toRemoveEntities);
-                Thread.sleep(GameConstants.GAME_THREAD_DELAY);
+                // TODO make the collision delay more than the movement delay
+                Thread.sleep(35);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

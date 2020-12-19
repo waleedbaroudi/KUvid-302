@@ -27,4 +27,11 @@ class StraightPatternTest {
         assertEquals(coords, new Coordinates(25, 37));
 
     }
+
+    @Test
+    void reflect(){
+        // create a StraightPattern
+        Coordinates coords = new Coordinates(1, 1);
+        StraightPattern pattern = new StraightPattern(coords, new Velocity(2, 3));
+    }
 }

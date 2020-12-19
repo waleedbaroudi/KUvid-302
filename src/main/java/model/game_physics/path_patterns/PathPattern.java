@@ -11,7 +11,7 @@ import utils.Vector;
 public abstract class PathPattern {
     // step represent time stamp in the path. By default it starts from zero.
     private Coordinates currentCoords;
-    private static Logger logger = Logger.getLogger(PathPattern.class.getName());
+    public static Logger logger = Logger.getLogger(PathPattern.class.getName());
 
     protected PathPattern (){}
     protected PathPattern(Coordinates currentCoords) {

@@ -39,6 +39,6 @@ public class Velocity {
     }
 
     public Velocity reflect(Vector n){
-        return new Velocity(n.scale(n.dot(getVelocityVector()) * 2).subtract(getVelocityVector()));
+        return new Velocity(n.scale(n.dot(getVelocityVector()) * 2).subtract(getVelocityVector()).reverse());
     }
 }
