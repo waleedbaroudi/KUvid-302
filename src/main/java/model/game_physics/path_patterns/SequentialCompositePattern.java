@@ -1,6 +1,8 @@
 package model.game_physics.path_patterns;
 
 import utils.Coordinates;
+import utils.Vector;
+
 import java.util.ArrayList;
 
 /**
@@ -45,5 +47,10 @@ public class SequentialCompositePattern extends PathPattern{
         }
         this.currentCoords = getCurrentPattern().nextPosition();
         return this.currentCoords;
+    }
+
+    @Override
+    public void reflect(Vector n) {
+        // TODO: implement reflect or delete the whole pattern (We have not used this pattern yet)
     }
 }

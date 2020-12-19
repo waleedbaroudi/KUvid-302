@@ -1,6 +1,7 @@
 package model.game_physics.path_patterns;
 
 import utils.Coordinates;
+import utils.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,5 +94,10 @@ public class CompositePattern extends PathPattern {
         this.currentIteration += 1;
         setCurrentCoords(getCurrentPattern().nextPosition());
         return this.getCurrentCoords();
+    }
+
+    @Override
+    public void reflect(Vector n) {
+        currentPattern.reflect(n);
     }
 }

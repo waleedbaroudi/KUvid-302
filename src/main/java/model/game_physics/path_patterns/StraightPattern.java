@@ -1,6 +1,7 @@
 package model.game_physics.path_patterns;
 
 import utils.Coordinates;
+import utils.Vector;
 import utils.Velocity;
 
 /**
@@ -31,5 +32,8 @@ public class StraightPattern extends PathPattern{
         return getCurrentCoords();
     }
 
-
+    @Override
+    public void reflect(Vector n) {
+        this.initialVelocity = initialVelocity.reflect(n);
+    }
 }
