@@ -14,11 +14,11 @@ class VectorTest {
 
         Vector rotatedVector = new Vector(new Coordinates(0,0), new Coordinates(-2,2));
 
-        vector.rotateVector(90);
+        vector = vector.rotateVector(90);
         assertTrue(vector.getX() - rotatedVector.getX() <= epsilon && vector.getY() - rotatedVector.getY() <= epsilon);
 
         rotatedVector = new Vector(new Coordinates(0,0), new Coordinates(2,2));
-        vector.rotateVector(-90);
+        vector = vector.rotateVector(-90);
         assertTrue(vector.getX() - rotatedVector.getX() <= epsilon && vector.getY() - rotatedVector.getY() <= epsilon);
     }
 }

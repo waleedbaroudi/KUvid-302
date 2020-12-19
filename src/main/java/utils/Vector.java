@@ -1,8 +1,11 @@
 package utils;
 
+/**
+ * Immutable representation of a vecotr
+ */
 public class Vector {
 
-    private Coordinates originCoordinate, positionCoordinate;
+    private final Coordinates originCoordinate, positionCoordinate;
 
     public Vector(Coordinates originCoordinate, Coordinates positionCoordinate) {
         this.originCoordinate = originCoordinate;
@@ -17,20 +20,12 @@ public class Vector {
         this(new Coordinates(0, 0), positionCoordinate);
     }
 
-    public void rotateVector(double angle){
-        this.setPositionCoordinate(MathUtils.applyRotation(angle, this.originCoordinate, this.positionCoordinate));
-    }
-
-    public void setPositionCoordinate(Coordinates positionCoordinate) {
-        this.positionCoordinate = positionCoordinate;
+    public Vector rotateVector(double angle){
+        return new Vector(originCoordinate, MathUtils.applyRotation(angle, this.originCoordinate, this.positionCoordinate));
     }
 
     public Coordinates getPositionCoordinate() {
         return positionCoordinate;
-    }
-
-    public void setOriginCoordinate(Coordinates originCoordinate){
-        this.originCoordinate = originCoordinate;
     }
 
     public Coordinates getOriginCoordinate(){
@@ -47,6 +42,42 @@ public class Vector {
 
     public double getMagnitude(){
         return MathUtils.vectorMagnitude(this);
+    }
+
+    /**
+     * Get the dot product with Vector B
+     * @param B
+     * @return the dot product
+     */
+    public double dot(Vector B){
+        return B.getX() * this.getX() + B.getY() * this.getY();
+    }
+
+    /**
+     * Scale the vector by m
+     * @param m
+     * @return
+     */
+    public Vector scale(double m){
+        return new Vector(originCoordinate, new Coordinates(originCoordinate.getX() + getX() * m,
+                getOriginCoordinate().getY() + getY() * m));
+    }
+
+    /**
+     * Take the reverse of the vector
+     * @return
+     */
+    public Vector reverse(){
+        return new Vector(this.originCoordinate, new Coordinates(getOriginCoordinate().getX() - getX(),
+                getOriginCoordinate().getY() - getY()));
+    }
+    /**
+     * Subtract B from the vector (i.e A-B)
+     * @param B
+     * @return
+     */
+    public Vector subtract(Vector B){
+        return new Vector(originCoordinate, B.reverse().getPositionCoordinate());
     }
 
     @Override

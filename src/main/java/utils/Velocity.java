@@ -1,20 +1,30 @@
 package utils;
 
+/**
+ * Immutable representation for velocity
+ */
 public class Velocity {
 
-    private double Xv, Yv;
+    private final Vector velocityVector;
 
     public Velocity(double xv, double yv) {
-        Xv = xv;
-        Yv = yv;
+        this.velocityVector = new Vector(new Coordinates(xv, yv));
+    }
+
+    public Velocity(Vector velocityVector) {
+        this.velocityVector = velocityVector;
     }
 
     public double getXv() {
-        return Xv;
+        return velocityVector.getX();
     }
 
     public double getYv() {
-        return Yv;
+        return velocityVector.getY();
+    }
+
+    public Vector getVelocityVector() {
+        return velocityVector;
     }
 
     /**
@@ -23,8 +33,12 @@ public class Velocity {
      * @param t time
      */
     public Coordinates getDisplacement(Coordinates C_0, double t){
-        double x = C_0.getX() + t * Xv;
-        double y = C_0.getY() + t * Yv;
+        double x = C_0.getX() + t * getXv();
+        double y = C_0.getY() + t * getYv();
         return new Coordinates(x, y);
+    }
+
+    public Velocity reflect(Vector n){
+        return new Velocity(n.scale(n.dot(getVelocityVector()) * 2).subtract(getVelocityVector()));
     }
 }
