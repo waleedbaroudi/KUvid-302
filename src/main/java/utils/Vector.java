@@ -20,6 +20,14 @@ public class Vector {
         this(new Coordinates(0, 0), positionCoordinate);
     }
 
+    public Vector(double x, double y){
+        this(new Coordinates(x, y));
+    }
+
+    public Vector(double x, double y, double x1, double y1){
+        this(new Coordinates(x, y), new Coordinates(x1, y1));
+    }
+
     public Vector rotateVector(double angle){
         return new Vector(originCoordinate, MathUtils.applyRotation(angle, this.originCoordinate, this.positionCoordinate));
     }
@@ -77,7 +85,15 @@ public class Vector {
      * @return
      */
     public Vector subtract(Vector B){
+        // translate vector B with amount of vector A, then reverse
+        B = B.translate(new Vector(getPositionCoordinate().getX() - B.getOriginCoordinate().getX(),
+                getPositionCoordinate().getY() - B.getOriginCoordinate().getY()));
         return new Vector(originCoordinate, B.reverse().getPositionCoordinate());
+    }
+
+    public Vector translate(Vector B){
+        return new Vector(getOriginCoordinate().getX() + B.getX(), getOriginCoordinate().getY() + B.getY(),
+                getPositionCoordinate().getX() + B.getX(), getPositionCoordinate().getY() + B.getY());
     }
 
     @Override
