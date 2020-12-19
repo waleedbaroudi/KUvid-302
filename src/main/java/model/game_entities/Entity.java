@@ -7,6 +7,8 @@ import model.game_running.Collidable;
 import model.game_running.CollisionVisitor;
 import utils.Coordinates;
 
+import java.util.ArrayList;
+
 /**
  * Entity: a Superclass for all the game objects
  */
@@ -18,6 +20,9 @@ public abstract class Entity implements Collidable {
     public Entity(Coordinates coordinates, Hitbox hitbox) {
         this.coordinates = coordinates;
         this.hitbox = hitbox;
+    }
+
+    public Entity() {
     }
 
     public Coordinates getCoordinates() {
@@ -43,4 +48,9 @@ public abstract class Entity implements Collidable {
     public SuperType getSuperType() {
         return superType;
     }
+
+    public ArrayList<Coordinates> getBoundaryPoints(){
+        return this.getHitbox().getBoundaryPoints(getCoordinates());
+    }
+
 }

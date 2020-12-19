@@ -1,6 +1,7 @@
 package model.game_physics.path_patterns;
 
 import utils.Coordinates;
+import utils.Vector;
 import utils.Velocity;
 
 import java.util.ArrayList;
@@ -73,4 +74,8 @@ public class ZigzagPatten extends PathPattern{
         return this.zigzagPattern.nextPosition();
     }
 
+    @Override
+    public void reflect(Vector n) {
+        zigzagPattern.reflect(n);
+    }
 }

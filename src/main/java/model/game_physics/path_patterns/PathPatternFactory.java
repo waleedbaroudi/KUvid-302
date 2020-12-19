@@ -24,7 +24,7 @@ public class PathPatternFactory {
         return new ZigzagPatten(new Velocity(3, 3), 100);
     }
     public PathPattern getPowerUpPathPattern(){
-        return new ZigzagPatten(new Velocity(2, 2), new Velocity(-1, 1), 100, 50);
+        return new ZigzagPatten(new Velocity(2, 2), 90);
     }
 
 
