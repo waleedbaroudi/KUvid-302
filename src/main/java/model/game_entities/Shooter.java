@@ -80,7 +80,6 @@ public class Shooter extends Entity {
     }
 
     public Projectile getCurrentProjectile() {
-
         return currentProjectile;
     }
 
