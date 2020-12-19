@@ -8,7 +8,7 @@ import utils.Vector;
 /**
  * This class serves as a super class for path patterns.
  */
-public abstract class PathPattern {
+public abstract class PathPattern implements Cloneable{
     // step represent time stamp in the path. By default it starts from zero.
     private Coordinates currentCoords;
     public static Logger logger = Logger.getLogger(PathPattern.class.getName());
@@ -52,4 +52,8 @@ public abstract class PathPattern {
      */
     public abstract void reflect(Vector n);
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

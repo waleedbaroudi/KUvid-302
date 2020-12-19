@@ -97,6 +97,12 @@ public class CompositePattern extends PathPattern {
 
     @Override
     public void reflect(Vector n) {
-        currentPattern.reflect(n);
+        try {
+            currentPattern = (PathPattern) currentPattern.clone();
+            currentPattern.reflect(n);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
