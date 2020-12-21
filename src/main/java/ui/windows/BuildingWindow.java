@@ -2,6 +2,7 @@ package ui.windows;
 
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
+import model.game_building.ConfigPreset;
 import model.game_building.GameConstants;
 import utils.IOHandler;
 
@@ -58,6 +59,8 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     double l;
 
+    IOHandler ioHandler;
+
     /**
      * Constructor initiates the Scanner and BuildingMode instances
      */
@@ -84,7 +87,11 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         this.pack();
         this.setLocationRelativeTo(null); //centers the window in the middle of the screen
         // Setting the frame visibility to true.
+        this.setResizable(false);
         this.setVisible(true);
+
+        // Instantiate the utils IO class to read the configuration presets
+        ioHandler = new IOHandler();
     }
 
     /**
@@ -258,32 +265,39 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
          * Building Game Button
          */
         JButton buildGameButton = new JButton("Build Game!");
-        addButtonActionListener(buildGameButton);
+        addBuildGameActionListener(buildGameButton);
         panel.add(buildGameButton);
 
+        JButton loadConfigPresetButton = new JButton("Load Preset");
+        addLoadConfigActionListener(loadConfigPresetButton);
+        panel.add(loadConfigPresetButton);
     }
 
     // need to try an catch exceptions ... etc.
-    private void addButtonActionListener(JButton btn) {
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create bundle
-                try {
-                    getParametersValues();
-                    bundle = new ConfigBundle(atoms, powerups, blockers, molecules, l,
-                            isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
-                            isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
-                    // Validate the fields.
-                    buildingMode.validateParameters(bundle);
+    private void addBuildGameActionListener(JButton btn) {
+        btn.addActionListener(e -> {
+            // Create bundle
+            try {
+                getParametersValues();
+                bundle = new ConfigBundle(atoms, powerups, blockers, molecules, l,
+                        isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
+                        isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
+                // Validate the fields.
+                buildingMode.validateParameters(bundle);
 
-                } catch (NumberFormatException ex) {
-                    ArrayList<String> error = new ArrayList<>();
-                    error.add("One of the parameter has invalid format! .. recheck");
-                    onInvalidParameters(error);
-                }
-
+            } catch (NumberFormatException ex) {
+                ArrayList<String> error = new ArrayList<>();
+                error.add("One of the parameter has invalid format! .. recheck");
+                onInvalidParameters(error);
             }
+
+        });
+    }
+
+    private void addLoadConfigActionListener(JButton btn) {
+        btn.addActionListener(e -> {
+            // Create bundle
+                new ConfigPresetWindow();
         });
     }
 
@@ -307,13 +321,10 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      * if the linear Beta option is un-ticked.
      */
     private void addBetaCheckboxActionListener() {
-        isLinearBeta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                isSpinningBeta.setEnabled(isLinearBeta.isSelected());
-                if (!isLinearBeta.isSelected())
-                    isSpinningBeta.setSelected(false);
-            }
+        isLinearBeta.addActionListener(e -> {
+            isSpinningBeta.setEnabled(isLinearBeta.isSelected());
+            if (!isLinearBeta.isSelected())
+                isSpinningBeta.setSelected(false);
         });
     }
 

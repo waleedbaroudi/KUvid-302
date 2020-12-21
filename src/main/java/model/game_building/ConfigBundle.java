@@ -43,6 +43,10 @@ public class ConfigBundle {
 		this.difficulty = difficulty;
 	}
 
+	public ConfigBundle(){
+
+	}
+
 	public int getNumOfAlphaAtoms() {
 		return atoms.get(0);
 	}

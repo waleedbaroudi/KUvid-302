@@ -29,6 +29,6 @@ public class ConfirmationWindow implements ConfigConfirmation.ParametersConfirma
         // Close the current game-building frame.
         buildingGameFrame.dispose();
 
-        RunningWindow runningWindow = new RunningWindow(GameConstants.GAME_TITLE); //todo: maybe start somewhere else?
+        new RunningWindow(GameConstants.GAME_TITLE); //todo: maybe start somewhere else?
     }
 }
