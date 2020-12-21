@@ -351,7 +351,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     public void onValidParameters() {
         ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
-        IOHandler.writeConfigToYAML(this.bundle);
+        IOHandler.writeConfigToYAML(this.bundle, "config");
     }
 
     public void onInvalidParameters(ArrayList<String> invalidFields) {
