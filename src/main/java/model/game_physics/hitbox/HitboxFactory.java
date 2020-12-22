@@ -6,30 +6,35 @@ import model.game_building.GameConstants;
 public class HitboxFactory {
 
     private static HitboxFactory factory = new HitboxFactory();
+    private final Configuration config;
 
     private HitboxFactory(){
-
+        this.config = Configuration.getInstance();
     }
     public static HitboxFactory getInstance(){
-    if(factory == null){
-        factory = new HitboxFactory();
-    }
-        return factory;
+        if(factory == null){
+            factory = new HitboxFactory();
+        }
+            return factory;
     }
 
 
-    //todo ask Moayad about these
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_DIAMETER);
+        return  new CircularHitbox(config.getUnitL() * GameConstants.BLOCKER_DIAMETER);
     }
     public Hitbox getAtomHitbox(){
-        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
+        return new CircularHitbox(config.getUnitL() * GameConstants.ATOM_RADIUS);
     }
     public Hitbox getMoleculeHitbox(){
-        return new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_RADIUS);
+        return new CircularHitbox(config.getUnitL() * GameConstants.MOLECULE_RADIUS);
     }
     public Hitbox getPowerUpHitbox(){
-        return new RectangularHitbox(Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS * 2,
-                Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS * 2);
+        return new RectangularHitbox(config.getUnitL() * GameConstants.POWERUP_RADIUS * 2,
+                config.getUnitL() * GameConstants.POWERUP_RADIUS * 2);
+    }
+    public Hitbox getShooterHitbox(){
+        return new RectangularHitbox(
+                config.getUnitL() * GameConstants.SHOOTER_WIDTH,
+                config.getUnitL() * GameConstants.SHOOTER_HEIGHT);
     }
 }
