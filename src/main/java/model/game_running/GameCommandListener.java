@@ -4,9 +4,13 @@ import model.game_building.GameConstants;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameCommandListener implements KeyListener {
-
+    private boolean canShoot = true;
+    private final int DEFAULT_SHOOTER_DELAY = 1000;
+    Timer timer = new Timer();
     private RunningMode runningMode;
 
     public GameCommandListener(RunningMode runningMode) {
@@ -30,7 +34,16 @@ public class GameCommandListener implements KeyListener {
 //                switchAtom
                 break;
             case KeyEvent.VK_UP:
-                runningMode.shootProjectile();
+                if(canShoot) { // TODO: Change implementation later.
+                    runningMode.shootProjectile();
+                    canShoot = false;
+                    timer.schedule(new TimerTask() { // Creates a TimerTask object that will make canShoot true after a specified time (DEFAULT_SHOOTER_DELAY)
+                        @Override
+                        public void run() {
+                            canShoot = true;
+                        }
+                    }, DEFAULT_SHOOTER_DELAY);
+                }
                 break;
             case KeyEvent.VK_LEFT:
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_LEFT);

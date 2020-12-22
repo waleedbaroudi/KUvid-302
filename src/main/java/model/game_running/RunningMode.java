@@ -7,7 +7,6 @@ import model.game_entities.Projectile;
 import model.game_entities.Shooter;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
-import model.game_physics.hitbox.RectangularHitbox;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
@@ -15,7 +14,6 @@ import model.game_running.runnables.EntityGeneratorRunnable;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
-import utils.Coordinates;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,35 +23,34 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
-    private Configuration config;
+    private final Configuration config; //TODO(check this)
     private GameStatistics statistics;
 
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private final ProjectileContainer projectileContainer;
-    private final Shooter atomShooter;
+    private final Shooter shooter;
 
-    boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
+    private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
     //Listener to handle game pause and resume commands
-    RunningStateListener runningStateListener;
-    GameEntitiesListener gameEntitiesListener;
-    Blender.BlenderListener blenderListener;
+    private final RunningStateListener runningStateListener;
+    private final GameEntitiesListener gameEntitiesListener;
 
     // Runnables
-    MovementRunnable movementRunnable;
-    CollisionRunnable collisionRunnable;
-    ShooterMovementRunnable shooterRunnable;
-    EntityGeneratorRunnable entityGeneratorRunnable;
+    private MovementRunnable movementRunnable;
+    private CollisionRunnable collisionRunnable;
+    private ShooterMovementRunnable shooterRunnable;
+    private EntityGeneratorRunnable entityGeneratorRunnable;
 
     // Threads
-    Thread movementThread;
-    Thread collisionThread;
-    Thread shooterThread;
-    Thread objectGeneratorThread;
+    private Thread movementThread;
+    private Thread collisionThread;
+    private Thread shooterThread;
+    private Thread entityGeneratorThread;
 
     // Blender
-    Blender blender;
+    private final Blender blender;
 
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
@@ -63,47 +60,41 @@ public class RunningMode {
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
 
+        this.projectileContainer = new ProjectileContainer(
+                this,
+                config.getNumAlphaAtoms(),
+                config.getNumBetaAtoms(),
+                config.getNumSigmaAtoms(),
+                config.getNumGammaAtoms(),
+                0,
+                0,
+                0,
+                0);
 
-        // TODO update the shooter initial coordinates from config
-        // TODO fix the shooter position
-        this.projectileContainer = new ProjectileContainer(this, config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
-                0, 0, 0, 0);
-
-        this.blender = new Blender(null, this.projectileContainer);
-
-        this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
-                config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
-                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH,
-                        config.getUnitL() * GameConstants.SHOOTER_HEIGHT), projectileContainer);
+        this.blender = new Blender(this.projectileContainer);
+        this.shooter = new Shooter(projectileContainer);
         initialize();
-    }
-
-    public Shooter getAtomShooter() {
-        return atomShooter;
     }
 
     /**
      * instantiates the threads and runnables. fills the list. sets "initialized" to true
      */
     private void initialize() {
-        //todo: fill autonomous entity list and containers here
-
         movementRunnable = new MovementRunnable(this.autonomousEntities);
-        collisionRunnable = new CollisionRunnable(this, new CollisionHandler(this)); // TODO: Pass the arraylist instead
-        shooterRunnable = new ShooterMovementRunnable(this.atomShooter);
+        collisionRunnable = new CollisionRunnable(this, new CollisionHandler(this));
+        shooterRunnable = new ShooterMovementRunnable(this.shooter);
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
-
 
         movementThread = new Thread(this.movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
         shooterThread = new Thread(this.shooterRunnable);
-        objectGeneratorThread = new Thread(this.entityGeneratorRunnable);
+        entityGeneratorThread = new Thread(this.entityGeneratorRunnable);
 
         this.isInitialized = true;
     }
 
     /**
-     * starts the movement and collision threads
+     * starts the Movement, collision, shooter, and EntityGenerator threads
      */
     public void startThreads() {
         if (!isInitialized) {
@@ -113,9 +104,9 @@ public class RunningMode {
 
         // Starting the threads.
         movementThread.start();
-        collisionThread.start(); //TODO: fix then uncomment
+        collisionThread.start();
         shooterThread.start();
-        objectGeneratorThread.start();
+        entityGeneratorThread.start();
     }
 
     /**
@@ -169,9 +160,9 @@ public class RunningMode {
      * Shoot entity at the tip of the Shooter
      */
     public void shootProjectile() {
-        Projectile shotEntity = this.atomShooter.shoot();
+        Projectile shotEntity = this.shooter.shoot();
         if (shotEntity == null) {
-            System.out.println("OUT OF ATOMS!!");
+            endGame();
             return;
         }
         addEntity(shotEntity);
@@ -179,13 +170,16 @@ public class RunningMode {
 
     /**
      * @param removedEntities autonomous entities to be removed from the list of elements in the space
-     * @return a boolean indicating whether the entities were removed successfully
      */
     public void removeAutonomousEntities(Collection<AutonomousEntity> removedEntities) {
         gameEntitiesListener.onEntitiesRemove(removedEntities);
         autonomousEntities.removeAll(removedEntities);
     }
 
+    /**
+     * TODO ADD DOCUMENTATION
+     * @param entity to be removed
+     */
     public void removeEntity(AutonomousEntity entity) {
         // TODO: change the gamerListener to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
         ArrayList<AutonomousEntity> tmp = new ArrayList<>();
@@ -206,30 +200,33 @@ public class RunningMode {
     public void updateTimer(int amountInMillis) {
         if (statistics != null) {
             boolean timerOver = !statistics.updateTimer(amountInMillis);
-            if (timerOver) {
-                System.out.println("TIME IS OVER");
+            if (timerOver)
                 endGame();
-            }
         }
     }
 
     public void endGame() {
+        stop();
         runningStateListener.onGameOver();
     }
 
-
-    public interface RunningStateListener {
-        void onRunningStateChanged(int state);
-
-        void onGameOver();
-    }
 
     public Blender getBlender() {
         return this.blender;
     }
 
+    public Shooter getShooter() {
+        return shooter;
+    }
+
     public ProjectileContainer getProjectileContainer() {
         return this.projectileContainer;
+    }
+
+    public interface RunningStateListener {
+        void onRunningStateChanged(int state);
+
+        void onGameOver();
     }
 
     public interface GameEntitiesListener {

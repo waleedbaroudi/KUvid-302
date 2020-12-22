@@ -1,9 +1,8 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
-import model.game_entities.Atom;
-import model.game_entities.enums.EntityType;
 import model.game_building.GameConstants;
+import model.game_entities.Atom;
 import utils.Coordinates;
 import utils.MathUtils;
 
@@ -20,7 +19,7 @@ public class AtomDrawer implements Drawable{
     public AtomDrawer(Atom atom) {
         this.atom = atom;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
-        this.atomImage = ImageResources.get(atom.getType(), atom.getSuperType(), 2 * radius, 2 * radius);
+        this.atomImage = ImageResources.get(this.atom.getType(), this.atom.getSuperType(), 2 * radius, 2 * radius);
     }
 
     @Override
