@@ -10,9 +10,9 @@ import java.awt.*;
 
 public class PowerupDrawer implements Drawable {
 
-    private final Powerup powerup;
-    private final int radius;
-    private final Image powerupImage;
+   private final Powerup powerup;
+   private final int radius;
+   private final Image powerupImage;
 
     public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
@@ -22,7 +22,9 @@ public class PowerupDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
+
         Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(), radius);
         g.drawImage(powerupImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+
     }
 }

@@ -8,11 +8,13 @@ import utils.MathUtils;
 
 import java.awt.*;
 
-public class AtomDrawer implements Drawable {
+public class AtomDrawer implements Drawable{
+
 
     private final Atom atom;
     private final int radius;
     private final Image atomImage;
+
 
     public AtomDrawer(Atom atom) {
         this.atom = atom;
