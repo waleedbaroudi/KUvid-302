@@ -9,14 +9,13 @@ import utils.MathUtils;
 
 import java.awt.*;
 
-public class PowerupDrawer extends ProjectileDrawer implements Drawable {
+public class PowerupDrawer implements Drawable {
 
    private final Powerup powerup;
    private final int radius;
    private final Image powerupImage;
 
     public PowerupDrawer(Powerup powerup) {
-        super(powerup);
         this.powerup = powerup;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
         this.powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(), 2 * radius, 2 * radius);

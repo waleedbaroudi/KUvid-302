@@ -9,7 +9,7 @@ import utils.MathUtils;
 
 import java.awt.*;
 
-public class AtomDrawer extends ProjectileDrawer implements Drawable {
+public class AtomDrawer implements Drawable{
 
 
     private final Atom atom;
@@ -18,7 +18,6 @@ public class AtomDrawer extends ProjectileDrawer implements Drawable {
 
 
     public AtomDrawer(Atom atom) {
-        super(atom);
         this.atom = atom;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
         this.atomImage = ImageResources.get(atom.getType(), atom.getSuperType(), 2 * radius, 2 * radius);
