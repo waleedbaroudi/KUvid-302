@@ -89,7 +89,6 @@ public class ImageResources {
      */
     private static Image getImage(String image, int width, int height) {
         BufferedImage img = null;
-        System.out.println("directory: " + System.getProperty("user.dir"));
         try {
             img = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/" + image));
         } catch (IOException e) {

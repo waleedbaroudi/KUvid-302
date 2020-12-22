@@ -13,6 +13,7 @@ import java.awt.*;
 public class ShooterDrawer implements Drawable {
 
     private final Shooter shooter;
+    private Projectile projectile;
     private final int height;
     private final int width;
     private final Image shooterImage;
@@ -24,6 +25,8 @@ public class ShooterDrawer implements Drawable {
         this.height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
         this.width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
         this.shooterImage = ImageResources.get(null, shooter.getSuperType(), width, height);
+        this.atomRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
+        this.powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
     }
 
     @Override

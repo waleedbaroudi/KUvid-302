@@ -48,7 +48,10 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         this.setVisible(false); // Keep it invisible by default
     }
 
-
+    /**
+     * Add all the components to the content panel
+     * @param contentPane
+     */
     private void addComponents(JPanel contentPane) {
         this.atomTypesRanks.put("Alpha", 1);
         this.atomTypesRanks.put("Beta", 2);
@@ -74,10 +77,18 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         contentPane.add(blendButton);
     }
 
+    /**
+     * Retrieve the blender object
+     * @return
+     */
     public Blender getBlender(){
         return this.blender;
     }
 
+    /**
+     * Add a listener to the blender window to resume the game if we close it with the x button
+     * @param runningMode
+     */
     private void addOnBlenderCloseListener(RunningMode runningMode) {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -87,6 +98,11 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
             }
         });
     }
+
+    /**
+     * add action listener to the button to call the blend method on the domain object
+     * @param btn
+     */
     private void addButtonActionListener(JButton btn) {
         btn.addActionListener(e -> {
             String source = String.valueOf(sourceComboBox.getSelectedItem());

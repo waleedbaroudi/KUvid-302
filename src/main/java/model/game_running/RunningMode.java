@@ -64,7 +64,7 @@ public class RunningMode {
         this.gameEntitiesListener = gameEntitiesListener;
 
 
-        // TODO update the shooter inital coordinates from config
+        // TODO update the shooter initial coordinates from config
         // TODO fix the shooter position
         this.projectileContainer = new ProjectileContainer(this, config.getNumAlphaAtoms(), config.getNumBetaAtoms(), config.getNumSigmaAtoms(), config.getNumGammaAtoms(),
                 0, 0, 0, 0);
@@ -73,7 +73,8 @@ public class RunningMode {
 
         this.atomShooter = new Shooter(new Coordinates(config.getGameWidth() / 2.0,
                 config.getGameHeight() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT),
-                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH, config.getUnitL() * GameConstants.SHOOTER_HEIGHT), projectileContainer);
+                new RectangularHitbox(config.getUnitL() * GameConstants.SHOOTER_WIDTH,
+                        config.getUnitL() * GameConstants.SHOOTER_HEIGHT), projectileContainer);
         initialize();
     }
 
@@ -160,7 +161,6 @@ public class RunningMode {
      * @return a boolean indicating whether the entity was added successfully
      */
     public boolean addEntity(AutonomousEntity entity) {
-        System.out.println("THE ENTITY TO BE ADDED IS OF TYPE: " + entity.getSuperType());
         gameEntitiesListener.onEntityAdd(entity);
         return autonomousEntities.add(entity);
     }
