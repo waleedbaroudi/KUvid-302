@@ -16,14 +16,17 @@ public class Blocker extends AutonomousEntity {
 
     private double blockingRadius;
     private double explosionRadius;
-    private Hitbox explodingHitbox;
-    public Blocker(Coordinates coordinates, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
-        super(coordinates, blockingHitbox, pathPattern, type);
+    private Hitbox blockingHitbox;
+    private final Hitbox explodingHitbox;
+
+    public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
+        super(coordinates, hitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;
 
         this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
         this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLOSION_RADIUS;
 
+        this.blockingHitbox = blockingHitbox;
         this.explodingHitbox = explodingHitbox;
     }
 
@@ -46,9 +49,16 @@ public class Blocker extends AutonomousEntity {
     public Hitbox getExplodingHitbox(){
         return this.explodingHitbox;
     }
+    public Hitbox getBlockingHitbox() {
+        return this.blockingHitbox;
+    }
 
     public boolean isCollidedWithExplodingHitbox(AutonomousEntity entity) {
         return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
+    public boolean isCollidedWithBlockingHitbox(AutonomousEntity entity) {
+        return this.getBlockingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
     @Override
