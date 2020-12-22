@@ -281,7 +281,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
                     error.add("One of the parameter has invalid format! .. recheck");
                     onInvalidParameters(error);
                 }
-
             }
         });
     }

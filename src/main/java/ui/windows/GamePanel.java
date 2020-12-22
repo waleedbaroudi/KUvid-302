@@ -25,7 +25,8 @@ public class GamePanel extends JPanel {
         this.commandListener = new GameCommandListener(this.runningMode);
         this.addKeyListener(commandListener);
         this.drawableMap = drawableMap;
-        this.shooterDrawer = new ShooterDrawer(runningMode.getAtomShooter());
+        this.setOpaque(false);
+        this.shooterDrawer = new ShooterDrawer(runningMode.getShooter());
     }
 
     @Override

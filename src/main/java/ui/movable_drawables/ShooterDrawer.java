@@ -1,10 +1,9 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
-import model.game_building.GameConstants;
-import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -39,7 +38,11 @@ public class ShooterDrawer implements Drawable {
         if (projectile != null) {
             int r = projectile.getSuperType() == SuperType.ATOM ? atomRadius : powerupRadius;
             Coordinates projectileCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), r, 2*r + height / 2 );
-            g2d.drawImage(ImageResources.get(projectile.getType(), projectile.getSuperType(), 2*r, 2*r), projectileCoord.getPoint().x, projectileCoord.getPoint().y, null);
+            g2d.drawImage(
+                    ImageResources.get(projectile.getType(), projectile.getSuperType(), 2*r, 2*r),
+                    projectileCoord.getPoint().x,
+                    projectileCoord.getPoint().y,
+                    null);
         }
 
         Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), width / 2, height / 2);

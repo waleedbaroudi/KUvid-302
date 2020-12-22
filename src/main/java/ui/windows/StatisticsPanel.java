@@ -1,9 +1,9 @@
 package ui.windows;
 
 import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
-import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
@@ -57,6 +57,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         runningMode.setStatisticsController(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
+        setOpaque(false);
 
         retrieveImages();
         initializeTextFields();
@@ -155,9 +156,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         powerupSigmaImg = ImageResources.get(EntityType.SIGMA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         powerupGammaImg = ImageResources.get(EntityType.GAMMA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
 
-        healthImg = ImageResources.getIcon(1, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        watchImg = ImageResources.getIcon(2, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        blenderImg = ImageResources.getIcon(3, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        healthImg = ImageResources.getIcon("health", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        watchImg = ImageResources.getIcon("timer", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        blenderImg = ImageResources.getIcon("blender", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
     }
 
     @Override

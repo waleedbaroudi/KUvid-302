@@ -224,4 +224,48 @@ public class MathUtils {
     public static Coordinates drawingCoordinates(Coordinates center, int radius) {
         return new Coordinates(center.getX() - radius, center.getY() - radius);
     }
+    /*
+        int r = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
+
+        double theta = Math.toRadians(90 - Math.abs(getAngle()));
+
+
+        int h = (int) ((r + height/2) * Math.sin(theta));
+
+        int w = (int) ((r + height/2) * Math.cos(theta)) * theta/abs(theta);
+
+        return new Coordinates(coordinates.getX() + (getAngle() < 0 ? -1*w : w), coordinates.getY() - h);
+     */
+
+    /**
+     * Given an angle, returns its complement.
+     * @param angle an angle in radians.
+     * @return The complement of a given angle.
+     */
+    public static double angleComplement(double angle){
+        return Math.toRadians(90 - angle);
+    }
+
+    /**
+     * Given two Y components of a vector, returns a new Y component where the new Y component is the sum of the two given Y components.
+     * @param yFirst    the first given Y component.
+     * @param ySecond    the two given Y component.
+     * @param angle     the angle of the new Y component.
+     * @return          a new Y component where the new Y component is the sum of the two given Y components.
+     */
+    public static int getCompositeYComponent(int yFirst, int ySecond, double angle){
+        return (int) ((yFirst + ySecond) * Math.sin(angle));
+    }
+
+    /**
+     * Given two X components of a vector, returns a new X component where the new X component is the sum of the two given X components.
+     * @param radius    the first given X component.
+     * @param height    the second given X component.
+     * @param angle     the angle of the new X component.
+     * @return          a new X component where the new X component is the sum of the two given X components.
+     */
+    public static int getCompositeXComponent(int radius, int height, double angle){
+        return (int) ((radius + height) * Math.cos(angle));
+    }
+
 }

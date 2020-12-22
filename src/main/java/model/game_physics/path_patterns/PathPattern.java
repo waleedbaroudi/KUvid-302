@@ -3,14 +3,15 @@ package model.game_physics.path_patterns;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
+import utils.Vector;
 
 /**
  * This class serves as a super class for path patterns.
  */
-public abstract class PathPattern {
+public abstract class PathPattern implements Cloneable{
     // step represent time stamp in the path. By default it starts from zero.
     private Coordinates currentCoords;
-    private static Logger logger = Logger.getLogger(PathPattern.class.getName());
+    public static Logger logger = Logger.getLogger(PathPattern.class.getName());
 
     protected PathPattern (){}
     protected PathPattern(Coordinates currentCoords) {
@@ -44,4 +45,15 @@ public abstract class PathPattern {
      */
     public abstract Coordinates nextPosition();
 
+    /**
+     * Given a normalized normal vector of a wall that the path has collided with, reflect the path
+     * pattern accordingly.
+     * @param n
+     */
+    public abstract void reflect(Vector n);
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

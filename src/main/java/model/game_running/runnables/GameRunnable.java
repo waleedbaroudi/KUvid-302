@@ -1,14 +1,18 @@
 package model.game_running.runnables;
 
 import model.game_building.GameConstants;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import java.util.concurrent.CountDownLatch;
 
 public abstract class GameRunnable implements Runnable {
     protected boolean running;
     protected CountDownLatch latch; //this latch will clog all runnables when the game is paused.
+    public static Logger logger = Logger.getLogger(GameRunnable.class.getName());
 
     public GameRunnable() {
+        logger.setLevel(Level.OFF);
         latch = new CountDownLatch(0);
     }
 
