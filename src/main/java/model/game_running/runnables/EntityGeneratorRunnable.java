@@ -72,7 +72,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
                 if ((totalBlockerCount + totalMoleculeCount + totalPowerUpCount) == 0) {
-                    System.out.println("OUT OF ENTITIES TO DROP");
+                    System.out.println("OUT OF ENTITIES TO DROP"); // TODO: Change to logger.
                     runningMode.endGame();
                 }
                 AutonomousEntity entity = null;
