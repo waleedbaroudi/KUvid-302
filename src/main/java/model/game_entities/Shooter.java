@@ -1,12 +1,12 @@
 package model.game_entities;
 
 import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
-import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;
@@ -69,6 +69,7 @@ public class Shooter extends Entity {
         this.reload();
         return tmpProjectile;
     }
+
 
     //todo: see if we can make these constants as attributes for the shooter
     /**
