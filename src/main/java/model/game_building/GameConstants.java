@@ -1,7 +1,5 @@
 package model.game_building;
 
-import model.game_building.Configuration;
-
 import java.awt.*;
 
 public final class GameConstants {
@@ -55,7 +53,6 @@ public final class GameConstants {
     public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
     public static final int ICON_WIDTH = 50;
     public static final int ICON_HEIGHT = 50;
-
 
     public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
     public static final double GAME_PANEL_WIDTH_RATIO = 0.8;

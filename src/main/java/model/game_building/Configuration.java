@@ -120,7 +120,6 @@ public class Configuration {
         return isConfigBundleSet() ? configBundle.getNumSigmaMolecules() : -1;
     }
 
-
     public int getMovementDelay(){// TODO: modify when difficulty is converted to enum
         if(!isConfigBundleSet())
             return -1;

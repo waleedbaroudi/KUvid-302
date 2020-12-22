@@ -1,6 +1,5 @@
 package ui.movable_drawables;
 
-import model.game_entities.*;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 
@@ -11,74 +10,42 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageResources {
+    /**
+     *
+     * @param type the suptype of the entity
+     * @param superType the main type of the entity
+     * @param width
+     * @param height
+     * @return the corresponding image with the specified dimensions
+     */
     public static Image get(EntityType type, SuperType superType, int width, int height) {
         switch (superType) {
 
-            //Entity is a Molecule, return an image according to its type
-            case MOLECULE:
-                switch (type) {
-                    case ALPHA:
-                        return getImage("molecules/alpha-1.png", width, height);
-                    case BETA:
-                        return getImage("molecules/beta-1.png", width, height);
-                    case GAMMA:
-                        return getImage("molecules/gamma-.png", width, height);
-                    case SIGMA:
-                        return getImage("molecules/sigma-.png", width, height);
-                    default:
-                        throw new IllegalArgumentException("Molecule type is not correct");
-                }
-                //Entity is an Atom, return an image according to its type
+            //Entity is a Blocker, atom, powerup, or molecule, return the corresponding image
             case ATOM:
-                switch (type) {
-                    case ALPHA:
-                        return getImage("atoms/alpha.png", width, height);
-                    case BETA:
-                        return getImage("atoms/beta.png", width, height);
-                    case GAMMA:
-                        return getImage("atoms/gama.png", width, height);
-                    case SIGMA:
-                        return getImage("atoms/sigma.png", width, height);
-                    default:
-                        throw new IllegalArgumentException("Atom type is not correct");
-                }
-
-                //Entity is a Blocker, return an image according to its type
             case BLOCKER:
-                switch (type) {
-                    case ALPHA:
-                        return getImage("blockers/alpha-b.png", width, height);
-                    case BETA:
-                        return getImage("blockers/beta-b.png", width, height);
-                    case GAMMA:
-                        return getImage("blockers/gamma-b.png", width, height);
-                    case SIGMA:
-                        return getImage("blockers/sigma-b.png", width, height);
-                    default:
-                        throw new IllegalArgumentException("Blocker type is not correct");
-                }
-
-                //Entity is a powerup, return an image according to its type
             case POWERUP:
-                switch (type) {
-                    case ALPHA:
-                        return getImage("powerups/+alpha-b.png", width, height);
-                    case BETA:
-                        return getImage("powerups/+beta-b.png", width, height);
-                    case GAMMA:
-                        return getImage("powerups/+gamma-b.png", width, height);
-                    case SIGMA:
-                        return getImage("powerups/+sigma-b.png", width, height);
-                    default:
-                        throw new IllegalArgumentException("Powerup type is not correct");
-                }
+            case MOLECULE:
+                return getImage(superType + "/" + type + ".png", width, height);
 
-                //Entity is a Shooter, return shooter image
+            //Entity is a Shooter, return shooter image
             case SHOOTER:
                 return getImage("shooter.png", width, height);
+
             default:
-                throw new IllegalArgumentException("Entity type is not correct");
+                return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
+    }
+
+    /**
+     *
+     * @param icon the icon to be returned
+     * @param iconWidth
+     * @param iconHeight
+     * @return the corresponding icon with the specified dimensions
+     */
+    public static Image getIcon(String icon, int iconWidth, int iconHeight) {
+        return getImage(icon + ".png", iconWidth, iconHeight);
     }
 
     /**
@@ -88,30 +55,13 @@ public class ImageResources {
      * @return an image to draw in the space
      */
     private static Image getImage(String image, int width, int height) {
-        BufferedImage img = null;
-        System.out.println("directory: " + System.getProperty("user.dir"));
+        BufferedImage img;
         try {
             img = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/" + image));
         } catch (IOException e) {
-            System.err.println("error retrieving image: " + e.getMessage());
-        }
-
-        if (img == null) {
+            System.err.println("error retrieving image: " + e.getMessage() + " - image: " + image);
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    }
-
-    public static Image getIcon(int icon, int iconWidth, int iconHeight) {
-        switch (icon) {
-            case 1:
-                return getImage("health.png", iconWidth, iconHeight);
-            case 2:
-                return getImage("timer.png", iconWidth, iconHeight);
-            case 3:
-                return getImage("blender.png", iconWidth, iconHeight);
-            default:
-                return getImage("default", iconWidth, iconHeight);
-        }
     }
 }
