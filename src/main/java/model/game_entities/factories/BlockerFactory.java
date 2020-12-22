@@ -25,8 +25,8 @@ public class BlockerFactory {
         Coordinates defaultCoordinates = new Coordinates(0, 0);
         double blockingRadius = Configuration.getInstance().getUnitL() * 0.5;
         double explosionRadius = Configuration.getInstance().getUnitL() * 2;
-        return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(),
-                PathPatternFactory.getInstance().getBlockerPathPattern(), type, blockingRadius,
-                explosionRadius);
+        return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockingHitbox(),
+                HitboxFactory.getInstance().getExplosionHitbox(),
+                PathPatternFactory.getInstance().getBlockerPathPattern(), type);
     }
 }

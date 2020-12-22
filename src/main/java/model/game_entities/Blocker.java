@@ -22,7 +22,7 @@ public class Blocker extends AutonomousEntity {
         this.superType = SuperType.BLOCKER;
 
         this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
-        this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLODING_RADIUS;
+        this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLOSION_RADIUS;
 
         this.explodingHitbox = explodingHitbox;
     }
