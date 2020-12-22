@@ -3,6 +3,7 @@ package model.game_entities.factories;
 import model.game_building.Configuration;
 import model.game_entities.Blocker;
 import model.game_entities.enums.EntityType;
+import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
@@ -23,7 +24,7 @@ public class BlockerFactory {
 
     public Blocker getBlocker(EntityType type) {// TODO : modify implementation.
         Coordinates defaultCoordinates = new Coordinates(0, 0);
-        return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockingHitbox(),
+        return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(), HitboxFactory.getInstance().getBlockingHitbox(),
                 HitboxFactory.getInstance().getExplosionHitbox(),
                 PathPatternFactory.getInstance().getBlockerPathPattern(), type);
     }
