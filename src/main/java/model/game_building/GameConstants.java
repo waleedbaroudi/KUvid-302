@@ -50,6 +50,9 @@ public final class GameConstants {
     public static final double SHOOTER_HEIGHT = 1;
     public static final double SHOOTER_WIDTH = 0.5;
 
+    public static final double BLOCKER_BLOCKING_RADIUS = 0.5;
+    public static final double BLOCKER_EXPLODING_RADIUS = 2;
+
     public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
     public static final int ICON_WIDTH = 50;
     public static final int ICON_HEIGHT = 50;
