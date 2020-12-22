@@ -1,5 +1,7 @@
 package model.game_entities;
 
+import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
@@ -15,11 +17,12 @@ public class Blocker extends AutonomousEntity {
     private double blockingRadius;
     private double explosionRadius;
 
-    public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, double blockingRadius, double explosionRadius) {
+    public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;
-        this.blockingRadius = blockingRadius;
-        this.explosionRadius = explosionRadius;
+
+        this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
+        this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLODING_RADIUS;
     }
 
     public double getBlockingRadius() {
