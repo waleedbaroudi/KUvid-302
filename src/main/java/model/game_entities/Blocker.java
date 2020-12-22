@@ -16,13 +16,15 @@ public class Blocker extends AutonomousEntity {
 
     private double blockingRadius;
     private double explosionRadius;
-
-    public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
-        super(coordinates, hitbox, pathPattern, type);
+    private Hitbox explodingHitbox;
+    public Blocker(Coordinates coordinates, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
+        super(coordinates, blockingHitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;
 
         this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
         this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLODING_RADIUS;
+
+        this.explodingHitbox = explodingHitbox;
     }
 
     public double getBlockingRadius() {
@@ -41,6 +43,14 @@ public class Blocker extends AutonomousEntity {
         return explosionRadius;
     }
 
+    public Hitbox getExplodingHitbox(){
+        return this.explodingHitbox;
+    }
+
+    public boolean isCollidedWithExplodingHitbox(AutonomousEntity entity) {
+        return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
     @Override
     public String toString() {
         return "Blocker{" +
@@ -49,7 +59,6 @@ public class Blocker extends AutonomousEntity {
                 ", type=" + getType() +
                 '}';
     }
-
 
     // visitor pattern. Double delegation
     @Override
