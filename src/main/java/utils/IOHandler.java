@@ -15,9 +15,9 @@ import java.util.List;
 public class IOHandler {
 
     public static void writeConfigToYAML(ConfigBundle bundle, String fileName) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy-HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
         Date currentData = new Date();
-
+        System.out.println(formatter.format(currentData));
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + "-" + formatter.format(currentData) + ".yaml"), bundle);
@@ -28,6 +28,7 @@ public class IOHandler {
 
     /**
      * Return the names of the files inside the configuration directory
+     *
      * @return a list of strings containing the names, potentially null
      */
     public static String[] getConfigFiles() {
@@ -37,6 +38,7 @@ public class IOHandler {
 
     /**
      * Returns a ConfigBundle that is loaded from the YAML configuration file with the given name
+     *
      * @param fileName
      * @return a new configBundle read from the YAML file
      */
