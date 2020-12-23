@@ -66,65 +66,71 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
 
     private void setContent() {
 
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        c.ipady = 10;
+        gridBagConstraints.ipady = 10;
         //x = 0
-        c.weightx = 0.5;
-        c.gridx = 0;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.gridx = 0;
 
-        c.gridy = 0;
-        add(SCORE, c);
-        c.gridy = 1;
-        add(new JLabel(new ImageIcon(watchImg)), c);
-        c.gridy = 2;
-        add(new JLabel(new ImageIcon(healthImg)), c);
-        c.gridy = 3;
-        add(new JLabel(new ImageIcon(powerupAlphaImg)), c);
-        c.gridy = 4;
-        add(new JLabel(new ImageIcon(powerupBetaImg)), c);
-        c.gridy = 5;
-        add(new JLabel(new ImageIcon(powerupGammaImg)), c);
-        c.gridy = 6;
-        add(new JLabel(new ImageIcon(powerupSigmaImg)), c);
-        c.gridwidth = 2;
-        c.gridy = 7;
-        add(new JLabel(new ImageIcon(blenderImg)), c);
-        c.gridwidth = 1;
-        c.gridy = 8;
-        add(alphaAtomsNumberLabel, c);
-        c.gridy = 9;
-        add(betaAtomsNumberLabel, c);
-        c.gridy = 10;
-        add(gammaAtomsNumberLabel, c);
-        c.gridy = 11;
-        add(sigmaAtomsNumberLabel, c);
+        gridBagConstraints.gridy = 0;
+        add(SCORE, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        add(new JLabel(new ImageIcon(watchImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        add(new JLabel(new ImageIcon(healthImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 3;
+        add(new JLabel(new ImageIcon(powerupAlphaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 4;
+        add(new JLabel(new ImageIcon(powerupBetaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 5;
+        add(new JLabel(new ImageIcon(powerupGammaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 6;
+        add(new JLabel(new ImageIcon(powerupSigmaImg)), gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 7;
+        JButton blenderButton = new JButton(new ImageIcon(blenderImg));
+        blenderButton.addActionListener(e -> {
+            runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+            runningMode.getBlender().showBlender();
+        });
+        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        add(blenderButton, gridBagConstraints);
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridy = 8;
+        add(alphaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 9;
+        add(betaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        add(gammaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 11;
+        add(sigmaAtomsNumberLabel, gridBagConstraints);
 
         //x = 1
-        c.gridx = 1;
-        c.gridy = 0;
-        add(scoreLabel, c);
-        c.gridy = 1;
-        add(timeLabel, c);
-        c.gridy = 2;
-        add(healthLabel, c);
-        c.gridy = 3;
-        add(alphaPowerupsNumberLabel, c);
-        c.gridy = 4;
-        add(betaPowerupsNumberLabel, c);
-        c.gridy = 5;
-        add(gammaPowerupsNumberLabel, c);
-        c.gridy = 6;
-        add(sigmaPowerupsNumberLabel, c);
-        c.gridy = 8;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        add(scoreLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        add(timeLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        add(healthLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 3;
+        add(alphaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 4;
+        add(betaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 5;
+        add(gammaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 6;
+        add(sigmaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 8;
 
-        add(new JLabel(new ImageIcon(atomAlphaImg)), c);
-        c.gridy = 9;
-        add(new JLabel(new ImageIcon(atomBetaImg)), c);
-        c.gridy = 10;
-        add(new JLabel(new ImageIcon(atomGammaImg)), c);
-        c.gridy = 11;
-        add(new JLabel(new ImageIcon(atomSigmaImg)), c);
+        add(new JLabel(new ImageIcon(atomAlphaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 9;
+        add(new JLabel(new ImageIcon(atomBetaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        add(new JLabel(new ImageIcon(atomGammaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 11;
+        add(new JLabel(new ImageIcon(atomSigmaImg)), gridBagConstraints);
     }
 
     private void initializeTextFields() {
