@@ -39,7 +39,7 @@ public class PathPatternFactory {
 
     public PathPattern getAtomPathPattern(double angle){
         // rotate the upward vector speed
-        Vector rotatedVector = (new Vector(0, -config.getStraightPatternSpeed())).rotateVector(angle);
+        Vector rotatedVector = (new Vector(0, -config.getAtomSpeed())).rotateVector(angle);
         return new StraightPattern(new Velocity(rotatedVector));
     }
     public PathPattern getAtomPathPattern(){

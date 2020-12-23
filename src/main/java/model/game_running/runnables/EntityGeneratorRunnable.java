@@ -79,10 +79,12 @@ public class EntityGeneratorRunnable extends GameRunnable {
                     logger.info("[EntityGeneratorRunnable] OUT OF ENTITIES TO DROP");
                     runningMode.endGame();
                 }
-                AutonomousEntity entity = GetRandomEntity(randomTypes.get(0));
-                this.runningMode.addEntity(entity);
-                //sleep before adding new objects
-                Thread.sleep(config.getDropRate());
+                else {
+                    AutonomousEntity entity = GetRandomEntity(randomTypes.get(0));
+                    this.runningMode.addEntity(entity);
+                    //sleep before adding new objects
+                    Thread.sleep(config.getDropRate());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -116,8 +118,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (randomTypes.isEmpty())
             return null; //no more blockers
 
-        double l = GameConstants.BLOCKER_DIAMETER * config.getUnitL() / 2.0;
-        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_DIAMETER * config.getUnitL() / 2.0;
+        double l = GameConstants.BLOCKER_DIAMETER * config.getUnitL();
+        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_DIAMETER * config.getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGeneratorRunnable] generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
