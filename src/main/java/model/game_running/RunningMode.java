@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Powerup;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
 import model.game_entities.enums.EntityType;
@@ -178,6 +179,7 @@ public class RunningMode {
 
     /**
      * TODO ADD DOCUMENTATION
+     *
      * @param entity to be removed
      */
     public void removeEntity(AutonomousEntity entity) {
@@ -192,9 +194,9 @@ public class RunningMode {
         this.statistics = gameStatistics;
     }
 
-    public void updateStatisticsAtomCount(EntityType type, int newCount) {
+    public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
         if (statistics != null)
-            statistics.changeProjectileCount(SuperType.ATOM, type, newCount);
+            statistics.changeProjectileCount(type, entityType, newCount);
     }
 
     public void updateTimer(int amountInMillis) {
@@ -221,6 +223,14 @@ public class RunningMode {
 
     public ProjectileContainer getProjectileContainer() {
         return this.projectileContainer;
+    }
+
+    public void increaseScore() {
+        statistics.incrementScore();
+    }
+
+    public void collectPowerUp(Powerup powerup) {
+        projectileContainer.addPowerUp(powerup);
     }
 
     public interface RunningStateListener {
