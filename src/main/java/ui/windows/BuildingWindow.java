@@ -2,7 +2,9 @@ package ui.windows;
 
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
+import model.game_building.ConfigPreset;
 import model.game_building.GameConstants;
+import utils.IOHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
  * can specify game parameters.
  */
 public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
-    ConfigBundle bundle;
     BuildingMode buildingMode;
 
     // Atoms JTextFields
@@ -50,6 +51,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     JCheckBox isLinearBeta;
     JCheckBox isSpinningBeta;
     JCheckBox isSpinningAlpha;
+    JCheckBox saveConfigPresetCheck;
 
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
@@ -57,15 +59,17 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     double l;
 
+    IOHandler ioHandler;
+
     /**
      * Constructor initiates the Scanner and BuildingMode instances
      */
     public BuildingWindow(String title) {
         super(title);
-        this.atoms = new ArrayList<Integer>();
-        this.powerups = new ArrayList<Integer>();
-        this.blockers = new ArrayList<Integer>();
-        this.molecules = new ArrayList<Integer>();
+        this.atoms = new ArrayList<>();
+        this.powerups = new ArrayList<>();
+        this.blockers = new ArrayList<>();
+        this.molecules = new ArrayList<>();
 
         this.setSize(GameConstants.BUILDING_WINDOW_SIZE);
         this.buildingMode = new BuildingMode(this);
@@ -83,7 +87,11 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         this.pack();
         this.setLocationRelativeTo(null); //centers the window in the middle of the screen
         // Setting the frame visibility to true.
+        this.setResizable(false);
         this.setVisible(true);
+
+        // Instantiate the utils IO class to read the configuration presets
+        ioHandler = new IOHandler();
     }
 
     /**
@@ -235,7 +243,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         /*
          * Checkboxes
          * */
-        isLinearAlpha = new JCheckBox("Spinning Alpha Molecules");
+        isLinearAlpha = new JCheckBox("Linear Alpha Molecules");
         panel.add(isLinearAlpha);
 
         isSpinningAlpha = new JCheckBox("Spinning Alpha Molecules");
@@ -243,7 +251,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(isSpinningAlpha);
 
 
-        isLinearBeta = new JCheckBox("Spinning Alpha Molecules");
+        isLinearBeta = new JCheckBox("Linear Beta Molecules");
         panel.add(isLinearBeta);
 
         isSpinningBeta = new JCheckBox("Spinning Beta Molecules");
@@ -257,32 +265,51 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
          * Building Game Button
          */
         JButton buildGameButton = new JButton("Build Game!");
-        addButtonActionListener(buildGameButton);
+        addBuildGameActionListener(buildGameButton);
         panel.add(buildGameButton);
+
+        saveConfigPresetCheck = new JCheckBox("Save Current Config");
+        panel.add(saveConfigPresetCheck);
+
+        JButton loadConfigPresetButton = new JButton("Load Preset");
+        addLoadConfigActionListener(loadConfigPresetButton);
+        panel.add(loadConfigPresetButton);
 
     }
 
-    // need to try an catch exceptions ... etc.
-    private void addButtonActionListener(JButton btn) {
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create bundle
-                try {
-                    getParametersValues();
-                    bundle = new ConfigBundle(atoms, powerups, blockers, molecules, l,
-                            isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
-                            isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
-                    // Validate the fields.
-                    buildingMode.validateParameters(bundle);
+    private void addBuildGameActionListener(JButton btn) {
+        btn.addActionListener(e -> {
+            // Create bundle
+            try {
+                // Validate the fields.
+                buildingMode.validateParameters(collectConfigFields());
 
-                } catch (NumberFormatException ex) {
-                    ArrayList<String> error = new ArrayList<>();
-                    error.add("One of the parameter has invalid format! .. recheck");
-                    onInvalidParameters(error);
-                }
+            } catch (NumberFormatException ex) {
+                ArrayList<String> error = new ArrayList<>();
+                error.add("One of the parameter has invalid format! .. recheck");
+                onInvalidParameters(error);
             }
+
         });
+    }
+
+    private void addLoadConfigActionListener(JButton btn) { // todo: unnecessary, could be fitted into one line
+        btn.addActionListener(e -> {
+            // Create bundle
+            new ConfigPresetWindow(this);
+        });
+    }
+
+
+    private ConfigBundle collectConfigFields() {
+        /*
+        note: this method is only used once now. it will be used again when we make the player choose the saved
+        file name.
+         */
+        getParametersValues();
+        return new ConfigBundle(atoms, powerups, blockers, molecules, l,
+                isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
+                isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
     }
 
     /**
@@ -305,13 +332,10 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      * if the linear Beta option is un-ticked.
      */
     private void addBetaCheckboxActionListener() {
-        isLinearBeta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                isSpinningBeta.setEnabled(isLinearBeta.isSelected());
-                if (!isLinearBeta.isSelected())
-                    isSpinningBeta.setSelected(false);
-            }
+        isLinearBeta.addActionListener(e -> {
+            isSpinningBeta.setEnabled(isLinearBeta.isSelected());
+            if (!isLinearBeta.isSelected())
+                isSpinningBeta.setSelected(false);
         });
     }
 
@@ -347,12 +371,51 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         l = Double.parseDouble(lengthTextField.getText());
     }
 
-    public void onValidParameters() {
-        ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
+    /**
+     * fills the text fields using a preset configuration saved and selected by the player
+     *
+     * @param bundle the bundle containing the preset configuration.
+     */
+    public void loadPresetParameters(ConfigBundle bundle) {
+        this.alphaAtomsTextField.setText("" + bundle.getNumOfAlphaAtoms());
+        this.betaAtomsTextField.setText("" + bundle.getNumOfBetaAtoms());
+        this.gammaAtomsTextField.setText("" + bundle.getNumOfGammaAtoms());
+        this.sigmaAtomsTextField.setText("" + bundle.getNumOfSigmaAtoms());
+
+        this.alphaBlockersTextField.setText("" + bundle.getNumOfAlphaBlockers());
+        this.betaBlockersTextField.setText("" + bundle.getNumOfBetaBlockers());
+        this.gammaBlockersTextField.setText("" + bundle.getNumOfGammaBlockers());
+        this.sigmaBlockersTextField.setText("" + bundle.getNumOfSigmaBlockers());
+
+        this.alphaPowerupsTextField.setText("" + bundle.getNumOfAlphaPowerups());
+        this.betaPowerupsTextField.setText("" + bundle.getNumOfBetaPowerups());
+        this.gammaPowerupsTextField.setText("" + bundle.getNumOfGammaPowerups());
+        this.sigmaPowerupsTextField.setText("" + bundle.getNumOfSigmaPowerups());
+
+        this.alphaMoleculesTextField.setText("" + bundle.getNumOfAlphaMolecules());
+        this.betaMoleculesTextField.setText("" + bundle.getNumOfBetaMolecules());
+        this.gammaMoleculesTextField.setText("" + bundle.getNumOfGammaMolecules());
+        this.sigmaMoleculesTextField.setText("" + bundle.getNumOfSigmaMolecules());
+
+        this.isLinearAlpha.setSelected(bundle.isLinearAlpha());
+        this.isLinearBeta.setSelected(bundle.isLinearBeta());
+        this.isSpinningAlpha.setSelected(bundle.isSpinningAlpha());
+        this.isSpinningBeta.setSelected(bundle.isSpinningBeta());
+
+        this.difficultyBox.setSelectedIndex(bundle.getDifficulty());
+        this.lengthTextField.setText("" + bundle.getL());
+
     }
 
+    @Override
+    public void onValidParameters(ConfigBundle bundle) {
+        new ConfirmationWindow(BuildingWindow.this, bundle, saveConfigPresetCheck.isSelected());
+
+    }
+
+    @Override
     public void onInvalidParameters(ArrayList<String> invalidFields) {
-        ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, invalidFields);
+        new ErrorWindow(BuildingWindow.this, invalidFields);
     }
 
 }
