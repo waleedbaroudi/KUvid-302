@@ -11,7 +11,7 @@ public class GameCommandListener implements KeyListener {
     private boolean canShoot = true;
     private final int DEFAULT_SHOOTER_DELAY = 1000;
     Timer timer = new Timer();
-    private RunningMode runningMode;
+    private final RunningMode runningMode;
 
     public GameCommandListener(RunningMode runningMode) {
         this.runningMode = runningMode;
@@ -34,7 +34,7 @@ public class GameCommandListener implements KeyListener {
 //                switchAtom
                 break;
             case KeyEvent.VK_UP:
-                if(canShoot) { // TODO: Change implementation later.
+                if (canShoot) { // TODO: Change implementation later.
                     runningMode.shootProjectile();
                     canShoot = false;
                     timer.schedule(new TimerTask() { // Creates a TimerTask object that will make canShoot true after a specified time (DEFAULT_SHOOTER_DELAY)
@@ -51,7 +51,7 @@ public class GameCommandListener implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_RIGHT);
                 break;
-            }
+        }
     }
 
     @Override
@@ -62,7 +62,7 @@ public class GameCommandListener implements KeyListener {
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_STILL);
                 break;
         }
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_D:
                 runningMode.rotateShooter(GameConstants.SHOOTER_ROTATION_RIGHT);
                 break;

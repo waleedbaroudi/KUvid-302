@@ -10,6 +10,9 @@ import utils.MathUtils;
 
 import java.awt.*;
 
+/**
+ * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
+ */
 public class ShooterDrawer implements Drawable {
 
     private final Shooter shooter;
@@ -25,7 +28,7 @@ public class ShooterDrawer implements Drawable {
         this.height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
         this.width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
         this.shooterImage = ImageResources.get(null, shooter.getSuperType(), width, height);
-       
+
     }
 
     @Override
@@ -33,7 +36,7 @@ public class ShooterDrawer implements Drawable {
         Graphics2D g2d = (Graphics2D) g;
         g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
 
-        Projectile projectile = shooter.getCurrentProjectile();
+        projectile = shooter.getCurrentProjectile();
         Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), width / 2, height / 2);
         g2d.drawImage(shooterImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
 
