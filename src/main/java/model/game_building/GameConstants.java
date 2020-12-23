@@ -26,9 +26,9 @@ public final class GameConstants {
     public static final double GAME_SIZE_RATIO = (16.0 / 9.0);
 
     // Game difficulty drop rate values
-    public static final int EASY_MODE_GAME_DROP_RATE = 1000;
-    public static final int MEDIUM_MODE_GAME_DROP_RATE = 500;
-    public static final int HARD_MODE_GAME_DROP_RATE = 250;
+    public static final int EASY_MODE_GAME_DROP_RATE = 3000;
+    public static final int MEDIUM_MODE_GAME_DROP_RATE = 2000;
+    public static final int HARD_MODE_GAME_DROP_RATE = 1000;
 
     public static final int GAME_THREAD_DELAY = 20; // TODO: Check if valid
 

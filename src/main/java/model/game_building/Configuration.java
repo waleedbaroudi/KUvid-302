@@ -202,17 +202,18 @@ public class Configuration {
 
     public double getShooterSpeed() {
         return getUnitL() / (double) FPS; //TODO: ask about the speed.
-//        return getUnitL() / 15;
     }
 
     public double getStraightPatternSpeed() {
-        // TODO: I added factor 3 as  the given speed is so slow
+        return getUnitL() / (double) FPS;
+    }
+
+    public double getAtomSpeed() {
         return 3 * getUnitL() / (double) FPS;
     }
 
     public double getZigZagPatternSpeed() {
-        // TODO: I added factor 3 as  the given speed is so slow
-        return 3 * getUnitL() / (double) FPS;
+        return getUnitL() / (double) FPS;
     }
 
 
