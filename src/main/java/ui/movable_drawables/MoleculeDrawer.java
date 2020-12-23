@@ -8,6 +8,9 @@ import utils.MathUtils;
 
 import java.awt.*;
 
+/**
+ * This class is responsible for drawing a Molecule given a Molecule entity in the constructor
+ */
 public class MoleculeDrawer implements Drawable {
 
     private final Molecule molecule;
