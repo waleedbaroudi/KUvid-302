@@ -17,6 +17,7 @@ public class BuildingMode {
     /**
      * this method is to check if all the parameters of the object ConfigBundle are valid or not at the same time.
      *
+     * @return true if the parameters are valid, or false otherwise
      */
     public void validateParameters(ConfigBundle bundle) {
         this.invalidFields.clear();
@@ -76,10 +77,7 @@ public class BuildingMode {
      * @return true if number > 0
      */
     private boolean isValidNumber(int number) {
-        if (number > 0) {
-            return true;
-        }
-        return false;
+        return number > 0;
     }
 
 
@@ -90,10 +88,7 @@ public class BuildingMode {
      * @return true if difficulty is in range [0,2].
      */
     private boolean isValidDifficulty(int difficulty) {
-        if (difficulty >= 0 && difficulty <= 2) {
-            return true;
-        }
-        return false;
+        return difficulty >= 0 && difficulty <= 2;
     }
 
 
@@ -104,9 +99,7 @@ public class BuildingMode {
      * @return true if l > 0.
      */
     private boolean isValidLength(double l) {
-        if (l > 0)
-            return true;
-        return false;
+        return l > 0;
     }
 
     public interface ParametersValidationListener {
@@ -125,5 +118,3 @@ public class BuildingMode {
 
 
 }
-
-

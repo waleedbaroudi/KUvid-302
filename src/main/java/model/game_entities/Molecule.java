@@ -16,7 +16,6 @@ public class Molecule extends AutonomousEntity {
 
     private MoleculeStructure structure;
 
-
     public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.MOLECULE;
@@ -31,7 +30,6 @@ public class Molecule extends AutonomousEntity {
         return structure;
     }
 
-
     @Override
     public String toString() {
         return "Molecule{" +
@@ -39,7 +37,6 @@ public class Molecule extends AutonomousEntity {
                 ", structure=" + structure +
                 '}';
     }
-
 
     // visitor pattern. Double delegation
     @Override

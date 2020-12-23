@@ -221,4 +221,16 @@ public class Configuration {
         return getUnitL() / (double) FPS; //TODO: ask about the speed.
 //        return getUnitL() / 15;
     }
+
+    public double getStraightPatternSpeed() {
+        // TODO: I added factor 3 as  the given speed is so slow
+        return 3 * getUnitL() / (double) FPS;
+    }
+
+    public double getZigZagPatternSpeed() {
+        // TODO: I added factor 3 as  the given speed is so slow
+        return 3 * getUnitL() / (double) FPS;
+    }
+
+
 }
