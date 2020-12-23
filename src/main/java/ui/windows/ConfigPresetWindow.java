@@ -23,20 +23,32 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
         this.configPreset = new ConfigPreset(this);
         this.buildingGameFrame = parent;
         this.setContentPane(new JPanel());
-        this.addComponents(IOHandler.getConfigFiles());
+        boolean presetsLoaded = this.addComponents(IOHandler.getConfigFiles());
         this.pack(); // Pack the frame around the components
-        setLocationRelativeTo(null); // Center the blender frame
-        this.setVisible(true);
+        this.setLocationRelativeTo(null); // Center the blender frame
+        if (presetsLoaded)
+            this.setVisible(true);
     }
 
-    private void addComponents(String[] fileNames) {
+    /**
+     * adds the list of saved presets to the window. displays an error if the list is empty
+     *
+     * @param fileNames list of preset file names to be added to the window
+     * @return true if file names were added to the list, false otherwise (no saved presets).
+     */
+    private boolean addComponents(String[] fileNames) {
+        if (fileNames.length == 0) {//if there are no presets.
+            onNoPresetsFound("No Presets Found!");
+            return false;
+        }
         //create list
-        fileNames = Arrays.stream(fileNames).map(fileName -> fileName.replace(".yaml", "")).toArray(String[]::new);
+        fileNames = Arrays.stream(fileNames).map(IOHandler::prettifyFileName).toArray(String[]::new);
         configurationFilesList = new JList(fileNames);
 
         JButton confirmPresetButton = new JButton("Confirm Preset");
         confirmPresetButton.addActionListener(e -> {
-            configPreset.getConfigBundleFromFile(configurationFilesList.getSelectedValue().toString());
+            String properFileName = IOHandler.prettyToProperFileName(configurationFilesList.getSelectedValue().toString());
+            configPreset.getConfigBundleFromFile(properFileName);
         });
         //set a selected index
         configurationFilesList.setSelectedIndex(0);
@@ -44,16 +56,21 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
         //add list to panel
         this.getContentPane().add(configurationFilesList);
         this.getContentPane().add(confirmPresetButton);
+        return true;
     }
 
     @Override
     public void onSelectedPreset(ConfigBundle bundle) {
+        // Load the bundle into the buildingWindow
+        ((BuildingWindow) buildingGameFrame).loadPresetParameters(bundle);
+        // Close the frame
+        this.dispose();
+    }
+
+    @Override
+    public void onNoPresetsFound(String message) {
         // Close the current game-building frame.
-        if (bundle == null)
-            JOptionPane.showMessageDialog(this, "No Presets Found!", "Error", JOptionPane.ERROR_MESSAGE);
-            // Load the bundle into the buildingWindow
-        else
-            ((BuildingWindow) buildingGameFrame).loadPresetParameters(bundle);
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
         // Close the frame
         this.dispose();
     }
