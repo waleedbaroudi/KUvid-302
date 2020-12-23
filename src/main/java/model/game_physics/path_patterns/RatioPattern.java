@@ -1,7 +1,6 @@
 package model.game_physics.path_patterns;
 
 import model.game_building.Configuration;
-import model.game_building.GameConstants;
 import utils.Coordinates;
 import utils.Vector;
 
@@ -21,13 +20,12 @@ public class RatioPattern extends PathPattern{
 
     /**
      * @param patterns List of patterns to follow
-     * @param ratios List of screen ration corresponding to the pattern
+     * @param ratios List of screen ration corresponding to the patterns
      */
     public RatioPattern(List<PathPattern> patterns, List<Double> ratios) {
-        super(patterns.get(0).getCurrentCoords());
         this.patterns = patterns;
         this.ratios = ratios;
-        this.lastYCoords = patterns.get(0).getCurrentCoords().getY();
+        this.lastYCoords = 0;
         // set the current pattern to the first pattern
         setCurrentPattern(patterns.get(0));
     }
@@ -45,6 +43,13 @@ public class RatioPattern extends PathPattern{
         this.currentPattern = currentPattern;
     }
 
+
+    @Override
+    public void setCurrentCoords(Coordinates currentCoords) {
+        super.setCurrentCoords(currentCoords);
+        getCurrentPattern().setCurrentCoords(currentCoords);
+    }
+
     @Override
     public Coordinates nextPosition() {
         if(getCurrentCoords().getY() - lastYCoords
@@ -52,11 +57,12 @@ public class RatioPattern extends PathPattern{
             getLogger().debug("[RatioPattern] ratio of the " + (this.currentPatternIdx+1) + "th pattern finished");
             getLogger().debug("[RatioPattern] transition coordinates are " + this.getCurrentCoords());
             // update the last y coordinates and the current pattern
-            this.lastYCoords = getCurrentCoords().getY();
+            Coordinates tmpCoords = getCurrentCoords();
+            this.lastYCoords = tmpCoords.getY();
             this.currentPatternIdx += 1;
             this.currentPatternIdx %= getPatterns().size();
             setCurrentPattern(getPatterns().get(this.currentPatternIdx));
-            getCurrentPattern().setCurrentCoords(getCurrentCoords());
+            setCurrentCoords(tmpCoords);
         }
         setCurrentCoords(getCurrentPattern().nextPosition());
         return this.getCurrentCoords();
