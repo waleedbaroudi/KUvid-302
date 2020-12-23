@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Powerup;
 import model.game_entities.Entity;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
@@ -203,9 +204,9 @@ public class RunningMode {
         this.statistics = gameStatistics;
     }
 
-    public void updateStatisticsAtomCount(EntityType type, int newCount) {
+    public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
         if (statistics != null)
-            statistics.changeProjectileCount(SuperType.ATOM, type, newCount);
+            statistics.changeProjectileCount(type, entityType, newCount);
     }
 
     public void updateTimer(int amountInMillis) {
@@ -233,6 +234,13 @@ public class RunningMode {
         return this.projectileContainer;
     }
 
+    public void increaseScore() {
+        statistics.incrementScore();
+    }
+
+    public void collectPowerUp(Powerup powerup) {
+        projectileContainer.addPowerUp(powerup);
+      }
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }

@@ -41,7 +41,7 @@ public abstract class Entity implements Collidable {
         this.hitbox = hitbox;
     }
 
-    public boolean isCollidedWith(AutonomousEntity entity) {
+    public boolean isCollidedWith(Entity entity) {
         return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 

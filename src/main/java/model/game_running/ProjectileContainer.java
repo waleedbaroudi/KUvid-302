@@ -9,7 +9,6 @@ import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -18,10 +17,8 @@ import java.util.Random;
  */
 public class ProjectileContainer {
 
-    // private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
-    private final HashMap<EntityType, Integer> powerUpMap; // keeps the number of power-ups per type.
-
     private final int[] atomMap;
+    private final int[] powerUpMap; // keeps the number of power-ups per type.
     int totalAtomCount;
 
     private RunningMode runningMode;
@@ -39,11 +36,11 @@ public class ProjectileContainer {
 
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
-        powerUpMap = new HashMap<>(); //todo make this an array too
-        powerUpMap.put(EntityType.ALPHA, numOfAlphaPowerUps);
-        powerUpMap.put(EntityType.BETA, numOfBetaPowerUps);
-        powerUpMap.put(EntityType.GAMMA, numOfGammaPowerUps);
-        powerUpMap.put(EntityType.SIGMA, numOfSigmaPowerUps);
+        powerUpMap = new int[4];
+        powerUpMap[0] = numOfAlphaPowerUps;
+        powerUpMap[1] = numOfBetaPowerUps;
+        powerUpMap[2] = numOfGammaPowerUps;
+        powerUpMap[3] = numOfSigmaPowerUps;
 
         random = new Random();
     }
@@ -57,7 +54,7 @@ public class ProjectileContainer {
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
     public Atom getAtom(Coordinates coordinates, int type) {
-        if (checkAndChange(atomMap, type, -1))
+        if (checkAndChange(atomMap, SuperType.ATOM, type, -1))
             return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
                     PathPatternFactory.getInstance().getAtomPathPattern(),
                     EntityType.forValue(type + 1)); //TODO: FIX indices
@@ -73,7 +70,6 @@ public class ProjectileContainer {
             atomType = random.nextInt(4);
             atom = getAtom(coordinates, atomType);
         }
-        runningMode.updateStatisticsAtomCount(atom.getType(), atomMap[atomType]);
         return atom;
     }
 
@@ -91,6 +87,10 @@ public class ProjectileContainer {
         return null;
     }
 
+    public void addPowerUp(Powerup powerup) {
+        checkAndChange(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
+    }
+
     /**
      * used in blending/breaking. it reduces the amount of the given type by the given amount.
      *
@@ -99,7 +99,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (player is not out of atoms)
      */
     public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, type - 1, -count); //todo: fix index
+        return checkAndChange(atomMap, SuperType.ATOM, type - 1, -count); //todo: fix index
     }
 
 
@@ -111,7 +111,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (purpose TBD)
      */
     public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, type - 1, count); //todo: fix index
+        return checkAndChange(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
     }
 
     /**
@@ -125,15 +125,16 @@ public class ProjectileContainer {
      *              number increases it
      * @return the result of the check and decrement.
      */
-    private boolean checkAndChange(int[] map, int type, int count) {
+    private boolean checkAndChange(int[] map, SuperType superType, int type, int count) {
         //System.out.println(type + " : " + count); //TODO: Change to logger
         int remaining = map[type];
         if (remaining < -count)
             return false;
         map[type] = remaining + count;
         totalAtomCount += count;
-        if (runningMode != null)
-            runningMode.updateStatisticsAtomCount(EntityType.forValue(type + 1), atomMap[type]);
+        if (runningMode != null) {
+            runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
+        }
         return true;
     }
 
