@@ -2,7 +2,11 @@ package model.game_entities;
 
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
+import model.game_entities.shields.BaseShield;
+import model.game_entities.shields.ShieldA;
+import model.game_entities.shields.Shieldable;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -14,10 +18,22 @@ public class Atom extends Projectile{
 
     private double width;
     private double height;
+    private Shieldable shield;
 
     public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
+        this.shield = new BaseShield();
+    }
+
+    public void addShield(ShieldType type){
+        if(type.equals(ShieldType.LOTA)){
+            this.shield = new ShieldA(this.shield);
+        }
+    }
+
+    public double getEfficiency() {
+        return 100 + shield.getEfficiency();
     }
 
     @Override
@@ -58,4 +74,5 @@ public class Atom extends Projectile{
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
     }
+
 }
