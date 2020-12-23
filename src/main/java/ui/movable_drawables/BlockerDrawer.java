@@ -8,6 +8,9 @@ import utils.MathUtils;
 
 import java.awt.*;
 
+/**
+ * This class is responsible for drawing an Blocker given the Blocker entity in the constructor
+ */
 public class BlockerDrawer implements Drawable {
 
     private final Blocker blocker;

@@ -1,5 +1,7 @@
 package model.game_entities;
 
+import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
@@ -14,12 +16,18 @@ public class Blocker extends AutonomousEntity {
 
     private double blockingRadius;
     private double explosionRadius;
+    private Hitbox blockingHitbox;
+    private final Hitbox explodingHitbox;
 
-    public Blocker(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, double blockingRadius, double explosionRadius) {
+    public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;
-        this.blockingRadius = blockingRadius;
-        this.explosionRadius = explosionRadius;
+
+        this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
+        this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLOSION_RADIUS;
+
+        this.blockingHitbox = blockingHitbox;
+        this.explodingHitbox = explodingHitbox;
     }
 
     public double getBlockingRadius() {
@@ -38,6 +46,21 @@ public class Blocker extends AutonomousEntity {
         return explosionRadius;
     }
 
+    public Hitbox getExplodingHitbox(){
+        return this.explodingHitbox;
+    }
+    public Hitbox getBlockingHitbox() {
+        return this.blockingHitbox;
+    }
+
+    public boolean isCollidedWithExplodingHitbox(AutonomousEntity entity) {
+        return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
+    public boolean isCollidedWithBlockingHitbox(AutonomousEntity entity) {
+        return this.getBlockingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
     @Override
     public String toString() {
         return "Blocker{" +
@@ -46,7 +69,6 @@ public class Blocker extends AutonomousEntity {
                 ", type=" + getType() +
                 '}';
     }
-
 
     // visitor pattern. Double delegation
     @Override

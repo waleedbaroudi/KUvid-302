@@ -21,31 +21,33 @@ class ConfigurationTest {
         assertEquals(config.getDifficulty(), -1);
         assertEquals(config.getNumAlphaAtoms(), -1);
 
-        ArrayList<Integer> atoms = new ArrayList<Integer>(){{
+        ArrayList<Integer> atoms = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
         }};
 
-        ArrayList<Integer> powerups = new ArrayList<Integer>(){{
+        ArrayList<Integer> powerups = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
         }};
 
-        ArrayList<Integer> blockers = new ArrayList<Integer>(){{
+        ArrayList<Integer> blockers = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
         }};
 
-        ArrayList<Integer> molecules = new ArrayList<Integer>(){{
+        ArrayList<Integer> molecules = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
         }};
 
-        ConfigBundle bundle = new ConfigBundle(atoms,powerups,blockers,molecules,1.2,true, true, true ,true,2);
+        ConfigBundle bundle = new ConfigBundle(atoms, powerups, blockers, molecules, 1.2, true, true, true, true, 2);
+        //TODO: fix this test. we don't use setConfig anymore. instead configuration is read from a file.
+
         Configuration.getInstance().setConfig(bundle);
 
         assertEquals(Configuration.getInstance().getDifficulty(), 2);
