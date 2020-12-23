@@ -26,7 +26,7 @@ public class IOHandler {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
         Date currentData = new Date();
         try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + fileName + "-" + formatter.format(currentData) + ".yaml"), bundle);
+            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + "-" + formatter.format(currentData) + ".yaml"), bundle);
         } catch (IOException e) {
             e.printStackTrace();
         }

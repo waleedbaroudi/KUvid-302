@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * can specify game parameters.
  */
 public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
-    ConfigBundle bundle;
     BuildingMode buildingMode;
 
     // Atoms JTextFields
@@ -52,6 +51,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     JCheckBox isLinearBeta;
     JCheckBox isSpinningBeta;
     JCheckBox isSpinningAlpha;
+    JCheckBox saveConfigPresetCheck;
 
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
@@ -268,22 +268,21 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         addBuildGameActionListener(buildGameButton);
         panel.add(buildGameButton);
 
+        saveConfigPresetCheck = new JCheckBox("Save Current Config");
+        panel.add(saveConfigPresetCheck);
+
         JButton loadConfigPresetButton = new JButton("Load Preset");
         addLoadConfigActionListener(loadConfigPresetButton);
         panel.add(loadConfigPresetButton);
+
     }
 
-    // need to try an catch exceptions ... etc.
     private void addBuildGameActionListener(JButton btn) {
         btn.addActionListener(e -> {
             // Create bundle
             try {
-                getParametersValues();
-                bundle = new ConfigBundle(atoms, powerups, blockers, molecules, l,
-                        isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
-                        isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
                 // Validate the fields.
-                buildingMode.validateParameters(bundle);
+                buildingMode.validateParameters(collectConfigFields());
 
             } catch (NumberFormatException ex) {
                 ArrayList<String> error = new ArrayList<>();
@@ -294,11 +293,23 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         });
     }
 
-    private void addLoadConfigActionListener(JButton btn) {
+    private void addLoadConfigActionListener(JButton btn) { // todo: unnecessary, could be fitted into one line
         btn.addActionListener(e -> {
             // Create bundle
             new ConfigPresetWindow(this);
         });
+    }
+
+
+    private ConfigBundle collectConfigFields() {
+        /*
+        note: this method is only used once now. it will be used again when we make the player choose the saved
+        file name.
+         */
+        getParametersValues();
+        return new ConfigBundle(atoms, powerups, blockers, molecules, l,
+                isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
+                isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
     }
 
     /**
@@ -397,9 +408,9 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     }
 
     @Override
-    public void onValidParameters() {
-        new ConfirmationWindow(BuildingWindow.this, this.bundle);
-//        IOHandler.writeConfigToYAML(this.bundle, "config"); //todo: add this "save config" button
+    public void onValidParameters(ConfigBundle bundle) {
+        new ConfirmationWindow(BuildingWindow.this, bundle, saveConfigPresetCheck.isSelected());
+
     }
 
     @Override

@@ -10,7 +10,7 @@ public class ConfirmationWindow implements ConfigConfirmation.ParametersConfirma
     ConfigConfirmation configConfirmation;
     JFrame buildingGameFrame;
 
-    public ConfirmationWindow(JFrame frame, ConfigBundle bundle) {
+    public ConfirmationWindow(JFrame frame, ConfigBundle bundle, boolean isSaving) {
         this.buildingGameFrame = frame;
         this.configConfirmation = new ConfigConfirmation(this);
 
@@ -18,7 +18,7 @@ public class ConfirmationWindow implements ConfigConfirmation.ParametersConfirma
         int reply = JOptionPane.showConfirmDialog(frame, "Are you sure?", "Confirmation", JOptionPane.YES_NO_OPTION);
         // TODO: View a summary of the bundle
         if (reply == JOptionPane.YES_OPTION)
-            configConfirmation.confirm(bundle);
+            configConfirmation.confirm(bundle, isSaving);
         else
             System.out.println("Returning to building window");
     }
