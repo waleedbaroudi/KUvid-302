@@ -18,10 +18,10 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
     JFrame buildingGameFrame;
     JList configurationFilesList;
 
-    public ConfigPresetWindow() {
+    public ConfigPresetWindow(JFrame parent) {
         super("Preset Selection");
         this.configPreset = new ConfigPreset(this);
-
+        this.buildingGameFrame = parent;
         this.setContentPane(new JPanel());
         this.addComponents(IOHandler.getConfigFiles());
         this.pack(); // Pack the frame around the components
@@ -29,7 +29,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
         this.setVisible(true);
     }
 
-    private void addComponents(String[] fileNames){
+    private void addComponents(String[] fileNames) {
         //create list
         fileNames = Arrays.stream(fileNames).map(fileName -> fileName.replace(".yaml", "")).toArray(String[]::new);
         configurationFilesList = new JList(fileNames);
@@ -49,10 +49,11 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
     @Override
     public void onSelectedPreset(ConfigBundle bundle) {
         // Close the current game-building frame.
-        if(bundle == null)
-            JOptionPane.showMessageDialog(this, "No Presets Found!", "Error" ,JOptionPane.ERROR_MESSAGE);
-        // Load the bundle into the buildingWindow
-
+        if (bundle == null)
+            JOptionPane.showMessageDialog(this, "No Presets Found!", "Error", JOptionPane.ERROR_MESSAGE);
+            // Load the bundle into the buildingWindow
+        else
+            ((BuildingWindow) buildingGameFrame).loadPresetParameters(bundle);
         // Close the frame
         this.dispose();
     }

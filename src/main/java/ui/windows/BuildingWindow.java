@@ -243,7 +243,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         /*
          * Checkboxes
          * */
-        isLinearAlpha = new JCheckBox("Spinning Alpha Molecules");
+        isLinearAlpha = new JCheckBox("Linear Alpha Molecules");
         panel.add(isLinearAlpha);
 
         isSpinningAlpha = new JCheckBox("Spinning Alpha Molecules");
@@ -251,7 +251,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(isSpinningAlpha);
 
 
-        isLinearBeta = new JCheckBox("Spinning Alpha Molecules");
+        isLinearBeta = new JCheckBox("Linear Beta Molecules");
         panel.add(isLinearBeta);
 
         isSpinningBeta = new JCheckBox("Spinning Beta Molecules");
@@ -297,7 +297,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     private void addLoadConfigActionListener(JButton btn) {
         btn.addActionListener(e -> {
             // Create bundle
-                new ConfigPresetWindow();
+            new ConfigPresetWindow(this);
         });
     }
 
@@ -360,13 +360,50 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         l = Double.parseDouble(lengthTextField.getText());
     }
 
+    /**
+     * fills the text fields using a preset configuration saved and selected by the player
+     *
+     * @param bundle the bundle containing the preset configuration.
+     */
+    public void loadPresetParameters(ConfigBundle bundle) {
+        this.alphaAtomsTextField.setText("" + bundle.getNumOfAlphaAtoms());
+        this.betaAtomsTextField.setText("" + bundle.getNumOfBetaAtoms());
+        this.gammaAtomsTextField.setText("" + bundle.getNumOfGammaAtoms());
+        this.sigmaAtomsTextField.setText("" + bundle.getNumOfSigmaAtoms());
+
+        this.alphaBlockersTextField.setText("" + bundle.getNumOfAlphaBlockers());
+        this.betaBlockersTextField.setText("" + bundle.getNumOfBetaBlockers());
+        this.gammaBlockersTextField.setText("" + bundle.getNumOfGammaBlockers());
+        this.sigmaBlockersTextField.setText("" + bundle.getNumOfSigmaBlockers());
+
+        this.alphaPowerupsTextField.setText("" + bundle.getNumOfAlphaPowerups());
+        this.betaPowerupsTextField.setText("" + bundle.getNumOfBetaPowerups());
+        this.gammaPowerupsTextField.setText("" + bundle.getNumOfGammaPowerups());
+        this.sigmaPowerupsTextField.setText("" + bundle.getNumOfSigmaPowerups());
+
+        this.alphaMoleculesTextField.setText("" + bundle.getNumOfAlphaMolecules());
+        this.betaMoleculesTextField.setText("" + bundle.getNumOfBetaMolecules());
+        this.gammaMoleculesTextField.setText("" + bundle.getNumOfGammaMolecules());
+        this.sigmaMoleculesTextField.setText("" + bundle.getNumOfSigmaMolecules());
+
+        this.isLinearAlpha.setSelected(bundle.isLinearAlpha());
+        this.isLinearBeta.setSelected(bundle.isLinearBeta());
+        this.isSpinningAlpha.setSelected(bundle.isSpinningAlpha());
+        this.isSpinningBeta.setSelected(bundle.isSpinningBeta());
+
+        this.difficultyBox.setSelectedIndex(bundle.getDifficulty());
+        this.lengthTextField.setText("" + bundle.getL());
+    }
+
+    @Override
     public void onValidParameters() {
-        ConfirmationWindow confirmationWindow = new ConfirmationWindow(BuildingWindow.this, this.bundle);
+        new ConfirmationWindow(BuildingWindow.this, this.bundle);
         IOHandler.writeConfigToYAML(this.bundle, "config");
     }
 
+    @Override
     public void onInvalidParameters(ArrayList<String> invalidFields) {
-        ErrorWindow errorWindow = new ErrorWindow(BuildingWindow.this, invalidFields);
+        new ErrorWindow(BuildingWindow.this, invalidFields);
     }
 
 }

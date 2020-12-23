@@ -93,62 +93,62 @@ public class ConfigBundle {
     }
 
     @JsonIgnore
-    public int getNumAlphaPowerups() {
+    public int getNumOfAlphaPowerups() {
         return powerups.get(0);
     }
 
     @JsonIgnore
-    public int getNumBetaPowerups() {
+    public int getNumOfBetaPowerups() {
         return powerups.get(1);
     }
 
     @JsonIgnore
-    public int getNumGammaPowerups() {
+    public int getNumOfGammaPowerups() {
         return powerups.get(2);
     }
 
     @JsonIgnore
-    public int getNumSigmaPowerups() {
+    public int getNumOfSigmaPowerups() {
         return powerups.get(3);
     }
 
     @JsonIgnore
-    public int getNumAlphaBlockers() {
+    public int getNumOfAlphaBlockers() {
         return blockers.get(0);
     }
 
     @JsonIgnore
-    public int getNumBetaBlockers() {
+    public int getNumOfBetaBlockers() {
         return blockers.get(1);
     }
 
     @JsonIgnore
-    public int getNumGammaBlockers() {
+    public int getNumOfGammaBlockers() {
         return blockers.get(2);
     }
 
     @JsonIgnore
-    public int getNumSigmaBlockers() {
+    public int getNumOfSigmaBlockers() {
         return blockers.get(3);
     }
 
     @JsonIgnore
-    public int getNumAlphaMolecules() {
+    public int getNumOfAlphaMolecules() {
         return molecules.get(0);
     }
 
     @JsonIgnore
-    public int getNumBetaMolecules() {
+    public int getNumOfBetaMolecules() {
         return molecules.get(1);
     }
 
     @JsonIgnore
-    public int getNumGammaMolecules() {
+    public int getNumOfGammaMolecules() {
         return molecules.get(2);
     }
 
     @JsonIgnore
-    public int getNumSigmaMolecules() {
+    public int getNumOfSigmaMolecules() {
         return molecules.get(3);
     }
 
