@@ -18,7 +18,7 @@ import java.util.Random;
  */
 public class ProjectileContainer {
 
-    //    private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
+    // private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
     private final HashMap<EntityType, Integer> powerUpMap; // keeps the number of power-ups per type.
 
     private final int[] atomMap;
@@ -137,7 +137,7 @@ public class ProjectileContainer {
         return true;
     }
 
-    public int[] getAtomMap(){
+    public int[] getAtomMap() {
         return this.atomMap;
     }
 

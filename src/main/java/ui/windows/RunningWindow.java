@@ -84,6 +84,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
                 if (!paused) {
                     repaint();
                     runningMode.updateTimer(GameConstants.GAME_THREAD_DELAY);
+                    if (runningMode.isGameFinished()) runningMode.endGame();
                 }
             } else {
                 runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
