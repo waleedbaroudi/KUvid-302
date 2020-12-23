@@ -66,10 +66,10 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      */
     public BuildingWindow(String title) {
         super(title);
-        this.atoms = new ArrayList<Integer>();
-        this.powerups = new ArrayList<Integer>();
-        this.blockers = new ArrayList<Integer>();
-        this.molecules = new ArrayList<Integer>();
+        this.atoms = new ArrayList<>();
+        this.powerups = new ArrayList<>();
+        this.blockers = new ArrayList<>();
+        this.molecules = new ArrayList<>();
 
         this.setSize(GameConstants.BUILDING_WINDOW_SIZE);
         this.buildingMode = new BuildingMode(this);
@@ -393,12 +393,13 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
         this.difficultyBox.setSelectedIndex(bundle.getDifficulty());
         this.lengthTextField.setText("" + bundle.getL());
+
     }
 
     @Override
     public void onValidParameters() {
         new ConfirmationWindow(BuildingWindow.this, this.bundle);
-        IOHandler.writeConfigToYAML(this.bundle, "config");
+//        IOHandler.writeConfigToYAML(this.bundle, "config"); //todo: add this "save config" button
     }
 
     @Override

@@ -2,10 +2,13 @@ package model.game_building;
 
 
 import static model.game_building.GameConstants.*;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import utils.IOHandler;
 
 import java.awt.*;
+import java.io.File;
 
 public class Configuration {
 
@@ -23,6 +26,10 @@ public class Configuration {
     private Configuration() {
         BasicConfigurator.configure();
         logger = Logger.getLogger(Configuration.class.getName());
+        configBundle = IOHandler.readConfigFromYaml("temp");
+        File temp = new File(System.getProperty("user.dir") + "/configurations/temp.yaml");
+        if (!temp.delete())
+            logger.warn("Temporary configuration file was not deleted");
     }
 
     /**
@@ -121,8 +128,8 @@ public class Configuration {
     }
 
 
-    public int getMovementDelay(){// TODO: modify when difficulty is converted to enum
-        if(!isConfigBundleSet())
+    public int getMovementDelay() {// TODO: modify when difficulty is converted to enum
+        if (!isConfigBundleSet())
             return -1;
         int difficulty = this.getDifficulty();
         switch (difficulty) {

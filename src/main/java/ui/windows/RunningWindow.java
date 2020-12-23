@@ -29,7 +29,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private boolean paused;
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
-    private BlenderWindow blenderWindow;
+    private BlenderWindow blenderWindow; //todo: remove this?
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
