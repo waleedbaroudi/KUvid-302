@@ -28,7 +28,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow;
-    private Image background;
+    private final Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);

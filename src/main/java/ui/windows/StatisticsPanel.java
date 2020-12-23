@@ -12,11 +12,13 @@ import ui.movable_drawables.ImageResources;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class draws the Statistics window. through this window, the player
+ * can observe the statistics of the game such as atom/power numbers and score...
+ */
 public class StatisticsPanel extends JPanel implements GameStatistics.GameStatisticsListener {
 
-    //Controller
-    private GameStatistics gameStatistics;
-    private RunningMode runningMode;
+    private final RunningMode runningMode;
 
     //Icons
     private Image atomAlphaImg;
@@ -52,7 +54,8 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
 
-        gameStatistics = new GameStatistics(this);
+        //Controller
+        GameStatistics gameStatistics = new GameStatistics(this);
         this.runningMode = runningMode;
         runningMode.setStatisticsController(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
@@ -64,6 +67,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         setContent();
     }
 
+    /**
+     * Add images and numbers to the window
+     */
     private void setContent() {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -90,11 +96,6 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridy = 7;
         JButton blenderButton = new JButton(new ImageIcon(blenderImg));
-        blenderButton.addActionListener(e -> {
-            runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
-            runningMode.getBlender().showBlender();
-        });
-        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         add(blenderButton, gridBagConstraints);
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridy = 8;
@@ -131,8 +132,19 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         add(new JLabel(new ImageIcon(atomGammaImg)), gridBagConstraints);
         gridBagConstraints.gridy = 11;
         add(new JLabel(new ImageIcon(atomSigmaImg)), gridBagConstraints);
+
+        //set click listener for blender
+        blenderButton.addActionListener(e -> {
+            runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+            runningMode.getBlender().showBlender();
+        });
+        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+
     }
 
+    /**
+     * initializes TextField that correspond to number of atoms/powerups, score, health, and time
+     */
     private void initializeTextFields() {
         ProjectileContainer container = this.runningMode.getProjectileContainer();
         alphaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
@@ -151,6 +163,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         scoreLabel = new JLabel("0.0");
     }
 
+    /**
+     * retrieves images from ImageResources with the specified height and width
+     */
     private void retrieveImages() {
         atomAlphaImg = ImageResources.get(EntityType.ALPHA, SuperType.ATOM, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         atomBetaImg = ImageResources.get(EntityType.BETA, SuperType.ATOM, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
