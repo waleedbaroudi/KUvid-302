@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Entity;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
 import model.game_entities.enums.EntityType;
@@ -14,6 +15,7 @@ import model.game_running.runnables.EntityGeneratorRunnable;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
+import ui.windows.RunningWindow;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -162,10 +164,18 @@ public class RunningMode {
     public void shootProjectile() {
         Projectile shotEntity = this.shooter.shoot();
         if (shotEntity == null) {
-            endGame();
+            if (noAtomsOnScreen())
+                endGame();
             return;
         }
         addEntity(shotEntity);
+    }
+
+    public boolean noAtomsOnScreen() {
+        for (Entity entity : autonomousEntities)
+            if (entity.getSuperType() == SuperType.ATOM)
+                return false;
+        return true;
     }
 
     /**
@@ -178,6 +188,7 @@ public class RunningMode {
 
     /**
      * TODO ADD DOCUMENTATION
+     *
      * @param entity to be removed
      */
     public void removeEntity(AutonomousEntity entity) {
@@ -206,10 +217,9 @@ public class RunningMode {
     }
 
     public void endGame() {
-        stop();
+        setRunningState(GameConstants.GAME_STATE_STOP);
         runningStateListener.onGameOver();
     }
-
 
     public Blender getBlender() {
         return this.blender;
@@ -221,6 +231,10 @@ public class RunningMode {
 
     public ProjectileContainer getProjectileContainer() {
         return this.projectileContainer;
+    }
+
+    public boolean isGameFinished() {
+        return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
 
     public interface RunningStateListener {

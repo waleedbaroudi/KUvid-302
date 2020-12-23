@@ -2,10 +2,13 @@ package model.game_building;
 
 
 import static model.game_building.GameConstants.*;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import utils.IOHandler;
 
 import java.awt.*;
+import java.io.File;
 
 public class Configuration {
 
@@ -23,6 +26,10 @@ public class Configuration {
     private Configuration() {
         BasicConfigurator.configure();
         logger = Logger.getLogger(Configuration.class.getName());
+        configBundle = IOHandler.readConfigFromYaml("temp");
+        File temp = new File(System.getProperty("user.dir") + "/configurations/temp.yaml");
+        if (!temp.delete())
+            logger.warn("Temporary configuration file was not deleted");
     }
 
     /**
@@ -73,51 +80,51 @@ public class Configuration {
     }
 
     public int getNumAlphaPowerups() {
-        return isConfigBundleSet() ? configBundle.getNumAlphaPowerups() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfAlphaPowerups() : -1;
     }
 
     public int getNumBetaPowerups() {
-        return isConfigBundleSet() ? configBundle.getNumBetaPowerups() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfBetaPowerups() : -1;
     }
 
     public int getNumGammaPowerups() {
-        return isConfigBundleSet() ? configBundle.getNumGammaPowerups() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfGammaPowerups() : -1;
     }
 
     public int getNumSigmaPowerups() {
-        return isConfigBundleSet() ? configBundle.getNumSigmaPowerups() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfSigmaPowerups() : -1;
     }
 
     public int getNumAlphaBlockers() {
-        return isConfigBundleSet() ? configBundle.getNumAlphaBlockers() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfAlphaBlockers() : -1;
     }
 
     public int getNumBetaBlockers() {
-        return isConfigBundleSet() ? configBundle.getNumBetaBlockers() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfBetaBlockers() : -1;
     }
 
     public int getNumGammaBlockers() {
-        return isConfigBundleSet() ? configBundle.getNumGammaBlockers() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfGammaBlockers() : -1;
     }
 
     public int getNumSigmaBlockers() {
-        return isConfigBundleSet() ? configBundle.getNumSigmaBlockers() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfSigmaBlockers() : -1;
     }
 
     public int getNumAlphaMolecules() {
-        return isConfigBundleSet() ? configBundle.getNumAlphaMolecules() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfAlphaMolecules() : -1;
     }
 
     public int getNumBetaMolecules() {
-        return isConfigBundleSet() ? configBundle.getNumBetaMolecules() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfBetaMolecules() : -1;
     }
 
     public int getNumGammaMolecules() {
-        return isConfigBundleSet() ? configBundle.getNumGammaMolecules() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfGammaMolecules() : -1;
     }
 
     public int getNumSigmaMolecules() {
-        return isConfigBundleSet() ? configBundle.getNumSigmaMolecules() : -1;
+        return isConfigBundleSet() ? configBundle.getNumOfSigmaMolecules() : -1;
     }
 
     public int getDropRate() {// TODO: modify when difficulty is converted to enum
@@ -197,4 +204,16 @@ public class Configuration {
         return getUnitL() / (double) FPS; //TODO: ask about the speed.
 //        return getUnitL() / 15;
     }
+
+    public double getStraightPatternSpeed() {
+        // TODO: I added factor 3 as  the given speed is so slow
+        return 3 * getUnitL() / (double) FPS;
+    }
+
+    public double getZigZagPatternSpeed() {
+        // TODO: I added factor 3 as  the given speed is so slow
+        return 3 * getUnitL() / (double) FPS;
+    }
+
+
 }

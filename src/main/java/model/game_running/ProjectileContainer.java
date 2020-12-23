@@ -18,7 +18,7 @@ import java.util.Random;
  */
 public class ProjectileContainer {
 
-    //    private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
+    // private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
     private final HashMap<EntityType, Integer> powerUpMap; // keeps the number of power-ups per type.
 
     private final int[] atomMap;
@@ -57,9 +57,10 @@ public class ProjectileContainer {
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
     public Atom getAtom(Coordinates coordinates, int type) {
-        System.out.println(EntityType.forValue(type + 1));
         if (checkAndChange(atomMap, type, -1))
-            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.forValue(type + 1)); //TODO: FIX IMMEDIATELY
+            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
+                    PathPatternFactory.getInstance().getAtomPathPattern(),
+                    EntityType.forValue(type + 1)); //TODO: FIX indices
         return null;
     }
 
@@ -136,7 +137,7 @@ public class ProjectileContainer {
         return true;
     }
 
-    public int[] getAtomMap(){
+    public int[] getAtomMap() {
         return this.atomMap;
     }
 

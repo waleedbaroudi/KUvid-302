@@ -2,12 +2,12 @@ package ui.movable_drawables;
 
 import model.game_entities.*;
 
-// TODO we need to reorganize to include projectile.
-
-
-
 public class DrawableFactory {
 
+    /**
+     * @param entity an entity instance that will use draw to draw itself
+     * @return a drawable for the entity given
+     */
     public static Drawable get(Entity entity) {
         switch (entity.getSuperType()) {
             case MOLECULE:

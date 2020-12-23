@@ -8,6 +8,9 @@ import utils.MathUtils;
 
 import java.awt.*;
 
+/**
+ * This class is responsible for drawing an Blocker given the Blocker entity in the constructor
+ */
 public class BlockerDrawer implements Drawable {
 
     private final Blocker blocker;
@@ -22,7 +25,6 @@ public class BlockerDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-
         Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(), radius);
         g.drawImage(blockerImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }

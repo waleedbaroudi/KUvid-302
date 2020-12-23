@@ -25,7 +25,7 @@ public class MoleculeFactory {
     public Molecule getMolecule(EntityType type) {
         Coordinates defaultCoordinates = new Coordinates(0, 0);
         return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
-                PathPatternFactory.getInstance().getMoleculePathPattern(), type,
+                PathPatternFactory.getInstance().getMoleculePathPattern(type), type,
                 MoleculeStructure.CIRCULAR);
     }
 }

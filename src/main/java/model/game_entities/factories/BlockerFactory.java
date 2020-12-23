@@ -26,6 +26,6 @@ public class BlockerFactory {
         Coordinates defaultCoordinates = new Coordinates(0, 0);
         return new Blocker(defaultCoordinates, HitboxFactory.getInstance().getBlockerHitbox(), HitboxFactory.getInstance().getBlockingHitbox(),
                 HitboxFactory.getInstance().getExplosionHitbox(),
-                PathPatternFactory.getInstance().getBlockerPathPattern(), type);
+                PathPatternFactory.getInstance().getBlockerPathPattern(type), type);
     }
 }
