@@ -28,7 +28,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow;
-    private Image background;
+    private final Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
@@ -84,6 +84,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
                 if (!paused) {
                     repaint();
                     runningMode.updateTimer(GameConstants.GAME_THREAD_DELAY);
+                    if (runningMode.isGameFinished()) runningMode.endGame();
                 }
             } else {
                 runningMode.setRunningState(GameConstants.GAME_STATE_STOP);

@@ -11,11 +11,10 @@ import java.io.IOException;
 
 public class ImageResources {
     /**
-     *
-     * @param type the suptype of the entity
+     * @param type      the subtype of the entity
      * @param superType the main type of the entity
-     * @param width
-     * @param height
+     * @param width     that will be used to scale the image
+     * @param height    that will be used to scale the image
      * @return the corresponding image with the specified dimensions
      */
     public static Image get(EntityType type, SuperType superType, int width, int height) {
@@ -32,16 +31,17 @@ public class ImageResources {
             case SHOOTER:
                 return getImage("shooter.png", width, height);
 
+            //A default black image will be returned in case of any error
             default:
+                System.err.println("Error: ImageResources::get :" + type + ", " + superType + ", " + width + ", " + height);
                 return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
     }
 
     /**
-     *
-     * @param icon the icon to be returned
-     * @param iconWidth
-     * @param iconHeight
+     * @param icon       the icon to be returned
+     * @param iconWidth  that will be used to scale the icon
+     * @param iconHeight that will be used to scale the icon
      * @return the corresponding icon with the specified dimensions
      */
     public static Image getIcon(String icon, int iconWidth, int iconHeight) {
