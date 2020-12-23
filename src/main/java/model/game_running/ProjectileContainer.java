@@ -90,7 +90,7 @@ public class ProjectileContainer {
     }
 
     public void addPowerUp(Powerup powerup) {
-        checkAndChange(powerUpMap, SuperType.POWERUP, powerup.getType().getValue(), 1);
+        checkAndChange(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
     }
 
     /**
@@ -135,7 +135,7 @@ public class ProjectileContainer {
         map[type] = remaining + count;
         totalAtomCount += count;
         if (runningMode != null) {
-            runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), atomMap[type]);
+            runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
         }
         return true;
     }

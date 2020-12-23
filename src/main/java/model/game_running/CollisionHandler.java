@@ -73,8 +73,8 @@ public class CollisionHandler implements CollisionVisitor {
      * @param shooter
      */
     @Override
-    public void handleCollision(Powerup powerup, Shooter shooter) {
-//        controller.collectPowerUp(powerup);
+    public void handleCollision(Shooter shooter, Powerup powerup) {
+        controller.collectPowerUp(powerup);
         controller.removeEntity(powerup);
     }
 
@@ -99,7 +99,7 @@ public class CollisionHandler implements CollisionVisitor {
      * @param shooter
      */
     @Override
-    public void handleCollision(Blocker blocker, Shooter shooter) {
+    public void handleCollision(Shooter shooter, Blocker blocker) {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
     }

@@ -40,6 +40,8 @@ public class CollisionRunnable extends GameRunnable {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
                 for (AutonomousEntity sourceEntity : runningMode.getAutonomousEntities()) {
+                    if (sourceEntity.isCollidedWith(runningMode.getShooter()))
+                        sourceEntity.acceptCollision(collisionHandler, runningMode.getShooter());
                     for (AutonomousEntity targetEntity : runningMode.getAutonomousEntities()) {
                         if (sourceEntity == targetEntity) //don't collision check an entity with itself
                             continue;
@@ -52,20 +54,20 @@ public class CollisionRunnable extends GameRunnable {
                         }
                     }
                     // check if the entity left the game view from the top or bottom boarder
-                    if(sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY()> config.getGamePanelDimensions().height){
+                    if (sourceEntity.getCoordinates().getY() < 0 ||
+                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height) {
                         toRemoveEntities.add(sourceEntity);
                     }
 
                     ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
-                    for (Coordinates coord : coords){
-                        if(coord.getX() > config.getGamePanelDimensions().width){
+                    for (Coordinates coord : coords) {
+                        if (coord.getX() > config.getGamePanelDimensions().width) {
                             sourceEntity.getPathPattern().reflect(
                                     new Vector(new Coordinates(1, 0)));
                             sourceEntity.move();
                             GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
                         }
-                        if(coord.getX() < 0){
+                        if (coord.getX() < 0) {
                             sourceEntity.getPathPattern().reflect(
                                     new Vector(new Coordinates(-1, 0)));
                             sourceEntity.move();
