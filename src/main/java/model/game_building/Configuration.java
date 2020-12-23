@@ -127,23 +127,6 @@ public class Configuration {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaMolecules() : -1;
     }
 
-
-    public int getMovementDelay() {// TODO: modify when difficulty is converted to enum
-        if (!isConfigBundleSet())
-            return -1;
-        int difficulty = this.getDifficulty();
-        switch (difficulty) {
-            case 0:
-                return EASY_MODE_GAME_THREAD_DELAY;
-            case 1:
-                return MEDIUM_MODE_GAME_THREAD_DELAY;
-            case 2:
-                return HARD_MODE_GAME_THREAD_DELAY;
-            default:
-                return GAME_THREAD_DELAY;
-        }
-    }
-
     public int getDropRate() {// TODO: modify when difficulty is converted to enum
         if (!isConfigBundleSet())
             return -1;
