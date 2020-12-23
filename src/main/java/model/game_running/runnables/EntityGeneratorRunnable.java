@@ -136,7 +136,9 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (totalPowerUpCount < 1)
             return null; //no more power-up
 
-        double x_coord = Math.random() * config.getGamePanelDimensions().getWidth();
+        double l = GameConstants.POWERUP_RADIUS * config.getUnitL();
+        double r = config.getGamePanelDimensions().getWidth() - GameConstants.POWERUP_RADIUS * config.getUnitL();
+        double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
         Powerup powerup = null;
         while (powerup == null) {
@@ -160,7 +162,9 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (totalMoleculeCount < 1)
             return null; //no more molecule
 
-        double x_coord = Math.random() * config.getGamePanelDimensions().getWidth();
+        double l = GameConstants.MOLECULE_RADIUS * config.getUnitL();
+        double r = config.getGamePanelDimensions().getWidth() - GameConstants.MOLECULE_RADIUS * config.getUnitL();
+        double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
         Molecule molecule = null;
         while (molecule == null) {
