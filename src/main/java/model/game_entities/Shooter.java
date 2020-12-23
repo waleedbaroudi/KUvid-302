@@ -4,7 +4,9 @@ import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
+import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.hitbox.RectangularHitbox;
+import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.ProjectileContainer;
@@ -22,56 +24,53 @@ public class Shooter extends Entity {
 
     Configuration config = Configuration.getInstance();
 
-    private EntityType previousAtom;
-    private final double DEFAULT_ANGLE = 10;
+    // TODO move to game configuration
+    private final double DEFAULT_ROTATION_STEP = 10;
     private double angle = 0;
-    private final double MOVEMENT;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
     public Shooter(ProjectileContainer container) {
-        super();
+        // Turn off logger
+        logger.setLevel(Level.OFF);
 
         // sets the initial coordinates
+        // TODO: get initial coords from the game configuration
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
                         GameConstants.SHOOTER_HEIGHT));
 
         // sets the Hitbox
-        setHitbox(new RectangularHitbox(
-                config.getUnitL() * GameConstants.SHOOTER_WIDTH,
-                config.getUnitL() * GameConstants.SHOOTER_HEIGHT));
-
-        MOVEMENT = config.getShooterSpeed();
+        setHitbox(HitboxFactory.getInstance().getShooterHitbox());
         this.superType = SuperType.SHOOTER;
-
         this.container = container;
-        // Turn off logger
-        logger.setLevel(Level.OFF);
-        reload();
+        this.setCurrentProjectile(this.nextAtom());
     }
 
+    /**
+     * Shoot the projectile on the tip of the shooter to the game space
+     * @return the atom on the tip of the shooter
+     */
     public Projectile shoot() {
         if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
             return null;
 
-        //TODO: currently we are building the atom on shooting, we need to change that (Maybe)
-        Projectile tmpProjectile = this.getCurrentProjectile();
-        // rotate the path direction according to the shooter
-        Coordinates rotatedCoords = new Coordinates(this.getCoordinates().getX(),
-                this.getCoordinates().getY() - config.getUnitL() * GameConstants.SHOOTER_HEIGHT);
-        rotatedCoords = MathUtils.applyRotation(angle, this.getCoordinates(), rotatedCoords);
-        rotatedCoords = new Coordinates(rotatedCoords.getX() - this.getCoordinates().getX(), rotatedCoords.getY() - this.getCoordinates().getY());
-        // set the coordinates of the projectile the same as the coordinates of hte shooter
-        double len = Math.sqrt(rotatedCoords.getX() * rotatedCoords.getX() + rotatedCoords.getY() * rotatedCoords.getY());
-        tmpProjectile.setPathPattern(new StraightPattern(new Velocity(10 * rotatedCoords.getX() / len, 10 * rotatedCoords.getY() / len)));
-        tmpProjectile.setCoordinates(getShootingCoords(getCoordinates(), tmpProjectile));
-        this.reload();
-        return tmpProjectile;
+        this.adjustProjectilePosition();
+        return this.reload();
+    }
+
+    /**
+     * Adjust the projectile coordinates and speed vector orientation according to the coordinates and orientation
+     * of the shooter
+     */
+    private void adjustProjectilePosition() {
+        getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(angle));
+        getCurrentProjectile().setCoordinates(getShootingCoords(getCoordinates(), getCurrentProjectile()));
     }
 
 
     //todo: see if we can make these constants as attributes for the shooter
+    // question: why the getShootingCoords takes a projectile as a param. Shouldn't it use the currentProjectile?
     /**
      *
      * @param coordinates the coordinates of the shotoer
@@ -92,24 +91,23 @@ public class Shooter extends Entity {
         return MathUtils.translate(this.getCoordinates(), new Coordinates(newWidth, - newHeight));
     }
 
-    public boolean switchAtom() {
+
+    /**
+     * reload the atom shooter by placing a random atom on the tip of the shooter
+     * @return the current projectile at the atom
+     */
+    public Projectile reload() {
+        Projectile tmp = getCurrentProjectile();
         this.setCurrentProjectile(this.nextAtom());
-        return true;
+        return tmp;
     }
 
-    public void mountPowerup(EntityType EntityType) { //todo: what's this for?
-
-    }
-
-    public boolean reload() {
-        this.setCurrentProjectile(this.nextAtom());
-        return true;
-    }
-
+    /**
+     * get the next random atom
+     * @return a random atom
+     */
     public Atom nextAtom() {
-        // TODO: change the atom types to random
         return container.getRandomAtom(this.getCoordinates());
-//        return new Atom(this.getCoordinates(), HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.BETA);
     }
 
     public Projectile getCurrentProjectile() {
@@ -120,28 +118,20 @@ public class Shooter extends Entity {
         this.currentProjectile = currentProjectile;
     }
 
-    public EntityType getPreviousAtom() {
-        return previousAtom;
-    } // todo: what dis?
-
     public double getAngle() {
         return this.angle;
     }
 
-    public void setPreviousAtom(EntityType previousAtom) {
-        this.previousAtom = previousAtom;
-    } // todo: what dis too?
-
     public boolean rotate(int direction) {
-        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ANGLE * direction))
+        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ROTATION_STEP * direction))
             return false;
-        this.angle += DEFAULT_ANGLE * direction;
-        this.getHitbox().rotate(DEFAULT_ANGLE * direction);
+        this.angle += DEFAULT_ROTATION_STEP * direction;
+        this.getHitbox().rotate(DEFAULT_ROTATION_STEP * direction);
         return true;
     }
 
     public boolean move(int direction) {
-        Coordinates newCoords = new Coordinates(getCoordinates().getX() + direction * MOVEMENT, getCoordinates().getY());
+        Coordinates newCoords = new Coordinates(getCoordinates().getX() + direction * config.getShooterSpeed(), getCoordinates().getY());
         if (!checkLegalMovement(newCoords, this.getAngle())) {
             logger.info("[Shooter] shooter cannot move to the new coordinates" + this.getCoordinates());
             return false;
@@ -152,7 +142,7 @@ public class Shooter extends Entity {
     }
 
     /**
-     * Check if the shooter movement is within the game view
+     * Check if the shooter config.getShooterSpeed() is within the game view
      * @param c
      * @param angle
      * @return
@@ -199,7 +189,6 @@ public class Shooter extends Entity {
                 "coordinate=" + getCoordinates() +
                 ", hitbox=" + getHitbox() +
                 ", currentProjectile=" + currentProjectile +
-                ", previousAtom=" + previousAtom +
                 '}';
     }
 
