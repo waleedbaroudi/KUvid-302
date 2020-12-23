@@ -57,7 +57,7 @@ public class PathPatternFactory {
         switch (type){
             case ALPHA:
                 // follow a zigzag pattern
-                 return new ZigzagPatten(straightVelocity, GameConstants.FPS);
+                return new ZigzagPatten(zigZagVelocity, GameConstants.FPS);
             case BETA:
                 // 25% straight, then 75% zigzag
                 PathPattern pattern1 = new StraightPattern(straightVelocity);

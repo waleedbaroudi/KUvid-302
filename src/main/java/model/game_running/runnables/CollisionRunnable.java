@@ -53,7 +53,7 @@ public class CollisionRunnable extends GameRunnable {
                     }
                     // check if the entity left the game view from the top or bottom boarder
                     if(sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().width){
+                            sourceEntity.getCoordinates().getY()> config.getGamePanelDimensions().height){
                         toRemoveEntities.add(sourceEntity);
                     }
 
