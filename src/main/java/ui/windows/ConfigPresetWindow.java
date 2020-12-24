@@ -42,7 +42,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
             return false;
         }
         //create list
-        fileNames = Arrays.stream(fileNames).map(IOHandler::prettifyFileName).toArray(String[]::new);
+        fileNames = Arrays.stream(fileNames).filter(name -> name.endsWith(".yaml")).map(IOHandler::prettifyFileName).toArray(String[]::new);
         configurationFilesList = new JList(fileNames);
 
         JButton confirmPresetButton = new JButton("Confirm Preset");
