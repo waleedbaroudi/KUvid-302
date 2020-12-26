@@ -54,7 +54,7 @@ public class ProjectileContainer {
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
     public Atom getAtom(Coordinates coordinates, int type) {
-        if (checkAndChange(atomMap, SuperType.ATOM, type, -1))
+        if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1))
             return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
                     PathPatternFactory.getInstance().getAtomPathPattern(),
                     EntityType.forValue(type + 1)); //TODO: FIX indices
@@ -88,7 +88,7 @@ public class ProjectileContainer {
     }
 
     public void addPowerUp(Powerup powerup) {
-        checkAndChange(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (player is not out of atoms)
      */
     public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, SuperType.ATOM, type - 1, -count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, -count); //todo: fix index
     }
 
 
@@ -111,7 +111,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (purpose TBD)
      */
     public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
     }
 
     /**
@@ -125,13 +125,14 @@ public class ProjectileContainer {
      *              number increases it
      * @return the result of the check and decrement.
      */
-    private boolean checkAndChange(int[] map, SuperType superType, int type, int count) {
+    private boolean updateProjectileMap(int[] map, SuperType superType, int type, int count) {
         //System.out.println(type + " : " + count); //TODO: Change to logger
         int remaining = map[type];
         if (remaining < -count)
             return false;
         map[type] = remaining + count;
-        totalAtomCount += count;
+        if (superType.equals(SuperType.ATOM))
+            totalAtomCount += count;
         if (runningMode != null) {
             runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
         }
