@@ -1,4 +1,4 @@
-package model.game_physics.spinning;
+package model.game_running;
 
 import model.game_running.runnables.MovementRunnable;
 
@@ -13,10 +13,9 @@ public interface Spinnable{
     double getRotationDegree();
 
     /**
-     * rotate the entity degree amount of degrees. This method should handle updating the rotation dgree in the hitbox
-     * @param degree
+     * spin the entity for once. This method should handle updating the rotation dgree in the hitbox
      */
-    void rotate(double degree);
+    void spin();
 
     /**
      * Register the entity instance to the spinningController

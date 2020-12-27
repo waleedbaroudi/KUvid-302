@@ -1,5 +1,6 @@
 package model.game_entities.factories;
 
+import model.game_entities.Entity;
 import model.game_entities.Molecule;
 
 import model.game_entities.enums.MoleculeStructure;

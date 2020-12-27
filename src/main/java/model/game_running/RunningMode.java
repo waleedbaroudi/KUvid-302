@@ -96,6 +96,10 @@ public class RunningMode {
         this.isInitialized = true;
     }
 
+    public MovementRunnable getMovementRunnable() {
+        return movementRunnable;
+    }
+
     /**
      * starts the Movement, collision, shooter, and EntityGenerator threads
      */
