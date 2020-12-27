@@ -69,10 +69,23 @@ public class Blocker extends AutonomousEntity {
         return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
+    public double getDamageDone(Entity entity){
+
+
+
+        return 0.0;
+    }
+
+
     @Override
     public void reachBoundary(CollisionRunnable collisionRunnable) {
         super.reachBoundary(collisionRunnable);
+        this.isExploded = true;
         collisionRunnable.BlockerBoundaryBehavior(this);
+    }
+
+    public boolean isExploded(){
+        return this.isExploded;
     }
 
     @Override

@@ -47,8 +47,13 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void handleCollision(Atom atom, Blocker blocker) {
         // this only breaks the atom if enters the AOE of a corresponding type blocker.
-        if (atom.getType().getValue() == blocker.getType().getValue())
+
+        if (blocker.isExploded()){
             controller.removeEntity(atom);
+        }else{
+             if (atom.getType().getValue() == blocker.getType().getValue())
+              controller.removeEntity(atom);
+        }
     }
 
     /**
@@ -90,6 +95,10 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Molecule molecule, Blocker blocker) {
 //        defaultCollision(molecule, blocker);
         //nothing for now. this collision will be conditional: only when the blocker is exploding.
+
+        if (blocker.isExploded()){
+            controller.removeEntity(molecule);
+        }
     }
 
     /**
@@ -102,9 +111,12 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Shooter shooter, Blocker blocker) {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
-
-        controller.removeEntity(blocker);
-
+        if(blocker.isExploded()){
+            controller.removeEntity(blocker);
+        }
+        else {
+            controller.removeEntity(blocker);
+        }
         //controller.
 
 
