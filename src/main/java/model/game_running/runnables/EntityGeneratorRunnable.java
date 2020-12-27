@@ -125,7 +125,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
 
         Blocker blocker = BlockerFactory.getInstance().getBlocker(EntityType.forValue(randomTypes.get(0)));
         blockerCountPerType.replace(blocker.getType(), blockerCountPerType.get(blocker.getType()) - 1);
-        blocker.setCoordinates(new Coordinates(x_coord, 0));
+        blocker.setCoordinates(new Coordinates(x_coord, 1));
         return blocker;
     }
 
