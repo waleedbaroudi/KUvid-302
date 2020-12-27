@@ -111,6 +111,7 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Shooter shooter, Blocker blocker) {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
+
         if(blocker.isExploded()){
             controller.removeEntity(blocker);
         }

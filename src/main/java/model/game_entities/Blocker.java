@@ -9,6 +9,7 @@ import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.runnables.CollisionRunnable;
 import utils.Coordinates;
+import utils.MathUtils;
 
 /**
  * Blocker: Handles the Blocker game object.
@@ -69,13 +70,10 @@ public class Blocker extends AutonomousEntity {
         return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
-    public double getDamageDone(Entity entity){
-
-
-
-        return 0.0;
+    public double getExplosionDamage(Entity entity){
+        double distance = MathUtils.distanceBetween(this.getCoordinates(), entity.getCoordinates());
+        return Configuration.getInstance().getGameWidth() / distance;
     }
-
 
     @Override
     public void reachBoundary(CollisionRunnable collisionRunnable) {
