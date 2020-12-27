@@ -9,6 +9,7 @@ import utils.Coordinates;
 import utils.MathUtils;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
@@ -35,17 +36,18 @@ public class ShooterDrawer implements Drawable {
     public void draw(Graphics g) {
         System.out.println(shooter.getCoordinates());
         Graphics2D g2d = (Graphics2D) g;
-        g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
+        AffineTransform old = g2d.getTransform();
 
+        g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
         projectile = shooter.getCurrentProjectile();
         Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), width / 2, height / 2);
         g2d.drawImage(shooterImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
-
         if (projectile != null) {
             int r = (int) (unitL * (projectile.getSuperType() == SuperType.ATOM ? GameConstants.ATOM_RADIUS : GameConstants.POWERUP_RADIUS));
             Coordinates projectileCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0, r + height / 2);
             projectile.setCoordinates(projectileCoord);
             DrawableFactory.get(projectile).draw(g);
         }
+        g2d.setTransform(old);
     }
 }
