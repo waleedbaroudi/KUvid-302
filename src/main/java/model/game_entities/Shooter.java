@@ -26,7 +26,6 @@ public class Shooter extends Entity {
 
     // TODO move to game configuration
     private final double DEFAULT_ROTATION_STEP = 10;
-    private double angle = 0;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
     public Shooter(ProjectileContainer container) {
@@ -64,7 +63,7 @@ public class Shooter extends Entity {
      * of the shooter
      */
     private void adjustProjectilePosition() {
-        getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(angle));
+        getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(getHitbox().getRotationDegree()));
         getCurrentProjectile().setCoordinates(getShootingCoords(getCoordinates(), getCurrentProjectile()));
     }
 
@@ -83,7 +82,7 @@ public class Shooter extends Entity {
         int powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
 
         int projectileRadius = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
-        double theta = MathUtils.angleComplement(this.angle);
+        double theta = MathUtils.angleComplement(this.getHitbox().getRotationDegree());
 
         int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height / 2, theta);
         int newWidth = MathUtils.getCompositeXComponent(projectileRadius, height / 2, theta);
@@ -119,14 +118,13 @@ public class Shooter extends Entity {
     }
 
     public double getAngle() {
-        return this.angle;
+        return getHitbox().getRotationDegree();
     }
 
     public boolean rotate(int direction) {
         if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ROTATION_STEP * direction))
             return false;
-        this.angle += DEFAULT_ROTATION_STEP * direction;
-        this.getHitbox().rotate(DEFAULT_ROTATION_STEP * direction);
+        getHitbox().rotate(DEFAULT_ROTATION_STEP * direction);
         return true;
     }
 

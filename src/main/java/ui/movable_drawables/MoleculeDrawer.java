@@ -7,6 +7,7 @@ import utils.Coordinates;
 import utils.MathUtils;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * This class is responsible for drawing a Molecule given a Molecule entity in the constructor
@@ -25,7 +26,12 @@ public class MoleculeDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
+        // rotate the molecule
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform old = g2d.getTransform();
+        g2d.rotate(Math.toRadians(molecule.getRotationDegree()), molecule.getCoordinates().getPoint().getX(), molecule.getCoordinates().getPoint().getY());
         Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(), radius);
-        g.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        g2d.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        g2d.setTransform(old);
     }
 }
