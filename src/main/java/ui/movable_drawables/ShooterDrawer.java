@@ -34,7 +34,6 @@ public class ShooterDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        System.out.println(shooter.getCoordinates());
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
 

@@ -37,7 +37,6 @@ public class Molecule extends AutonomousEntity implements Spinnable {
 
     @Override
     public void spin() {
-        logger.info("[Molecule] entity rotated in " + GameConstants.SPINNING_SPEED + " degrees");
         this.getHitbox().rotate(GameConstants.SPINNING_SPEED);
     }
 

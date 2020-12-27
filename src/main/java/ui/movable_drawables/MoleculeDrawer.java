@@ -26,7 +26,6 @@ public class MoleculeDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        System.out.println(molecule.getCoordinates());
         // rotate the molecule
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
