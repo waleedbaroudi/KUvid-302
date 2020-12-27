@@ -10,7 +10,7 @@ import java.util.TimerTask;
 public class GameCommandListener implements KeyListener {
     private boolean canShoot = true;
     private final int DEFAULT_SHOOTER_DELAY = 500;
-    Timer timer = new Timer();
+    private Timer timer = new Timer();
     private final RunningMode runningMode;
 
     public GameCommandListener(RunningMode runningMode) {
