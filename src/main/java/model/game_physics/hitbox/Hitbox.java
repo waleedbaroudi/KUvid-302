@@ -6,11 +6,19 @@ import java.util.ArrayList;
 
 public abstract class Hitbox {
 
+    protected double rotationDegree = 0;
+
     /**
      * Rotates the Hitbox in the specified direction
      * @param angle indicating the direction of the rotation
      */
-    public abstract void rotate(double angle);
+    public void rotate(double angle){
+        this.rotationDegree += angle;
+    }
+
+    public double getRotationDegree(){
+        return this.rotationDegree;
+    }
 
     /**
      * checks if coordinates is inside the Hitbox
