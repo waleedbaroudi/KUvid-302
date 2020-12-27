@@ -176,6 +176,9 @@ public class EntityGeneratorRunnable extends GameRunnable {
         Molecule molecule = MoleculeFactory.getInstance().getMolecule(EntityType.forValue(randomTypes.get(0)));
         moleculeCountPerType.replace(molecule.getType(), moleculeCountPerType.get(molecule.getType()) - 1);
         molecule.setCoordinates(new Coordinates(x_coord, 0));
+
+        // spinning molecule
+        molecule.registerSpinningController(runningMode.getMovementRunnable());
         return molecule;
     }
 }
