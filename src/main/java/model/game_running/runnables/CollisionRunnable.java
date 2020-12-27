@@ -91,5 +91,7 @@ public class CollisionRunnable extends GameRunnable {
             if (blocker.isCollidedWithExplodingHitbox(entity))
                 blocker.acceptCollision(collisionHandler, entity);
         }
+        if(blocker.isExploded())
+            runningMode.removeEntity(blocker);
     }
 }

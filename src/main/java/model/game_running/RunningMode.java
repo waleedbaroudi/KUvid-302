@@ -213,6 +213,10 @@ public class RunningMode {
             statistics.changeProjectileCount(type, entityType, newCount);
     }
 
+    public GameStatistics getStatistics(){
+        return this.statistics;
+    }
+
     public void updateTimer(int amountInMillis) {
         if (statistics != null) {
             boolean timerOver = !statistics.updateTimer(amountInMillis);

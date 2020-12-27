@@ -1,6 +1,9 @@
 package model.game_running;
 
+import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.*;
+import utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 
@@ -95,7 +98,6 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Molecule molecule, Blocker blocker) {
 //        defaultCollision(molecule, blocker);
         //nothing for now. this collision will be conditional: only when the blocker is exploding.
-
         if (blocker.isExploded()){
             controller.removeEntity(molecule);
         }
@@ -111,16 +113,12 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Shooter shooter, Blocker blocker) {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
+        double distance = MathUtils.distanceBetween(shooter.getCoordinates(), blocker.getCoordinates());
 
-        if(blocker.isExploded()){
-            controller.removeEntity(blocker);
+        if(distance <= GameConstants.BLOCKER_EXPLOSION_RADIUS * Configuration.getInstance().getUnitL()) {
+            int damageDone = (int) Math.round(blocker.getExplosionDamage(shooter));
+            controller.getStatistics().decreaseHealth(damageDone);
+            
         }
-        else {
-            controller.removeEntity(blocker);
-        }
-        //controller.
-
-
-
     }
 }

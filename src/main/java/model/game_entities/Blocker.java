@@ -70,6 +70,11 @@ public class Blocker extends AutonomousEntity {
         return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
+    /**
+     * Returns the amount of damage is done from a blocker to a given entity.
+     * @param entity The entity to calculate the damage with respect to.
+     * @return The amount of damage with respect to a given entity.
+     */
     public double getExplosionDamage(Entity entity){
         double distance = MathUtils.distanceBetween(this.getCoordinates(), entity.getCoordinates());
         return Configuration.getInstance().getGameWidth() / distance;
