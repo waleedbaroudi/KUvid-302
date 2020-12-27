@@ -51,8 +51,11 @@ public class Shooter extends Entity {
      * @return the atom on the tip of the shooter
      */
     public Projectile shoot() {
-        if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
+        if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
+
+        System.err.println(getCurrentProjectile());
+        System.out.println("ITS NULLLLL");
 
         this.adjustProjectilePosition();
         return this.reload();
@@ -117,6 +120,14 @@ public class Shooter extends Entity {
         this.currentProjectile = currentProjectile;
     }
 
+    public void setPowerup(EntityType type){
+        Projectile previousProjectile = getCurrentProjectile();
+        Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
+        if(currentPowerup != null) {
+            container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+            setCurrentProjectile(currentPowerup);
+        }
+    }
     public double getAngle() {
         return getHitbox().getRotationDegree();
     }

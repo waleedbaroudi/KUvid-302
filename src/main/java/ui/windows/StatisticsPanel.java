@@ -2,6 +2,7 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
+import model.game_entities.Entity;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
@@ -35,7 +36,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     private Image watchImg;
     private Image blenderImg;
 
-    // JTextFields
+    // JLabels
     JLabel gammaAtomsNumberLabel;
     JLabel alphaAtomsNumberLabel;
     JLabel betaAtomsNumberLabel;
@@ -50,6 +51,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     JLabel timeLabel;
     JLabel SCORE;
     JLabel scoreLabel;
+
+    // JButtons
+    JButton blenderButton;
+    JButton alphaPowerupButton;
+    JButton betaPowerupButton;
+    JButton gammaPowerupButton;
+    JButton sigmaPowerupButton;
 
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
@@ -74,6 +82,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
+        // Defining our buttons
+        blenderButton = new JButton(new ImageIcon(blenderImg));
+        alphaPowerupButton = new JButton(new ImageIcon(powerupAlphaImg));
+        betaPowerupButton = new JButton(new ImageIcon(powerupBetaImg));
+        gammaPowerupButton = new JButton(new ImageIcon(powerupGammaImg));
+        sigmaPowerupButton = new JButton(new ImageIcon(powerupSigmaImg));
+
         gridBagConstraints.ipady = 10;
         //x = 0
         gridBagConstraints.weightx = 0.5;
@@ -86,16 +101,15 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridy = 2;
         add(new JLabel(new ImageIcon(healthImg)), gridBagConstraints);
         gridBagConstraints.gridy = 3;
-        add(new JLabel(new ImageIcon(powerupAlphaImg)), gridBagConstraints);
+        add(alphaPowerupButton, gridBagConstraints);
         gridBagConstraints.gridy = 4;
-        add(new JLabel(new ImageIcon(powerupBetaImg)), gridBagConstraints);
+        add(betaPowerupButton, gridBagConstraints);
         gridBagConstraints.gridy = 5;
-        add(new JLabel(new ImageIcon(powerupGammaImg)), gridBagConstraints);
+        add(gammaPowerupButton, gridBagConstraints);
         gridBagConstraints.gridy = 6;
-        add(new JLabel(new ImageIcon(powerupSigmaImg)), gridBagConstraints);
+        add(sigmaPowerupButton, gridBagConstraints);
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridy = 7;
-        JButton blenderButton = new JButton(new ImageIcon(blenderImg));
         add(blenderButton, gridBagConstraints);
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridy = 8;
@@ -133,13 +147,38 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridy = 11;
         add(new JLabel(new ImageIcon(atomSigmaImg)), gridBagConstraints);
 
+        setButtonListeners();
+    }
+
+    private void setButtonListeners(){
         //set click listener for blender
         blenderButton.addActionListener(e -> {
             runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
             runningMode.getBlender().showBlender();
         });
-        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
 
+        alphaPowerupButton.addActionListener(e -> {
+            runningMode.getShooter().setPowerup(EntityType.ALPHA);
+        });
+
+        betaPowerupButton.addActionListener(e -> {
+            runningMode.getShooter().setPowerup(EntityType.BETA);
+        });
+
+        gammaPowerupButton.addActionListener(e -> {
+            runningMode.getShooter().setPowerup(EntityType.GAMMA);
+        });
+
+        sigmaPowerupButton.addActionListener(e -> {
+            runningMode.getShooter().setPowerup(EntityType.SIGMA);
+        });
+
+        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel //set click listener for blender
+
+        alphaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        betaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        sigmaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        gammaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
     }
 
     /**

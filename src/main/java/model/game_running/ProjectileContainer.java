@@ -2,6 +2,7 @@ package model.game_running;
 
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
+import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
@@ -53,7 +54,7 @@ public class ProjectileContainer {
      * @param type:        the type of desired atom
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
-    public Atom getAtom(Coordinates coordinates, int type) {
+    private Atom getAtom(Coordinates coordinates, int type) {
         if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1))
             return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
                     PathPatternFactory.getInstance().getAtomPathPattern(),
@@ -82,8 +83,10 @@ public class ProjectileContainer {
      * @return the desired power-up if there are remaining power-ups of that type. null otherwise.
      */
     public Powerup getPowerUp(Coordinates coordinates, EntityType type) { //todo: to be implemented
-//        if (checkAndChange(powerUpMap, type, -1))
-//            return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(), PathPatternFactory.getInstance().getPowerUpPathPattern(), type);
+        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue() - 1, -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
+            return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
+                    PathPatternFactory.getInstance().getPowerUpPathPattern(),
+                    EntityType.forValue(type.getValue())); //TODO: FIX indices
         return null;
     }
 
