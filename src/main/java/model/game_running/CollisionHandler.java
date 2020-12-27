@@ -22,7 +22,9 @@ public class CollisionHandler implements CollisionVisitor {
 
     // this is a temporary method to calculate to increment the score of the player.
     // it will be changed a little when we connect this class to the statistics information.
-    private int incrementScore(int score){ return score++;}
+    private int incrementScore(int score){
+
+        return score++;}
 
     /**
      * this method handles the collision of atom entity with a molecule entity. it removes them from the game view.

@@ -14,6 +14,8 @@ import model.game_running.runnables.EntityGeneratorRunnable;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
+import utils.Coordinates;
+import utils.MathUtils;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -29,6 +31,7 @@ public class RunningMode {
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private final ProjectileContainer projectileContainer;
+    private final ProjectileContainer switchedProjectiles;
     private final Shooter shooter;
 
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
@@ -66,6 +69,17 @@ public class RunningMode {
                 config.getNumBetaAtoms(),
                 config.getNumSigmaAtoms(),
                 config.getNumGammaAtoms(),
+                0,
+                0,
+                0,
+                0);
+
+        this.switchedProjectiles = new ProjectileContainer(
+                this,
+                0,
+                0,
+                0,
+                0,
                 0,
                 0,
                 0,
@@ -165,6 +179,7 @@ public class RunningMode {
             endGame();
             return;
         }
+        // projectileContainer.decreaseAtoms(shotEntity.getType().getValue(), 1);
         addEntity(shotEntity);
     }
 
@@ -210,6 +225,22 @@ public class RunningMode {
         runningStateListener.onGameOver();
     }
 
+    public void setCurrentProjectile(){
+
+        if(projectileContainer.totalAtomCount == 0)
+            return;
+
+        double unitL = Configuration.getInstance().getUnitL();
+        int height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
+        int width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
+        int radius = (int) GameConstants.ATOM_RADIUS;
+        Coordinates nextAtomCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0,   radius + height / 2);
+        Projectile CurrentAtom = this.shooter.getCurrentProjectile();
+        Projectile nextAtom = this.projectileContainer.getRandomAtom(projectileCoord);
+        this.shooter.setCurrentProjectile(nextAtom);
+        projectileContainer.increaseAtoms(CurrentAtom.getType().getValue(), 1);
+
+    }
 
     public Blender getBlender() {
         return this.blender;

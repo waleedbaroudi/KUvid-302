@@ -25,7 +25,7 @@ public class ShooterDrawer implements Drawable {
         this.height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
         this.width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
         this.shooterImage = ImageResources.get(null, shooter.getSuperType(), width, height);
-       
+
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ShooterDrawer implements Drawable {
 
         if (projectile != null) {
             int r = (int) (unitL * (projectile.getSuperType() == SuperType.ATOM ? GameConstants.ATOM_RADIUS : GameConstants.POWERUP_RADIUS));
-            Coordinates projectileCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0, r + height / 2);
+            Coordinates projectileCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0,   r + height / 2);
             projectile.setCoordinates(projectileCoord);
             DrawableFactory.get(projectile).draw(g);
         }

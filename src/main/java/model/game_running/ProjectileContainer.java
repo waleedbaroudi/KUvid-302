@@ -58,7 +58,7 @@ public class ProjectileContainer {
      */
     public Atom getAtom(Coordinates coordinates, int type) {
         System.out.println(EntityType.forValue(type + 1));
-        if (checkAndChange(atomMap, type, -1))
+        if (checkAndChange(atomMap, type, -1)) // reset count to -1
             return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.forValue(type + 1)); //TODO: FIX IMMEDIATELY
         return null;
     }
@@ -135,6 +135,7 @@ public class ProjectileContainer {
             runningMode.updateStatisticsAtomCount(EntityType.forValue(type + 1), atomMap[type]);
         return true;
     }
+
 
     public int[] getAtomMap(){
         return this.atomMap;
