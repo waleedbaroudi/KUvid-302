@@ -67,19 +67,18 @@ public class EntityGeneratorRunnable extends GameRunnable {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
                 List<Integer> randomTypes = new ArrayList<>();
-                if(moleculeCountPerType.values().stream().reduce(0, Integer::sum) > 0)
+                if (moleculeCountPerType.values().stream().reduce(0, Integer::sum) > 0)
                     randomTypes.add(0);
-                if(blockerCountPerType.values().stream().reduce(0, Integer::sum) > 0)
+                if (blockerCountPerType.values().stream().reduce(0, Integer::sum) > 0)
                     randomTypes.add(1);
-                if(powerUpCountPerType.values().stream().reduce(0, Integer::sum) > 0)
+                if (powerUpCountPerType.values().stream().reduce(0, Integer::sum) > 0)
                     randomTypes.add(2);
 
                 Collections.shuffle(randomTypes);
-                if (randomTypes.isEmpty()){
+                if (randomTypes.isEmpty()) {
                     logger.info("[EntityGeneratorRunnable] OUT OF ENTITIES TO DROP");
                     runningMode.endGame();
-                }
-                else {
+                } else {
                     AutonomousEntity entity = GetRandomEntity(randomTypes.get(0));
                     this.runningMode.addEntity(entity);
                     //sleep before adding new objects
@@ -178,7 +177,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
         molecule.setCoordinates(new Coordinates(x_coord, 0));
 
         // spinning molecule
-        molecule.registerSpinningController(runningMode.getMovementRunnable());
+        if (molecule.isSpinnable())
+            molecule.registerSpinningController(runningMode.getMovementRunnable());
         return molecule;
     }
 }
