@@ -86,7 +86,7 @@ public class ProjectileContainer {
         if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue() - 1, -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
             return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
                     PathPatternFactory.getInstance().getPowerUpPathPattern(),
-                    EntityType.forValue(type.getValue())); //TODO: FIX indices
+                    EntityType.forValue(type.getValue()), false); //TODO: FIX indices
         return null;
     }
 

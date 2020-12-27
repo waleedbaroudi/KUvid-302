@@ -67,7 +67,7 @@ public class Shooter extends Entity {
      */
     private void adjustProjectilePosition() {
         getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(getHitbox().getRotationDegree()));
-        getCurrentProjectile().setCoordinates(getShootingCoords(getCoordinates(), getCurrentProjectile()));
+        getCurrentProjectile().setCoordinates(getShootingCoords(getCurrentProjectile()));
     }
 
 
@@ -75,11 +75,10 @@ public class Shooter extends Entity {
     // question: why the getShootingCoords takes a projectile as a param. Shouldn't it use the currentProjectile?
     /**
      *
-     * @param coordinates the coordinates of the shotoer
      * @param projectile the projectile that is on the tip of the shooter
      * @return the coordinate of the projectile where it will start moving
      */
-    private Coordinates getShootingCoords(Coordinates coordinates, Projectile projectile) {
+    private Coordinates getShootingCoords(Projectile projectile) {
         int height = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
         int atomRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
         int powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
