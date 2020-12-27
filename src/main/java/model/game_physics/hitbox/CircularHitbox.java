@@ -8,26 +8,16 @@ import java.util.ArrayList;
 
 public class CircularHitbox extends Hitbox {
     
-    private double angle;
     private double radius;
     private final int NUMBER_OF_POINTS = 8;
 
     public CircularHitbox(double radius){
         this.radius = radius;
-        this.angle = 0;
-    }
-    
-    /**
-     * rotates the hitbox of the owner object
-     */
-    @Override
-    public void rotate(double angle) {
-        this.angle += angle;
     }
 
     @Override
     public boolean isInside(Coordinates entityCoords, Coordinates checkCoords) {
-        checkCoords = MathUtils.applyRotation(-this.angle, entityCoords, checkCoords);
+        checkCoords = MathUtils.applyRotation(-getRotationDegree(), entityCoords, checkCoords);
         return MathUtils.isWithinCircle(entityCoords, this.radius   , checkCoords);
     }
 
@@ -38,7 +28,17 @@ public class CircularHitbox extends Hitbox {
     }
 
     @Override
+    public double getWidth() {
+        return this.radius * 2;
+    }
+
+    @Override
+    public double getHeight() {
+        return this.radius * 2;
+    }
+
+    @Override
     public String toString() {
-        return "CircularHitbox: radius = " + this.radius +", angle = " + angle;
+        return "CircularHitbox: radius = " + this.radius +", angle = " + getRotationDegree();
     }
 }
