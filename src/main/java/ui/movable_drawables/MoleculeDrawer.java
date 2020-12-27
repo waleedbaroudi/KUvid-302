@@ -39,5 +39,23 @@ public class MoleculeDrawer implements Drawable {
 
     }
 
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(),
+                molecule.getHitbox().getWidth(),
+                molecule.getHitbox().getHeight());
 
+        if (molecule.getStructure() == MoleculeStructure.CIRCULAR)
+            g.drawOval(
+                    drawingCoord.getPoint().x,
+                    drawingCoord.getPoint().y,
+                    (int) molecule.getHitbox().getWidth(),
+                    (int) molecule.getHitbox().getHeight());
+        else
+            g.drawRect(
+                    drawingCoord.getPoint().x,
+                    drawingCoord.getPoint().y,
+                    (int) molecule.getHitbox().getWidth(),
+                    (int) molecule.getHitbox().getHeight());
+    }
 }

@@ -30,5 +30,17 @@ public class PowerupDrawer implements Drawable {
         g.drawImage(powerupImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(),
+                powerup.getHitbox().getWidth(),
+                powerup.getHitbox().getHeight());
+
+        g.drawOval(
+                drawingCoord.getPoint().x,
+                drawingCoord.getPoint().y,
+                (int) powerup.getHitbox().getWidth(),
+                (int) powerup.getHitbox().getHeight());
+    }
 
 }

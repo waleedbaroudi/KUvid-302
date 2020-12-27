@@ -46,5 +46,17 @@ public class ShooterDrawer implements Drawable {
         g2d.setTransform(old);
     }
 
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(),
+                shooter.getHitbox().getWidth(),
+                shooter.getHitbox().getHeight());
+
+        g.drawRect(
+                drawingCoord.getPoint().x,
+                drawingCoord.getPoint().y,
+                (int) shooter.getHitbox().getWidth(),
+                (int) shooter.getHitbox().getHeight());
+    }
 
 }

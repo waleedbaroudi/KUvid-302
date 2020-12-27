@@ -29,5 +29,17 @@ public class BlockerDrawer implements Drawable {
         g.drawImage(blockerImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
     }
 
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+                blocker.getHitbox().getWidth(),
+                blocker.getHitbox().getHeight());
+
+        g.drawOval(
+                drawingCoord.getPoint().x,
+                drawingCoord.getPoint().y,
+                (int) blocker.getHitbox().getWidth(),
+                (int) blocker.getHitbox().getHeight());
+    }
 
 }
