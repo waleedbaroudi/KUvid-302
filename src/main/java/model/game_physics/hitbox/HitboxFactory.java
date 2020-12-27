@@ -45,4 +45,10 @@ public class HitboxFactory {
                 config.getUnitL() * GameConstants.SHOOTER_WIDTH,
                 config.getUnitL() * GameConstants.SHOOTER_HEIGHT);
     }
+
+    public Hitbox getLinearMoleculeHitbox() {
+        return new RectangularHitbox(
+                config.getUnitL() * GameConstants.MOLECULE_RADIUS * 2,
+                config.getUnitL() * GameConstants.LINEAR_MOLECULE_HEIGHT);
+    }
 }

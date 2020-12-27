@@ -7,6 +7,7 @@ import model.game_entities.Molecule;
 import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.EntityType;
 
+import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
@@ -26,8 +27,22 @@ public class MoleculeFactory {
 
     public Molecule getMolecule(EntityType type) {
         Coordinates defaultCoordinates = new Coordinates(0, 0);
-        return new Molecule(defaultCoordinates, HitboxFactory.getInstance().getMoleculeHitbox(),
+        Hitbox hitbox = getHitbox(type);
+        return new Molecule(defaultCoordinates, hitbox,
                 PathPatternFactory.getInstance().getMoleculePathPattern(type), type, getStructure(type));
+    }
+
+    private Hitbox getHitbox(EntityType type) {
+        switch (type) {
+            case ALPHA:
+                if (Configuration.getInstance().isLinearAlpha())
+                    return HitboxFactory.getInstance().getLinearMoleculeHitbox();
+            case BETA:
+                if (Configuration.getInstance().isLinearBeta())
+                    return HitboxFactory.getInstance().getLinearMoleculeHitbox();
+            default:
+                return HitboxFactory.getInstance().getMoleculeHitbox();
+        }
     }
 
     private MoleculeStructure getStructure(EntityType type) {

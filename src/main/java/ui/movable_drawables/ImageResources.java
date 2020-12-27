@@ -1,6 +1,7 @@
 package ui.movable_drawables;
 
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.SuperType;
 
 import javax.imageio.ImageIO;
@@ -15,17 +16,20 @@ public class ImageResources {
      * @param superType the main type of the entity
      * @param width     that will be used to scale the image
      * @param height    that will be used to scale the image
+     * @param structure of the molecule, null if supertype is not molecule
      * @return the corresponding image with the specified dimensions
      */
-    public static Image get(EntityType type, SuperType superType, int width, int height) {
+    public static Image get(EntityType type, SuperType superType, MoleculeStructure structure, int width, int height) {
         switch (superType) {
 
             //Entity is a Blocker, atom, powerup, or molecule, return the corresponding image
             case ATOM:
             case BLOCKER:
             case POWERUP:
-            case MOLECULE:
                 return getImage(superType + "/" + type + ".png", width, height);
+
+            case MOLECULE:
+                return getImage(superType + "/" + type + structure + ".png", width, height);
 
             //Entity is a Shooter, return shooter image
             case SHOOTER:

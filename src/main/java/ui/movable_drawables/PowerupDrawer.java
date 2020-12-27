@@ -21,7 +21,7 @@ public class PowerupDrawer implements Drawable {
     public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
-        this.powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(), 2 * radius, 2 * radius);
+        this.powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(),null, 2 * radius, 2 * radius);
     }
 
     @Override

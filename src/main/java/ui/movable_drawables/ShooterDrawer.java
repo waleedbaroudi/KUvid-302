@@ -28,7 +28,7 @@ public class ShooterDrawer implements Drawable {
         this.unitL = Configuration.getInstance().getUnitL();
         this.height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
         this.width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
-        this.shooterImage = ImageResources.get(null, shooter.getSuperType(), width, height);
+        this.shooterImage = ImageResources.get(null, shooter.getSuperType(),null, width, height);
 
     }
 

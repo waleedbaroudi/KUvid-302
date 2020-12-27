@@ -15,12 +15,12 @@ public class BlockerDrawer implements Drawable {
 
     private final Blocker blocker;
     private final int radius;
-    private Image blockerImage;
+    private final Image blockerImage;
 
     public BlockerDrawer(Blocker blocker) {
         this.blocker = blocker;
         this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_DIAMETER);
-        this.blockerImage = ImageResources.get(blocker.getType(), blocker.getSuperType(), radius, radius);
+        this.blockerImage = ImageResources.get(blocker.getType(), blocker.getSuperType(),null, radius, radius);
     }
 
     @Override
