@@ -7,6 +7,7 @@ import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
+import model.game_running.runnables.CollisionRunnable;
 import utils.Coordinates;
 
 /**
@@ -59,6 +60,12 @@ public class Blocker extends AutonomousEntity {
 
     public boolean isCollidedWithBlockingHitbox(AutonomousEntity entity) {
         return this.getBlockingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
+    @Override
+    public void reachBoundary(CollisionRunnable collisionRunnable) {
+        super.reachBoundary(collisionRunnable);
+        collisionRunnable.BlockerBoundaryBehavior(this);
     }
 
     @Override
