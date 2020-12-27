@@ -1,8 +1,7 @@
 package ui.movable_drawables;
 
-import model.game_building.Configuration;
-import model.game_building.GameConstants;
 import model.game_entities.Molecule;
+import model.game_entities.enums.MoleculeStructure;
 import utils.Coordinates;
 import utils.MathUtils;
 
@@ -15,13 +14,16 @@ import java.awt.geom.AffineTransform;
 public class MoleculeDrawer implements Drawable {
 
     private final Molecule molecule;
-    private final int radius;
     private final Image moleculeImage;
 
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_RADIUS);
-        this.moleculeImage = ImageResources.get(this.molecule.getType(), this.molecule.getSuperType(), 2 * radius, 2 * radius);
+        this.moleculeImage = ImageResources.get(
+                this.molecule.getType(),
+                this.molecule.getSuperType(),
+                molecule.getStructure(),
+                (int) molecule.getHitbox().getWidth(),
+                (int) molecule.getHitbox().getHeight());
     }
 
     @Override
@@ -29,9 +31,13 @@ public class MoleculeDrawer implements Drawable {
         // rotate the molecule
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
-        g2d.rotate(Math.toRadians(molecule.getRotationDegree()), molecule.getCoordinates().getPoint().getX(), molecule.getCoordinates().getPoint().getY());
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(), radius);
+        g2d.rotate(Math.toRadians(molecule.getRotationDegree()), molecule.getCoordinates().getPoint().x, molecule.getCoordinates().getPoint().y);
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(),
+                molecule.getHitbox().getWidth(), molecule.getHitbox().getHeight());
         g2d.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
         g2d.setTransform(old);
+
     }
+
+
 }

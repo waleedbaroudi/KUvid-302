@@ -18,9 +18,8 @@ public class HitboxFactory {
             return factory;
     }
 
-
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(config.getUnitL() * GameConstants.BLOCKER_DIAMETER);
+        return  new CircularHitbox(config.getUnitL() * GameConstants.BLOCKER_RADIUS);
     }
     public Hitbox getBlockingHitbox(){
         return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS);

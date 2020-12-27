@@ -117,8 +117,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (randomTypes.isEmpty())
             return null; //no more blockers
 
-        double l = GameConstants.BLOCKER_DIAMETER * config.getUnitL();
-        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_DIAMETER * config.getUnitL();
+        double l = GameConstants.BLOCKER_RADIUS * config.getUnitL();
+        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_RADIUS * config.getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGeneratorRunnable] generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
