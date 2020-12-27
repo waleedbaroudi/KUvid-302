@@ -1,27 +1,27 @@
 ---
-l: 75.0
+l: 70.0
 linearAlpha: false
 linearBeta: false
 spinningAlpha: false
 spinningBeta: false
 difficulty: 1
 atoms:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 75
+- 100
 powerups:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100
 molecules:
-- 20
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100
 blockers:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100
