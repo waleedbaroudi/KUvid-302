@@ -31,7 +31,6 @@ public class RunningMode {
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private final ProjectileContainer projectileContainer;
-    private final ProjectileContainer switchedProjectiles;
     private final Shooter shooter;
 
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
@@ -74,16 +73,7 @@ public class RunningMode {
                 0,
                 0);
 
-        this.switchedProjectiles = new ProjectileContainer(
-                this,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0);
+
 
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
@@ -236,7 +226,7 @@ public class RunningMode {
         int radius = (int) GameConstants.ATOM_RADIUS;
         Coordinates nextAtomCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0,   radius + height / 2);
         Projectile CurrentAtom = this.shooter.getCurrentProjectile();
-        Projectile nextAtom = this.projectileContainer.getRandomAtom(projectileCoord);
+        Projectile nextAtom = this.projectileContainer.getRandomAtom(nextAtomCoordinates);
         this.shooter.setCurrentProjectile(nextAtom);
         projectileContainer.increaseAtoms(CurrentAtom.getType().getValue(), 1);
 
