@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class RectangularHitbox extends Hitbox {
 
-    private double width, height;
-    private final int NUMBER_OF_POINTS = 8;
+    private final double width;
+    private final double height;
 
     public RectangularHitbox(double width, double height) {
         this.width = width;

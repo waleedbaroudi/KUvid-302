@@ -23,21 +23,21 @@ public class BlockerDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
                 blocker.getHitbox().getWidth(),
                 blocker.getHitbox().getHeight());
-        g.drawImage(blockerImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        g.drawImage(blockerImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
     }
 
     @Override
     public void drawHitbox(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
                 blocker.getHitbox().getWidth(),
                 blocker.getHitbox().getHeight());
 
         g.drawOval(
-                drawingCoord.getPoint().x,
-                drawingCoord.getPoint().y,
+                drawingCoordinates.getPoint().x,
+                drawingCoordinates.getPoint().y,
                 (int) blocker.getHitbox().getWidth(),
                 (int) blocker.getHitbox().getHeight());
     }

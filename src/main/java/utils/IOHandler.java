@@ -6,12 +6,8 @@ import model.game_building.ConfigBundle;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class IOHandler {
 
@@ -50,7 +46,7 @@ public class IOHandler {
     /**
      * Returns a ConfigBundle that is loaded from the YAML configuration file with the given name
      *
-     * @param fileName
+     * @param fileName the name of the file to read
      * @return a new configBundle read from the YAML file
      */
     public static ConfigBundle readConfigFromYaml(String fileName) {

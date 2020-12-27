@@ -8,8 +8,7 @@ import java.util.ArrayList;
 
 public class CircularHitbox extends Hitbox {
     
-    private double radius;
-    private final int NUMBER_OF_POINTS = 8;
+    private final double radius;
 
     public CircularHitbox(double radius){
         this.radius = radius;

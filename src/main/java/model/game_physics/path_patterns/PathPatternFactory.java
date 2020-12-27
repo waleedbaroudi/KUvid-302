@@ -11,7 +11,7 @@ import java.util.Arrays;
 // TODO: get the entity speed from the configuration
 public class PathPatternFactory {
     private static PathPatternFactory instance = null;
-    private Configuration config;
+    private final Configuration config;
 
     private PathPatternFactory(){
         config = Configuration.getInstance();
