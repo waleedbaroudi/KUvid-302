@@ -39,14 +39,16 @@ public class CollisionHandler implements CollisionVisitor {
 
     @Override
     public void handleCollision(Powerup powerup, Blocker blocker) {
-        if (blocker.getType().getValue() == powerup.getType().getValue())
+        if ((blocker.getType().getValue() == powerup.getType().getValue()) && !powerup.isFalling())
             defaultCollision(powerup, blocker);
     }
 
     @Override
     public void handleCollision(Shooter shooter, Powerup powerup) {
-        controller.collectPowerUp(powerup);
-        controller.removeEntity(powerup);
+        if(powerup.isFalling()) {
+            controller.collectPowerUp(powerup);
+            controller.removeEntity(powerup);
+        }
     }
 
     @Override
