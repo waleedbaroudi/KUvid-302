@@ -54,10 +54,7 @@ public class Shooter extends Entity {
     public Projectile shoot() {
         if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
-
-        System.err.println(getCurrentProjectile());
-        System.out.println("ITS NULLLLL");
-
+        
         this.adjustProjectilePosition();
         return this.reload();
     }
@@ -119,7 +116,10 @@ public class Shooter extends Entity {
         Projectile previousProjectile = getCurrentProjectile();
         Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
         if (currentPowerup != null) {
-            container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+            if (previousProjectile.superType == SuperType.ATOM)
+                container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+            else
+                container.addPowerUp((Powerup) previousProjectile);
             setCurrentProjectile(currentPowerup);
         }
     }
