@@ -1,18 +1,19 @@
 package model.game_entities;
 
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.MoleculeStructure;
-import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
+import model.game_running.Spinnable;
 import utils.Coordinates;
 
 /**
  * Molecule: Handles the Molecule game object.
  */
-public class Molecule extends AutonomousEntity {
+public class Molecule extends AutonomousEntity implements Spinnable {
 
     private MoleculeStructure structure;
 
@@ -28,6 +29,20 @@ public class Molecule extends AutonomousEntity {
 
     public MoleculeStructure getStructure() {
         return structure;
+    }
+
+    @Override
+    public double getRotationDegree() {
+        return this.getHitbox().getRotationDegree();
+    }
+
+    @Override
+    public void spin() {
+        this.getHitbox().rotate(GameConstants.SPINNING_SPEED);
+    }
+
+    public boolean isSpinnable() {
+        return structure == MoleculeStructure.LINEAR_SPINNING;
     }
 
     @Override

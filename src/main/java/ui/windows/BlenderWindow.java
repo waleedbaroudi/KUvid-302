@@ -31,6 +31,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
 
     Map<String, Integer> atomTypesRanks; // This map contains a mapping between atom types and their weights (1 to 4)
     Blender blender;
+
     public BlenderWindow(Blender blender, RunningMode runningMode) {
         super("blender");
         this.blender = blender;

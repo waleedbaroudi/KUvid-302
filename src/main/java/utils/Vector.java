@@ -1,5 +1,7 @@
 package utils;
 
+
+//TODO complete documentation
 /**
  * Immutable representation of a vecotr
  */

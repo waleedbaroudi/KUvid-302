@@ -3,6 +3,8 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Powerup;
+import model.game_entities.Entity;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
 import model.game_entities.enums.EntityType;
@@ -16,7 +18,7 @@ import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 import utils.MathUtils;
-
+import ui.windows.RunningWindow;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -25,7 +27,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
-    private final Configuration config; //TODO(check this)
     private GameStatistics statistics;
 
     //space objects
@@ -57,7 +58,7 @@ public class RunningMode {
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
-        config = Configuration.getInstance();
+        Configuration config = Configuration.getInstance();
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
@@ -95,6 +96,10 @@ public class RunningMode {
         entityGeneratorThread = new Thread(this.entityGeneratorRunnable);
 
         this.isInitialized = true;
+    }
+
+    public MovementRunnable getMovementRunnable() {
+        return movementRunnable;
     }
 
     /**
@@ -166,11 +171,19 @@ public class RunningMode {
     public void shootProjectile() {
         Projectile shotEntity = this.shooter.shoot();
         if (shotEntity == null) {
-            endGame();
+            if (noAtomsOnScreen())
+                endGame();
             return;
         }
         // projectileContainer.decreaseAtoms(shotEntity.getType().getValue(), 1);
         addEntity(shotEntity);
+    }
+
+    public boolean noAtomsOnScreen() {
+        for (Entity entity : autonomousEntities)
+            if (entity.getSuperType() == SuperType.ATOM)
+                return false;
+        return true;
     }
 
     /**
@@ -183,6 +196,7 @@ public class RunningMode {
 
     /**
      * TODO ADD DOCUMENTATION
+     *
      * @param entity to be removed
      */
     public void removeEntity(AutonomousEntity entity) {
@@ -197,9 +211,15 @@ public class RunningMode {
         this.statistics = gameStatistics;
     }
 
-    public void updateStatisticsAtomCount(EntityType type, int newCount) {
+    public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
         if (statistics != null)
-            statistics.changeProjectileCount(SuperType.ATOM, type, newCount);
+            statistics.changeProjectileCount(type, entityType, newCount);
+    }
+
+    public void updateHealth(int damageAmount) {
+        if (statistics != null)
+            if(statistics.decreaseHealth(damageAmount))
+                this.setRunningState(GameConstants.GAME_STATE_STOP);
     }
 
     public void updateTimer(int amountInMillis) {
@@ -211,7 +231,7 @@ public class RunningMode {
     }
 
     public void endGame() {
-        stop();
+        setRunningState(GameConstants.GAME_STATE_STOP);
         runningStateListener.onGameOver();
     }
 
@@ -240,6 +260,17 @@ public class RunningMode {
 
     public ProjectileContainer getProjectileContainer() {
         return this.projectileContainer;
+    }
+
+    public void increaseScore() {
+        statistics.incrementScore();
+    }
+
+    public void collectPowerUp(Powerup powerup) {
+        projectileContainer.addPowerUp(powerup);
+      }
+    public boolean isGameFinished() {
+        return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
 
     public interface RunningStateListener {

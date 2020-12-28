@@ -3,6 +3,7 @@ package model.game_entities;
 import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
+import model.game_running.runnables.CollisionRunnable;
 import utils.Coordinates;
 
 /**
@@ -48,5 +49,9 @@ abstract public class AutonomousEntity extends Entity {
      */
     public void move() {
         setCoordinates(this.getPathPattern().nextPosition());
+    }
+
+    public void reachBoundary(CollisionRunnable collisionRunnable) {
+        collisionRunnable.defaultBoundaryBehaviour(this);
     }
 }

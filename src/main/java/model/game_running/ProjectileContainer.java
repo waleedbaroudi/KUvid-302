@@ -2,6 +2,7 @@ package model.game_running;
 
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
+import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
@@ -9,7 +10,6 @@ import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -18,13 +18,11 @@ import java.util.Random;
  */
 public class ProjectileContainer {
 
-    //    private final HashMap<EntityType, Integer> atomMap; // keeps the number of remaining atoms per type.
-    private final HashMap<EntityType, Integer> powerUpMap; // keeps the number of power-ups per type.
-
     private final int[] atomMap;
+    private final int[] powerUpMap; // keeps the number of power-ups per type.
     int totalAtomCount;
 
-    private RunningMode runningMode;
+    private final RunningMode runningMode;
 
     Random random;
 
@@ -39,11 +37,11 @@ public class ProjectileContainer {
 
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
-        powerUpMap = new HashMap<>(); //todo make this an array too
-        powerUpMap.put(EntityType.ALPHA, numOfAlphaPowerUps);
-        powerUpMap.put(EntityType.BETA, numOfBetaPowerUps);
-        powerUpMap.put(EntityType.GAMMA, numOfGammaPowerUps);
-        powerUpMap.put(EntityType.SIGMA, numOfSigmaPowerUps);
+        powerUpMap = new int[4];
+        powerUpMap[0] = numOfAlphaPowerUps;
+        powerUpMap[1] = numOfBetaPowerUps;
+        powerUpMap[2] = numOfGammaPowerUps;
+        powerUpMap[3] = numOfSigmaPowerUps;
 
         random = new Random();
     }
@@ -56,23 +54,23 @@ public class ProjectileContainer {
      * @param type:        the type of desired atom
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
-    public Atom getAtom(Coordinates coordinates, int type) {
-        System.out.println(EntityType.forValue(type + 1));
-        if (checkAndChange(atomMap, type, -1)) // reset count to -1
-            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(), PathPatternFactory.getInstance().getAtomPathPattern(), EntityType.forValue(type + 1)); //TODO: FIX IMMEDIATELY
+    private Atom getAtom(Coordinates coordinates, int type) {
+        if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1))
+            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
+                    PathPatternFactory.getInstance().getAtomPathPattern(),
+                    EntityType.forValue(type + 1)); //TODO: FIX indices
         return null;
     }
 
     public Atom getRandomAtom(Coordinates coordinates) { //needs some refactoring
         if (totalAtomCount == 0)
             return null; //out of atoms
-        int atomType = 0;
+        int atomType;
         Atom atom = null;
         while (atom == null) {
             atomType = random.nextInt(4);
             atom = getAtom(coordinates, atomType);
         }
-        runningMode.updateStatisticsAtomCount(atom.getType(), atomMap[atomType]);
         return atom;
     }
 
@@ -85,9 +83,15 @@ public class ProjectileContainer {
      * @return the desired power-up if there are remaining power-ups of that type. null otherwise.
      */
     public Powerup getPowerUp(Coordinates coordinates, EntityType type) { //todo: to be implemented
-//        if (checkAndChange(powerUpMap, type, -1))
-//            return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(), PathPatternFactory.getInstance().getPowerUpPathPattern(), type);
+        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue() - 1, -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
+            return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
+                    PathPatternFactory.getInstance().getPowerUpPathPattern(),
+                    EntityType.forValue(type.getValue()), false); //TODO: FIX indices
         return null;
+    }
+
+    public void addPowerUp(Powerup powerup) {
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
     }
 
     /**
@@ -98,7 +102,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (player is not out of atoms)
      */
     public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, type - 1, -count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, -count); //todo: fix index
     }
 
 
@@ -110,7 +114,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (purpose TBD)
      */
     public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return checkAndChange(atomMap, type - 1, count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
     }
 
     /**
@@ -124,18 +128,19 @@ public class ProjectileContainer {
      *              number increases it
      * @return the result of the check and decrement.
      */
-    private boolean checkAndChange(int[] map, int type, int count) {
+    private boolean updateProjectileMap(int[] map, SuperType superType, int type, int count) {
         //System.out.println(type + " : " + count); //TODO: Change to logger
         int remaining = map[type];
         if (remaining < -count)
             return false;
         map[type] = remaining + count;
-        totalAtomCount += count;
-        if (runningMode != null)
-            runningMode.updateStatisticsAtomCount(EntityType.forValue(type + 1), atomMap[type]);
+        if (superType.equals(SuperType.ATOM))
+            totalAtomCount += count;
+        if (runningMode != null) {
+            runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
+        }
         return true;
     }
-
 
     public int[] getAtomMap(){
         return this.atomMap;
