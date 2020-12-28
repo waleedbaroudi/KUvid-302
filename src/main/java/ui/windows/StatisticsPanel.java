@@ -167,15 +167,15 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
      * retrieves images from ImageResources with the specified height and width
      */
     private void retrieveImages() {
-        atomAlphaImg = ImageResources.get(EntityType.ALPHA, SuperType.ATOM, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        atomBetaImg = ImageResources.get(EntityType.BETA, SuperType.ATOM, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        atomSigmaImg = ImageResources.get(EntityType.SIGMA, SuperType.ATOM, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        atomGammaImg = ImageResources.get(EntityType.GAMMA, SuperType.ATOM, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
 
-        powerupAlphaImg = ImageResources.get(EntityType.ALPHA, SuperType.POWERUP, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        powerupBetaImg = ImageResources.get(EntityType.BETA, SuperType.POWERUP, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        powerupSigmaImg = ImageResources.get(EntityType.SIGMA, SuperType.POWERUP, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        powerupGammaImg = ImageResources.get(EntityType.GAMMA, SuperType.POWERUP, null, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
 
         healthImg = ImageResources.getIcon("health", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         watchImg = ImageResources.getIcon("timer", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);

@@ -16,9 +16,7 @@ public class BlockerDrawer implements Drawable {
 
     public BlockerDrawer(Blocker blocker) {
         this.blocker = blocker;
-        this.blockerImage = ImageResources.get(blocker.getType(), blocker.getSuperType(), null,
-                (int) blocker.getHitbox().getWidth(),
-                (int) blocker.getHitbox().getHeight());
+        this.blockerImage = ImageResources.get(blocker);
     }
 
     @Override

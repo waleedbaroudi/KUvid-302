@@ -16,9 +16,7 @@ public class AtomDrawer implements Drawable {
 
     public AtomDrawer(Atom atom) {
         this.atom = atom;
-        this.atomImage = ImageResources.get(this.atom.getType(), this.atom.getSuperType(), null,
-                (int) atom.getHitbox().getWidth(),
-                (int) atom.getHitbox().getHeight());
+        this.atomImage = ImageResources.get(atom);
     }
 
     @Override

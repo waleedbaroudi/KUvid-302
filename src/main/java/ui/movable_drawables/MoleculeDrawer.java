@@ -18,12 +18,7 @@ public class MoleculeDrawer implements Drawable {
 
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
-        this.moleculeImage = ImageResources.get(
-                this.molecule.getType(),
-                this.molecule.getSuperType(),
-                molecule.getStructure(),
-                (int) molecule.getHitbox().getWidth(),
-                (int) molecule.getHitbox().getHeight());
+        this.moleculeImage = ImageResources.get(molecule);
     }
 
     @Override

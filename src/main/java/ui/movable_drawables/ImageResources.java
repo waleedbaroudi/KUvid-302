@@ -1,7 +1,9 @@
 package ui.movable_drawables;
 
+import model.game_entities.AutonomousEntity;
+import model.game_entities.Entity;
+import model.game_entities.Molecule;
 import model.game_entities.enums.EntityType;
-import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.SuperType;
 
 import javax.imageio.ImageIO;
@@ -10,26 +12,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class is responsible for providing images of entities and icons
+ */
 public class ImageResources {
+
     /**
-     * @param type      the subtype of the entity
-     * @param superType the main type of the entity
-     * @param width     that will be used to scale the image
-     * @param height    that will be used to scale the image
-     * @param structure of the molecule, null if supertype is not molecule
+     * @param entity the entity that needs an image to draw itself
      * @return the corresponding image with the specified dimensions
      */
-    public static Image get(EntityType type, SuperType superType, MoleculeStructure structure, int width, int height) {
-        switch (superType) {
+    public static Image get(Entity entity) {
+        int width = (int) entity.getHitbox().getWidth();
+        int height = (int) entity.getHitbox().getHeight();
 
+        switch (entity.getSuperType()) {
             //Entity is a Blocker, atom, powerup, or molecule, return the corresponding image
             case ATOM:
             case BLOCKER:
             case POWERUP:
-                return getImage(superType + "/" + type + ".png", width, height);
+                AutonomousEntity a = (AutonomousEntity) entity;
+                return getImage(a.getSuperType() + "/" + a.getType() + ".png", width, height);
 
             case MOLECULE:
-                return getImage(superType + "/" + type + structure + ".png", width, height);
+                Molecule b = (Molecule) entity;
+                return getImage(b.getSuperType() + "/" + b.getType() + b.getStructure() + ".png", width, height);
 
             //Entity is a Shooter, return shooter image
             case SHOOTER:
@@ -37,7 +43,7 @@ public class ImageResources {
 
             //A default black image will be returned in case of any error
             default:
-                System.err.println("Error: ImageResources::get :" + type + ", " + superType + ", " + width + ", " + height);
+                System.err.println("Error: ImageResources::get :" + entity.toString() + ", " + width + ", " + height);
                 return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
     }
@@ -50,6 +56,17 @@ public class ImageResources {
      */
     public static Image getIcon(String icon, int iconWidth, int iconHeight) {
         return getImage(icon + ".png", iconWidth, iconHeight);
+    }
+
+    /**
+     * @param superType  of the icon to be returned
+     * @param type       of the icon to be returned
+     * @param iconWidth  that will be used to scale the icon
+     * @param iconHeight that will be used to scale the icon
+     * @return the corresponding icon with the specified dimensions
+     */
+    public static Image getEntityIcon(SuperType superType, EntityType type, int iconWidth, int iconHeight) {
+        return getImage(superType + "/" + type + ".png", iconWidth, iconHeight);
     }
 
     /**
