@@ -201,4 +201,26 @@ class MathUtilsTest {
 
 
     }
+
+    @Test
+    void chooseFrom() {
+        int[] array = {1, 3, 5, 7, 9};
+
+        int randomElement = MathUtils.chooseFrom(array);
+        int randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+        randomElement = MathUtils.chooseFrom(array);
+        randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+        randomElement = MathUtils.chooseFrom(array);
+        randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+        randomElement = MathUtils.chooseFrom(array);
+        randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+    }
 }
