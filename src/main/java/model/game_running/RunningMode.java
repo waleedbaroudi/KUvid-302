@@ -26,7 +26,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
-    private final Configuration config; //TODO(check this)
     private GameStatistics statistics;
 
     //space objects
@@ -58,7 +57,7 @@ public class RunningMode {
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
-        config = Configuration.getInstance();
+        Configuration config = Configuration.getInstance();
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
@@ -211,6 +210,12 @@ public class RunningMode {
     public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
         if (statistics != null)
             statistics.changeProjectileCount(type, entityType, newCount);
+    }
+
+    public void updateHealth(int damageAmount) {
+        if (statistics != null)
+            if(statistics.decreaseHealth(damageAmount))
+                this.setRunningState(GameConstants.GAME_STATE_STOP);
     }
 
     public void updateTimer(int amountInMillis) {

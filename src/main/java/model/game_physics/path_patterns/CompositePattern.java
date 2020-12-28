@@ -11,8 +11,8 @@ import java.util.Collections;
  * for the last path finishes, it starts again from the first path pattern.
  */
 public class CompositePattern extends PathPattern {
-    private ArrayList<PathPattern> patterns;
-    private ArrayList<Integer> iterations;
+    private final ArrayList<PathPattern> patterns;
+    private final ArrayList<Integer> iterations;
     private PathPattern currentPattern;
     private int currentIteration;
     private int currentPatternIdx;
@@ -41,7 +41,7 @@ public class CompositePattern extends PathPattern {
      * @param circulate True if circulating around the patterns after the iterations of the last pattern finishes
      */
     public CompositePattern(ArrayList<PathPattern> patterns, int iterationSize, boolean circulate) {
-        this(patterns, new ArrayList<Integer>(Collections.nCopies(patterns.size(), iterationSize)), circulate);
+        this(patterns, new ArrayList<>(Collections.nCopies(patterns.size(), iterationSize)), circulate);
     }
 
     /**

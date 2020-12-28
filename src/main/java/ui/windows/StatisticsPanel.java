@@ -12,6 +12,8 @@ import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * This class draws the Statistics window. through this window, the player
@@ -32,9 +34,15 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     private Image powerupSigmaImg;
     private Image powerupGammaImg;
 
+    private Image powerupAlphaImg_bg;
+    private Image powerupBetaImg_bg;
+    private Image powerupSigmaImg_bg;
+    private Image powerupGammaImg_bg;
+
     private Image healthImg;
     private Image watchImg;
     private Image blenderImg;
+    private Image blenderImg_bg;
 
     // JLabels
     JLabel gammaAtomsNumberLabel;
@@ -53,11 +61,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     JLabel scoreLabel;
 
     // JButtons
-    JButton blenderButton;
-    JButton alphaPowerupButton;
-    JButton betaPowerupButton;
-    JButton gammaPowerupButton;
-    JButton sigmaPowerupButton;
+    JLabel blenderButton;
+    JLabel alphaPowerupButton;
+    JLabel betaPowerupButton;
+    JLabel gammaPowerupButton;
+    JLabel sigmaPowerupButton;
 
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
@@ -83,11 +91,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         // Defining our buttons
-        blenderButton = new JButton(new ImageIcon(blenderImg));
-        alphaPowerupButton = new JButton(new ImageIcon(powerupAlphaImg));
-        betaPowerupButton = new JButton(new ImageIcon(powerupBetaImg));
-        gammaPowerupButton = new JButton(new ImageIcon(powerupGammaImg));
-        sigmaPowerupButton = new JButton(new ImageIcon(powerupSigmaImg));
+        blenderButton = new JLabel(new ImageIcon(blenderImg));
+        alphaPowerupButton = new JLabel(new ImageIcon(powerupAlphaImg));
+        betaPowerupButton = new JLabel(new ImageIcon(powerupBetaImg));
+        gammaPowerupButton = new JLabel(new ImageIcon(powerupGammaImg));
+        sigmaPowerupButton = new JLabel(new ImageIcon(powerupSigmaImg));
 
         gridBagConstraints.ipady = 10;
         //x = 0
@@ -150,31 +158,107 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         setButtonListeners();
     }
 
-    private void setButtonListeners(){
-        //set click listener for blender
-        blenderButton.addActionListener(e -> {
-            runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
-            runningMode.getBlender().showBlender();
-        });
+    private void setButtonListeners() {
+        MouseAdapter blenderAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+                runningMode.getBlender().showBlender();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                blenderButton.setIcon(new ImageIcon(blenderImg_bg));
+            }
 
-        alphaPowerupButton.addActionListener(e -> {
-            runningMode.getShooter().setPowerup(EntityType.ALPHA);
-        });
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                blenderButton.setIcon(new ImageIcon(blenderImg));
+            }
+        };
+        MouseAdapter alphaPowerupAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.getShooter().setPowerup(EntityType.ALPHA);
 
-        betaPowerupButton.addActionListener(e -> {
-            runningMode.getShooter().setPowerup(EntityType.BETA);
-        });
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                alphaPowerupButton.setIcon(new ImageIcon(powerupAlphaImg_bg));
+            }
 
-        gammaPowerupButton.addActionListener(e -> {
-            runningMode.getShooter().setPowerup(EntityType.GAMMA);
-        });
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                alphaPowerupButton.setIcon(new ImageIcon(powerupAlphaImg));
+            }
+        };
+        MouseAdapter betaPowerupAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.getShooter().setPowerup(EntityType.BETA);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                betaPowerupButton.setIcon(new ImageIcon(powerupBetaImg_bg));
+            }
 
-        sigmaPowerupButton.addActionListener(e -> {
-            runningMode.getShooter().setPowerup(EntityType.SIGMA);
-        });
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                betaPowerupButton.setIcon(new ImageIcon(powerupBetaImg));
+            }
+        };
+        MouseAdapter sigmaPowerupAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.getShooter().setPowerup(EntityType.SIGMA);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                sigmaPowerupButton.setIcon(new ImageIcon(powerupSigmaImg_bg));
+            }
 
-        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel //set click listener for blender
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                sigmaPowerupButton.setIcon(new ImageIcon(powerupSigmaImg));
+            }
+        };
+        MouseAdapter gammaPowerupAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.getShooter().setPowerup(EntityType.GAMMA);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                gammaPowerupButton.setIcon(new ImageIcon(powerupGammaImg_bg));
+            }
 
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                gammaPowerupButton.setIcon(new ImageIcon(powerupGammaImg));
+            }
+        };
+
+        blenderButton.addMouseListener(blenderAdapter);
+        alphaPowerupButton.addMouseListener(alphaPowerupAdapter);
+        betaPowerupButton.addMouseListener(betaPowerupAdapter);
+        sigmaPowerupButton.addMouseListener(sigmaPowerupAdapter);
+        gammaPowerupButton.addMouseListener(gammaPowerupAdapter);
+
+        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         alphaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         betaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         sigmaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
@@ -206,19 +290,25 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
      * retrieves images from ImageResources with the specified height and width
      */
     private void retrieveImages() {
-        atomAlphaImg = ImageResources.get(EntityType.ALPHA, SuperType.ATOM, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        atomBetaImg = ImageResources.get(EntityType.BETA, SuperType.ATOM, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        atomSigmaImg = ImageResources.get(EntityType.SIGMA, SuperType.ATOM, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        atomGammaImg = ImageResources.get(EntityType.GAMMA, SuperType.ATOM, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
 
-        powerupAlphaImg = ImageResources.get(EntityType.ALPHA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        powerupBetaImg = ImageResources.get(EntityType.BETA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        powerupSigmaImg = ImageResources.get(EntityType.SIGMA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        powerupGammaImg = ImageResources.get(EntityType.GAMMA, SuperType.POWERUP, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+
+        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
+        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
+        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
+        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
 
         healthImg = ImageResources.getIcon("health", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         watchImg = ImageResources.getIcon("timer", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
         blenderImg = ImageResources.getIcon("blender", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        blenderImg_bg = ImageResources.getIcon("blender_bg", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
     }
 
     @Override

@@ -8,12 +8,14 @@ import utils.Vector;
 /**
  * This class serves as a super class for path patterns.
  */
-public abstract class PathPattern implements Cloneable{
+public abstract class PathPattern implements Cloneable {
     // step represent time stamp in the path. By default it starts from zero.
     private Coordinates currentCoords;
     public static Logger logger = Logger.getLogger(PathPattern.class.getName());
 
-    protected PathPattern (){}
+    protected PathPattern() {
+    }
+
     protected PathPattern(Coordinates currentCoords) {
         // Turn off the logger
         logger.setLevel(Level.OFF);
@@ -32,15 +34,16 @@ public abstract class PathPattern implements Cloneable{
         this.currentCoords = currentCoords;
     }
 
-    public Coordinates getNextNthPosition(Coordinates currentCoords, int N){
-        for(int i = 0;i<N;i++){
+    //TODO check if we need this? (Sarieh)
+    public Coordinates getNextNthPosition(Coordinates currentCoords, int N) {
+        for (int i = 0; i < N; i++)
             currentCoords = nextPosition();
-        }
         return currentCoords;
     }
 
     /**
      * get the next position in the path based on the given coordinates
+     *
      * @return the new coordinates
      */
     public abstract Coordinates nextPosition();
@@ -48,7 +51,8 @@ public abstract class PathPattern implements Cloneable{
     /**
      * Given a normalized normal vector of a wall that the path has collided with, reflect the path
      * pattern accordingly.
-     * @param n
+     *
+     * @param n the vector to be reflected
      */
     public abstract void reflect(Vector n);
 

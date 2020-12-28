@@ -2,9 +2,8 @@ package model.game_running.runnables;
 
 import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
-import model.game_entities.Entity;
+import model.game_entities.Blocker;
 import model.game_running.CollisionVisitor;
-import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import utils.Coordinates;
 import utils.Vector;
@@ -19,9 +18,9 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CollisionRunnable extends GameRunnable {
 
-    private RunningMode runningMode;
-    private CollisionVisitor collisionHandler;
-    private CountDownLatch latch;
+    private final RunningMode runningMode;
+    private final CollisionVisitor collisionHandler;
+    private final CountDownLatch latch;
 
     public CollisionRunnable(RunningMode runningMode, CollisionVisitor collisionHandler) {
         super();
@@ -29,7 +28,6 @@ public class CollisionRunnable extends GameRunnable {
         this.latch = new CountDownLatch(0);
         this.collisionHandler = collisionHandler;
     }
-
 
     @Override
     public void run() {
@@ -56,7 +54,7 @@ public class CollisionRunnable extends GameRunnable {
                     // check if the entity left the game view from the top or bottom boarder
                     if (sourceEntity.getCoordinates().getY() < 0 ||
                             sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height) {
-                        toRemoveEntities.add(sourceEntity);
+                        sourceEntity.reachBoundary(this);
                     }
 
                     ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
@@ -81,7 +79,19 @@ public class CollisionRunnable extends GameRunnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
+    }
+
+    public void defaultBoundaryBehaviour(AutonomousEntity entity) {
+        runningMode.removeEntity(entity);
+    }
+
+    public void BlockerBoundaryBehavior(Blocker blocker) {
+        for (AutonomousEntity entity : runningMode.getAutonomousEntities()) {
+            if (blocker.isCollidedWithExplodingHitbox(entity))
+                blocker.acceptCollision(collisionHandler, entity);
+        }
+        if(blocker.isExploded())
+            runningMode.removeEntity(blocker);
     }
 }

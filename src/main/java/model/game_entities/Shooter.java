@@ -65,23 +65,16 @@ public class Shooter extends Entity {
      */
     private void adjustProjectilePosition() {
         getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(getHitbox().getRotationDegree()));
-        getCurrentProjectile().setCoordinates(getShootingCoords(getCurrentProjectile()));
+        getCurrentProjectile().setCoordinates(getShootingCoords());
     }
 
 
-    //todo: see if we can make these constants as attributes for the shooter
-    // question: why the getShootingCoords takes a projectile as a param. Shouldn't it use the currentProjectile?
-
     /**
-     * @param projectile the projectile that is on the tip of the shooter
      * @return the coordinate of the projectile where it will start moving
      */
-    private Coordinates getShootingCoords(Projectile projectile) {
-        int height = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
-        int atomRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
-        int powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
-
-        int projectileRadius = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
+    private Coordinates getShootingCoords() {
+        int height = (int) getHitbox().getHeight();
+        int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
         double theta = MathUtils.angleComplement(this.getHitbox().getRotationDegree());
 
         int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height / 2, theta);
