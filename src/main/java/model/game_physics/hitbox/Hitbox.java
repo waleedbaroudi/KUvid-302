@@ -30,6 +30,9 @@ public abstract class Hitbox {
 
     public abstract ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords);
 
+    public abstract double getWidth();
+    public abstract double  getHeight();
+
     /**
      * Checks if a Hitbox is collided with a another Hitbox.
      * @param entityCoords The owner object coordinates.

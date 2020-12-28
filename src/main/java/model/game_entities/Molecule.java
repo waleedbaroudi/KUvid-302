@@ -8,6 +8,7 @@ import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.Spinnable;
 import model.game_running.CollisionVisitor;
+import model.game_running.runnables.MovementRunnable;
 import utils.Coordinates;
 
 /**
@@ -16,6 +17,7 @@ import utils.Coordinates;
 public class Molecule extends AutonomousEntity implements Spinnable {
 
     private MoleculeStructure structure;
+
     public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.MOLECULE;
@@ -40,6 +42,9 @@ public class Molecule extends AutonomousEntity implements Spinnable {
         this.getHitbox().rotate(GameConstants.SPINNING_SPEED);
     }
 
+    public boolean isSpinnable() {
+        return structure == MoleculeStructure.LINEAR_SPINNING;
+    }
 
     @Override
     public String toString() {

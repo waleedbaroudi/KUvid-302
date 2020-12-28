@@ -11,21 +11,39 @@ import java.awt.*;
 /**
  * This class is responsible for drawing an Atom given the Atom entity in the constructor
  */
-public class AtomDrawer implements Drawable{
+public class AtomDrawer implements Drawable {
 
     private final Atom atom;
-    private final int radius;
     private final Image atomImage;
 
     public AtomDrawer(Atom atom) {
         this.atom = atom;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
-        this.atomImage = ImageResources.get(this.atom.getType(), this.atom.getSuperType(), 2 * radius, 2 * radius);
+        this.atomImage = ImageResources.get(this.atom.getType(), this.atom.getSuperType(), null,
+                (int) atom.getHitbox().getWidth(),
+                (int) atom.getHitbox().getHeight());
     }
 
     @Override
     public void draw(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(), radius);
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(),
+                atom.getHitbox().getWidth(),
+                atom.getHitbox().getHeight());
+
         g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+
     }
+
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(),
+                atom.getHitbox().getWidth(),
+                atom.getHitbox().getHeight());
+
+        g.drawOval(
+                drawingCoord.getPoint().x,
+                drawingCoord.getPoint().y,
+                (int) atom.getHitbox().getWidth(),
+                (int) atom.getHitbox().getHeight());
+    }
+
 }

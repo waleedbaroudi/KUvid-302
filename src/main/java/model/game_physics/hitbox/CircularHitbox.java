@@ -28,6 +28,16 @@ public class CircularHitbox extends Hitbox {
     }
 
     @Override
+    public double getWidth() {
+        return this.radius * 2;
+    }
+
+    @Override
+    public double getHeight() {
+        return this.radius * 2;
+    }
+
+    @Override
     public String toString() {
         return "CircularHitbox: radius = " + this.radius +", angle = " + getRotationDegree();
     }
