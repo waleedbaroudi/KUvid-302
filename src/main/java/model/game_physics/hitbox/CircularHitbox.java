@@ -8,8 +8,7 @@ import java.util.ArrayList;
 
 public class CircularHitbox extends Hitbox {
     
-    private double radius;
-    private final int NUMBER_OF_POINTS = 8;
+    private final double radius;
 
     public CircularHitbox(double radius){
         this.radius = radius;
@@ -25,6 +24,16 @@ public class CircularHitbox extends Hitbox {
     public ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords){
         Vector arcVector = new Vector(entityCoords, new Coordinates(entityCoords.getX()+this.radius, entityCoords.getY()));
         return MathUtils.coordinatesAroundCircle(arcVector, NUMBER_OF_POINTS);
+    }
+
+    @Override
+    public double getWidth() {
+        return this.radius * 2;
+    }
+
+    @Override
+    public double getHeight() {
+        return this.radius * 2;
     }
 
     @Override

@@ -1,10 +1,8 @@
 package model.game_entities;
 
-import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_running.Collidable;
-import model.game_running.CollisionVisitor;
 import org.apache.log4j.Logger;
 import utils.Coordinates;
 

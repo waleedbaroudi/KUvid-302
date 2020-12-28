@@ -9,8 +9,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of atom entity with powerup entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param atom
-     * @param powerup
+     * @param atom to be checked if collision happened
+     * @param powerup to be checked if collision happened
      */
     default void handleCollision(Atom atom, Powerup powerup) {
     }
@@ -21,8 +21,8 @@ public interface CollisionVisitor {
      * this method is to handle atom collision with a molecule entity.
      * it will be overridden in collisionHandler class from the side of atom entity.
      *
-     * @param atom
-     * @param molecule
+     * @param atom to be checked if collision happened
+     * @param molecule to be checked if collision happened
      */
     void handleCollision(Atom atom, Molecule molecule);
 
@@ -30,8 +30,8 @@ public interface CollisionVisitor {
      * this method is to handle atom collision with a blocker entity.
      * it will be overridden in collisionHandler class from the side of atom entity.
      *
-     * @param atom
-     * @param blocker
+     * @param atom to be checked if collision happened
+     * @param blocker to be checked if collision happened
      */
     void handleCollision(Atom atom, Blocker blocker);
 
@@ -39,8 +39,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of atom entity with a shooter entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param atom
-     * @param shooter
+     * @param atom to be checked if collision happened
+     * @param shooter to be checked if collision happened
      */
     default void handleCollision(Atom atom, Shooter shooter) {
     }
@@ -51,8 +51,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of atom entity with another atom entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param atom1
-     * @param atom2
+     * @param atom1 to be checked if collision happened
+     * @param atom2 to be checked if collision happened
      */
     default void handleCollision(Atom atom1, Atom atom2) {
     }
@@ -65,8 +65,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of powerup entity with another a powerup entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param powerup1
-     * @param powerup2
+     * @param powerup1 to be checked if collision happened
+     * @param powerup2 to be checked if collision happened
      */
     default void handleCollision(Powerup powerup1, Powerup powerup2) {
     }
@@ -77,8 +77,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of powerup entity with a molecule entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param powerup
-     * @param molecule
+     * @param powerup to be checked if collision happened
+     * @param molecule to be checked if collision happened
      */
     default void handleCollision(Powerup powerup, Molecule molecule) {
     }
@@ -89,8 +89,8 @@ public interface CollisionVisitor {
      * this methods is to handle the collision of powerup entity with a blocker entity.
      * it will be overridden in collisionHandler class from the side of powerup entity.
      *
-     * @param powerup
-     * @param blocker
+     * @param powerup to be checked if collision happened
+     * @param blocker to be checked if collision happened
      */
     void handleCollision(Powerup powerup, Blocker blocker);
 
@@ -100,8 +100,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of powerup entity with an atom entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param powerup
-     * @param atom
+     * @param powerup to be checked if collision happened
+     * @param atom to be checked if collision happened
      */
     default void handleCollision(Powerup powerup, Atom atom) {
     }
@@ -115,8 +115,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of molecule entity with a powerup entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param molecule
-     * @param powerup
+     * @param molecule to be checked if collision happened
+     * @param powerup to be checked if collision happened
      */
     default void handleCollision(Molecule molecule, Powerup powerup) {
     }
@@ -127,8 +127,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of molecule entity with a molecule entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param molecule1
-     * @param molecule2
+     * @param molecule1 to be checked if collision happened
+     * @param molecule2 to be checked if collision happened
      */
     default void handleCollision(Molecule molecule1, Molecule molecule2) {
     }
@@ -138,8 +138,8 @@ public interface CollisionVisitor {
      * this methods is to handle the collision of molecule entity with a blocker entity.
      * it will be overridden in collisionHandler class from the side of molecule entity.
      *
-     * @param molecule
-     * @param blocker
+     * @param molecule to be checked if collision happened
+     * @param blocker to be checked if collision happened
      */
     void handleCollision(Molecule molecule, Blocker blocker);
 
@@ -147,8 +147,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of molecule entity with a shooter entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param molecule
-     * @param shooter
+     * @param molecule to be checked if collision happened
+     * @param shooter to be checked if collision happened
      */
     default void handleCollision(Molecule molecule, Shooter shooter) {
     }
@@ -159,8 +159,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of molecule entity with an atom entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param molecule
-     * @param atom
+     * @param molecule to be checked if collision happened
+     * @param atom to be checked if collision happened
      */
     default void handleCollision(Molecule molecule, Atom atom) {
     }
@@ -175,8 +175,8 @@ public interface CollisionVisitor {
      * since the collision action of blocker with powerup is already implemented from the powerup side,
      * the method is default.
      *
-     * @param blocker
-     * @param powerup
+     * @param blocker to be checked if collision happened
+     * @param powerup to be checked if collision happened
      */
     default void handleCollision(Blocker blocker, Powerup powerup) {
     }
@@ -188,8 +188,8 @@ public interface CollisionVisitor {
      * since the collision action of blocker with molecule is already implemented from the molecule side,
      * the method is default.
      *
-     * @param blocker
-     * @param molecule
+     * @param blocker to be checked if collision happened
+     * @param molecule to be checked if collision happened
      */
     default void handleCollision(Blocker blocker, Molecule molecule) {
     }
@@ -200,8 +200,8 @@ public interface CollisionVisitor {
      * this methods is supposed to handle the collision of blocker entity with a blocker entity.
      * since no action is done in this type of collision, the method is default.
      *
-     * @param blocker1
-     * @param blocker2
+     * @param blocker1 to be checked if collision happened
+     * @param blocker2 to be checked if collision happened
      */
     default void handleCollision(Blocker blocker1, Blocker blocker2) {
     }
@@ -212,8 +212,8 @@ public interface CollisionVisitor {
      * this methods is to handle the collision of blocker entity with a shooter entity.
      * it will be overridden in collisionHandler class from the side of blocker entity.
      *
-     * @param blocker
-     * @param shooter
+     * @param blocker to be checked if collision happened
+     * @param shooter to be checked if collision happened
      */
     void handleCollision(Shooter shooter, Blocker blocker);
 
@@ -222,8 +222,8 @@ public interface CollisionVisitor {
      * since the collision action of blocker with an atom is already implemented from the atom side,
      * the method is default.
      *
-     * @param blocker
-     * @param atom2
+     * @param blocker to be checked if collision happened
+     * @param atom2 to be checked if collision happened
      */
     default void handleCollision(Blocker blocker, Atom atom2) {
         // todo: handle this after meeting and effect hitbox feature.
@@ -233,8 +233,8 @@ public interface CollisionVisitor {
      * this methods is to handle the collision of powerup entity with a shooter entity.
      * it will be overridden in collisionHandler class from the side of powerup entity.
      *
-     * @param powerup
-     * @param shooter
+     * @param powerup to be checked if collision happened
+     * @param shooter to be checked if collision happened
      */
     void handleCollision(Shooter shooter, Powerup powerup);
 

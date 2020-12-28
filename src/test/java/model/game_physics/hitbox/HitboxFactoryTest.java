@@ -1,13 +1,6 @@
 package model.game_physics.hitbox;
 
 import org.junit.jupiter.api.Test;
-import utils.Coordinates;
-import utils.Vector;
-import model.game_entities.enums.HitboxType;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HitboxFactoryTest {
 

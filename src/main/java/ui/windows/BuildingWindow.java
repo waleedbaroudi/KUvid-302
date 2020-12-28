@@ -2,14 +2,11 @@ package ui.windows;
 
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
-import model.game_building.ConfigPreset;
 import model.game_building.GameConstants;
 import utils.IOHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
@@ -95,7 +92,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      * Here we place our components to the panel that will be added to the JFrame
      * after.
      *
-     * @param panel
+     * @param panel a JPanel in which the components will be placed
      */
     private void placeComponents(JPanel panel) {
         // Setting the layout of the panel
@@ -233,7 +230,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         JLabel difficultyLabel = new JLabel("Difficulty ");
         panel.add(difficultyLabel);
 
-        difficultyBox = new JComboBox<String>(difficultyLevels);
+        difficultyBox = new JComboBox<>(difficultyLevels);
         difficultyBox.setSelectedIndex(1);
         panel.add(difficultyBox);
 
@@ -314,13 +311,10 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      * if the linear Alpha option is un-ticked.
      */
     private void addAlphaCheckboxActionListener() {
-        isLinearAlpha.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                isSpinningAlpha.setEnabled(isLinearAlpha.isSelected());
-                if (!isLinearAlpha.isSelected())
-                    isSpinningAlpha.setSelected(false);
-            }
+        isLinearAlpha.addActionListener(e -> {
+            isSpinningAlpha.setEnabled(isLinearAlpha.isSelected());
+            if (!isLinearAlpha.isSelected())
+                isSpinningAlpha.setSelected(false);
         });
     }
 

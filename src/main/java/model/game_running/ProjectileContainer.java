@@ -21,7 +21,7 @@ public class ProjectileContainer {
     private final int[] powerUpMap; // keeps the number of power-ups per type.
     int totalAtomCount;
 
-    private RunningMode runningMode;
+    private final RunningMode runningMode;
 
     Random random;
 
@@ -64,7 +64,7 @@ public class ProjectileContainer {
     public Atom getRandomAtom(Coordinates coordinates) { //needs some refactoring
         if (totalAtomCount == 0)
             return null; //out of atoms
-        int atomType = 0;
+        int atomType;
         Atom atom = null;
         while (atom == null) {
             atomType = random.nextInt(4);

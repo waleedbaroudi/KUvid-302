@@ -1,17 +1,11 @@
 package ui.windows;
 
 import model.game_building.ConfigBundle;
-import model.game_building.ConfigConfirmation;
 import model.game_building.ConfigPreset;
-import model.game_building.GameConstants;
 import utils.IOHandler;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSelectionListener {
     ConfigPreset configPreset;
