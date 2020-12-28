@@ -2,6 +2,8 @@ package model.game_building;
 
 import utils.IOHandler;
 
+import java.io.IOException;
+
 public class ConfigPreset {
     PresetSelectionListener listener;
 
@@ -10,10 +12,10 @@ public class ConfigPreset {
     }
 
 
-    public void getConfigBundleFromFile(String filename) {
+    public void getConfigBundleFromFile(String filename) throws IOException {
         ConfigBundle bundle = IOHandler.readConfigFromYaml(filename);
         if (bundle == null)
-            listener.onNoPresetsFound("could not load preset configurations!");
+            listener.onPresetsFailure("could not load preset configurations!");
         else
             listener.onSelectedPreset(bundle);
     }
@@ -28,6 +30,6 @@ public class ConfigPreset {
         /**
          * if the user has no presets saved.
          */
-        void onNoPresetsFound(String message);
+        void onPresetsFailure(String message);
     }
 }
