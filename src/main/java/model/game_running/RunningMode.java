@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Powerup;
 import model.game_entities.Entity;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
@@ -25,7 +26,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
-    private final Configuration config; //TODO(check this)
     private GameStatistics statistics;
 
     //space objects
@@ -57,7 +57,7 @@ public class RunningMode {
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
-        config = Configuration.getInstance();
+        Configuration config = Configuration.getInstance();
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
@@ -93,6 +93,10 @@ public class RunningMode {
         entityGeneratorThread = new Thread(this.entityGeneratorRunnable);
 
         this.isInitialized = true;
+    }
+
+    public MovementRunnable getMovementRunnable() {
+        return movementRunnable;
     }
 
     /**
@@ -203,9 +207,15 @@ public class RunningMode {
         this.statistics = gameStatistics;
     }
 
-    public void updateStatisticsAtomCount(EntityType type, int newCount) {
+    public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
         if (statistics != null)
-            statistics.changeProjectileCount(SuperType.ATOM, type, newCount);
+            statistics.changeProjectileCount(type, entityType, newCount);
+    }
+
+    public void updateHealth(int damageAmount) {
+        if (statistics != null)
+            if(statistics.decreaseHealth(damageAmount))
+                this.setRunningState(GameConstants.GAME_STATE_STOP);
     }
 
     public void updateTimer(int amountInMillis) {
@@ -233,6 +243,13 @@ public class RunningMode {
         return this.projectileContainer;
     }
 
+    public void increaseScore() {
+        statistics.incrementScore();
+    }
+
+    public void collectPowerUp(Powerup powerup) {
+        projectileContainer.addPowerUp(powerup);
+      }
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }

@@ -164,4 +164,41 @@ class MathUtilsTest {
         System.out.println(Arrays.toString(points));
         **/
     }
+
+    @Test
+    void distanceBetween() {
+        double epsilon = 0.001;
+
+        Coordinates firstPoint = new Coordinates(0,0);
+        Coordinates secondPoint = new Coordinates(1,1);
+
+        assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - Math.sqrt(2)) <= epsilon);
+
+        firstPoint = new Coordinates(-1,-1);
+        secondPoint = new Coordinates(-2,-2);
+
+        assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - Math.sqrt(2)) <= epsilon);
+
+        firstPoint = new Coordinates(-1,-1);
+        secondPoint = new Coordinates(0,0);
+
+        assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - Math.sqrt(2)) <= epsilon);
+
+        firstPoint = new Coordinates(-1,-1);
+        secondPoint = new Coordinates(1,1);
+
+        assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - Math.sqrt(8)) <= epsilon);
+
+        firstPoint = new Coordinates(1,1);
+        secondPoint = new Coordinates(3,1);
+
+        assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - 2) <= epsilon);
+
+        firstPoint = new Coordinates(-1,1);
+        secondPoint = new Coordinates(3,1);
+
+        assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - 4) <= epsilon);
+
+
+    }
 }

@@ -7,7 +7,7 @@ import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
-public class PowerupFactory {
+public class PowerupFactory { // TODO: This class may not be needed. Do it like projectile container.
 
     private static PowerupFactory powerupFactory = new PowerupFactory();
 
@@ -25,7 +25,7 @@ public class PowerupFactory {
         Coordinates defaultCoordinates = new Coordinates(0, 0);
 
         return new Powerup(defaultCoordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
-                PathPatternFactory.getInstance().getPowerUpPathPattern(), type);
+                PathPatternFactory.getInstance().getPowerUpPathPattern(), type, true);
     }
 }
 

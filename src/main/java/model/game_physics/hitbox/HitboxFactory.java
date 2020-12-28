@@ -18,10 +18,17 @@ public class HitboxFactory {
             return factory;
     }
 
-
     public Hitbox getBlockerHitbox(){
-        return  new CircularHitbox(config.getUnitL() * GameConstants.BLOCKER_DIAMETER);
+        return  new CircularHitbox(config.getUnitL() * GameConstants.BLOCKER_RADIUS);
     }
+    public Hitbox getBlockingHitbox(){
+        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS);
+    }
+
+    public Hitbox getExplosionHitbox(){
+        return  new CircularHitbox(Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLOSION_RADIUS);
+    }
+
     public Hitbox getAtomHitbox(){
         return new CircularHitbox(config.getUnitL() * GameConstants.ATOM_RADIUS);
     }
@@ -36,5 +43,11 @@ public class HitboxFactory {
         return new RectangularHitbox(
                 config.getUnitL() * GameConstants.SHOOTER_WIDTH,
                 config.getUnitL() * GameConstants.SHOOTER_HEIGHT);
+    }
+
+    public Hitbox getLinearMoleculeHitbox() {
+        return new RectangularHitbox(
+                config.getUnitL() * GameConstants.MOLECULE_RADIUS * 2,
+                config.getUnitL() * GameConstants.LINEAR_MOLECULE_HEIGHT);
     }
 }

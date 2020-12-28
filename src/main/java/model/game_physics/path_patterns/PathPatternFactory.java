@@ -11,7 +11,7 @@ import java.util.Arrays;
 // TODO: get the entity speed from the configuration
 public class PathPatternFactory {
     private static PathPatternFactory instance = null;
-    private Configuration config;
+    private final Configuration config;
 
     private PathPatternFactory(){
         config = Configuration.getInstance();
@@ -39,7 +39,7 @@ public class PathPatternFactory {
 
     public PathPattern getAtomPathPattern(double angle){
         // rotate the upward vector speed
-        Vector rotatedVector = (new Vector(0, -config.getStraightPatternSpeed())).rotateVector(angle);
+        Vector rotatedVector = (new Vector(0, -config.getAtomSpeed())).rotateVector(angle);
         return new StraightPattern(new Velocity(rotatedVector));
     }
     public PathPattern getAtomPathPattern(){

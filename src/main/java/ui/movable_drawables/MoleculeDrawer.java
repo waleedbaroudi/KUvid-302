@@ -1,12 +1,12 @@
 package ui.movable_drawables;
 
-import model.game_building.Configuration;
-import model.game_building.GameConstants;
 import model.game_entities.Molecule;
+import model.game_entities.enums.MoleculeStructure;
 import utils.Coordinates;
 import utils.MathUtils;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * This class is responsible for drawing a Molecule given a Molecule entity in the constructor
@@ -14,18 +14,43 @@ import java.awt.*;
 public class MoleculeDrawer implements Drawable {
 
     private final Molecule molecule;
-    private final int radius;
     private final Image moleculeImage;
 
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
-        this.radius = (int) (Configuration.getInstance().getUnitL() * GameConstants.MOLECULE_RADIUS);
-        this.moleculeImage = ImageResources.get(this.molecule.getType(), this.molecule.getSuperType(), 2 * radius, 2 * radius);
+        this.moleculeImage = ImageResources.get(molecule);
     }
 
     @Override
     public void draw(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(), radius);
-        g.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        // rotate the molecule
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform old = g2d.getTransform();
+        g2d.rotate(Math.toRadians(molecule.getRotationDegree()), molecule.getCoordinates().getPoint().x, molecule.getCoordinates().getPoint().y);
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(molecule.getCoordinates(),
+                molecule.getHitbox().getWidth(), molecule.getHitbox().getHeight());
+        g2d.drawImage(moleculeImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
+        g2d.setTransform(old);
+
+    }
+
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(molecule.getCoordinates(),
+                molecule.getHitbox().getWidth(),
+                molecule.getHitbox().getHeight());
+
+        if (molecule.getStructure() == MoleculeStructure.CIRCULAR)
+            g.drawOval(
+                    drawingCoordinates.getPoint().x,
+                    drawingCoordinates.getPoint().y,
+                    (int) molecule.getHitbox().getWidth(),
+                    (int) molecule.getHitbox().getHeight());
+        else
+            g.drawRect(
+                    drawingCoordinates.getPoint().x,
+                    drawingCoordinates.getPoint().y,
+                    (int) molecule.getHitbox().getWidth(),
+                    (int) molecule.getHitbox().getHeight());
     }
 }

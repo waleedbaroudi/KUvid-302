@@ -22,12 +22,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
     private Configuration config;
 
     private Map<EntityType, Integer> moleculeCountPerType, blockerCountPerType, powerUpCountPerType;
-
-    private int totalMoleculeCount, totalBlockerCount, totalPowerUpCount = 0;
-
     private RunningMode runningMode;
 
-    private static final Random random = new Random();
     private static final Logger logger = Logger.getLogger(EntityGeneratorRunnable.class.getName());
 
 
@@ -48,21 +44,20 @@ public class EntityGeneratorRunnable extends GameRunnable {
         moleculeCountPerType.put(EntityType.BETA, config.getNumBetaMolecules());
         moleculeCountPerType.put(EntityType.GAMMA, config.getNumGammaMolecules());
         moleculeCountPerType.put(EntityType.SIGMA, config.getNumSigmaMolecules());
-        for (int count : moleculeCountPerType.values()) totalMoleculeCount += count;
+
         //fill blocker count map
         blockerCountPerType = new HashMap<>();
         blockerCountPerType.put(EntityType.ALPHA, config.getNumAlphaBlockers());
         blockerCountPerType.put(EntityType.BETA, config.getNumBetaBlockers());
         blockerCountPerType.put(EntityType.GAMMA, config.getNumGammaBlockers());
         blockerCountPerType.put(EntityType.SIGMA, config.getNumSigmaBlockers());
-        for (int count : blockerCountPerType.values()) totalBlockerCount += count;
+
         //fill power-up count map
         powerUpCountPerType = new HashMap<>();
         powerUpCountPerType.put(EntityType.ALPHA, config.getNumAlphaPowerups());
         powerUpCountPerType.put(EntityType.BETA, config.getNumBetaPowerups());
         powerUpCountPerType.put(EntityType.GAMMA, config.getNumGammaPowerups());
         powerUpCountPerType.put(EntityType.SIGMA, config.getNumSigmaPowerups());
-        for (int count : powerUpCountPerType.values()) totalPowerUpCount += count;
     }
 
     @Override
@@ -71,18 +66,24 @@ public class EntityGeneratorRunnable extends GameRunnable {
         while (running) {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
-                if ((totalBlockerCount + totalMoleculeCount + totalPowerUpCount) == 0) {
+                List<Integer> randomTypes = new ArrayList<>();
+                if (moleculeCountPerType.values().stream().reduce(0, Integer::sum) > 0)
+                    randomTypes.add(0);
+                if (blockerCountPerType.values().stream().reduce(0, Integer::sum) > 0)
+                    randomTypes.add(1);
+                if (powerUpCountPerType.values().stream().reduce(0, Integer::sum) > 0)
+                    randomTypes.add(2);
+
+                Collections.shuffle(randomTypes);
+                if (randomTypes.isEmpty()) {
                     logger.info("[EntityGeneratorRunnable] OUT OF ENTITIES TO DROP");
                     runningMode.endGame();
+                } else {
+                    AutonomousEntity entity = GetRandomEntity(randomTypes.get(0));
+                    this.runningMode.addEntity(entity);
+                    //sleep before adding new objects
+                    Thread.sleep(config.getDropRate());
                 }
-                AutonomousEntity entity = null;
-                while (entity == null) {
-                    int choice = random.nextInt(3);
-                    entity = GetRandomEntity(choice);
-                }
-                this.runningMode.addEntity(entity);
-                //sleep before adding new objects
-                Thread.sleep(config.getDropRate());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -108,22 +109,22 @@ public class EntityGeneratorRunnable extends GameRunnable {
      * @return a Blocker of a random type
      */
     public Blocker generateBlocker() {
-        // (MOAYED) TODO: if we agreed on this refactoring of blocker, change the rest accordingly
         List<Integer> randomTypes = Stream.of(1, 2, 3, 4)
-                .filter(c -> powerUpCountPerType.get(EntityType.forValue(c)) > 0)
+                .filter(c -> blockerCountPerType.get(EntityType.forValue(c)) > 0)
                 .collect(Collectors.toList());
         Collections.shuffle(randomTypes);
 
         if (randomTypes.isEmpty())
             return null; //no more blockers
 
-        double l = GameConstants.BLOCKER_DIAMETER * config.getUnitL() / 2.0;
-        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_DIAMETER * config.getUnitL() / 2.0;
+        double l = GameConstants.BLOCKER_RADIUS * config.getUnitL();
+        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_RADIUS * config.getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGeneratorRunnable] generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
+
         Blocker blocker = BlockerFactory.getInstance().getBlocker(EntityType.forValue(randomTypes.get(0)));
         blockerCountPerType.replace(blocker.getType(), blockerCountPerType.get(blocker.getType()) - 1);
-        blocker.setCoordinates(new Coordinates(x_coord, 0));
+        blocker.setCoordinates(new Coordinates(x_coord, 1));
         return blocker;
     }
 
@@ -133,22 +134,21 @@ public class EntityGeneratorRunnable extends GameRunnable {
      * @return a Powerup of a random type
      */
     public Powerup generatePowerup() {
-        if (totalPowerUpCount < 1)
-            return null; //no more power-up
+        List<Integer> randomTypes = Stream.of(1, 2, 3, 4)
+                .filter(c -> powerUpCountPerType.get(EntityType.forValue(c)) > 0)
+                .collect(Collectors.toList());
+        Collections.shuffle(randomTypes);
+
+        if (randomTypes.isEmpty())
+            return null; //no more powerups
 
         double l = GameConstants.POWERUP_RADIUS * config.getUnitL();
         double r = config.getGamePanelDimensions().getWidth() - GameConstants.POWERUP_RADIUS * config.getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        Powerup powerup = null;
-        while (powerup == null) {
-            EntityType type = EntityType.forValue(random.nextInt(4) + 1);
-            if (powerUpCountPerType.get(type) > 0)
-                powerup = PowerupFactory.getInstance().getPowerup(type);
-        }
-        totalPowerUpCount--;
-        int remaining = powerUpCountPerType.get(powerup.getType());
-        powerUpCountPerType.replace(powerup.getType(), remaining - 1);
+
+        Powerup powerup = PowerupFactory.getInstance().getPowerup(EntityType.forValue(randomTypes.get(0)));
+        powerUpCountPerType.replace(powerup.getType(), powerUpCountPerType.get(powerup.getType()) - 1);
         powerup.setCoordinates(new Coordinates(x_coord, 0));
         return powerup;
     }
@@ -159,23 +159,26 @@ public class EntityGeneratorRunnable extends GameRunnable {
      * @return a Molecule of a random type
      */
     public Molecule generateMolecule() {
-        if (totalMoleculeCount < 1)
-            return null; //no more molecule
+        List<Integer> randomTypes = Stream.of(1, 2, 3, 4)
+                .filter(c -> moleculeCountPerType.get(EntityType.forValue(c)) > 0)
+                .collect(Collectors.toList());
+        Collections.shuffle(randomTypes);
+
+        if (randomTypes.isEmpty())
+            return null; //no more powerups
 
         double l = GameConstants.MOLECULE_RADIUS * config.getUnitL();
         double r = config.getGamePanelDimensions().getWidth() - GameConstants.MOLECULE_RADIUS * config.getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
-        Molecule molecule = null;
-        while (molecule == null) {
-            EntityType type = EntityType.forValue(random.nextInt(4) + 1);
-            if (moleculeCountPerType.get(type) > 0)
-                molecule = MoleculeFactory.getInstance().getMolecule(type);
-        }
-        totalMoleculeCount--;
-        int remaining = moleculeCountPerType.get(molecule.getType());
-        moleculeCountPerType.replace(molecule.getType(), remaining - 1);
+
+        Molecule molecule = MoleculeFactory.getInstance().getMolecule(EntityType.forValue(randomTypes.get(0)));
+        moleculeCountPerType.replace(molecule.getType(), moleculeCountPerType.get(molecule.getType()) - 1);
         molecule.setCoordinates(new Coordinates(x_coord, 0));
+
+        // spinning molecule
+        if (molecule.isSpinnable())
+            molecule.registerSpinningController(runningMode.getMovementRunnable());
         return molecule;
     }
 }
