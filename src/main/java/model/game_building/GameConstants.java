@@ -64,9 +64,14 @@ public final class GameConstants {
 
     public static final double SPINNING_SPEED = 10;
 
+    // Shields and Atoms constants.
     public static final int[] ALPHA_NEUTRON_VALUES = {7, 8, 9};
     public static final int[] BETA_NEUTRON_VALUES = {15, 16, 17, 18, 21};
     public static final int[] GAMMA_NEUTRON_VALUES = {29, 32, 33};
     public static final int[] SIGMA_NEUTRON_VALUES = {63, 64, 67};
 
+    public static final int ALPHA_PROTONS = 8; // TODO: Change implementation to something cleaner.
+    public static final int BETA_PROTONS = 16;
+    public static final int GAMMA_PROTONS = 32;
+    public static final int SIGMA_PROTONS = 64;
 }

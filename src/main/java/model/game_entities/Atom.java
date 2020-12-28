@@ -3,14 +3,16 @@ package model.game_entities;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
+import model.game_entities.factories.NeutronFactory;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
 import utils.Coordinates;
+
 /**
  * Atom: Handles the Atom game object.
  */
-public class Atom extends Projectile{
+public class Atom extends Projectile {
 
     private double width;
     private double height;
@@ -29,13 +31,18 @@ public class Atom extends Projectile{
                 '}';
     }
 
-    public double getEfficiency(){
+    public double getEfficiency() {
         return 0.0;
     }
 
-    public double getAtomSpeedPercentage(){
+    public int getNeutrons() {
+        return NeutronFactory.getInstance().getNeutrons(this.getType());
+    }
+
+    public double getAtomSpeedPercentage() {
         return ATOM_SPEED_PERCENTAGE;
     }
+
     // visitor pattern. Double delegation
     @Override
     public void collideWith(CollisionVisitor visitor, Atom atom) {

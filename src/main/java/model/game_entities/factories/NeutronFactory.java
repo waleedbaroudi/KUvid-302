@@ -8,18 +8,18 @@ public class NeutronFactory {
 
     private static NeutronFactory factory = new NeutronFactory();
 
-    private NeutronFactory(){
+    private NeutronFactory() {
     }
 
-    public static NeutronFactory getInstance(){
-        if (factory == null){
+    public static NeutronFactory getInstance() {
+        if (factory == null) {
             factory = new NeutronFactory();
         }
         return factory;
     }
 
-    public int getNeutrons(EntityType type){
-        switch (type){
+    public int getNeutrons(EntityType type) {
+        switch (type) {
             case ALPHA:
                 return MathUtils.chooseFrom(GameConstants.ALPHA_NEUTRON_VALUES);
             case BETA:
