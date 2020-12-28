@@ -10,8 +10,16 @@ public class ThetaShield extends ShieldDecorator{
 
     public ThetaShield(Atom atom) {
         super(atom);
+        THETA_EFFICIENCY_BOOST = getThetaEfficiency();
+    }
+
+    /**
+     * @return returns either 0.05 or 0.15 (Which resemble the values that could be Theta's efficiency) randomly.
+     */
+    private double getThetaEfficiency(){
         Random rand = new Random();
-        THETA_EFFICIENCY_BOOST = new double[]{0.05, 0.15}[rand.nextInt(2)];
+        double[] thetaEfficiencyValues = {0.05, 0.15};
+        return thetaEfficiencyValues[rand.nextInt(thetaEfficiencyValues.length)];
     }
 
     @Override
