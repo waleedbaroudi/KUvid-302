@@ -88,4 +88,10 @@ public final class GameConstants {
     public static final double THETA_SPEED_REDUCTION_PERCENTAGE = 0.09;
 
     public static final double[] thetaEfficiencyValues = {0.05, 0.15};
+
+    // Atoms' Stability Constants.
+    public static final double ALPHA_STABILITY_CONSTANT = 0.85;
+    public static final double BETA_STABILITY_CONSTANT = 0.9;
+    public static final double GAMMA_STABILITY_CONSTANT = 0.8;
+    public static final double SIGMA_STABILITY_CONSTANT = 0.7;
 }
