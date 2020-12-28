@@ -145,7 +145,7 @@ public class MathUtils {
         Coordinates[] leftCoordinates = sideCoordinates(numberOfPoints, x1, y1, y2);
         Coordinates[] rightCoordinates = sideCoordinates(numberOfPoints, x2, y1, y2);
 
-        ArrayList<Coordinates> allCoordinates = new ArrayList<Coordinates>(Arrays.asList(topCoordinates));
+        ArrayList<Coordinates> allCoordinates = new ArrayList<>(Arrays.asList(topCoordinates));
         allCoordinates.addAll(Arrays.asList(bottomCoordinates));
         allCoordinates.addAll(Arrays.asList(leftCoordinates));
         allCoordinates.addAll(Arrays.asList(rightCoordinates));
@@ -203,7 +203,7 @@ public class MathUtils {
             pointsCoordinates[i] = applyRotation(angle, arcVector.getOriginCoordinate(), arcVector.getPositionCoordinate());
             angle += (double) 360 / numberOfPoints;
         }
-        return new ArrayList<Coordinates>(Arrays.asList(pointsCoordinates));
+        return new ArrayList<>(Arrays.asList(pointsCoordinates));
     }
 
     /**

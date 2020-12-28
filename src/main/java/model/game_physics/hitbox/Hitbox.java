@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public abstract class Hitbox {
 
     protected double rotationDegree = 0;
+    protected final int NUMBER_OF_POINTS = 8;
 
     /**
      * Rotates the Hitbox in the specified direction
@@ -22,9 +23,9 @@ public abstract class Hitbox {
 
     /**
      * checks if coordinates is inside the Hitbox
-     * @param entityCoords
-     * @param checkCoords
-     * @return true if coordinates is inside the Hitbo, otherwise returns false
+     * @param entityCoords the center of the coordinate of the entity
+     * @param checkCoords a coordinates to be checked if inside the entity
+     * @return true if coordinates is inside the Hitbox, otherwise returns false
      */
     public abstract boolean isInside(Coordinates entityCoords, Coordinates checkCoords);
 

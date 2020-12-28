@@ -1,14 +1,10 @@
 package model.game_running.runnables;
 
-import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_running.Spinnable;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 

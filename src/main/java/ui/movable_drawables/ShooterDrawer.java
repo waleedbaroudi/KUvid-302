@@ -18,9 +18,7 @@ public class ShooterDrawer implements Drawable {
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
-        this.shooterImage = ImageResources.get(null, shooter.getSuperType(), null,
-                (int) shooter.getHitbox().getWidth(),
-                (int) shooter.getHitbox().getHeight());
+        this.shooterImage = ImageResources.get(shooter);
 
     }
 
@@ -31,11 +29,11 @@ public class ShooterDrawer implements Drawable {
 
         g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
         Projectile projectile = shooter.getCurrentProjectile();
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
                 shooter.getHitbox().getWidth(),
                 shooter.getHitbox().getHeight());
 
-        g2d.drawImage(shooterImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        g2d.drawImage(shooterImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
         if (projectile != null) {
             Coordinates projectileCoord = MathUtils.drawingCoordinates(
                     shooter.getCoordinates(),
@@ -48,13 +46,13 @@ public class ShooterDrawer implements Drawable {
 
     @Override
     public void drawHitbox(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
                 shooter.getHitbox().getWidth(),
                 shooter.getHitbox().getHeight());
 
         g.drawRect(
-                drawingCoord.getPoint().x,
-                drawingCoord.getPoint().y,
+                drawingCoordinates.getPoint().x,
+                drawingCoordinates.getPoint().y,
                 (int) shooter.getHitbox().getWidth(),
                 (int) shooter.getHitbox().getHeight());
     }

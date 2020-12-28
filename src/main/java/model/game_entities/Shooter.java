@@ -52,8 +52,11 @@ public class Shooter extends Entity {
      * @return the atom on the tip of the shooter
      */
     public Projectile shoot() {
-        if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
+        if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
+
+        System.err.println(getCurrentProjectile());
+        System.out.println("ITS NULLLLL");
 
         this.adjustProjectilePosition();
         return this.reload();
@@ -65,21 +68,16 @@ public class Shooter extends Entity {
      */
     private void adjustProjectilePosition() {
         getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(getHitbox().getRotationDegree()));
-        getCurrentProjectile().setCoordinates(getShootingCoords(getCoordinates(), getCurrentProjectile()));
+        getCurrentProjectile().setCoordinates(getShootingCoords());
     }
 
 
-    //todo: see if we can make these constants as attributes for the shooter
-    // question: why the getShootingCoords takes a projectile as a param. Shouldn't it use the currentProjectile?
-
     /**
-     * @param coordinates the coordinates of the shotoer
-     * @param projectile  the projectile that is on the tip of the shooter
      * @return the coordinate of the projectile where it will start moving
      */
-    private Coordinates getShootingCoords(Coordinates coordinates, Projectile projectile) {
+    private Coordinates getShootingCoords() {
         int height = (int) getHitbox().getHeight();
-        int projectileRadius = (int) projectile.getHitbox().getHeight() / 2;
+        int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
         double theta = MathUtils.angleComplement(this.getHitbox().getRotationDegree());
 
         int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height / 2, theta);
@@ -115,6 +113,15 @@ public class Shooter extends Entity {
 
     public void setCurrentProjectile(Projectile currentProjectile) {
         this.currentProjectile = currentProjectile;
+    }
+
+    public void setPowerup(EntityType type) {
+        Projectile previousProjectile = getCurrentProjectile();
+        Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
+        if (currentPowerup != null) {
+            container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+            setCurrentProjectile(currentPowerup);
+        }
     }
 
     public double getAngle() {

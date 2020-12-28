@@ -14,14 +14,14 @@ public interface Spinnable {
     double getRotationDegree();
 
     /**
-     * spin the entity for once. This method should handle updating the rotation dgree in the hitbox
+     * spin the entity for once. This method should handle updating the rotation degree in the hitbox
      */
     void spin();
 
     /**
      * Register the entity instance to the spinningController
      *
-     * @param spinningController
+     * @param spinningController in which the spinnable will be registered
      */
     default void registerSpinningController(MovementRunnable spinningController) {
         spinningController.registerSpinnable(this);

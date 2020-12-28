@@ -1,12 +1,9 @@
 package model.game_entities.factories;
 
 import model.game_building.Configuration;
-import model.game_entities.Entity;
 import model.game_entities.Molecule;
-
-import model.game_entities.enums.MoleculeStructure;
 import model.game_entities.enums.EntityType;
-
+import model.game_entities.enums.MoleculeStructure;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;

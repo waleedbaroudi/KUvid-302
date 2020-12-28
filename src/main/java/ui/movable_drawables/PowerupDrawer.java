@@ -17,28 +17,26 @@ public class PowerupDrawer implements Drawable {
 
     public PowerupDrawer(Powerup powerup) {
         this.powerup = powerup;
-        this.powerupImage = ImageResources.get(powerup.getType(), powerup.getSuperType(), null,
-                (int) powerup.getHitbox().getWidth(),
-                (int) powerup.getHitbox().getHeight());
+        this.powerupImage = ImageResources.get(powerup);
     }
 
     @Override
     public void draw(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(powerup.getCoordinates(),
                 powerup.getHitbox().getWidth(),
-               powerup.getHitbox().getHeight());
-        g.drawImage(powerupImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+                powerup.getHitbox().getHeight());
+        g.drawImage(powerupImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
     }
 
     @Override
     public void drawHitbox(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(powerup.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(powerup.getCoordinates(),
                 powerup.getHitbox().getWidth(),
                 powerup.getHitbox().getHeight());
 
         g.drawOval(
-                drawingCoord.getPoint().x,
-                drawingCoord.getPoint().y,
+                drawingCoordinates.getPoint().x,
+                drawingCoordinates.getPoint().y,
                 (int) powerup.getHitbox().getWidth(),
                 (int) powerup.getHitbox().getHeight());
     }

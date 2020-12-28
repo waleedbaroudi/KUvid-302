@@ -18,12 +18,7 @@ public class MoleculeDrawer implements Drawable {
 
     public MoleculeDrawer(Molecule molecule) {
         this.molecule = molecule;
-        this.moleculeImage = ImageResources.get(
-                this.molecule.getType(),
-                this.molecule.getSuperType(),
-                molecule.getStructure(),
-                (int) molecule.getHitbox().getWidth(),
-                (int) molecule.getHitbox().getHeight());
+        this.moleculeImage = ImageResources.get(molecule);
     }
 
     @Override
@@ -32,29 +27,29 @@ public class MoleculeDrawer implements Drawable {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
         g2d.rotate(Math.toRadians(molecule.getRotationDegree()), molecule.getCoordinates().getPoint().x, molecule.getCoordinates().getPoint().y);
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(molecule.getCoordinates(),
                 molecule.getHitbox().getWidth(), molecule.getHitbox().getHeight());
-        g2d.drawImage(moleculeImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        g2d.drawImage(moleculeImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
         g2d.setTransform(old);
 
     }
 
     @Override
     public void drawHitbox(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(molecule.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(molecule.getCoordinates(),
                 molecule.getHitbox().getWidth(),
                 molecule.getHitbox().getHeight());
 
         if (molecule.getStructure() == MoleculeStructure.CIRCULAR)
             g.drawOval(
-                    drawingCoord.getPoint().x,
-                    drawingCoord.getPoint().y,
+                    drawingCoordinates.getPoint().x,
+                    drawingCoordinates.getPoint().y,
                     (int) molecule.getHitbox().getWidth(),
                     (int) molecule.getHitbox().getHeight());
         else
             g.drawRect(
-                    drawingCoord.getPoint().x,
-                    drawingCoord.getPoint().y,
+                    drawingCoordinates.getPoint().x,
+                    drawingCoordinates.getPoint().y,
                     (int) molecule.getHitbox().getWidth(),
                     (int) molecule.getHitbox().getHeight());
     }

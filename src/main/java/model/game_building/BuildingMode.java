@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class BuildingMode {
 
-    private ParametersValidationListener validationListener;
+    private final ParametersValidationListener validationListener;
     // This array will carry the invalid fields and we will use it to check if there are any invalid fields.
-    private ArrayList<String> invalidFields;
+    private final ArrayList<String> invalidFields;
 
     public BuildingMode(ParametersValidationListener validationListener) {
         this.validationListener = validationListener;
@@ -24,7 +24,6 @@ public class BuildingMode {
     /**
      * this method is to check if all the parameters of the object ConfigBundle are valid or not at the same time.
      *
-     * @return true if the parameters are valid, or false otherwise
      */
     public void validateParameters(ConfigBundle bundle) {
         this.invalidFields.clear();
@@ -80,7 +79,7 @@ public class BuildingMode {
     /**
      * this method to check if a given integer is greater than 0 to be valid according to the game's rules
      *
-     * @param number
+     * @param number the number to be validated
      * @return true if number > 0
      */
     private boolean isValidNumber(int number) {
@@ -91,7 +90,7 @@ public class BuildingMode {
     /**
      * this method is to check if the value of the given integer in the range [0,2].
      *
-     * @param difficulty
+     * @param difficulty a number indicating the difficulty level
      * @return true if difficulty is in range [0,2].
      */
     private boolean isValidDifficulty(int difficulty) {
@@ -102,7 +101,7 @@ public class BuildingMode {
     /**
      * this method to check if a given integer is greater than 0 to be valid according to the game's rules
      *
-     * @param l
+     * @param l the length that will be validated
      * @return true if l > 0.
      */
     private boolean isValidLength(double l) {
