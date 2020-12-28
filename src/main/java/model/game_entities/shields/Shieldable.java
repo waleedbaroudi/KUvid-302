@@ -1,4 +1,4 @@
 package model.game_entities.shields;
 
-public interface Shieldable {
+public class Shieldable {
 }
