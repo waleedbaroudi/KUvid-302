@@ -1,6 +1,9 @@
 package model.game_building;
 
 
+import utils.IOHandler;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BuildingMode {
@@ -12,6 +15,10 @@ public class BuildingMode {
     public BuildingMode(ParametersValidationListener validationListener) {
         this.validationListener = validationListener;
         invalidFields = new ArrayList<>();
+    }
+
+    public static ConfigBundle getDefaultBundle() throws IOException {
+        return IOHandler.readConfigFromYaml("Default");
     }
 
     /**

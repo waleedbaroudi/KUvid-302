@@ -3,10 +3,14 @@ package ui.windows;
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
 import model.game_building.GameConstants;
+import org.apache.log4j.Logger;
 import utils.IOHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -15,6 +19,8 @@ import java.util.ArrayList;
  * can specify game parameters.
  */
 public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
+    private static Logger logger;
+
     BuildingMode buildingMode;
 
     // Atoms JTextFields
@@ -63,6 +69,8 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      */
     public BuildingWindow(String title) {
         super(title);
+        logger = Logger.getLogger(BuildingWindow.class.getName());
+
         this.atoms = new ArrayList<>();
         this.powerups = new ArrayList<>();
         this.blockers = new ArrayList<>();
@@ -79,7 +87,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
          * calling user defined method for adding components to the panel.
          */
         placeComponents(panel);
-
+        loadDefaultParams();
         // Fits the borders to the content
         this.pack();
         this.setLocationRelativeTo(null); //centers the window in the middle of the screen
@@ -106,28 +114,24 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(alphaAtomLabel);
 
         alphaAtomsTextField = new JTextField(4);
-        alphaAtomsTextField.setText("5");
         panel.add(alphaAtomsTextField);
 
         JLabel betaAtomLabel = new JLabel("Beta Atoms");
         panel.add(betaAtomLabel);
 
         betaAtomsTextField = new JTextField(4);
-        betaAtomsTextField.setText("5");
         panel.add(betaAtomsTextField);
 
         JLabel gammaAtomLabel = new JLabel("Gamma Atoms");
         panel.add(gammaAtomLabel);
 
         gammaAtomsTextField = new JTextField(4);
-        gammaAtomsTextField.setText("5");
         panel.add(gammaAtomsTextField);
 
         JLabel sigmaAtomLabel = new JLabel("Sigma Atoms");
         panel.add(sigmaAtomLabel);
 
         sigmaAtomsTextField = new JTextField(4);
-        sigmaAtomsTextField.setText("5");
         panel.add(sigmaAtomsTextField);
 
         // powerups labels and text fields
@@ -135,28 +139,24 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(alphaPowerupLabel);
 
         alphaPowerupsTextField = new JTextField(4);
-        alphaPowerupsTextField.setText("5");
         panel.add(alphaPowerupsTextField);
 
         JLabel betaPowerupLabel = new JLabel("Beta Powerups");
         panel.add(betaPowerupLabel);
 
         betaPowerupsTextField = new JTextField(4);
-        betaPowerupsTextField.setText("5");
         panel.add(betaPowerupsTextField);
 
         JLabel gammaPowerupLabel = new JLabel("Gamma Powerups");
         panel.add(gammaPowerupLabel);
 
         gammaPowerupsTextField = new JTextField(4);
-        gammaPowerupsTextField.setText("5");
         panel.add(gammaPowerupsTextField);
 
         JLabel sigmaPowerupLabel = new JLabel("Sigma Powerups");
         panel.add(sigmaPowerupLabel);
 
         sigmaPowerupsTextField = new JTextField(4);
-        sigmaPowerupsTextField.setText("5");
         panel.add(sigmaPowerupsTextField);
 
 
@@ -165,28 +165,24 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(alphaBlockerLabel);
 
         alphaBlockersTextField = new JTextField(4);
-        alphaBlockersTextField.setText("5");
         panel.add(alphaBlockersTextField);
 
         JLabel betaBlockerLabel = new JLabel("Beta Blockers");
         panel.add(betaBlockerLabel);
 
         betaBlockersTextField = new JTextField(4);
-        betaBlockersTextField.setText("5");
         panel.add(betaBlockersTextField);
 
         JLabel gammaBlockerLabel = new JLabel("Gamma Blockers");
         panel.add(gammaBlockerLabel);
 
         gammaBlockersTextField = new JTextField(4);
-        gammaBlockersTextField.setText("5");
         panel.add(gammaBlockersTextField);
 
         JLabel sigmaBlockerLabel = new JLabel("Sigma Blockers");
         panel.add(sigmaBlockerLabel);
 
         sigmaBlockersTextField = new JTextField(4);
-        sigmaBlockersTextField.setText("5");
         panel.add(sigmaBlockersTextField);
 
 
@@ -195,28 +191,24 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(alphaMoleculeLabel);
 
         alphaMoleculesTextField = new JTextField(4);
-        alphaMoleculesTextField.setText("5");
         panel.add(alphaMoleculesTextField);
 
         JLabel betaMoleculeLabel = new JLabel("Beta Molecules");
         panel.add(betaMoleculeLabel);
 
         betaMoleculesTextField = new JTextField(4);
-        betaMoleculesTextField.setText("5");
         panel.add(betaMoleculesTextField);
 
         JLabel gammaMoleculeLabel = new JLabel("Gamma Molecules");
         panel.add(gammaMoleculeLabel);
 
         gammaMoleculesTextField = new JTextField(4);
-        gammaMoleculesTextField.setText("5");
         panel.add(gammaMoleculesTextField);
 
         JLabel sigmaMoleculeLabel = new JLabel("Sigma Molecules");
         panel.add(sigmaMoleculeLabel);
 
         sigmaMoleculesTextField = new JTextField(4);
-        sigmaMoleculesTextField.setText("5");
         panel.add(sigmaMoleculesTextField);
 
         // Length label and textfield.
@@ -224,7 +216,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(lengthLabel);
 
         lengthTextField = new JTextField(4);
-        lengthTextField.setText("90");
         panel.add(lengthTextField);
 
         JLabel difficultyLabel = new JLabel("Difficulty ");
@@ -269,6 +260,14 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         addLoadConfigActionListener(loadConfigPresetButton);
         panel.add(loadConfigPresetButton);
 
+    }
+
+    private void loadDefaultParams(){
+        try {
+            loadPresetParameters(BuildingMode.getDefaultBundle());
+        } catch (IOException e) {
+            logger.warn("could not find the default configuration file");
+        }
     }
 
     private void addBuildGameActionListener(JButton btn) {

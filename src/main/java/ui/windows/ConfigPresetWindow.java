@@ -5,6 +5,7 @@ import model.game_building.ConfigPreset;
 import utils.IOHandler;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSelectionListener {
@@ -32,7 +33,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
      */
     private boolean addComponents(String[] fileNames) {
         if (fileNames.length == 0) {//if there are no presets.
-            onNoPresetsFound("No Presets Found!");
+            onPresetsFailure("No Presets Found!");
             return false;
         }
         //create list
@@ -42,7 +43,12 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
         JButton confirmPresetButton = new JButton("Confirm Preset");
         confirmPresetButton.addActionListener(e -> {
             String properFileName = IOHandler.prettyToProperFileName(configurationFilesList.getSelectedValue().toString());
-            configPreset.getConfigBundleFromFile(properFileName);
+            try {
+                configPreset.getConfigBundleFromFile(properFileName);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                onPresetsFailure("Could not find the selected preset file");
+            }
         });
         //set a selected index
         configurationFilesList.setSelectedIndex(0);
@@ -62,7 +68,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
     }
 
     @Override
-    public void onNoPresetsFound(String message) {
+    public void onPresetsFailure(String message) {
         // Close the current game-building frame.
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
         // Close the frame
