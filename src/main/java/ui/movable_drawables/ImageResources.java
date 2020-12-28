@@ -59,14 +59,13 @@ public class ImageResources {
     }
 
     /**
-     * @param superType  of the icon to be returned
      * @param type       of the icon to be returned
      * @param iconWidth  that will be used to scale the icon
      * @param iconHeight that will be used to scale the icon
      * @return the corresponding icon with the specified dimensions
      */
-    public static Image getEntityIcon(SuperType superType, EntityType type, int iconWidth, int iconHeight) {
-        return getImage(superType + "/" + type + ".png", iconWidth, iconHeight);
+    public static Image getEntityIcon(SuperType superType, EntityType type, int iconWidth, int iconHeight, boolean background) {
+        return getImage("statisticsIcons" + "/" + superType + "/" + type + background + ".png", iconWidth, iconHeight);
     }
 
     /**
