@@ -6,8 +6,4 @@ public class ShieldA extends ShieldDecorator{
         super(shield);
     }
 
-    @Override
-    public double getEfficiency() {
-        return 0;
-    }
 }

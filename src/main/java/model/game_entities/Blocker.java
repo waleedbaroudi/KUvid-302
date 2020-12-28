@@ -23,7 +23,6 @@ public class Blocker extends AutonomousEntity {
 
     private boolean isExploded; // Might change into different implementation.
 
-
     public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;

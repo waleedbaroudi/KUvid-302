@@ -33,11 +33,31 @@ public class BlockerDrawer implements Drawable {
                 blocker.getHitbox().getWidth(),
                 blocker.getHitbox().getHeight());
 
+        Coordinates drawingCoordinates1 = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+                blocker.getBlockingHitbox().getWidth(),
+                blocker.getBlockingHitbox().getHeight());
+
+        Coordinates drawingCoordinates2 = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+                blocker.getExplodingHitbox().getWidth(),
+                blocker.getExplodingHitbox().getHeight());
+
         g.drawOval(
                 drawingCoordinates.getPoint().x,
                 drawingCoordinates.getPoint().y,
                 (int) blocker.getHitbox().getWidth(),
                 (int) blocker.getHitbox().getHeight());
+
+        g.drawOval(
+                drawingCoordinates1.getPoint().x,
+                drawingCoordinates1.getPoint().y,
+                (int) blocker.getBlockingHitbox().getWidth(),
+                (int) blocker.getBlockingHitbox().getHeight());
+
+        g.drawOval(
+                drawingCoordinates2.getPoint().x,
+                drawingCoordinates2.getPoint().y,
+                (int) blocker.getExplodingHitbox().getWidth(),
+                (int) blocker.getExplodingHitbox().getHeight());
     }
 
 }
