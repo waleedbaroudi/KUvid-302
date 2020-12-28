@@ -286,4 +286,15 @@ public class MathUtils {
         return array[randomIndex];
     }
 
+    /**
+     * Given an array of doubles, returns a random element from this array.
+     * @param array array of doubles.
+     * @return a random element from the given array.
+     */
+    public static double chooseFrom(double[] array){
+        Random random = new Random();
+        int randomIndex = random.nextInt(array.length);
+        return array[randomIndex];
+    }
+
 }

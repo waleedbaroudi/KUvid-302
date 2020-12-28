@@ -1,11 +1,9 @@
 package model.game_entities.shields;
 
+import model.game_building.GameConstants;
 import model.game_entities.Atom;
 
 public class LotaShield extends ShieldDecorator{
-
-    private final double LOTA_EFFICIENCY_BOOST = 0.1;
-    private final double LOTA_SPEED_REDUCTION_PERCENTAGE = 0.07;
 
     public LotaShield(Atom atom) {
         super(atom);
@@ -13,12 +11,12 @@ public class LotaShield extends ShieldDecorator{
 
     @Override
     public double getEfficiency() {
-        return (1 - super.getAtom().getEfficiency()) * LOTA_EFFICIENCY_BOOST;
+        return (1 - super.getAtom().getEfficiency()) * GameConstants.LOTA_EFFICIENCY_BOOST;
     }
 
     @Override
     public double getAtomSpeedPercentage() {
-        return super.getAtom().getAtomSpeedPercentage() - LOTA_SPEED_REDUCTION_PERCENTAGE;
+        return super.getAtom().getAtomSpeedPercentage() - GameConstants.LOTA_SPEED_REDUCTION_PERCENTAGE;
     }
 
 }

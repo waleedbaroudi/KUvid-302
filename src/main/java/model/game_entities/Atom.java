@@ -4,6 +4,7 @@ import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_entities.factories.NeutronFactory;
+import model.game_entities.factories.ProtonFactory;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -37,6 +38,10 @@ public class Atom extends Projectile {
 
     public int getNeutrons() {
         return NeutronFactory.getInstance().getNeutrons(this.getType());
+    }
+
+    public int getProtonsNumber(){
+        return ProtonFactory.getInstance().getProtons(this.getType());
     }
 
     public double getAtomSpeedPercentage() {

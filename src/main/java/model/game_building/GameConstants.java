@@ -74,4 +74,18 @@ public final class GameConstants {
     public static final int BETA_PROTONS = 16;
     public static final int GAMMA_PROTONS = 32;
     public static final int SIGMA_PROTONS = 64;
+
+    // Shield types constants.
+    public static final double ETA_EFFICIENCY_BOOST = 0.05;
+    public static final double ETA_SPEED_REDUCTION_PERCENTAGE = 0.05;
+
+    public static final double LOTA_EFFICIENCY_BOOST = 0.1;
+    public static final double LOTA_SPEED_REDUCTION_PERCENTAGE = 0.07;
+
+    public static final double ZETA_EFFICIENCY_BOOST = 0.2;
+    public static final double ZETA_SPEED_REDUCTION_PERCENTAGE = 0.11;
+
+    public static final double THETA_SPEED_REDUCTION_PERCENTAGE = 0.09;
+
+    public static final double[] thetaEfficiencyValues = {0.05, 0.15};
 }
