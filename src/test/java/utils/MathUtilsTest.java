@@ -199,7 +199,6 @@ class MathUtilsTest {
 
         assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - 4) <= epsilon);
 
-
     }
 
     @Test

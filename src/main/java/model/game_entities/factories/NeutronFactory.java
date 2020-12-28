@@ -1,6 +1,8 @@
 package model.game_entities.factories;
 
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
+import utils.MathUtils;
 
 public class NeutronFactory {
 
@@ -19,15 +21,15 @@ public class NeutronFactory {
     public int getNeutrons(EntityType type){
         switch (type){
             case ALPHA:
-                return 0;
+                return MathUtils.chooseFrom(GameConstants.ALPHA_NEUTRON_VALUES);
             case BETA:
-                return 1;
+                return MathUtils.chooseFrom(GameConstants.BETA_NEUTRON_VALUES);
             case GAMMA:
-                return 2;
+                return MathUtils.chooseFrom(GameConstants.GAMMA_NEUTRON_VALUES);
             case SIGMA:
-                return 3;
+                return MathUtils.chooseFrom(GameConstants.SIGMA_NEUTRON_VALUES);
             default:
-                return 4;
+                return 0;
         }
     }
 }
