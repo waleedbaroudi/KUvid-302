@@ -1,6 +1,7 @@
 package utils;
 
 
+import java.nio.charset.CoderMalfunctionError;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -216,6 +217,16 @@ public class MathUtils {
         return new Coordinates(center.getX() - x / 2, center.getY() - y / 2);
     }
 
+
+    /**
+     * @param center Coordinates that will be translated
+     * @param radius amount for center Coordinates to be translated
+     * @return drawing Coordinates
+     */
+    public static Coordinates drawingCoordinates(Coordinates center, int radius) {
+        return new Coordinates(center.getX() - radius, center.getY() - radius);
+    }
+
     /*
         int r = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
 
@@ -262,5 +273,19 @@ public class MathUtils {
     public static int getCompositeXComponent(int radius, int height, double angle) {
         return (int) ((radius + height) * Math.cos(angle));
     }
+
+    /**
+     * Given two points, returns the distance between them.
+     * @param firstPoint The coordinates of the first point.
+     * @param secondPoint The coordinates of the second point.
+     * @return The distance between two given points.
+     */
+    public static double distanceBetween(Coordinates firstPoint, Coordinates secondPoint){
+        double newX = Math.abs(firstPoint.getX() - secondPoint.getX());
+        double newY = Math.abs(firstPoint.getY() - secondPoint.getY());
+
+        return Math.abs(Math.sqrt((Math.pow(newX, 2) + Math.pow(newY, 2))));
+    }
+
 
 }

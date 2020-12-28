@@ -212,6 +212,12 @@ public class RunningMode {
             statistics.changeProjectileCount(type, entityType, newCount);
     }
 
+    public void updateHealth(int damageAmount) {
+        if (statistics != null)
+            if(statistics.decreaseHealth(damageAmount))
+                this.setRunningState(GameConstants.GAME_STATE_STOP);
+    }
+
     public void updateTimer(int amountInMillis) {
         if (statistics != null) {
             boolean timerOver = !statistics.updateTimer(amountInMillis);

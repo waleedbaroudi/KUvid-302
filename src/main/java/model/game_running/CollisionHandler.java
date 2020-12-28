@@ -1,6 +1,9 @@
 package model.game_running;
 
+import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.*;
+import utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 
@@ -33,8 +36,13 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void handleCollision(Atom atom, Blocker blocker) {
         // this only breaks the atom if enters the AOE of a corresponding type blocker.
-        if (atom.getType().getValue() == blocker.getType().getValue())
+
+        if (blocker.isExploded()){
             controller.removeEntity(atom);
+        }else{
+             if (atom.getType().getValue() == blocker.getType().getValue())
+              controller.removeEntity(atom);
+        }
     }
 
     @Override
@@ -55,13 +63,21 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Molecule molecule, Blocker blocker) {
 //        defaultCollision(molecule, blocker);
         //nothing for now. this collision will be conditional: only when the blocker is exploding.
+        if (blocker.isExploded()){
+            controller.removeEntity(molecule);
+        }
     }
 
     @Override
     public void handleCollision(Shooter shooter, Blocker blocker) {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
+        double distance = MathUtils.distanceBetween(shooter.getCoordinates(), blocker.getCoordinates());
+
+        if(distance <= GameConstants.BLOCKER_EXPLOSION_RADIUS * Configuration.getInstance().getUnitL()) {
+            int damageDone = (int) Math.round(blocker.getExplosionDamage(shooter));
+            controller.updateHealth(damageDone);
+            controller.removeEntity(blocker);
+        }
     }
-
-
 }
