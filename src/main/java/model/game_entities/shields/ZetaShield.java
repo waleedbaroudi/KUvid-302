@@ -3,8 +3,6 @@ package model.game_entities.shields;
 import model.game_building.GameConstants;
 import model.game_entities.Atom;
 
-import java.util.Random;
-
 public class ZetaShield extends ShieldDecorator {
 
     private boolean canImprove;

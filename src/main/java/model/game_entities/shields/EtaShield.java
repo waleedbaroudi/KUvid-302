@@ -2,7 +2,6 @@ package model.game_entities.shields;
 
 import model.game_building.GameConstants;
 import model.game_entities.Atom;
-import model.game_entities.Entity;
 import model.game_space.GameStatistics;
 
 public class EtaShield extends ShieldDecorator{
@@ -13,11 +12,15 @@ public class EtaShield extends ShieldDecorator{
 
     @Override
     public double getEfficiency() {
-        return (1 - super.getAtom().getEfficiency()) * GameConstants.ETA_EFFICIENCY_BOOST;
+        if (this.getAtom().getProtonsNumber() != this.getAtom().getNeutrons()){
+            return ((1 - this.getAtom().getEfficiency()) * Math.abs(this.getAtom().getNeutrons() -
+                    this.getAtom().getProtonsNumber())) / this.getAtom().getProtonsNumber();
+        }
+        return (1 - this.getAtom().getEfficiency()) * GameConstants.ETA_EFFICIENCY_BOOST;
     }
 
     @Override
     public double getAtomSpeedPercentage() {
-        return super.getAtom().getAtomSpeedPercentage() - GameStatistics.ETA_SPEED_REDUCTION_PERCENTAGE;
+        return super.getAtom().getAtomSpeedPercentage() - GameConstants.ETA_SPEED_REDUCTION_PERCENTAGE;
     }
 }
