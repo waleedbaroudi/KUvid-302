@@ -18,9 +18,9 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CollisionRunnable extends GameRunnable {
 
-    private RunningMode runningMode;
-    private CollisionVisitor collisionHandler;
-    private CountDownLatch latch;
+    private final RunningMode runningMode;
+    private final CollisionVisitor collisionHandler;
+    private final CountDownLatch latch;
 
     public CollisionRunnable(RunningMode runningMode, CollisionVisitor collisionHandler) {
         super();

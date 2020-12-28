@@ -11,12 +11,12 @@ import utils.Coordinates;
  * Powerup: Handles the Powerup game object
  */
 public class Powerup extends Projectile {
-
-    public Powerup(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
+    private final boolean falling; // This variable indicates whether the powerup is falling or being shot.
+    public Powerup(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, boolean falling) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.POWERUP;
+        this.falling = falling;
     }
-
 
     @Override
     public String toString() {
@@ -25,6 +25,9 @@ public class Powerup extends Projectile {
                 '}';
     }
 
+    public boolean isFalling(){
+        return this.falling;
+    }
 
     // visitor pattern. Double delegation
     @Override

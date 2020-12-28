@@ -1,14 +1,15 @@
 package model.game_building;
 
 
-import static model.game_building.GameConstants.*;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import utils.IOHandler;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+
+import static model.game_building.GameConstants.*;
 
 public class Configuration {
 
@@ -26,7 +27,14 @@ public class Configuration {
     private Configuration() {
         BasicConfigurator.configure();
         logger = Logger.getLogger(Configuration.class.getName());
-        configBundle = IOHandler.readConfigFromYaml("temp");
+
+        try {
+            configBundle = IOHandler.readConfigFromYaml("temp");
+        } catch (IOException exception) {
+            logger.error("[Configuration] {FATAL}: Could not load game configurations.", exception);
+            exception.printStackTrace();
+        }
+
         File temp = new File(System.getProperty("user.dir") + "/configurations/temp.yaml");
         if (!temp.delete())
             logger.warn("Temporary configuration file was not deleted");

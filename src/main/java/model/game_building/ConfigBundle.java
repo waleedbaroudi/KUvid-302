@@ -9,7 +9,6 @@ import java.util.ArrayList;
  */
 public class ConfigBundle {
 
-    private int numOfBlockersPerType, numOfPowerUpsPerType, numOfMoleculesPerType;
     private double l;
     private boolean linearAlpha, linearBeta, spinningAlpha, spinningBeta; // TODO: convert to enums
     private int difficulty; // 0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
@@ -18,16 +17,16 @@ public class ConfigBundle {
     /**
      * Constructor to initialize game parameter attributes
      *
-     * @param atoms
-     * @param powerups
-     * @param blockers
-     * @param molecules
-     * @param l
-     * @param linearAlpha
-     * @param linearBeta
-     * @param spinningAlpha
-     * @param spinningBeta
-     * @param difficulty
+     * @param atoms         array of atoms number for each type
+     * @param powerups      array of powerups number for each type
+     * @param blockers      array of blockers number for each type
+     * @param molecules     array of molecules number for each type
+     * @param l             The L unit of the game
+     * @param linearAlpha   a boolean indicates weather Alpha molecules are linear or not
+     * @param linearBeta    a boolean indicates weather Beta molecules are linear or not
+     * @param spinningAlpha a boolean indicates weather Alpha molecules are spinning or not
+     * @param spinningBeta  a boolean indicates weather Beta molecules are spinning or not
+     * @param difficulty    integer number indicates the difficulty level
      */
     public ConfigBundle(ArrayList<Integer> atoms, ArrayList<Integer> powerups, ArrayList<Integer> blockers, ArrayList<Integer> molecules, double l, boolean linearAlpha, boolean linearBeta, boolean spinningAlpha,
                         boolean spinningBeta, int difficulty) {
@@ -35,9 +34,6 @@ public class ConfigBundle {
         this.powerups = powerups;
         this.blockers = blockers;
         this.molecules = molecules;
-        this.numOfBlockersPerType = numOfBlockersPerType;
-        this.numOfPowerUpsPerType = numOfPowerUpsPerType;
-        this.numOfMoleculesPerType = numOfMoleculesPerType;
         this.l = l;
         this.linearAlpha = linearAlpha;
         this.linearBeta = linearBeta;
@@ -46,8 +42,7 @@ public class ConfigBundle {
         this.difficulty = difficulty;
     }
 
-    public ConfigBundle() {
-
+    public ConfigBundle() {//this Constructor is required for the yaml file
     }
 
     public ArrayList<Integer> getAtoms() {

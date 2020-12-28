@@ -48,11 +48,15 @@ public class Shooter extends Entity {
 
     /**
      * Shoot the projectile on the tip of the shooter to the game space
+     *
      * @return the atom on the tip of the shooter
      */
     public Projectile shoot() {
-        if (getCurrentProjectile() == null) //get atom from the container returned null. (no more of the selected type)
+        if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
+
+        System.err.println(getCurrentProjectile());
+        System.out.println("ITS NULLLLL");
 
         this.adjustProjectilePosition();
         return this.reload();
@@ -64,35 +68,28 @@ public class Shooter extends Entity {
      */
     private void adjustProjectilePosition() {
         getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(getHitbox().getRotationDegree()));
-        getCurrentProjectile().setCoordinates(getShootingCoords(getCoordinates(), getCurrentProjectile()));
+        getCurrentProjectile().setCoordinates(getShootingCoords());
     }
 
 
-    //todo: see if we can make these constants as attributes for the shooter
-    // question: why the getShootingCoords takes a projectile as a param. Shouldn't it use the currentProjectile?
     /**
-     *
-     * @param coordinates the coordinates of the shotoer
-     * @param projectile the projectile that is on the tip of the shooter
      * @return the coordinate of the projectile where it will start moving
      */
-    private Coordinates getShootingCoords(Coordinates coordinates, Projectile projectile) {
-        int height = (int) (Configuration.getInstance().getUnitL() * GameConstants.SHOOTER_HEIGHT);
-        int atomRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.ATOM_RADIUS);
-        int powerupRadius = (int) (Configuration.getInstance().getUnitL() * GameConstants.POWERUP_RADIUS);
-
-        int projectileRadius = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
+    private Coordinates getShootingCoords() {
+        int height = (int) getHitbox().getHeight();
+        int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
         double theta = MathUtils.angleComplement(this.getHitbox().getRotationDegree());
 
         int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height / 2, theta);
         int newWidth = MathUtils.getCompositeXComponent(projectileRadius, height / 2, theta);
 
-        return MathUtils.translate(this.getCoordinates(), new Coordinates(newWidth, - newHeight));
+        return MathUtils.translate(this.getCoordinates(), new Coordinates(newWidth, -newHeight));
     }
 
 
     /**
      * reload the atom shooter by placing a random atom on the tip of the shooter
+     *
      * @return the current projectile at the atom
      */
     public Projectile reload() {
@@ -103,6 +100,7 @@ public class Shooter extends Entity {
 
     /**
      * get the next random atom
+     *
      * @return a random atom
      */
     public Atom nextAtom() {
@@ -115,6 +113,15 @@ public class Shooter extends Entity {
 
     public void setCurrentProjectile(Projectile currentProjectile) {
         this.currentProjectile = currentProjectile;
+    }
+
+    public void setPowerup(EntityType type) {
+        Projectile previousProjectile = getCurrentProjectile();
+        Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
+        if (currentPowerup != null) {
+            container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+            setCurrentProjectile(currentPowerup);
+        }
     }
 
     public double getAngle() {
@@ -141,6 +148,7 @@ public class Shooter extends Entity {
 
     /**
      * Check if the shooter config.getShooterSpeed() is within the game view
+     *
      * @param c
      * @param angle
      * @return
@@ -156,22 +164,22 @@ public class Shooter extends Entity {
 
     /**
      * Check if the shooter rotation is within the game view
+     *
      * @param c
      * @param angle
      * @return
      */
-    private boolean checkLegalAngle(Coordinates c, double angle){
+    private boolean checkLegalAngle(Coordinates c, double angle) {
         double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
         double gunHeight = config.getUnitL() * GameConstants.SHOOTER_HEIGHT;
 
         // assume the left side if the shooter is in the left half of the screen, and right otherwise
         Vector rotatedShooter;
-        if (c.getX() < Configuration.getInstance().getGameWidth() / 2.0){
+        if (c.getX() < Configuration.getInstance().getGameWidth() / 2.0) {
             rotatedShooter = new Vector(c.getX() - gunWidth / 2, c.getY(),
                     c.getX() - gunWidth / 2, c.getY() - gunHeight / 2.0);
             rotatedShooter = rotatedShooter.rotateVector(angle);
-        }
-        else{
+        } else {
             rotatedShooter = new Vector(c.getX() + gunWidth / 2, c.getY(),
                     c.getX() + gunWidth / 2, c.getY() - gunHeight / 2.0);
             rotatedShooter = rotatedShooter.rotateVector(angle);

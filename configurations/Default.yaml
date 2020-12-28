@@ -6,22 +6,22 @@ spinningAlpha: false
 spinningBeta: false
 difficulty: 1
 atoms:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100
 powerups:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100
 molecules:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100
 blockers:
-- 5
-- 5
-- 5
-- 5
+- 100
+- 100
+- 100
+- 100

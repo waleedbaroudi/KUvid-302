@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class RatioPattern extends PathPattern{
 
-    private List<PathPattern> patterns;
-    private List<Double> ratios;
+    private final List<PathPattern> patterns;
+    private final List<Double> ratios;
     private PathPattern currentPattern;
     private int currentPatternIdx;
     private double lastYCoords;
