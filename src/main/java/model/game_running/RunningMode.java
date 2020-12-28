@@ -219,10 +219,8 @@ public class RunningMode {
 
         if(projectileContainer.totalAtomCount == 0)
             return;
-
         double unitL = Configuration.getInstance().getUnitL();
         int height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
-        int width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
         int radius = (int) GameConstants.ATOM_RADIUS;
         Coordinates nextAtomCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0,   radius + height / 2);
         Projectile CurrentAtom = this.shooter.getCurrentProjectile();
