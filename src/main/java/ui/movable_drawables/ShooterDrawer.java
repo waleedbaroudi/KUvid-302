@@ -1,47 +1,60 @@
 package ui.movable_drawables;
 
-import model.game_building.Configuration;
-import model.game_building.GameConstants;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
-import model.game_entities.enums.SuperType;
 import utils.Coordinates;
 import utils.MathUtils;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
+/**
+ * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
+ */
 public class ShooterDrawer implements Drawable {
 
     private final Shooter shooter;
-    private Projectile projectile;
-    private final int height;
-    private final int width;
     private final Image shooterImage;
-    private final double unitL;
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
-        this.unitL = Configuration.getInstance().getUnitL();
-        this.height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
-        this.width = (int) (unitL * GameConstants.SHOOTER_WIDTH);
-        this.shooterImage = ImageResources.get(null, shooter.getSuperType(), width, height);
+        this.shooterImage = ImageResources.get(shooter);
 
     }
 
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+        AffineTransform old = g2d.getTransform();
+
         g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
-
         Projectile projectile = shooter.getCurrentProjectile();
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), width / 2, height / 2);
-        g2d.drawImage(shooterImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
+                shooter.getHitbox().getWidth(),
+                shooter.getHitbox().getHeight());
 
+        g2d.drawImage(shooterImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
         if (projectile != null) {
-            int r = (int) (unitL * (projectile.getSuperType() == SuperType.ATOM ? GameConstants.ATOM_RADIUS : GameConstants.POWERUP_RADIUS));
-            Coordinates projectileCoord = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0,   r + height / 2);
+            Coordinates projectileCoord = MathUtils.drawingCoordinates(
+                    shooter.getCoordinates(),
+                    0, projectile.getHitbox().getHeight() + shooter.getHitbox().getHeight());
             projectile.setCoordinates(projectileCoord);
             DrawableFactory.get(projectile).draw(g);
         }
+        g2d.setTransform(old);
     }
+
+    @Override
+    public void drawHitbox(Graphics g) {
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
+                shooter.getHitbox().getWidth(),
+                shooter.getHitbox().getHeight());
+
+        g.drawRect(
+                drawingCoordinates.getPoint().x,
+                drawingCoordinates.getPoint().y,
+                (int) shooter.getHitbox().getWidth(),
+                (int) shooter.getHitbox().getHeight());
+    }
+
 }

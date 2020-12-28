@@ -8,27 +8,22 @@ import java.util.ArrayList;
 
 public class RectangularHitbox extends Hitbox {
 
-    private double width, height;
-    private double angle;
-    private final int NUMBER_OF_POINTS = 8;
+    private final double width;
+    private final double height;
 
     public RectangularHitbox(double width, double height) {
         this.width = width;
         this.height = height;
-        this.angle = 0;
     }
 
+    @Override
     public double getWidth() {
         return width;
     }
 
+    @Override
     public double getHeight() {
         return height;
-    }
-
-    @Override
-    public void rotate(double angle) {
-        this.angle += angle;
     }
 
     @Override
@@ -40,7 +35,7 @@ public class RectangularHitbox extends Hitbox {
 
     @Override
     public boolean isInside(Coordinates entityCoords, Coordinates checkCoords) {
-        checkCoords = MathUtils.applyRotation(-this.angle, entityCoords, checkCoords);
+        checkCoords = MathUtils.applyRotation(-getRotationDegree(), entityCoords, checkCoords);
         Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth()/2, entityCoords.getY() + getHeight()/2);
         Vector cornerVector = new Vector(entityCoords, cornerCoords);
         return MathUtils.isWithinRectangle(cornerVector, checkCoords);
@@ -48,6 +43,6 @@ public class RectangularHitbox extends Hitbox {
 
     @Override
     public String toString() {
-        return "RectangularHitbox: height = " + this.getHeight() + ", width = " + this.getWidth() + ", angle = " + angle;
+        return "RectangularHitbox: height = " + this.getHeight() + ", width = " + this.getWidth() + ", angle = " + getRotationDegree();
     }
 }
