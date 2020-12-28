@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
@@ -10,6 +11,9 @@ import utils.Coordinates;
  * Atom: Handles the Atom game object.
  */
 public class Atom extends Projectile{
+
+    private double width;
+    private double height;
 
     public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
