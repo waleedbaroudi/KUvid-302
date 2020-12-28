@@ -15,6 +15,8 @@ public class Atom extends Projectile{
     private double width;
     private double height;
 
+    private final double ATOM_SPEED_PERCENTAGE = 1;
+
     public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
@@ -27,7 +29,13 @@ public class Atom extends Projectile{
                 '}';
     }
 
+    public double getEfficiency(){
+        return 0.0;
+    }
 
+    public double getAtomSpeedPercentage(){
+        return ATOM_SPEED_PERCENTAGE;
+    }
     // visitor pattern. Double delegation
     @Override
     public void collideWith(CollisionVisitor visitor, Atom atom) {

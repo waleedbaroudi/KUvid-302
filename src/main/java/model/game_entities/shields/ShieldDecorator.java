@@ -1,8 +1,17 @@
 package model.game_entities.shields;
 
-public abstract class ShieldDecorator implements Shieldable{
-    Shieldable shield;
-    public ShieldDecorator(Shieldable shield){
-        this.shield = shield;
+import model.game_entities.Atom;
+
+
+public abstract class ShieldDecorator extends Atom {
+    protected Atom atom;
+
+    public ShieldDecorator(Atom atom) {
+        super(atom.getCoordinates(), atom.getHitbox(), atom.getPathPattern(), atom.getType());
+        this.atom = atom;
+    }
+
+    Atom getAtom(){
+        return this.atom;
     }
 }
