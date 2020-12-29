@@ -21,9 +21,10 @@ public class BuildingMode {
         return IOHandler.readConfigFromYaml("Default");
     }
 
+    //TODO: specify the wrong field in the warning popup window
+
     /**
      * this method is to check if all the parameters of the object ConfigBundle are valid or not at the same time.
-     *
      */
     public void validateParameters(ConfigBundle bundle) {
         this.invalidFields.clear();
@@ -62,6 +63,15 @@ public class BuildingMode {
             invalidFields.add("Invalid number of Gamma Molecules\n");
         if (!isValidNumber(bundle.getNumOfSigmaMolecules()))
             invalidFields.add("Invalid number of Sigma Molecules\n");
+
+        if (!isValidNumber(bundle.getNumOfEtaShields()))
+            invalidFields.add("Invalid number of Eta Shields\n");
+        if (!isValidNumber(bundle.getNumOfLotaShields()))
+            invalidFields.add("Invalid number of Lota Shields\n");
+        if (!isValidNumber(bundle.getNumOfThetaShields()))
+            invalidFields.add("Invalid number of Theta Shields\n");
+        if (!isValidNumber(bundle.getNumOfZetaShields()))
+            invalidFields.add("Invalid number of Zeta Shields\n");
 
         if (!isValidDifficulty(bundle.getDifficulty()))
             invalidFields.add("Invalid Difficulty number\n");

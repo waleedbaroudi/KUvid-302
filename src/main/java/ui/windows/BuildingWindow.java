@@ -41,6 +41,12 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     JTextField gammaBlockersTextField;
     JTextField sigmaBlockersTextField;
 
+    // Shields JTextFields
+    JTextField etaShieldTextField;
+    JTextField lotaShieldTextField;
+    JTextField thetaShieldTextField;
+    JTextField zetaShieldTextField;
+
     // Molecules JTextFields
     JTextField alphaMoleculesTextField;
     JTextField betaMoleculesTextField;
@@ -58,7 +64,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
-    ArrayList<Integer> atoms, powerups, blockers, molecules;
+    ArrayList<Integer> atoms, powerups, blockers, molecules, shields;
 
     double l;
 
@@ -75,6 +81,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         this.powerups = new ArrayList<>();
         this.blockers = new ArrayList<>();
         this.molecules = new ArrayList<>();
+        this.shields = new ArrayList<>();
 
         this.setSize(GameConstants.BUILDING_WINDOW_SIZE);
         this.buildingMode = new BuildingMode(this);
@@ -104,7 +111,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
      */
     private void placeComponents(JPanel panel) {
         // Setting the layout of the panel
-        panel.setLayout(new GridLayout(12, 4));
+        panel.setLayout(new GridLayout(14, 4));
         panel.setBorder(BorderFactory.createTitledBorder("Building Window"));
         // GridBagConstraints c = new GridBagConstraints();
 
@@ -211,6 +218,32 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         sigmaMoleculesTextField = new JTextField(4);
         panel.add(sigmaMoleculesTextField);
 
+        //shields
+        JLabel etaShieldLabel = new JLabel("Eta Shields");
+        panel.add(etaShieldLabel);
+
+        etaShieldTextField = new JTextField(4);
+        panel.add(etaShieldTextField);
+
+        JLabel lotaShieldLabel = new JLabel("Lota Shields");
+        panel.add(lotaShieldLabel);
+
+        lotaShieldTextField = new JTextField(4);
+        panel.add(lotaShieldTextField);
+
+        JLabel thetaShieldLabel = new JLabel("Theta Shields");
+        panel.add(thetaShieldLabel);
+
+        thetaShieldTextField = new JTextField(4);
+        panel.add(thetaShieldTextField);
+
+        JLabel zetaShieldLabel = new JLabel("Zeta Shields");
+        panel.add(zetaShieldLabel);
+
+        zetaShieldTextField = new JTextField(4);
+        panel.add(zetaShieldTextField);
+
+
         // Length label and textfield.
         JLabel lengthLabel = new JLabel("L unit ");
         panel.add(lengthLabel);
@@ -263,7 +296,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     }
 
-    private void loadDefaultParams(){
+    private void loadDefaultParams() {
         try {
             loadPresetParameters(BuildingMode.getDefaultBundle());
         } catch (IOException e) {
@@ -293,7 +326,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         file name.
          */
         getParametersValues();
-        return new ConfigBundle(atoms, powerups, blockers, molecules, l,
+        return new ConfigBundle(atoms, powerups, blockers, molecules, shields, l,
                 isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
                 isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
     }
@@ -350,6 +383,13 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         molecules.add(Integer.parseInt(betaMoleculesTextField.getText()));
         molecules.add(Integer.parseInt(gammaMoleculesTextField.getText()));
         molecules.add(Integer.parseInt(sigmaMoleculesTextField.getText()));
+
+        // Storing shields number
+        this.shields.clear();
+        shields.add(Integer.parseInt(etaShieldTextField.getText()));
+        shields.add(Integer.parseInt(lotaShieldTextField.getText()));
+        shields.add(Integer.parseInt(thetaShieldTextField.getText()));
+        shields.add(Integer.parseInt(zetaShieldTextField.getText()));
 
         l = Double.parseDouble(lengthTextField.getText());
     }
