@@ -2,7 +2,6 @@ package utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import model.game_building.ConfigBundle;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -16,43 +15,43 @@ public class IOHandler {
     private static final Logger logger = Logger.getLogger(IOHandler.class.getName());
 
     /**
-     * writes a config to a YAML file. called when the player wants to save a configuration set.
+     * writes an object to a YAML file.
      *
-     * @param bundle   the config to be saved.
-     * @param fileName the base name of the file of the saved config.
+     * @param obj   the object to be saved.
+     * @param fileName the base name of the file of the saved object.
      */
-    public static void writeConfigToYAML(ConfigBundle bundle, String fileName) {
+    public static void writeToYAML(Object obj, String fileName) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
         Date currentData = new Date();
         String name = fileName + "-" + formatter.format(currentData) + ".yaml";
         try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/" + name), bundle);
+            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/" + name), obj);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * writes the selected config into a temporary file to be loaded in the Configuration class.
+     * writes the selected object into a temporary file.
      *
-     * @param bundle the temporary bundle to be written to the file.
+     * @param obj the temporary bundle to be written to the file.
      */
-    public static void writeTempConfig(ConfigBundle bundle) {
+    public static void writeToYAML(Object obj) {
         try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/temp.yaml"), bundle);
+            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/temp.yaml"), obj);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Returns a ConfigBundle that is loaded from the YAML configuration file with the given name
+     * Returns an Object that is loaded from the YAML file with the given name
      *
      * @param fileName name of the YAML file to be read.
-     * @return a new configBundle read from the YAML file
+     * @return a new object read from the YAML file
      */
-    public static ConfigBundle readConfigFromYaml(String fileName) throws IOException {
-        return mapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), ConfigBundle.class);
+    public static <T> T readFromYaml(String fileName, Class<T> tClass) throws IOException {
+        return mapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), tClass);
     }
 
     /**
@@ -60,9 +59,9 @@ public class IOHandler {
      *
      * @return a list of strings containing the names, potentially null
      */
-    public static String[] getConfigFiles() {
-        File configDirectory = new File(System.getProperty("user.dir") + "/configurations/");
-        return configDirectory.list();
+    public static String[] getFilesInDirectory() {
+        File directory = new File(System.getProperty("user.dir") + "/configurations/");
+        return directory.list();
     }
 
     /**
@@ -70,18 +69,17 @@ public class IOHandler {
      *
      * @param name preset file raw name
      * @return prettified name
-     * @see model.game_building.ConfigPreset
      */
     public static String prettifyFileName(String name) {
         String[] nameComponents = name.split("-");
         try {
-            return String.format("%-10s\t%d/%d/%d %d:%d",
+            return String.format("%-10s\t%s/%s/%s %s:%s",
                     nameComponents[0],
-                    Integer.valueOf(nameComponents[1]),
-                    Integer.valueOf(nameComponents[2]),
-                    Integer.valueOf(nameComponents[3]), //skipping 4th index because it's empty
-                    Integer.valueOf(nameComponents[5]),
-                    Integer.valueOf(nameComponents[6].substring(0, 2)));
+                    nameComponents[1],
+                    nameComponents[2],
+                    nameComponents[3], //skipping 4th index because it's empty
+                    nameComponents[5],
+                    nameComponents[6].substring(0, 2));
         } catch (IndexOutOfBoundsException e) {
             logger.warn("[IOHandler] prettifyFileName: Unrecognized name format. only removed extension (.yaml)");
             return name.replace(".yaml", "");
