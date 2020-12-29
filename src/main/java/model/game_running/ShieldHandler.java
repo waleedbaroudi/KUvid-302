@@ -22,7 +22,7 @@ public class ShieldHandler {
     }
 
     public Atom applyEtaShield(Atom atom) {
-        if (etaShields > 0  atom != null) {
+        if (etaShields > 0) {
             etaShields--;
             return new EtaShield(atom);
         }
@@ -30,7 +30,7 @@ public class ShieldHandler {
     }
 
     public Atom applyLotaShield(Atom atom) {
-        if (lotaShields > 0 atom != null) {
+        if (lotaShields > 0) {
             lotaShields--;
             return new LotaShield(atom);
         }
@@ -38,7 +38,7 @@ public class ShieldHandler {
     }
 
     public Atom applyThetaShield(Atom atom) {
-        if (thetaShields > 0 atom != null) {
+        if (thetaShields > 0) {
             thetaShields--;
             return new ThetaShield(atom);
         }
@@ -46,7 +46,7 @@ public class ShieldHandler {
     }
 
     public Atom applyZetaShield(Atom atom) {
-        if (zetaShields > 0 atom != null) {
+        if (zetaShields > 0) {
             zetaShields--;
             return new ZetaShield(atom);
         }

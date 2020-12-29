@@ -138,8 +138,10 @@ public class Shooter extends Entity {
                 }
                 setCurrentProjectile(nextAtom);
             }
-            else
+            else {
                 container.addPowerUp((Powerup) CurrentProjectile);
+                setCurrentProjectile(nextAtom);
+            }
         }
     }
 
