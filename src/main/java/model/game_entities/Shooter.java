@@ -64,6 +64,7 @@ public class Shooter extends Entity {
      * of the shooter
      */
     private void adjustProjectilePosition() {
+        getCurrentProjectile().getHitbox().rotate(getAngle());
         getCurrentProjectile().setPathPattern(PathPatternFactory.getInstance().getAtomPathPattern(getHitbox().getRotationDegree()));
         getCurrentProjectile().setCoordinates(getShootingCoords());
     }

@@ -257,7 +257,8 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         panel.add(saveConfigPresetCheck);
 
         JButton loadConfigPresetButton = new JButton("Load Preset");
-        addLoadConfigActionListener(loadConfigPresetButton);
+        //add LoadConfig Action Listener and create bundle
+        loadConfigPresetButton.addActionListener(e -> new ConfigPresetWindow(this));
         panel.add(loadConfigPresetButton);
 
     }
@@ -285,14 +286,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
         });
     }
-
-    private void addLoadConfigActionListener(JButton btn) { // todo: unnecessary, could be fitted into one line
-        btn.addActionListener(e -> {
-            // Create bundle
-            new ConfigPresetWindow(this);
-        });
-    }
-
 
     private ConfigBundle collectConfigFields() {
         /*

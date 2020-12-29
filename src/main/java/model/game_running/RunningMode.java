@@ -199,8 +199,8 @@ public class RunningMode {
         // TODO: change the gamerListener to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
         ArrayList<AutonomousEntity> tmp = new ArrayList<>();
         tmp.add(entity);
-        gameEntitiesListener.onEntitiesRemove(tmp);
         autonomousEntities.remove(entity);
+        gameEntitiesListener.onEntitiesRemove(tmp);
     }
 
     public void setStatisticsController(GameStatistics gameStatistics) {
