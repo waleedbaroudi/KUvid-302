@@ -36,32 +36,28 @@ public class AtomFactory {
         switch (type){
             case ALPHA:
                 numberOfNeutrons = MathUtils.chooseFrom(ALPHA_NEUTRON_VALUES);
-                efficiency = (1 -
-                        (float)(Math.abs(numberOfNeutrons - ALPHA_PROTONS)/ALPHA_PROTONS) * ALPHA_STABILITY_CONSTANT);
+                efficiency = alphaEfficiency(numberOfNeutrons, ALPHA_PROTONS, ALPHA_STABILITY_CONSTANT);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.ALPHA,
                         ALPHA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, ALPHA_PROTONS);
 
             case BETA:
                 numberOfNeutrons = MathUtils.chooseFrom(BETA_NEUTRON_VALUES);
-                efficiency = BETA_STABILITY_CONSTANT -
-                        (float) (0.5 * Math.abs(numberOfNeutrons - BETA_PROTONS)/BETA_PROTONS);
+                efficiency = alphaEfficiency(numberOfNeutrons, BETA_PROTONS, BETA_STABILITY_CONSTANT);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.BETA,
                         BETA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, BETA_PROTONS);
 
             case GAMMA:
                 numberOfNeutrons = MathUtils.chooseFrom(GAMMA_NEUTRON_VALUES);
-                efficiency = GAMMA_STABILITY_CONSTANT +
-                        (float) Math.abs(numberOfNeutrons - GAMMA_PROTONS)/ 2 * GAMMA_PROTONS;
+                efficiency = alphaEfficiency(numberOfNeutrons, GAMMA_PROTONS, GAMMA_STABILITY_CONSTANT);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.GAMMA,
                         GAMMA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, GAMMA_PROTONS);
 
             case SIGMA:
                 numberOfNeutrons = MathUtils.chooseFrom(SIGMA_NEUTRON_VALUES);
-                efficiency = (1 + (SIGMA_STABILITY_CONSTANT / 2)  +
-                        (float)Math.abs(numberOfNeutrons - SIGMA_PROTONS) / SIGMA_PROTONS);
+                efficiency = alphaEfficiency(numberOfNeutrons, SIGMA_PROTONS, SIGMA_STABILITY_CONSTANT);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.SIGMA,
                         SIGMA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, SIGMA_PROTONS);
@@ -69,5 +65,21 @@ public class AtomFactory {
             default:
                 return null;
         }
+    }
+
+    private double alphaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
+        return (1 - (float) (Math.abs(numberOfNeutrons - numberOfProtons)/numberOfProtons) * stabilityConstant);
+    }
+
+    private double betaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
+        return stabilityConstant -(float) (0.5 * Math.abs(numberOfNeutrons - numberOfProtons)/numberOfProtons);
+    }
+
+    private double gammaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
+        return stabilityConstant + (float) Math.abs(numberOfNeutrons - numberOfProtons)/ 2 * numberOfProtons;
+    }
+
+    private double sigmaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
+        return (1 + (stabilityConstant / 2) + (float)Math.abs(numberOfNeutrons - numberOfProtons) / numberOfProtons);
     }
 }
