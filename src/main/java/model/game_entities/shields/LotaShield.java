@@ -1,9 +1,10 @@
 package model.game_entities.shields;
 
 import static model.game_building.GameConstants.*;
+
 import model.game_entities.Atom;
 
-public class LotaShield extends ShieldDecorator{
+public class LotaShield extends ShieldDecorator {
 
     public LotaShield(Atom atom) {
         super(atom);
