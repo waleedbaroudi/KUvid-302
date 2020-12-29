@@ -16,8 +16,9 @@ import model.game_running.runnables.EntityGeneratorRunnable;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
+import utils.Coordinates;
+import utils.MathUtils;
 import ui.windows.RunningWindow;
-
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -72,6 +73,8 @@ public class RunningMode {
                 0,
                 0,
                 0);
+
+
 
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
@@ -173,6 +176,7 @@ public class RunningMode {
                 endGame();
             return;
         }
+        // projectileContainer.decreaseAtoms(shotEntity.getType().getValue(), 1);
         addEntity(shotEntity);
     }
 
@@ -230,6 +234,10 @@ public class RunningMode {
     public void endGame() {
         setRunningState(GameConstants.GAME_STATE_STOP);
         runningStateListener.onGameOver();
+    }
+
+    public void switchAtom(){
+        getShooter().switchAtom();
     }
 
     public Blender getBlender() {

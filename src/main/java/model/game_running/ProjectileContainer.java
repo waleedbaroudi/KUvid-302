@@ -146,7 +146,7 @@ public class ProjectileContainer {
         return true;
     }
 
-    public int[] getAtomMap() {
+    public int[] getAtomMap(){
         return this.atomMap;
     }
 
