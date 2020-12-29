@@ -135,6 +135,22 @@ public class Configuration {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaMolecules() : -1;
     }
 
+    public int getNumOfEtaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfEtaShields() : -1;
+    }
+
+    public int getNumOfLotaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfLotaShields() : -1;
+    }
+
+    public int getNumOfThetaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfThetaShields() : -1;
+    }
+
+    public int getNumOfZetaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfZetaShields() : -1;
+    }
+
     public int getDropRate() {// TODO: modify when difficulty is converted to enum
         if (!isConfigBundleSet())
             return -1;
