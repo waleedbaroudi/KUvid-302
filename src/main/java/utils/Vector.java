@@ -30,10 +30,6 @@ public class Vector {
         this(new Coordinates(x, y), new Coordinates(x1, y1));
     }
 
-    public Vector rotateVector(double angle){
-        return new Vector(originCoordinate, MathUtils.applyRotation(angle, this.originCoordinate, this.positionCoordinate));
-    }
-
     public Coordinates getPositionCoordinate() {
         return positionCoordinate;
     }
@@ -54,6 +50,9 @@ public class Vector {
         return MathUtils.vectorMagnitude(this);
     }
 
+    public Vector rotateVector(double angle){
+        return new Vector(originCoordinate, MathUtils.applyRotation(angle, this.originCoordinate, this.positionCoordinate));
+    }
     /**
      * Get the dot product with Vector B
      * @param B

@@ -11,6 +11,10 @@ public class Coordinates {
         Y = y;
     }
 
+    public Coordinates rotate(Coordinates rotationCenter, double angle){
+        return MathUtils.applyRotation(angle, rotationCenter, this);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Coordinates) {
@@ -27,13 +31,6 @@ public class Coordinates {
         return Y;
     }
 
-    public void setX(double x) {
-        X = x;
-    }
-
-    public void setY(double y) {
-        Y = y;
-    }
 
     @Override
     public String toString() {
