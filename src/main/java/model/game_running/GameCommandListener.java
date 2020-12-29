@@ -31,7 +31,7 @@ public class GameCommandListener implements KeyListener {
                 runningMode.getBlender().showBlender();
                 break;
             case KeyEvent.VK_C:
-                runningMode.setCurrentProjectile();
+                runningMode.switchAtom();
                 break;
             case KeyEvent.VK_UP:
                 if (canShoot) { // TODO: Change implementation later.

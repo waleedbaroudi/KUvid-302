@@ -124,6 +124,25 @@ public class Shooter extends Entity {
         }
     }
 
+    public void switchAtom(){
+
+        Projectile CurrentProjectile = getCurrentProjectile();
+        Projectile nextAtom = nextAtom();
+        if (nextAtom != null) {
+            if (CurrentProjectile.getSuperType() == SuperType.ATOM){
+                container.increaseAtoms(CurrentProjectile.getType().getValue(), 1);
+                while(CurrentProjectile.getType() == nextAtom.getType()){
+                    nextAtom = nextAtom();
+                    container.increaseAtoms(CurrentProjectile.getType().getValue(), 1);
+                }
+                setCurrentProjectile(nextAtom);
+            }
+            else
+                container.addPowerUp((Powerup) CurrentProjectile);
+        }
+
+    }
+
     public double getAngle() {
         return getHitbox().getRotationDegree();
     }

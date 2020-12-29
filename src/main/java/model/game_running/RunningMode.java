@@ -235,19 +235,8 @@ public class RunningMode {
         runningStateListener.onGameOver();
     }
 
-    public void setCurrentProjectile(){
-
-        if(projectileContainer.totalAtomCount == 0)
-            return;
-        double unitL = Configuration.getInstance().getUnitL();
-        int height = (int) (unitL * GameConstants.SHOOTER_HEIGHT);
-        int radius = (int) GameConstants.ATOM_RADIUS;
-        Coordinates nextAtomCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(), 0,   radius + height / 2);
-        Projectile CurrentAtom = this.shooter.getCurrentProjectile();
-        Projectile nextAtom = this.projectileContainer.getRandomAtom(nextAtomCoordinates);
-        this.shooter.setCurrentProjectile(nextAtom);
-        projectileContainer.increaseAtoms(CurrentAtom.getType().getValue(), 1);
-
+    public void switchAtom(){
+        getShooter().switchAtom();
     }
 
     public Blender getBlender() {
