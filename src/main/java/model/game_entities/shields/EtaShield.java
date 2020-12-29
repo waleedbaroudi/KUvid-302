@@ -20,14 +20,14 @@ public class EtaShield extends ShieldDecorator{
         if (numberOfProtons != numberOfNeutrons){
             efficiencyFactor = (1 - oldEfficiency) * Math.abs(numberOfNeutrons - numberOfProtons) /
                     (double) numberOfProtons;
-            return oldEfficiency + oldEfficiency * efficiencyFactor;
+            return oldEfficiency * (1 + efficiencyFactor);
         }
         efficiencyFactor = (1 - oldEfficiency) * GameConstants.ETA_EFFICIENCY_BOOST;
-        return oldEfficiency + oldEfficiency * efficiencyFactor;
+        return oldEfficiency * (1 + efficiencyFactor);
     }
 
     @Override
     public double getAtomSpeedPercentage() {
-        return super.getAtom().getAtomSpeedPercentage() - GameConstants.ETA_SPEED_REDUCTION_PERCENTAGE;
+        return this.getAtom().getAtomSpeedPercentage() * (1 - GameConstants.ETA_SPEED_REDUCTION_PERCENTAGE);
     }
 }

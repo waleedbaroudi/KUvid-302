@@ -27,11 +27,11 @@ public class ThetaShield extends ShieldDecorator {
         double oldEfficiency = this.getAtom().getEfficiency();
         double efficiencyFactor = (1 - oldEfficiency) * THETA_EFFICIENCY_BOOST;
 
-        return oldEfficiency + oldEfficiency * efficiencyFactor;
+        return oldEfficiency * (1 + efficiencyFactor);
     }
 
     @Override
     public double getAtomSpeedPercentage() {
-        return super.getAtom().getAtomSpeedPercentage() - GameConstants.THETA_SPEED_REDUCTION_PERCENTAGE;
+        return super.getAtom().getAtomSpeedPercentage() * (1 - GameConstants.THETA_SPEED_REDUCTION_PERCENTAGE);
     }
 }

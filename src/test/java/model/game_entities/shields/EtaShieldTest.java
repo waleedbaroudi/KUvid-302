@@ -13,7 +13,6 @@ class EtaShieldTest {
 
     @Test
     void getEfficiency() {
-
         Atom atom1 = AtomFactory.getInstance().getAtom(EntityType.ALPHA);
 
         System.out.println("Neutrons: " + atom1.getNumberOfNeutrons());

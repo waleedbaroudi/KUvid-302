@@ -17,12 +17,12 @@ public class ZetaShield extends ShieldDecorator {
         boolean canImprove = this.getAtom().getNumberOfNeutrons() == this.getAtom().getNumberOfProtons();
 
         if (canImprove)
-            return oldEfficiency + oldEfficiency * efficiencyFactor;
+            return oldEfficiency * (1 + efficiencyFactor);
         return oldEfficiency;
     }
 
     @Override
     public double getAtomSpeedPercentage() {
-        return super.getAtom().getAtomSpeedPercentage() - ZETA_SPEED_REDUCTION_PERCENTAGE;
+        return super.getAtom().getAtomSpeedPercentage() * (1 - ZETA_SPEED_REDUCTION_PERCENTAGE);
     }
 }
