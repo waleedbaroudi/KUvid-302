@@ -5,11 +5,13 @@ import model.game_entities.Powerup;
 import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
+import model.game_entities.factories.AtomFactory;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -55,10 +57,12 @@ public class ProjectileContainer {
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
     private Atom getAtom(Coordinates coordinates, int type) {
-        if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1))
-            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
-                    PathPatternFactory.getInstance().getAtomPathPattern(),
-                    EntityType.forValue(type + 1)); //TODO: FIX indices
+        if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1)) {
+            Atom atom = AtomFactory.getInstance().getAtom((EntityType.forValue(type + 1))); //TODO: FIX indices
+            if (atom != null)
+                atom.setCoordinates(coordinates);
+            return atom;
+        }
         return null;
     }
 

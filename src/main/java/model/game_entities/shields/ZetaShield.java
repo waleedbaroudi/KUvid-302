@@ -9,7 +9,7 @@ public class ZetaShield extends ShieldDecorator {
 
     public ZetaShield(Atom atom) {
         super(atom);
-        canImprove = this.getAtom().getNeutrons() == this.getAtom().getProtonsNumber();
+        canImprove = this.getAtom().getNumberOfNeutrons() == this.getAtom().getNumberOfProtons();
     }
 
     @Override

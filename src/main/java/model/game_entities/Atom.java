@@ -18,11 +18,23 @@ public class Atom extends Projectile {
     private double width;
     private double height;
 
+    private double stabilityConstant;
+    private double efficiency;
+    private int numberOfProtons;
+    private int numberOfNeutrons;
+
+
     private final double ATOM_SPEED_PERCENTAGE = 1;
 
-    public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
+    public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, double stabilityConstant, double efficiency, int numberOfProtons, int numberOfNeutrons) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
+
+        this.stabilityConstant = stabilityConstant;
+        this.efficiency = efficiency;
+
+        this.numberOfProtons = numberOfProtons;
+        this.numberOfNeutrons = numberOfNeutrons;
     }
 
     @Override
@@ -33,15 +45,19 @@ public class Atom extends Projectile {
     }
 
     public double getEfficiency() {
-        return 0.0;
+        return this.efficiency;
     }
 
-    public int getNeutrons() {
-        return NeutronFactory.getInstance().getNeutrons(this.getType());
+    public double getStabilityConstant(){
+        return this.stabilityConstant;
     }
 
-    public int getProtonsNumber(){
-        return ProtonFactory.getInstance().getProtons(this.getType());
+    public int getNumberOfNeutrons() {
+        return numberOfNeutrons;
+    }
+
+    public int getNumberOfProtons(){
+        return this.numberOfProtons;
     }
 
     public double getAtomSpeedPercentage() {
