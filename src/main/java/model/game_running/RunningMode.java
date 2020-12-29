@@ -32,7 +32,7 @@ public class RunningMode {
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private final ProjectileContainer projectileContainer;
     private final Shooter shooter;
-
+    private final ShieldHandler shieldHandler;
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
     //Listener to handle game pause and resume commands
@@ -75,6 +75,7 @@ public class RunningMode {
 
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
+        this.shieldHandler = new ShieldHandler();
         initialize();
     }
 
@@ -253,6 +254,36 @@ public class RunningMode {
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
+
+
+    public void applyEtaShield() {
+        if (shooter.projectileIsAtom())
+            shooter.setCurrentProjectile(shieldHandler.applyEtaShield(shooter.getAtomProjectile()));
+    }
+
+    public void applyLotaShield() {
+        if (shooter.projectileIsAtom())
+            shooter.setCurrentProjectile(shieldHandler.applyLotaShield(shooter.getAtomProjectile()));
+    }
+
+    public void applyThetaShield() {
+        if (shooter.projectileIsAtom())
+            shooter.setCurrentProjectile(shieldHandler.applyThetaShield(shooter.getAtomProjectile()));
+    }
+
+    public void applyZetaShield() {
+        if (shooter.projectileIsAtom())
+            shooter.setCurrentProjectile(shieldHandler.applyZetaShield(shooter.getAtomProjectile()));
+    }
+
+
+
+
+
+
+
+
+
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);

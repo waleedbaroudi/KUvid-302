@@ -189,6 +189,20 @@ public class Shooter extends Entity {
                 rotatedShooter.getPositionCoordinate().getX() <= config.getGamePanelDimensions().width;
     }
 
+    /**
+     * @return true if the current projectile is an atom
+     */
+    public boolean projectileIsAtom() {
+        return getCurrentProjectile().getSuperType() == SuperType.ATOM;
+    }
+
+    /**
+     * @return the projectile as an atom
+     */
+    public Atom getAtomProjectile() {
+        return (Atom) getCurrentProjectile();
+    }
+
 
     @Override
     public String toString() {
