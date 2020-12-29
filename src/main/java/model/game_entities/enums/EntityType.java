@@ -6,11 +6,7 @@ public enum EntityType {
     GAMMA(3),
     SIGMA(4);
 
-    private int value;
-
-    //TODO check if this constructor is required (sarieh)
-    EntityType() {
-    }
+    private final int value;
 
     // constructor with value
     EntityType(int value) {

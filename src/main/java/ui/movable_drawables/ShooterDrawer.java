@@ -46,7 +46,7 @@ public class ShooterDrawer implements Drawable {
                     0, projectile.getHitbox().getHeight() + shooter.getHitbox().getHeight());
 
             projectile.setCoordinates(projectileCoord);
-            DrawableFactory.get(projectile).draw(g);
+            DrawableFactory.get(projectile).draw(g2d);
         }
         g2d.setTransform(old);
     }

@@ -67,6 +67,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     JLabel gammaPowerupButton;
     JLabel sigmaPowerupButton;
 
+    //iconSize
+    int iconSize = (int) (Configuration.getInstance().getUnitL() * GameConstants.ICON_SIZE);
+
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
 
@@ -166,6 +169,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
                 runningMode.getBlender().showBlender();
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -185,6 +189,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.getShooter().setPowerup(EntityType.ALPHA);
 
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -203,6 +208,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.BETA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -221,6 +227,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.SIGMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -239,6 +246,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.GAMMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -290,25 +298,25 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
      * retrieves images from ImageResources with the specified height and width
      */
     private void retrieveImages() {
-        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
-        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
-        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
-        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, iconSize, iconSize, false);
+        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, iconSize, iconSize, false);
+        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, iconSize, iconSize, false);
+        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, iconSize, iconSize, false);
 
-        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
-        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
-        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
-        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, false);
+        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, false);
+        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, false);
+        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, false);
+        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, false);
 
-        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
-        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
-        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
-        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT, true);
+        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, true);
+        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, true);
+        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, true);
+        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, true);
 
-        healthImg = ImageResources.getIcon("health", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        watchImg = ImageResources.getIcon("timer", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        blenderImg = ImageResources.getIcon("blender", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
-        blenderImg_bg = ImageResources.getIcon("blender_bg", GameConstants.ICON_WIDTH, GameConstants.ICON_HEIGHT);
+        healthImg = ImageResources.getIcon("health", iconSize, iconSize);
+        watchImg = ImageResources.getIcon("timer", iconSize, iconSize);
+        blenderImg = ImageResources.getIcon("blender", iconSize, iconSize);
+        blenderImg_bg = ImageResources.getIcon("blender_bg", iconSize, iconSize);
     }
 
     @Override
