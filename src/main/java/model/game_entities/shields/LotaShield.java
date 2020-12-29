@@ -11,12 +11,13 @@ public class LotaShield extends ShieldDecorator{
 
     @Override
     public double getEfficiency() {
-        return (1 - super.getAtom().getEfficiency()) * GameConstants.LOTA_EFFICIENCY_BOOST;
+        double oldEfficiency = this.getAtom().getEfficiency();
+        double efficiencyFactor = (1 - oldEfficiency) * GameConstants.LOTA_EFFICIENCY_BOOST;
+        return oldEfficiency + oldEfficiency * efficiencyFactor;
     }
 
     @Override
     public double getAtomSpeedPercentage() {
         return super.getAtom().getAtomSpeedPercentage() - GameConstants.LOTA_SPEED_REDUCTION_PERCENTAGE;
     }
-
 }

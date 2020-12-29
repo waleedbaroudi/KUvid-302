@@ -36,50 +36,50 @@ public class AtomFactory {
         switch (type){
             case ALPHA:
                 numberOfNeutrons = MathUtils.chooseFrom(ALPHA_NEUTRON_VALUES);
-                efficiency = alphaEfficiency(numberOfNeutrons, ALPHA_PROTONS, ALPHA_STABILITY_CONSTANT);
+                efficiency = alphaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.ALPHA,
-                        ALPHA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, ALPHA_PROTONS);
+                        ALPHA_STABILITY_CONSTANT, efficiency, ALPHA_PROTONS, numberOfNeutrons);
 
             case BETA:
                 numberOfNeutrons = MathUtils.chooseFrom(BETA_NEUTRON_VALUES);
-                efficiency = alphaEfficiency(numberOfNeutrons, BETA_PROTONS, BETA_STABILITY_CONSTANT);
+                efficiency = betaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.BETA,
-                        BETA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, BETA_PROTONS);
+                        BETA_STABILITY_CONSTANT, efficiency, BETA_PROTONS, numberOfNeutrons);
 
             case GAMMA:
                 numberOfNeutrons = MathUtils.chooseFrom(GAMMA_NEUTRON_VALUES);
-                efficiency = alphaEfficiency(numberOfNeutrons, GAMMA_PROTONS, GAMMA_STABILITY_CONSTANT);
+                efficiency = gammaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.GAMMA,
-                        GAMMA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, GAMMA_PROTONS);
+                        GAMMA_STABILITY_CONSTANT, efficiency, GAMMA_PROTONS, numberOfNeutrons);
 
             case SIGMA:
                 numberOfNeutrons = MathUtils.chooseFrom(SIGMA_NEUTRON_VALUES);
-                efficiency = alphaEfficiency(numberOfNeutrons, SIGMA_PROTONS, SIGMA_STABILITY_CONSTANT);
+                efficiency = sigmaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.SIGMA,
-                        SIGMA_STABILITY_CONSTANT, efficiency, numberOfNeutrons, SIGMA_PROTONS);
+                        SIGMA_STABILITY_CONSTANT, efficiency, SIGMA_PROTONS, numberOfNeutrons);
 
             default:
                 return null;
         }
     }
 
-    private double alphaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
-        return (1 - (float) (Math.abs(numberOfNeutrons - numberOfProtons)/numberOfProtons) * stabilityConstant);
+    private double alphaEfficiency(int numberOfNeutrons){
+        return  1 -  (Math.abs(numberOfNeutrons - ALPHA_PROTONS) / (double) ALPHA_PROTONS) * ALPHA_STABILITY_CONSTANT;
     }
 
-    private double betaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
-        return stabilityConstant -(float) (0.5 * Math.abs(numberOfNeutrons - numberOfProtons)/numberOfProtons);
+    private double betaEfficiency(int numberOfNeutrons){
+        return BETA_STABILITY_CONSTANT -  (0.5 * Math.abs(numberOfNeutrons - BETA_PROTONS) / (double) BETA_PROTONS);
     }
 
-    private double gammaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
-        return stabilityConstant + (float) Math.abs(numberOfNeutrons - numberOfProtons)/ 2 * numberOfProtons;
+    private double gammaEfficiency(int numberOfNeutrons){
+        return GAMMA_STABILITY_CONSTANT + (float) Math.abs(numberOfNeutrons - GAMMA_PROTONS)  / (double) 2 * GAMMA_PROTONS;
     }
 
-    private double sigmaEfficiency(int numberOfNeutrons, int numberOfProtons, double stabilityConstant){
-        return (1 + (stabilityConstant / 2) + (float)Math.abs(numberOfNeutrons - numberOfProtons) / numberOfProtons);
+    private double sigmaEfficiency(int numberOfNeutrons){
+        return (1 + (SIGMA_STABILITY_CONSTANT / 2) + (float)Math.abs(numberOfNeutrons - SIGMA_PROTONS) / (double) SIGMA_PROTONS);
     }
 }

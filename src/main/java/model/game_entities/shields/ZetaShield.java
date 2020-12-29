@@ -1,30 +1,28 @@
 package model.game_entities.shields;
 
-import model.game_building.GameConstants;
+import static model.game_building.GameConstants.*;
 import model.game_entities.Atom;
 
 public class ZetaShield extends ShieldDecorator {
 
-    private boolean canImprove;
-
     public ZetaShield(Atom atom) {
         super(atom);
-        canImprove = this.getAtom().getNumberOfNeutrons() == this.getAtom().getNumberOfProtons();
     }
 
     @Override
     public double getEfficiency() {
+        double oldEfficiency = this.getAtom().getEfficiency();
+        double efficiencyFactor = (1 - oldEfficiency) * ZETA_EFFICIENCY_BOOST;
+
+        boolean canImprove = this.getAtom().getNumberOfNeutrons() == this.getAtom().getNumberOfProtons();
+
         if (canImprove)
-        return (1 - this.getAtom().getEfficiency()) * GameConstants.ZETA_EFFICIENCY_BOOST;
-        return this.getAtom().getEfficiency();
+            return oldEfficiency + oldEfficiency * efficiencyFactor;
+        return oldEfficiency;
     }
 
     @Override
     public double getAtomSpeedPercentage() {
-        return super.getAtom().getAtomSpeedPercentage() - GameConstants.ZETA_SPEED_REDUCTION_PERCENTAGE;
-    }
-
-    public boolean canImprove(){
-        return this.canImprove;
+        return super.getAtom().getAtomSpeedPercentage() - ZETA_SPEED_REDUCTION_PERCENTAGE;
     }
 }

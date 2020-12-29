@@ -10,7 +10,6 @@ public class ThetaShield extends ShieldDecorator {
 
     private final double THETA_EFFICIENCY_BOOST;
 
-
     public ThetaShield(Atom atom) {
         super(atom);
         THETA_EFFICIENCY_BOOST = getThetaEfficiency();
@@ -25,7 +24,10 @@ public class ThetaShield extends ShieldDecorator {
 
     @Override
     public double getEfficiency() {
-        return (1 - super.getAtom().getEfficiency()) * THETA_EFFICIENCY_BOOST;
+        double oldEfficiency = this.getAtom().getEfficiency();
+        double efficiencyFactor = (1 - oldEfficiency) * THETA_EFFICIENCY_BOOST;
+
+        return oldEfficiency + oldEfficiency * efficiencyFactor;
     }
 
     @Override

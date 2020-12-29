@@ -18,11 +18,10 @@ public class Atom extends Projectile {
     private double width;
     private double height;
 
-    private double stabilityConstant;
-    private double efficiency;
-    private int numberOfProtons;
-    private int numberOfNeutrons;
-
+    private final double stabilityConstant;
+    private final double efficiency;
+    private final int numberOfProtons;
+    private final int numberOfNeutrons;
 
     private final double ATOM_SPEED_PERCENTAGE = 1;
 
@@ -53,7 +52,7 @@ public class Atom extends Projectile {
     }
 
     public int getNumberOfNeutrons() {
-        return numberOfNeutrons;
+        return this.numberOfNeutrons;
     }
 
     public int getNumberOfProtons(){

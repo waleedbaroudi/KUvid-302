@@ -11,11 +11,19 @@ public class EtaShield extends ShieldDecorator{
 
     @Override
     public double getEfficiency() {
-        if (this.getAtom().getNumberOfProtons() != this.getAtom().getNumberOfNeutrons()){
-            return ((1 - this.getAtom().getEfficiency()) * Math.abs(this.getAtom().getNumberOfNeutrons() -
-                    this.getAtom().getNumberOfProtons())) / this.getAtom().getNumberOfProtons();
+        double oldEfficiency = this.getAtom().getEfficiency();
+        int numberOfNeutrons = this.getAtom().getNumberOfNeutrons();
+        int numberOfProtons = this.getAtom().getNumberOfProtons();
+
+        double efficiencyFactor = 0;
+
+        if (numberOfProtons != numberOfNeutrons){
+            efficiencyFactor = (1 - oldEfficiency) * Math.abs(numberOfNeutrons - numberOfProtons) /
+                    (double) numberOfProtons;
+            return oldEfficiency + oldEfficiency * efficiencyFactor;
         }
-        return (1 - this.getAtom().getEfficiency()) * GameConstants.ETA_EFFICIENCY_BOOST;
+        efficiencyFactor = (1 - oldEfficiency) * GameConstants.ETA_EFFICIENCY_BOOST;
+        return oldEfficiency + oldEfficiency * efficiencyFactor;
     }
 
     @Override
