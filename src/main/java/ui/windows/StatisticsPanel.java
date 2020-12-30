@@ -121,6 +121,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         thetaButton = new JLabel(new ImageIcon(thetaImg));
         zetaButton = new JLabel(new ImageIcon(zetaImg));
 
+        gridBagConstraints.gridwidth = 1;
         gridBagConstraints.ipady = 10;
         //x = 0
         gridBagConstraints.weightx = 0.5;
@@ -140,18 +141,6 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         add(gammaPowerupButton, gridBagConstraints);
         gridBagConstraints.gridy = 6;
         add(sigmaPowerupButton, gridBagConstraints);
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridy = 7;
-        add(blenderButton, gridBagConstraints);
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridy = 8;
-        add(alphaAtomsNumberLabel, gridBagConstraints);
-        gridBagConstraints.gridy = 9;
-        add(betaAtomsNumberLabel, gridBagConstraints);
-        gridBagConstraints.gridy = 10;
-        add(gammaAtomsNumberLabel, gridBagConstraints);
-        gridBagConstraints.gridy = 11;
-        add(sigmaAtomsNumberLabel, gridBagConstraints);
 
         //x = 1
         gridBagConstraints.gridx = 1;
@@ -169,8 +158,26 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         add(gammaPowerupsNumberLabel, gridBagConstraints);
         gridBagConstraints.gridy = 6;
         add(sigmaPowerupsNumberLabel, gridBagConstraints);
-        gridBagConstraints.gridy = 8;
 
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 7;
+        add(blenderButton, gridBagConstraints);
+
+        //x = 0
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridy = 8;
+        add(alphaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 9;
+        add(betaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        add(gammaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 11;
+        add(sigmaAtomsNumberLabel, gridBagConstraints);
+
+        //x = 1
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
         add(new JLabel(new ImageIcon(atomAlphaImg)), gridBagConstraints);
         gridBagConstraints.gridy = 9;
         add(new JLabel(new ImageIcon(atomBetaImg)), gridBagConstraints);
@@ -179,7 +186,30 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridy = 11;
         add(new JLabel(new ImageIcon(atomSigmaImg)), gridBagConstraints);
 
+        //x = 2
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        add(new JLabel(new ImageIcon(etaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 9;
+        add(new JLabel(new ImageIcon(lotaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        add(new JLabel(new ImageIcon(thetaImg)), gridBagConstraints);
+        gridBagConstraints.gridy = 11;
+        add(new JLabel(new ImageIcon(zetaImg)), gridBagConstraints);
+
+        //x = 3
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 8;
+        add(etaNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 9;
+        add(lotaNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        add(thetaNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 11;
+        add(zetaNumberLabel, gridBagConstraints);
+
         setButtonListeners();
+
     }
 
     /**
