@@ -19,7 +19,7 @@ public class PausedState implements GameState {
         runningMode.getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
         GameBundle bundle = builder.build();
-        IOHandler.writeToYAML(bundle, "session", "sessions");
+        IOHandler.writeToJSON(bundle, "session", "sessions");
     }
 
     @Override

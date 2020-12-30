@@ -11,21 +11,29 @@ import java.util.Date;
 
 public class IOHandler {
 
-    private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    private static final ObjectMapper YAMLMapper = new ObjectMapper(new YAMLFactory());
+    private static final ObjectMapper JSONMapper = new ObjectMapper();
     private static final Logger logger = Logger.getLogger(IOHandler.class.getName());
 
     /**
      * writes an object to a YAML file.
      *
-     * @param obj   the object to be saved.
+     * @param obj      the object to be saved.
      * @param fileName the base name of the file of the saved object.
      */
     public static void writeToYAML(Object obj, String fileName, String directoryName) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
-        Date currentData = new Date();
-        String name = fileName + "-" + formatter.format(currentData) + ".yaml";
+        String name = formatFileNameWithDate(fileName, "yaml");
+        writeFileWithMapper(obj, name, directoryName, YAMLMapper);
+    }
+
+    public static void writeToJSON(Object obj, String fileName, String directoryName) {
+        String name = formatFileNameWithDate(fileName, "json");
+        writeFileWithMapper(obj, name, directoryName, JSONMapper);
+    }
+
+    private static void writeFileWithMapper(Object obj, String fileName, String directoryName, ObjectMapper mapper) {
         try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + "/" + directoryName + "/" + name), obj);
+            mapper.writeValue(new File(System.getProperty("user.dir") + "/" + directoryName + "/" + fileName), obj);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,14 +42,10 @@ public class IOHandler {
     /**
      * writes the selected object into a temporary file.
      *
-     * @param obj the temporary bundle to be written to the file.
+     * @param obj the temporary object to be written to the file.
      */
     public static void writeToYAML(Object obj) {
-        try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/temp.yaml"), obj);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeFileWithMapper(obj, "temp.yaml", "configurations", YAMLMapper);
     }
 
     /**
@@ -51,7 +55,7 @@ public class IOHandler {
      * @return a new object read from the YAML file
      */
     public static <T> T readFromYaml(String fileName, Class<T> tClass) throws IOException {
-        return mapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), tClass);
+        return YAMLMapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), tClass);
     }
 
     /**
@@ -62,6 +66,12 @@ public class IOHandler {
     public static String[] getFilesInDirectory() {
         File directory = new File(System.getProperty("user.dir") + "/configurations/");
         return directory.list();
+    }
+
+    private static String formatFileNameWithDate(String rawName, String extension) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
+        Date currentData = new Date();
+        return rawName + "-" + formatter.format(currentData) + "." + extension;
     }
 
     /**
