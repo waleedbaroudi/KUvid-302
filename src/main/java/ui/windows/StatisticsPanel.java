@@ -2,7 +2,6 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
-import model.game_entities.Entity;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
@@ -44,6 +43,18 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     private Image blenderImg;
     private Image blenderImg_bg;
 
+    //shields
+    private JLabel etaButton;
+    private JLabel lotaButton;
+    private JLabel thetaButton;
+    private JLabel zetaButton;
+
+    private Image etaImg;
+    private Image lotaImg;
+    private Image thetaImg;
+    private Image zetaImg;
+
+
     // JLabels
     JLabel gammaAtomsNumberLabel;
     JLabel alphaAtomsNumberLabel;
@@ -67,6 +78,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     JLabel gammaPowerupButton;
     JLabel sigmaPowerupButton;
 
+    JLabel etaNumberLabel;
+    JLabel lotaNumberLabel;
+    JLabel thetaNumberLabel;
+    JLabel zetaNumberLabel;
+
     //iconSize
     int iconSize = (int) (Configuration.getInstance().getUnitL() * GameConstants.ICON_SIZE);
 
@@ -82,7 +98,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         setOpaque(false);
 
         retrieveImages();
-        initializeTextFields();
+        initializeTextLabels();
         setContent();
     }
 
@@ -99,6 +115,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         betaPowerupButton = new JLabel(new ImageIcon(powerupBetaImg));
         gammaPowerupButton = new JLabel(new ImageIcon(powerupGammaImg));
         sigmaPowerupButton = new JLabel(new ImageIcon(powerupSigmaImg));
+
+        etaButton = new JLabel(new ImageIcon(etaImg));
+        lotaButton = new JLabel(new ImageIcon(lotaImg));
+        thetaButton = new JLabel(new ImageIcon(thetaImg));
+        zetaButton = new JLabel(new ImageIcon(zetaImg));
 
         gridBagConstraints.ipady = 10;
         //x = 0
@@ -159,6 +180,62 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         add(new JLabel(new ImageIcon(atomSigmaImg)), gridBagConstraints);
 
         setButtonListeners();
+    }
+
+    /**
+     * initializes TextField that correspond to number of atoms/powerups, score, health, and time
+     */
+    private void initializeTextLabels() {
+        ProjectileContainer container = this.runningMode.getProjectileContainer();
+        alphaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
+        betaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
+        gammaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
+        sigmaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
+
+        gammaPowerupsNumberLabel = new JLabel("0");
+        alphaPowerupsNumberLabel = new JLabel("0");
+        betaPowerupsNumberLabel = new JLabel("0");
+        sigmaPowerupsNumberLabel = new JLabel("0");
+
+        etaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfEtaShields());
+        lotaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfLotaShields());
+        thetaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfThetaShields());
+        zetaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfZetaShields());
+
+        healthLabel = new JLabel("100");
+        timeLabel = new JLabel("10 : 00");
+        SCORE = new JLabel("Score: ");
+        scoreLabel = new JLabel("0.0");
+    }
+
+    /**
+     * retrieves images from ImageResources with the specified height and width
+     */
+    private void retrieveImages() {
+        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, iconSize, iconSize, false);
+        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, iconSize, iconSize, false);
+        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, iconSize, iconSize, false);
+        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, iconSize, iconSize, false);
+
+        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, false);
+        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, false);
+        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, false);
+        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, false);
+
+        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, true);
+        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, true);
+        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, true);
+        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, true);
+
+        healthImg = ImageResources.getIcon("health", iconSize, iconSize);
+        watchImg = ImageResources.getIcon("timer", iconSize, iconSize);
+        blenderImg = ImageResources.getIcon("blender", iconSize, iconSize);
+        blenderImg_bg = ImageResources.getIcon("blender_bg", iconSize, iconSize);
+
+        etaImg = ImageResources.getIcon("eta", iconSize, iconSize);
+        lotaImg = ImageResources.getIcon("lota", iconSize, iconSize);
+        thetaImg = ImageResources.getIcon("theta", iconSize, iconSize);
+        zetaImg = ImageResources.getIcon("zeta", iconSize, iconSize);
     }
 
     private void setButtonListeners() {
@@ -260,63 +337,58 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             }
         };
 
+
+        MouseAdapter etaAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.applyEtaShield();
+            }
+        };
+        MouseAdapter lotaAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.applyLotaShield();
+            }
+        };
+        MouseAdapter thetaAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.applyThetaShield();
+            }
+        };
+        MouseAdapter zetaAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                runningMode.applyZetaShield();
+            }
+
+        };
+
         blenderButton.addMouseListener(blenderAdapter);
+
         alphaPowerupButton.addMouseListener(alphaPowerupAdapter);
         betaPowerupButton.addMouseListener(betaPowerupAdapter);
         sigmaPowerupButton.addMouseListener(sigmaPowerupAdapter);
         gammaPowerupButton.addMouseListener(gammaPowerupAdapter);
+
+        etaButton.addMouseListener(etaAdapter);
+        lotaButton.addMouseListener(lotaAdapter);
+        thetaButton.addMouseListener(thetaAdapter);
+        zetaButton.addMouseListener(zetaAdapter);
 
         blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         alphaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         betaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         sigmaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
         gammaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-    }
-
-    /**
-     * initializes TextField that correspond to number of atoms/powerups, score, health, and time
-     */
-    private void initializeTextFields() {
-        ProjectileContainer container = this.runningMode.getProjectileContainer();
-        alphaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
-        betaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
-        gammaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
-        sigmaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
-
-        gammaPowerupsNumberLabel = new JLabel("0");
-        alphaPowerupsNumberLabel = new JLabel("0");
-        betaPowerupsNumberLabel = new JLabel("0");
-        sigmaPowerupsNumberLabel = new JLabel("0");
-
-        healthLabel = new JLabel("100");
-        timeLabel = new JLabel("10 : 00");
-        SCORE = new JLabel("Score: ");
-        scoreLabel = new JLabel("0.0");
-    }
-
-    /**
-     * retrieves images from ImageResources with the specified height and width
-     */
-    private void retrieveImages() {
-        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, iconSize, iconSize, false);
-        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, iconSize, iconSize, false);
-        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, iconSize, iconSize, false);
-        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, iconSize, iconSize, false);
-
-        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, false);
-        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, false);
-        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, false);
-        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, false);
-
-        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, true);
-        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, true);
-        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, true);
-        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, true);
-
-        healthImg = ImageResources.getIcon("health", iconSize, iconSize);
-        watchImg = ImageResources.getIcon("timer", iconSize, iconSize);
-        blenderImg = ImageResources.getIcon("blender", iconSize, iconSize);
-        blenderImg_bg = ImageResources.getIcon("blender_bg", iconSize, iconSize);
+        etaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        lotaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        thetaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
+        zetaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
     }
 
     @Override
