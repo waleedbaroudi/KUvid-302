@@ -12,6 +12,27 @@ public class GameBundle {
     private ArrayList<Molecule> molecules;
     private Shooter shooter;
 
+    // returning cloned lists in the below getters to avoid exposing private fields.
+    public ArrayList<Atom> getAtoms() {
+        return new ArrayList<>(atoms);
+    }
+
+    public ArrayList<Blocker> getBlockers() {
+        return new ArrayList<>(blockers);
+    }
+
+    public ArrayList<Powerup> getPowerUps() {
+        return new ArrayList<>(powerUps);
+    }
+
+    public ArrayList<Molecule> getMolecules() {
+        return new ArrayList<>(molecules);
+    }
+
+    public Shooter getShooter() {
+        return shooter;
+    }
+
     private GameBundle() { //private because we only want to make game bundles through building.
     }
 

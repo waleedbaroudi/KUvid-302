@@ -1,21 +1,25 @@
 package model.game_running.states;
 
 import model.game_building.GameBundle;
-import model.game_entities.AutonomousEntity;
 import model.game_running.RunningMode;
+import utils.IOHandler;
 
 public class PausedState implements GameState {
 
-    private RunningMode runningMode;
+    private final RunningMode runningMode;
 
     public PausedState(RunningMode runningMode) {
         this.runningMode = runningMode;
     }
 
     @Override
-    public void SaveGameSession() {
+    public void saveGameSession() {
         GameBundle.Builder builder = new GameBundle.Builder();
-        
+        builder.setShooter(runningMode.getShooter());
+        runningMode.getAutonomousEntities().forEach(entity -> entity.saveState(builder));
+
+        GameBundle bundle = builder.build();
+        IOHandler.writeToYAML(bundle, "session", "sessions");
     }
 
     @Override

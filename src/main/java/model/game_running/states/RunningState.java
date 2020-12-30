@@ -13,8 +13,8 @@ public class RunningState implements GameState {
     }
 
     @Override
-    public void SaveGameSession() {
-        logger.warn("Cannot load session while the game is running. pause the game first.");
+    public void saveGameSession() {
+        logger.warn("Cannot save session while the game is running. pause the game first.");
     }
 
     @Override

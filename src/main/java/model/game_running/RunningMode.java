@@ -1,6 +1,7 @@
 package model.game_running;
 
 import model.game_building.Configuration;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.*;
 import model.game_entities.enums.EntityType;
@@ -15,6 +16,7 @@ import model.game_running.states.RunningState;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
+import utils.IOHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -266,7 +268,7 @@ public class RunningMode {
     }
 
     public void saveGameSession() {
-        currentState.SaveGameSession();
+        currentState.saveGameSession();
     }
 
     public void loadGameSession() {

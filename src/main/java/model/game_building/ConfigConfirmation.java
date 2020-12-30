@@ -13,7 +13,7 @@ public class ConfigConfirmation {
         //write the selected config into a temporary file that will be read in Configuration class.
         IOHandler.writeToYAML(bundle);
         if (isSaving)
-            IOHandler.writeToYAML(bundle, "preset");
+            IOHandler.writeToYAML(bundle, "preset","configurations");
         // Send a signal to close the building-mode window (Frame)
         confirmationListener.onConfirmedParameters();
 

@@ -20,12 +20,12 @@ public class IOHandler {
      * @param obj   the object to be saved.
      * @param fileName the base name of the file of the saved object.
      */
-    public static void writeToYAML(Object obj, String fileName) {
+    public static void writeToYAML(Object obj, String fileName, String directoryName) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
         Date currentData = new Date();
         String name = fileName + "-" + formatter.format(currentData) + ".yaml";
         try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + "/configurations/" + name), obj);
+            mapper.writeValue(new File(System.getProperty("user.dir") + "/" + directoryName + "/" + name), obj);
         } catch (IOException e) {
             e.printStackTrace();
         }
