@@ -3,7 +3,7 @@ package utils;
 
 //TODO complete documentation
 /**
- * Immutable representation of a vecotr
+ * Immutable representation of a vector
  */
 public class Vector {
 
