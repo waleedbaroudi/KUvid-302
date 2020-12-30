@@ -61,14 +61,19 @@ public class GameCommandListener implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_STILL);
                 break;
-        }
-        switch (e.getKeyCode()) {
             case KeyEvent.VK_D:
                 runningMode.rotateShooter(GameConstants.SHOOTER_ROTATION_RIGHT);
                 break;
             case KeyEvent.VK_A:
                 runningMode.rotateShooter(GameConstants.SHOOTER_ROTATION_LEFT);
                 break;
+            case KeyEvent.VK_S:
+                runningMode.saveGameSession();
+                break;
+            case KeyEvent.VK_L:
+                runningMode.loadGameSession();
+                break;
+
         }
 
     }
