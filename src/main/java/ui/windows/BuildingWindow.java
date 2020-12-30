@@ -242,7 +242,11 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
         zetaShieldTextField = new JTextField(4);
         panel.add(zetaShieldTextField);
-
+        //todo: delete these after setting the default values
+        etaShieldTextField.setText("" + 100);
+        lotaShieldTextField.setText("" + 100);
+        thetaShieldTextField.setText("" + 100);
+        zetaShieldTextField.setText("" + 100);
 
         // Length label and textfield.
         JLabel lengthLabel = new JLabel("L unit ");

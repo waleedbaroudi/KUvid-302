@@ -3,6 +3,7 @@ package ui.windows;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
@@ -121,8 +122,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         thetaButton = new JLabel(new ImageIcon(thetaImg));
         zetaButton = new JLabel(new ImageIcon(zetaImg));
 
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.ipady = 10;
+
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipady = 6;
         //x = 0
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.gridx = 0;
@@ -143,7 +145,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         add(sigmaPowerupButton, gridBagConstraints);
 
         //x = 1
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = GridBagConstraints.CENTER;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.weightx = 0.5;
         gridBagConstraints.gridy = 0;
         add(scoreLabel, gridBagConstraints);
         gridBagConstraints.gridy = 1;
@@ -161,6 +165,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
 
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridx = 1;
         add(blenderButton, gridBagConstraints);
 
         //x = 0
@@ -189,13 +194,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         //x = 2
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
-        add(new JLabel(new ImageIcon(etaImg)), gridBagConstraints);
+        add(etaButton, gridBagConstraints);
         gridBagConstraints.gridy = 9;
-        add(new JLabel(new ImageIcon(lotaImg)), gridBagConstraints);
+        add(lotaButton, gridBagConstraints);
         gridBagConstraints.gridy = 10;
-        add(new JLabel(new ImageIcon(thetaImg)), gridBagConstraints);
+        add(thetaButton, gridBagConstraints);
         gridBagConstraints.gridy = 11;
-        add(new JLabel(new ImageIcon(zetaImg)), gridBagConstraints);
+        add(zetaButton, gridBagConstraints);
 
         //x = 3
         gridBagConstraints.gridx = 3;
@@ -463,6 +468,25 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                     sigmaAtomsNumberLabel.setText(stringValue);
                 else
                     sigmaPowerupsNumberLabel.setText(stringValue);
+                break;
+        }
+    }
+
+    @Override
+    public void onShieldsCountChange(ShieldType type, int newCount) {
+        String stringValue = String.valueOf(newCount);
+        switch (type) {
+            case ETA:
+                etaNumberLabel.setText(stringValue);
+                break;
+            case LOTA:
+                lotaNumberLabel.setText(stringValue);
+                break;
+            case THETA:
+                thetaNumberLabel.setText(stringValue);
+                break;
+            case ZETA:
+                zetaNumberLabel.setText(stringValue);
                 break;
         }
     }

@@ -8,6 +8,7 @@ import model.game_entities.Entity;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.MovementRunnable;
@@ -19,6 +20,7 @@ import org.apache.log4j.Logger;
 import utils.Coordinates;
 import utils.MathUtils;
 import ui.windows.RunningWindow;
+
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -75,10 +77,9 @@ public class RunningMode {
                 0);
 
 
-
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
-        this.shieldHandler = new ShieldHandler();
+        this.shieldHandler = new ShieldHandler(this);
         initialize();
     }
 
@@ -217,9 +218,14 @@ public class RunningMode {
             statistics.changeProjectileCount(type, entityType, newCount);
     }
 
+    public void updateStatisticsShieldCount(ShieldType type, int newCount) {
+        if (statistics != null)
+            statistics.changeShieldCount(type, newCount);
+    }
+
     public void updateHealth(int damageAmount) {
         if (statistics != null)
-            if(statistics.decreaseHealth(damageAmount))
+            if (statistics.decreaseHealth(damageAmount))
                 this.setRunningState(GameConstants.GAME_STATE_STOP);
     }
 
@@ -236,7 +242,7 @@ public class RunningMode {
         runningStateListener.onGameOver();
     }
 
-    public void switchAtom(){
+    public void switchAtom() {
         getShooter().switchAtom();
     }
 
@@ -258,7 +264,8 @@ public class RunningMode {
 
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
-      }
+    }
+
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
@@ -283,14 +290,6 @@ public class RunningMode {
         if (shooter.projectileIsAtom())
             shooter.setCurrentProjectile(shieldHandler.applyZetaShield(shooter.getAtomProjectile()));
     }
-
-
-
-
-
-
-
-
 
 
     public interface RunningStateListener {
