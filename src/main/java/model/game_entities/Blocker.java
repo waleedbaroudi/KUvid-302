@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import model.game_building.Configuration;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
@@ -85,6 +86,11 @@ public class Blocker extends AutonomousEntity {
         super.reachBoundary(collisionRunnable);
         this.isExploded = true;
         collisionRunnable.BlockerBoundaryBehavior(this);
+    }
+
+    @Override
+    public void saveState(GameBundle.Builder builder) {
+        builder.addEntity(this);
     }
 
     public boolean isExploded(){

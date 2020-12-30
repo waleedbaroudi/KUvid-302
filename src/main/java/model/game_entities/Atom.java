@@ -1,26 +1,21 @@
 package model.game_entities;
 
+import model.game_building.GameBundle;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
 import utils.Coordinates;
+
 /**
  * Atom: Handles the Atom game object.
  */
-public class Atom extends Projectile{
+public class Atom extends Projectile {
 
     public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
-    }
-
-    @Override
-    public String toString() {
-        return "Atom{" +
-                "type=" + getType() +
-                '}';
     }
 
 
@@ -53,5 +48,17 @@ public class Atom extends Projectile{
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
+    }
+
+    @Override
+    public void saveState(GameBundle.Builder builder) {
+        builder.addEntity(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Atom{" +
+                "type=" + getType() +
+                '}';
     }
 }

@@ -1,24 +1,25 @@
 package model.game_running;
 
 import model.game_building.Configuration;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
-import model.game_entities.AutonomousEntity;
-import model.game_entities.Powerup;
-import model.game_entities.Entity;
-import model.game_entities.Projectile;
-import model.game_entities.Shooter;
+import model.game_entities.*;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.runnables.CollisionRunnable;
+import model.game_running.runnables.EntityGeneratorRunnable;
 import model.game_running.runnables.MovementRunnable;
 import model.game_running.runnables.ShooterMovementRunnable;
-import model.game_running.runnables.EntityGeneratorRunnable;
+import model.game_running.states.GameState;
+import model.game_running.states.PausedState;
+import model.game_running.states.RunningState;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
-import ui.windows.RunningWindow;
+import utils.IOHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -27,6 +28,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
     private GameStatistics statistics;
+
+    // game state
+    GameState currentState, pausedState, runningState;
 
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
@@ -58,6 +62,10 @@ public class RunningMode {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         Configuration config = Configuration.getInstance();
+
+        runningState = new RunningState(this);
+        pausedState = new PausedState(this);
+        currentState = runningState;
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
@@ -134,6 +142,10 @@ public class RunningMode {
         collisionRunnable.setRunnableState(state);
         shooterRunnable.setRunnableState(state);
         entityGeneratorRunnable.setRunnableState(state);
+        if (state == GameConstants.GAME_STATE_PAUSED)
+            currentState = pausedState;
+        else if (state == GameConstants.GAME_STATE_RESUMED)
+            currentState = runningState;
     }
 
     public void moveShooter(int direction) {
@@ -214,7 +226,7 @@ public class RunningMode {
 
     public void updateHealth(int damageAmount) {
         if (statistics != null)
-            if(statistics.decreaseHealth(damageAmount))
+            if (statistics.decreaseHealth(damageAmount))
                 this.setRunningState(GameConstants.GAME_STATE_STOP);
     }
 
@@ -249,9 +261,18 @@ public class RunningMode {
 
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
-      }
+    }
+
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
+    }
+
+    public void saveGameSession() {
+        currentState.saveGameSession();
+    }
+
+    public void loadGameSession() {
+        currentState.LoadGameSession();
     }
 
     public interface RunningStateListener {

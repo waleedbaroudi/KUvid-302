@@ -18,7 +18,7 @@ public class BuildingMode {
     }
 
     public static ConfigBundle getDefaultBundle() throws IOException {
-        return IOHandler.readConfigFromYaml("Default");
+        return IOHandler.readFromYaml("Default", ConfigBundle.class);
     }
 
     /**

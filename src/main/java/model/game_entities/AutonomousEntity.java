@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import model.game_building.GameBundle;
 import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
@@ -9,7 +10,7 @@ import utils.Coordinates;
 /**
  * AutonomousEntity: a Superclass for all the game objects that move autonomously
  */
-abstract public class AutonomousEntity extends Entity {
+public abstract class AutonomousEntity extends Entity {
 
     private EntityType type;
     private PathPattern pathPattern;
@@ -54,4 +55,6 @@ abstract public class AutonomousEntity extends Entity {
     public void reachBoundary(CollisionRunnable collisionRunnable) {
         collisionRunnable.defaultBoundaryBehaviour(this);
     }
+
+    public abstract void saveState(GameBundle.Builder builder);
 }

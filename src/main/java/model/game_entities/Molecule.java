@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.MoleculeStructure;
@@ -84,4 +85,8 @@ public class Molecule extends AutonomousEntity implements Spinnable {
         entity.collideWith(visitor, this);
     }
 
+    @Override
+    public void saveState(GameBundle.Builder builder) {
+        builder.addEntity(this);
+    }
 }
