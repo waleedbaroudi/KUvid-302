@@ -3,7 +3,7 @@ package utils.database;
 
 import java.io.IOException;
 
-public interface INonRationalDB {
+public interface IDatabase {
     /**
      * Remove the registered collection **if exists** from the DB
      * @param collectionTitle

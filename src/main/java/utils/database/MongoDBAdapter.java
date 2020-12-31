@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Filters.*;
  * This assumes that a cluster with the given address and port was already instantiated locally.
  */
 
-public class MongoDBAdapter implements INonRationalDB{
+public class MongoDBAdapter implements IDatabase{
 
     // Local configuration
     //    private String HOST_ADDRESS = "localhost";

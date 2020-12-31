@@ -71,7 +71,7 @@ public class GameCommandListener implements KeyListener {
                 runningMode.saveGameSession();
                 break;
             case KeyEvent.VK_L:
-                runningMode.loadGameSession();
+                runningMode.retrieveGameSession();
                 break;
 
         }

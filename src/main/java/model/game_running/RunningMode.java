@@ -16,7 +16,6 @@ import model.game_running.states.RunningState;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import org.apache.log4j.Logger;
-import utils.IOHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -271,10 +270,13 @@ public class RunningMode {
         currentState.saveGameSession();
     }
 
-    public void loadGameSession() {
-        currentState.LoadGameSession();
+    public void retrieveGameSession() {
+        currentState.retrieveGameSession();
     }
 
+    public void loadGameSession(GameBundle bundle){
+
+    }
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
 

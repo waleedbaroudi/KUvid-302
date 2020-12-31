@@ -18,7 +18,7 @@ public class RunningState implements GameState {
     }
 
     @Override
-    public void LoadGameSession() {
+    public void retrieveGameSession() {
         logger.warn("Cannot load session while the game is running. pause the game first.");
     }
 }

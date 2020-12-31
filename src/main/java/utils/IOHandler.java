@@ -23,12 +23,12 @@ public class IOHandler {
      * @param fileName the base name of the file of the saved object.
      */
     public static void writeToYAML(Object obj, String fileName, String directoryName) {
-        String name = formatFileNameWithDate(fileName, "yaml");
+        String name = formatFileNameWithDate(fileName, ".yaml");
         writeFileWithMapper(obj, name, directoryName, YAMLMapper);
     }
 
     public static void writeToJSON(Object obj, String fileName, String directoryName) {
-        String name = formatFileNameWithDate(fileName, "json");
+        String name = formatFileNameWithDate(fileName, ".json");
         writeFileWithMapper(obj, name, directoryName, JSONMapper);
     }
 
@@ -84,10 +84,10 @@ public class IOHandler {
         return directory.list();
     }
 
-    private static String formatFileNameWithDate(String rawName, String extension) {
+    public static String formatFileNameWithDate(String rawName, String extension) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy--HH-mm");
         Date currentData = new Date();
-        return rawName + "-" + formatter.format(currentData) + "." + extension;
+        return rawName + "-" + formatter.format(currentData) + extension;
     }
 
     /**
