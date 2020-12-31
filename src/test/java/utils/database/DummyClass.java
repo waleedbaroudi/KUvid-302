@@ -1,13 +1,16 @@
 package utils.database;
 
-public class dummyClass {
+public class DummyClass {
 
     String name;
     int age;
 
-    public dummyClass(String name, int age) {
+    public DummyClass(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public DummyClass() {
     }
 
     public String getName() {

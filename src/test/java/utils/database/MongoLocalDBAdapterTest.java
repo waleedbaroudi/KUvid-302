@@ -1,20 +1,9 @@
 package utils.database;
 
-import model.game_entities.Atom;
-import model.game_entities.Blocker;
-import model.game_entities.enums.EntityType;
-import model.game_entities.factories.BlockerFactory;
-import model.game_physics.hitbox.CircularHitbox;
-import model.game_physics.path_patterns.StraightPattern;
 import org.bson.Document;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import utils.Coordinates;
-import utils.Velocity;
+import org.junit.jupiter.api.*;
 
-import java.util.List;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,62 +12,71 @@ import static org.junit.jupiter.api.Assertions.*;
 class MongoLocalDBAdapterTest {
 
     private MongoLocalDBAdapter database;
+    private String COLLECTION_TITLE = "DBTest";
 
     @BeforeAll
     void connectToDB(){
         this.database = new MongoLocalDBAdapter();
+        this.database.removeCollection(COLLECTION_TITLE);
+    }
+
+    @BeforeEach
+    void updateCollection(){
+        // remove the collection to start fresh
+        this.database.removeCollection(COLLECTION_TITLE);
     }
 
     @AfterAll
     void disconnect(){
-        // delete the temporary document
-
+        // delete the temporary collection
+        this.database.removeCollection(COLLECTION_TITLE);
     }
 
     @Test
     void saveLoadDocumentTest() {
-        String tmpDBTitle = "documentTest";
-
+        String uID = "1234";
         // create a collection
-        this.database.registerCollection(tmpDBTitle);
+        this.database.registerCollection(COLLECTION_TITLE);
 
         // insert a document
-        this.database.save(tmpDBTitle, Document.class, new Document("key", "value"));
-        System.out.println("saved..");
-
+        try {
+            this.database.save(COLLECTION_TITLE, uID, new Document("Pepega", "Best project of the year"));
+        } catch (IOException e) {
+            fail();
+        }
         //retrieve the document
-        List<Document> docList = this.database.get(tmpDBTitle, Document.class);
-        assertEquals("value", docList.get(docList.size()-1).get("key"));
+        try {
+            Document doc = this.database.load(COLLECTION_TITLE, uID, Document.class);
+            assertEquals("Best project of the year", doc.get("Pepega"));
+        } catch (IOException e) {
+            fail();
+        }
     }
 
     @Test
     void saveLoadDummyTest() {
-        String tmpDBTitle = "dummyTest";
+        String uID = "1234";
+
         // create a collection
-        this.database.registerCollection(tmpDBTitle);
+        this.database.registerCollection(COLLECTION_TITLE);
 
         // insert a document
-        this.database.save(tmpDBTitle, dummyClass.class, new dummyClass("Moayed", 21));
-        System.out.println("saved..");
+        try {
+            this.database.save(COLLECTION_TITLE, uID, new DummyClass("Pepega", 21));
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        }
 
         //retrieve the document
-        List<dummyClass> docList = this.database.get(tmpDBTitle, dummyClass.class);
-        assertEquals("Moayed", docList.get(docList.size()-1).getName());
-    }
+        DummyClass dummyClass = null;
+        try {
+            dummyClass = this.database.load(COLLECTION_TITLE, uID, DummyClass.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        }
 
-    @Test
-    void saveLoadAtomTest() {
-        String tmpDBTitle = "atomTest";
-        // create a collection
-        this.database.registerCollection(tmpDBTitle);
-
-        // insert a document
-        Atom dummyAtom = new Atom(new Coordinates(0,0), new CircularHitbox(5), new StraightPattern(new Velocity(1,1)), EntityType.ALPHA);
-        this.database.save(tmpDBTitle, Atom.class, dummyAtom);
-        System.out.println("saved..");
-
-        //retrieve the document
-        List<Atom> docList = this.database.get(tmpDBTitle, Atom.class);
-        assertEquals(EntityType.ALPHA, docList.get(docList.size()-1).getType());
+        assertEquals(21, dummyClass.getAge());
     }
 }
