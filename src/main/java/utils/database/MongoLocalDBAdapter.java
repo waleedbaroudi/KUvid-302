@@ -11,6 +11,10 @@ import utils.IOHandler;
 import java.io.IOException;
 import static com.mongodb.client.model.Filters.*;
 
+/**
+ * Handle the read, write and update operation on a local MongoDB. 
+ * This assumes that a cluster with the given address and port was already instantiated locally.
+ */
 
 public class MongoLocalDBAdapter implements INonRationalDB{
 
