@@ -15,9 +15,6 @@ import utils.Coordinates;
  */
 public class Atom extends Projectile {
 
-    private double width;
-    private double height;
-
     private final double stabilityConstant;
     private final double efficiency;
     private final int numberOfProtons;
@@ -47,7 +44,7 @@ public class Atom extends Projectile {
         return this.efficiency;
     }
 
-    public double getStabilityConstant(){
+    public double getStabilityConstant() {
         return this.stabilityConstant;
     }
 
@@ -55,7 +52,7 @@ public class Atom extends Projectile {
         return this.numberOfNeutrons;
     }
 
-    public int getNumberOfProtons(){
+    public int getNumberOfProtons() {
         return this.numberOfProtons;
     }
 

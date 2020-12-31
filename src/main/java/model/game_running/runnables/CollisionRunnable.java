@@ -45,19 +45,13 @@ public class CollisionRunnable extends GameRunnable {
                     for (AutonomousEntity targetEntity : runningMode.getAutonomousEntities()) {
                         if (sourceEntity == targetEntity) //don't collision check an entity with itself
                             continue;
-                        if (sourceEntity.isCollidedWith(targetEntity)) {
-                            /*TODO: THIS REMOVES ANY TWO COLLIDING OBJECTS.
-                                handle collision of atoms with blockers and increasing score when
-                                collecting molecules.
-                             */
+                        if (sourceEntity.isCollidedWith(targetEntity))
                             sourceEntity.acceptCollision(collisionHandler, targetEntity);
-                        }
                     }
                     // check if the entity left the game view from the top or bottom boarder
                     if (sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height) {
+                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height)
                         sourceEntity.reachBoundary(this);
-                    }
 
                     ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
                     for (Coordinates coord : coords) {
@@ -85,8 +79,7 @@ public class CollisionRunnable extends GameRunnable {
                             GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
                         }
                         if (coord.getX() < 0) {
-                            sourceEntity.getPathPattern().reflect(
-                                    new Vector(new Coordinates(-1, 0)));
+                            sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
                             sourceEntity.move();
                             GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
                         }
