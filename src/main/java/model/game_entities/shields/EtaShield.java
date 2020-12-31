@@ -2,11 +2,13 @@ package model.game_entities.shields;
 
 import model.game_building.GameConstants;
 import model.game_entities.Atom;
+import model.game_entities.enums.ShieldType;
 
-public class EtaShield extends ShieldDecorator{
+public class EtaShield extends ShieldDecorator {
 
     public EtaShield(Atom atom) {
         super(atom);
+        addShield(ShieldType.ETA);
     }
 
     @Override
@@ -17,7 +19,7 @@ public class EtaShield extends ShieldDecorator{
 
         double efficiencyFactor = 0;
 
-        if (numberOfProtons != numberOfNeutrons){
+        if (numberOfProtons != numberOfNeutrons) {
             efficiencyFactor = (1 - oldEfficiency) * Math.abs(numberOfNeutrons - numberOfProtons) /
                     (double) numberOfProtons;
             return oldEfficiency * (1 + efficiencyFactor);

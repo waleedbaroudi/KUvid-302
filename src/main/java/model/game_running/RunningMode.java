@@ -2,11 +2,7 @@ package model.game_running;
 
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
-import model.game_entities.AutonomousEntity;
-import model.game_entities.Powerup;
-import model.game_entities.Entity;
-import model.game_entities.Projectile;
-import model.game_entities.Shooter;
+import model.game_entities.*;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
@@ -272,8 +268,10 @@ public class RunningMode {
 
 
     public void applyEtaShield() {
-        if (shooter.projectileIsAtom())
-            shooter.setCurrentProjectile(shieldHandler.applyEtaShield(shooter.getAtomProjectile()));
+        if (shooter.projectileIsAtom()) {
+            Atom a = shieldHandler.applyEtaShield(shooter.getAtomProjectile());
+            shooter.setCurrentProjectile(a);
+        }
     }
 
     public void applyLotaShield() {

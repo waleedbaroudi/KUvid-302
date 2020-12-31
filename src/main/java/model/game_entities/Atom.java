@@ -2,9 +2,11 @@ package model.game_entities;
 
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_entities.factories.NeutronFactory;
 import model.game_entities.factories.ProtonFactory;
+import model.game_entities.shields.ShieldTuple;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -19,6 +21,7 @@ public class Atom extends Projectile {
     private final double efficiency;
     private final int numberOfProtons;
     private final int numberOfNeutrons;
+    private ShieldTuple shieldTuple;
 
     private final double ATOM_SPEED_PERCENTAGE = 1;
 
@@ -31,6 +34,8 @@ public class Atom extends Projectile {
 
         this.numberOfProtons = numberOfProtons;
         this.numberOfNeutrons = numberOfNeutrons;
+
+        this.shieldTuple = new ShieldTuple();
     }
 
     @Override
@@ -89,5 +94,17 @@ public class Atom extends Projectile {
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
+    }
+
+    public void addShield(ShieldType type) {
+        shieldTuple.addShield(type);
+    }
+
+    public void setShieldTuple(ShieldTuple shieldTuple) {
+        this.shieldTuple = shieldTuple;
+    }
+
+    public ShieldTuple getShieldTuple() {
+        return this.shieldTuple;
     }
 }
