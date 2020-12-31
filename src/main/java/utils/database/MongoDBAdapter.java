@@ -1,6 +1,7 @@
 package utils.database;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Level;
@@ -9,30 +10,48 @@ import org.bson.Document;
 import utils.IOHandler;
 
 import java.io.IOException;
+
 import static com.mongodb.client.model.Filters.*;
 
 /**
- * Handle the read, write and update operation on a local MongoDB. 
+ * Handle the read, write and update operation on a local MongoDB.
  * This assumes that a cluster with the given address and port was already instantiated locally.
  */
 
-public class MongoLocalDBAdapter implements INonRationalDB{
+public class MongoDBAdapter implements INonRationalDB{
 
-    private String HOST_ADDRESS = "localhost";
+    // Local configuration
+    //    private String HOST_ADDRESS = "localhost";
+    //    private int HOST_PORT = 27017;
+    //    private String DB_NAME = "KuvidGameDB";
+    //    private String DOC_ID_KEY = "_id";
+    //    private String DOC_FILE_KEY = "_file";
+    //    private String USER_NAME = "pepega-shared";
+    //    private String PASSWORD = "69420";
+
+    private String CLUSTER_TITLE = "pepega-kuvid";
+    private String DB_TITLE = "pepega-kuvid";
     private int HOST_PORT = 27017;
-    private String DB_NAME = "KuvidGameDB";
     private String DOC_ID_KEY = "_id";
     private String DOC_FILE_KEY = "_file";
+    private String USER_NAME = "pepega_shared";
+    private String PASSWORD = "69420";
 
-
-    public static Logger logger = Logger.getLogger(MongoLocalDBAdapter.class.getName());
+    public static Logger logger = Logger.getLogger(MongoDBAdapter.class.getName());
     private MongoDatabase database;
 
-    public MongoLocalDBAdapter(){
+
+    public MongoDBAdapter(){
         logger.setLevel(Level.ALL);
+
         // prepare the connection
-        MongoClient mongoClient = new MongoClient(HOST_ADDRESS, HOST_PORT);
-        this.database = mongoClient.getDatabase(DB_NAME);
+        String URL = "mongodb+srv://" + USER_NAME + ":" + PASSWORD + "@" + CLUSTER_TITLE + ".opsl3.mongodb.net/" + DB_TITLE + "?retryWrites=true&w=majority";
+        MongoClientURI uri = new MongoClientURI(URL);
+        MongoClient mongoClient = new MongoClient(uri);
+
+//        if Local
+//        MongoClient mongoClient = new MongoClient(CLUSTER_TITLE, HOST_PORT);
+        this.database = mongoClient.getDatabase(DB_TITLE);
     }
 
     @Override

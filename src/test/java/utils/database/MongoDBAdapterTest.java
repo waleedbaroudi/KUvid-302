@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MongoLocalDBAdapterTest {
+class MongoDBAdapterTest {
 
-    private MongoLocalDBAdapter database;
+    private MongoDBAdapter database;
     private String COLLECTION_TITLE = "DBTest";
 
     @BeforeAll
     void connectToDB(){
-        this.database = new MongoLocalDBAdapter();
+        this.database = new MongoDBAdapter();
         this.database.removeCollection(COLLECTION_TITLE);
     }
 
