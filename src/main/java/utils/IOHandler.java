@@ -1,5 +1,6 @@
 package utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.log4j.Logger;
@@ -31,6 +32,10 @@ public class IOHandler {
         writeFileWithMapper(obj, name, directoryName, JSONMapper);
     }
 
+    public static String getJson(Object obj) throws IOException {
+        return JSONMapper.writeValueAsString(obj);
+    }
+
     private static void writeFileWithMapper(Object obj, String fileName, String directoryName, ObjectMapper mapper) {
         try {
             mapper.writeValue(new File(System.getProperty("user.dir") + "/" + directoryName + "/" + fileName), obj);
@@ -56,6 +61,17 @@ public class IOHandler {
      */
     public static <T> T readFromYaml(String fileName, Class<T> tClass) throws IOException {
         return YAMLMapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), tClass);
+    }
+
+    /**
+     * Returns an Object that is loaded from the YAML file with the given name
+     *
+     * @param content the value of the object in yaml
+     * @return a new object read from the YAML file
+     * TODO: change the signature of readFromYaml to readFromYamlFile
+     */
+    public static <T> T readFromYamlString(String content, Class<T> tClass) throws IOException {
+        return YAMLMapper.readValue(content, tClass);
     }
 
     /**
