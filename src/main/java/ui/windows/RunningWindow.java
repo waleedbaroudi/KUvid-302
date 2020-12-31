@@ -28,6 +28,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
+    private LoadWindow loadWindow;
     private final Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
@@ -36,7 +37,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.runningMode = new RunningMode(this, this);
+        this.loadWindow = new LoadWindow();
+        this.runningMode = new RunningMode(this, this, loadWindow);
         System.out.println("in running window" + runningMode.getBlender());
         blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);

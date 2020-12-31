@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -41,6 +42,7 @@ public class RunningMode {
     //Listener to handle game pause and resume commands
     private final RunningStateListener runningStateListener;
     private final GameEntitiesListener gameEntitiesListener;
+    private final SaveLoadListener saveLoadListener;
 
     // Runnables
     private MovementRunnable movementRunnable;
@@ -57,7 +59,7 @@ public class RunningMode {
     // Blender
     private final Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SaveLoadListener saveLoadListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         Configuration config = Configuration.getInstance();
@@ -68,6 +70,7 @@ public class RunningMode {
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
+        this.saveLoadListener = saveLoadListener;
 
         this.projectileContainer = new ProjectileContainer(
                 this,
@@ -275,8 +278,8 @@ public class RunningMode {
     }
 
     public void loadGameSession(GameBundle bundle){
-
     }
+
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
 
@@ -287,5 +290,9 @@ public class RunningMode {
         void onEntityAdd(AutonomousEntity entity);
 
         void onEntitiesRemove(Collection<AutonomousEntity> entities);
+    }
+
+    public interface SaveLoadListener {
+        void showSavedSessionsWindow(List<String> savedSessions);
     }
 }
