@@ -1,32 +1,24 @@
 package utils.database;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.Document;
+import utils.IOHandler;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.io.IOException;
+import static com.mongodb.client.model.Filters.*;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MongoLocalDBAdapter implements INonRationalDB{
 
     private String HOST_ADDRESS = "localhost";
     private int HOST_PORT = 27017;
-    private String USER_NAME = "admin";
     private String DB_NAME = "KuvidGameDB";
-    private String PASSWORD = "admin";
+    private String DOC_ID_KEY = "_id";
+    private String DOC_FILE_KEY = "_file";
 
 
     public static Logger logger = Logger.getLogger(MongoLocalDBAdapter.class.getName());
@@ -34,26 +26,18 @@ public class MongoLocalDBAdapter implements INonRationalDB{
 
     public MongoLocalDBAdapter(){
         logger.setLevel(Level.ALL);
-
-        ConnectionString connectionString = new ConnectionString("mongodb://" + HOST_ADDRESS + ":" + String.valueOf(HOST_PORT));
-        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
-        CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                pojoCodecRegistry);
-        MongoClientSettings clientSettings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .codecRegistry(codecRegistry)
-                .build();
-
         // prepare the connection
-        MongoClient mongoClient = MongoClients.create(clientSettings);
-
-        // credentials
-        MongoCredential credential = MongoCredential.createCredential(USER_NAME, DB_NAME, PASSWORD.toCharArray());
-        logger.info("[MongoDBAtlasAdapter] connected to DB successfully");
-
+        MongoClient mongoClient = new MongoClient(HOST_ADDRESS, HOST_PORT);
         this.database = mongoClient.getDatabase(DB_NAME);
     }
 
+    @Override
+    public boolean removeCollection(String collectionTitle){
+        logger.debug("[MongoDBAtlasAdapter] deleting a collection with title " + collectionTitle);
+        MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
+        collection.drop();
+        return true;
+    }
 
     @Override
     public boolean registerCollection(String collectionTitle){
@@ -76,21 +60,59 @@ public class MongoLocalDBAdapter implements INonRationalDB{
     }
 
     @Override
-    public <T> boolean save(String collectionTitle, Class<T> classType, T instance) {
-        logger.debug("[MongoDBAtlasAdapter] saving instance of type " + classType.getName() + " to the mongoDB");
-        MongoCollection<T> collection = this.database.getCollection(collectionTitle, classType);
-        collection.insertOne(instance);
-        logger.info("[MongoDBAtlasAdapter] instance of type " + classType.getName() + " was saved");
+    public <T> boolean save(String collectionTitle, String uniqueID, T instance) throws IOException {
+        logger.debug("[MongoDBAtlasAdapter] saving instance with unique ID " + uniqueID + " to the mongoDB");
+        MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
+
+        // check if the uniqueID already exists
+        if(collection.find(eq(DOC_ID_KEY, uniqueID)).first() != null){
+            logger.warn("[MongoDBAtlasAdapter] trying to overwrite an entry with ID " + uniqueID);
+            return false;
+        }
+
+        String FileRepresentation = IOHandler.getJson(instance);
+        collection.insertOne(new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
+        logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was saved");
         return true;
     }
 
     @Override
-    public <T> List<T> get(String collectionTitle, Class<T> classType) {
-        logger.info("[MongoDBAtlasAdapter] retrieving instance of type " + classType.getName() + " to the mongoDB");
-        MongoCollection<T> collection = this.database.getCollection(collectionTitle, classType);
+    public <T> boolean update(String collectionTitle, String uniqueID, T instance) throws IOException {
+        logger.debug("[MongoDBAtlasAdapter] updating instance with unique ID " + uniqueID + " to the mongoDB");
+        MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
 
-        Iterator it = collection.find().iterator();
-        Iterable<T> iterable = () -> it;
-        return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+        // check if the uniqueID does not exists
+        if(collection.find(eq(DOC_ID_KEY, uniqueID)).first() == null){
+            logger.warn("[MongoDBAtlasAdapter] trying to update a non-existing entry with ID " + uniqueID);
+        }
+
+        String FileRepresentation = IOHandler.getJson(instance);
+        collection.updateOne(eq(DOC_ID_KEY, uniqueID), new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
+        logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was updating");
+        return true;
+    }
+
+    @Override
+    public boolean delete(String collectionTitle, String uniqueID) {
+        logger.debug("[MongoDBAtlasAdapter] deleting instance with unique ID " + uniqueID + " in the mongoDB");
+        MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
+        collection.deleteOne(eq(DOC_ID_KEY, uniqueID));
+        logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was deleted");
+        return true;
+    }
+
+    @Override
+    public <T> T load(String collectionTitle, String uniqueID, Class<T> tClass) throws IOException {
+        logger.info("[MongoDBAtlasAdapter] retrieving instance with unique ID " + uniqueID + " and of type " + tClass.getName() + " to the mongoDB");
+        MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
+
+        try {
+            String FileRepresentation = (String) collection.find(eq(DOC_ID_KEY, uniqueID)).first().get(DOC_FILE_KEY);
+            return IOHandler.readFromYamlString(FileRepresentation, tClass);
+        }
+        catch (NullPointerException exception){
+            logger.error("[MongoDBAtlasAdapter] no instance exists with unique ID " + uniqueID);
+            return null;
+        }
     }
 }
