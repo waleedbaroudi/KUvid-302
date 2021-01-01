@@ -26,8 +26,7 @@ public class ProjectileContainer {
     int totalAtomCount;
 
     private final RunningMode runningMode;
-
-    Random random;
+    private Random random;
 
     public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
         this.runningMode = runningMode;
@@ -183,22 +182,22 @@ public class ProjectileContainer {
         return atomMap[type.getValue() - 1]; //todo: fix index
     }
 
-    @Override
-    public String toString() {
-        return "ProjectileContainer{" +
-                "atomMap=" + Arrays.toString(atomMap) +
-                '}';
-    }
-
-    public ShieldTuple getShields(int type) {
+    private ShieldTuple getShields(int type) {
         ArrayList<ShieldTuple> shieldLst = shieldsMap.get(type);
         if (shieldLst.size() > 0)
             return shieldsMap.get(type).get(random.nextInt(shieldLst.size()));
         return new ShieldTuple();
     }
 
-    public int shieldedAtoms(int type) {
+    private int shieldedAtoms(int type) {
         return shieldsMap.get(type).size();
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectileContainer{" +
+                "atomMap=" + Arrays.toString(atomMap) +
+                '}';
     }
 }
 

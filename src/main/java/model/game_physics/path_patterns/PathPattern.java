@@ -60,4 +60,6 @@ public abstract class PathPattern implements Cloneable {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public void setVelocity(double velocity){};
 }

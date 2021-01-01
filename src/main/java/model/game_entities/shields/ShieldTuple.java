@@ -18,16 +18,16 @@ public class ShieldTuple {
     public void addShield(ShieldType type) {
         switch (type) {
             case ETA:
-                ++eta;
+                eta++;
                 break;
             case LOTA:
-                ++lota;
+                lota++;
                 break;
             case THETA:
-                ++theta;
+                theta++;
                 break;
             case ZETA:
-                ++zeta;
+                zeta++;
                 break;
         }
     }

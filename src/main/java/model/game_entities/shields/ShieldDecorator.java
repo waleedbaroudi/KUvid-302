@@ -15,4 +15,10 @@ public abstract class ShieldDecorator extends Atom {
     Atom getAtom() {
         return this.atom;
     }
+
+
+    @Override
+    public double getSpeedPercentage() {
+        return super.getSpeedPercentage() * getAtomSpeedPercentage();
+    }
 }

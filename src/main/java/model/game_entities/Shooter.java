@@ -5,15 +5,12 @@ import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
-import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.PathPatternFactory;
-import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;
 import utils.Vector;
-import utils.Velocity;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,9 +88,10 @@ public class Shooter extends Entity {
      * @return the current projectile at the atom
      */
     public Projectile reload() {
-        Projectile tmp = getCurrentProjectile();
+        Projectile projectile = getCurrentProjectile();
         this.setCurrentProjectile(this.nextAtom());
-        return tmp;
+        projectile.setVelocity(projectile.getSpeedPercentage());
+        return projectile;
     }
 
     /**
