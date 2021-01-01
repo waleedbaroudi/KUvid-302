@@ -11,12 +11,12 @@ import java.io.IOException;
 public class PausedState implements GameState {
 
     private final RunningMode runningMode;
-    private MongoDBAdapter dbAdapter;
+    private final MongoDBAdapter dbAdapter;
     private static Logger logger;
 
     public PausedState(RunningMode runningMode) {
         this.runningMode = runningMode;
-        this.dbAdapter = new MongoDBAdapter();
+        this.dbAdapter = MongoDBAdapter.getInstance();
         logger = Logger.getLogger(this.getClass().getName());
     }
 
@@ -27,7 +27,7 @@ public class PausedState implements GameState {
         runningMode.getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
         GameBundle bundle = builder.build();
-        String fileName = IOHandler.formatFileNameWithDate("Session1",""); // TODO: Take name from user
+        String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
         try {
             dbAdapter.save(fileName, fileName, bundle); // TODO: Fix unique ID issue
         } catch (IOException e) {
@@ -36,13 +36,7 @@ public class PausedState implements GameState {
     }
 
     @Override
-    public void retrieveGameSession() {
-        GameBundle loadedBundle = null;
-        try {
-            loadedBundle = dbAdapter.load("filename", "unique_id", GameBundle.class);
-        } catch (IOException e) {
-            logger.error("Could not load the game session", e);
-        }
-        runningMode.loadGameSession(loadedBundle);
+    public void showSavedSessions() {
+        runningMode.getSaveLoadListener().getSavedSessions();
     }
 }

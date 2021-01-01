@@ -16,7 +16,7 @@ class MongoDBAdapterTest {
 
     @BeforeAll
     void connectToDB(){
-        this.database = new MongoDBAdapter();
+        this.database = MongoDBAdapter.getInstance();
         this.database.removeCollection(COLLECTION_TITLE);
     }
 

@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -167,6 +166,10 @@ public class RunningMode {
         return autonomousEntities;
     }
 
+    public SaveLoadListener getSaveLoadListener() {
+        return saveLoadListener;
+    }
+
     /**
      * @param entity the entity to be added to the list of entities
      * @return a boolean indicating whether the entity was added successfully
@@ -273,11 +276,12 @@ public class RunningMode {
         currentState.saveGameSession();
     }
 
-    public void retrieveGameSession() {
-        currentState.retrieveGameSession();
+    public void showSavedSessions(){
+        currentState.showSavedSessions();
     }
 
     public void loadGameSession(GameBundle bundle){
+        // apply the retrieved session
     }
 
     public interface RunningStateListener {
@@ -293,6 +297,6 @@ public class RunningMode {
     }
 
     public interface SaveLoadListener {
-        void showSavedSessionsWindow(List<String> savedSessions);
+        void getSavedSessions();
     }
 }

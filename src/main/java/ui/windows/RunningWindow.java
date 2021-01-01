@@ -1,6 +1,7 @@
 package ui.windows;
 
 import model.game_building.Configuration;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_running.RunningMode;
@@ -28,7 +29,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
-    private LoadWindow loadWindow;
+    private SessionLoadWindow sessionLoadWindow;
     private final Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
@@ -37,8 +38,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.loadWindow = new LoadWindow();
-        this.runningMode = new RunningMode(this, this, loadWindow);
+        this.sessionLoadWindow = new SessionLoadWindow(this);
+        this.runningMode = new RunningMode(this, this, sessionLoadWindow);
         System.out.println("in running window" + runningMode.getBlender());
         blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
@@ -97,6 +98,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         gameTimer.start();
     }
 
+    public void loadGameSession(GameBundle bundle) {
+        runningMode.loadGameSession(bundle);
+    }
 
     /**
      * starts the loop that draws game elements.

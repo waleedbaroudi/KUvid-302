@@ -11,14 +11,14 @@ import utils.IOHandler;
 
 import java.io.IOException;
 
-import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  * Handle the read, write and update operation on a local MongoDB.
  * This assumes that a cluster with the given address and port was already instantiated locally.
  */
 
-public class MongoDBAdapter implements IDatabase{
+public class MongoDBAdapter implements IDatabase { //todo: change class name, it implies adapter pattern
 
     // Local configuration
     //    private String HOST_ADDRESS = "localhost";
@@ -28,6 +28,8 @@ public class MongoDBAdapter implements IDatabase{
     //    private String DOC_FILE_KEY = "_file";
     //    private String USER_NAME = "pepega-shared";
     //    private String PASSWORD = "69420";
+
+    private static MongoDBAdapter instance;
 
     private String CLUSTER_TITLE = "pepega-kuvid";
     private String DB_TITLE = "pepega-kuvid";
@@ -41,7 +43,7 @@ public class MongoDBAdapter implements IDatabase{
     private MongoDatabase database;
 
 
-    public MongoDBAdapter(){
+    private MongoDBAdapter() {
         logger.setLevel(Level.ALL);
 
         // prepare the connection
@@ -54,8 +56,14 @@ public class MongoDBAdapter implements IDatabase{
         this.database = mongoClient.getDatabase(DB_TITLE);
     }
 
+    public static synchronized MongoDBAdapter getInstance() {
+        if (instance == null)
+            instance = new MongoDBAdapter();
+        return instance;
+    }
+
     @Override
-    public boolean removeCollection(String collectionTitle){
+    public boolean removeCollection(String collectionTitle) {
         logger.debug("[MongoDBAtlasAdapter] deleting a collection with title " + collectionTitle);
         MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
         collection.drop();
@@ -63,20 +71,19 @@ public class MongoDBAdapter implements IDatabase{
     }
 
     @Override
-    public boolean registerCollection(String collectionTitle){
+    public boolean registerCollection(String collectionTitle) {
         logger.debug("[MongoDBAtlasAdapter] creating a new collection with title " + collectionTitle);
         // create collection if not available
         boolean exists = false;
-        for(String title: this.database.listCollectionNames()){
-            if(collectionTitle.equals(title))
+        for (String title : this.database.listCollectionNames()) {
+            if (collectionTitle.equals(title))
                 exists = true;
         }
 
-        if(!exists){
+        if (!exists) {
             this.database.createCollection(collectionTitle);
             return true;
-        }
-        else {
+        } else {
             logger.warn("[MongoDBAtlasAdapter] a collection with title " + collectionTitle + " already exist");
             return false;
         }
@@ -88,7 +95,7 @@ public class MongoDBAdapter implements IDatabase{
         MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
 
         // check if the uniqueID already exists
-        if(collection.find(eq(DOC_ID_KEY, uniqueID)).first() != null){
+        if (collection.find(eq(DOC_ID_KEY, uniqueID)).first() != null) {
             logger.warn("[MongoDBAtlasAdapter] trying to overwrite an entry with ID " + uniqueID);
             return false;
         }
@@ -105,7 +112,7 @@ public class MongoDBAdapter implements IDatabase{
         MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
 
         // check if the uniqueID does not exists
-        if(collection.find(eq(DOC_ID_KEY, uniqueID)).first() == null){
+        if (collection.find(eq(DOC_ID_KEY, uniqueID)).first() == null) {
             logger.warn("[MongoDBAtlasAdapter] trying to update a non-existing entry with ID " + uniqueID);
         }
 
@@ -132,8 +139,7 @@ public class MongoDBAdapter implements IDatabase{
         try {
             String FileRepresentation = (String) collection.find(eq(DOC_ID_KEY, uniqueID)).first().get(DOC_FILE_KEY);
             return IOHandler.readFromYamlString(FileRepresentation, tClass);
-        }
-        catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             logger.error("[MongoDBAtlasAdapter] no instance exists with unique ID " + uniqueID);
             return null;
         }
