@@ -20,9 +20,9 @@ public class Blocker extends AutonomousEntity {
     private double blockingRadius;
     private double explosionRadius;
     private Hitbox blockingHitbox;
-    private final Hitbox explodingHitbox;
+    private Hitbox explodingHitbox;
 
-    private boolean isExploded; // Might change into different implementation.
+    private boolean isExploded; // Might change to a different implementation.
 
 
     public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
@@ -36,8 +36,11 @@ public class Blocker extends AutonomousEntity {
         this.explodingHitbox = explodingHitbox;
 
         isExploded = false;
-
     }
+
+    public Blocker(){}
+
+
 
     public double getBlockingRadius() {
         return blockingRadius;
@@ -102,7 +105,7 @@ public class Blocker extends AutonomousEntity {
         return "Blocker{" +
                 "blockingRadius=" + blockingRadius +
                 ", explosionRadius=" + explosionRadius +
-                ", type=" + getType() +
+                ", type=" + getEntityType() +
                 '}';
     }
 

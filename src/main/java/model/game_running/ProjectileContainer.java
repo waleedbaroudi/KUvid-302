@@ -2,7 +2,6 @@ package model.game_running;
 
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
-import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
@@ -26,7 +25,7 @@ public class ProjectileContainer {
 
     Random random;
 
-    public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
+    public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms) {
         this.runningMode = runningMode;
 
         atomMap = new int[4];
@@ -37,11 +36,7 @@ public class ProjectileContainer {
 
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
-        powerUpMap = new int[4];
-        powerUpMap[0] = numOfAlphaPowerUps;
-        powerUpMap[1] = numOfBetaPowerUps;
-        powerUpMap[2] = numOfGammaPowerUps;
-        powerUpMap[3] = numOfSigmaPowerUps;
+        powerUpMap = new int[]{0, 0, 0, 0}; //the player starts with 0 power-ups
 
         random = new Random();
     }
@@ -91,7 +86,7 @@ public class ProjectileContainer {
     }
 
     public void addPowerUp(Powerup powerup) {
-        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getEntityType().getValue() - 1, 1);
     }
 
     /**

@@ -12,22 +12,24 @@ import utils.Coordinates;
  */
 public abstract class AutonomousEntity extends Entity {
 
-    private EntityType type;
+    private EntityType entityType;
     private PathPattern pathPattern;
 
-    public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
+    public AutonomousEntity(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType entityType) {
         super(coordinates, hitbox);
         this.pathPattern = pathPattern;
         this.pathPattern.setCurrentCoords(coordinates);
-        this.type = type;
+        this.entityType = entityType;
     }
 
-    public void setType(EntityType type) {
-        this.type = type;
+    public AutonomousEntity(){}
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
     }
 
-    public EntityType getType() {
-        return type;
+    public EntityType getEntityType() {
+        return entityType;
     }
 
     public void setPathPattern(PathPattern pathPattern) {

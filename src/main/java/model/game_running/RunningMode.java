@@ -76,11 +76,7 @@ public class RunningMode {
                 config.getNumAlphaAtoms(),
                 config.getNumBetaAtoms(),
                 config.getNumSigmaAtoms(),
-                config.getNumGammaAtoms(),
-                0,
-                0,
-                0,
-                0);
+                config.getNumGammaAtoms());
 
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);

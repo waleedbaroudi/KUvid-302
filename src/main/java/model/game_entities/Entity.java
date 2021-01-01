@@ -29,6 +29,7 @@ public abstract class Entity implements Collidable {
         return coordinates;
     }
 
+
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }

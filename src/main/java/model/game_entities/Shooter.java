@@ -5,15 +5,12 @@ import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
-import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.PathPatternFactory;
-import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;
 import utils.Vector;
-import utils.Velocity;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,17 +30,22 @@ public class Shooter extends Entity {
         logger.setLevel(Level.OFF);
 
         // sets the initial coordinates
-        // TODO: get initial coords from the game configuration
+        // TODO 1: get initial coords from the game configuration
+        // TODO 2: set this in super instead
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
                         GameConstants.SHOOTER_HEIGHT));
 
         // sets the Hitbox
-        setHitbox(HitboxFactory.getInstance().getShooterHitbox());
+        setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead
         this.superType = SuperType.SHOOTER;
         this.container = container;
         this.setCurrentProjectile(this.nextAtom());
+    }
+
+    public Shooter(){
+
     }
 
     /**
@@ -117,7 +119,7 @@ public class Shooter extends Entity {
         Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
         if (currentPowerup != null) {
             if (previousProjectile.superType == SuperType.ATOM)
-                container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+                container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1);
             else
                 container.addPowerUp((Powerup) previousProjectile);
             setCurrentProjectile(currentPowerup);

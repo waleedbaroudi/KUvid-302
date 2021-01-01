@@ -18,6 +18,9 @@ public class Atom extends Projectile {
         superType = SuperType.ATOM;
     }
 
+    public Atom() {
+
+    }
 
     // visitor pattern. Double delegation
     @Override
@@ -58,7 +61,7 @@ public class Atom extends Projectile {
     @Override
     public String toString() {
         return "Atom{" +
-                "type=" + getType() +
+                "type=" + getEntityType() +
                 '}';
     }
 }

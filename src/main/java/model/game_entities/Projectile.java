@@ -11,4 +11,6 @@ public abstract class Projectile extends AutonomousEntity{
     public Projectile(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
     }
+
+    public Projectile(){}
 }

@@ -20,6 +20,8 @@ public class Powerup extends Projectile {
         this.falling = falling;
     }
 
+    public Powerup(){falling = true;}
+
     public boolean isFalling() {
         return this.falling;
     }
@@ -64,7 +66,7 @@ public class Powerup extends Projectile {
     @Override
     public String toString() {
         return "Powerup{" +
-                "type=" + getType() +
+                "type=" + getEntityType() +
                 '}';
     }
 }

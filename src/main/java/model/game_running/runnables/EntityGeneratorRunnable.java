@@ -123,7 +123,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         logger.info("[ObjectGeneratorRunnable] generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
         Blocker blocker = BlockerFactory.getInstance().getBlocker(EntityType.forValue(randomTypes.get(0)));
-        blockerCountPerType.replace(blocker.getType(), blockerCountPerType.get(blocker.getType()) - 1);
+        blockerCountPerType.replace(blocker.getEntityType(), blockerCountPerType.get(blocker.getEntityType()) - 1);
         blocker.setCoordinates(new Coordinates(x_coord, 1));
         return blocker;
     }
@@ -148,7 +148,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
         Powerup powerup = PowerupFactory.getInstance().getPowerup(EntityType.forValue(randomTypes.get(0)));
-        powerUpCountPerType.replace(powerup.getType(), powerUpCountPerType.get(powerup.getType()) - 1);
+        powerUpCountPerType.replace(powerup.getEntityType(), powerUpCountPerType.get(powerup.getEntityType()) - 1);
         powerup.setCoordinates(new Coordinates(x_coord, 0));
         return powerup;
     }
@@ -173,7 +173,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
         Molecule molecule = MoleculeFactory.getInstance().getMolecule(EntityType.forValue(randomTypes.get(0)));
-        moleculeCountPerType.replace(molecule.getType(), moleculeCountPerType.get(molecule.getType()) - 1);
+        moleculeCountPerType.replace(molecule.getEntityType(), moleculeCountPerType.get(molecule.getEntityType()) - 1);
         molecule.setCoordinates(new Coordinates(x_coord, 0));
 
         // spinning molecule

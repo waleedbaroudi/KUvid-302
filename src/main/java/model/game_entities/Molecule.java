@@ -24,6 +24,9 @@ public class Molecule extends AutonomousEntity implements Spinnable {
         this.structure = structure;
     }
 
+    public Molecule() {
+    }
+
     public void setStructure(MoleculeStructure structure) {
         this.structure = structure;
     }
@@ -49,7 +52,7 @@ public class Molecule extends AutonomousEntity implements Spinnable {
     @Override
     public String toString() {
         return "Molecule{" +
-                "type=" + getType() +
+                "type=" + getEntityType() +
                 ", structure=" + structure +
                 '}';
     }
