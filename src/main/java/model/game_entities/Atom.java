@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.ShieldType;
@@ -106,5 +107,10 @@ public class Atom extends Projectile {
 
     public ShieldTuple getShieldTuple() {
         return this.shieldTuple;
+    }
+
+    @Override
+    public double getSpeedPercentage() {
+        return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 }
