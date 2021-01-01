@@ -1,11 +1,13 @@
 package model.game_running;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
+import org.apache.log4j.Logger;
 import utils.Coordinates;
 
 import java.util.Arrays;
@@ -16,16 +18,20 @@ import java.util.Random;
  * on demand.
  */
 public class ProjectileContainer {
+    private static Logger logger;
 
-    private final int[] atomMap;
-    private final int[] powerUpMap; // keeps the number of power-ups per type.
+    private int[] atomMap;
+    private int[] powerUpMap; // keeps the number of power-ups per type.
     int totalAtomCount;
 
-    private final RunningMode runningMode;
+    private RunningMode runningMode;
 
     Random random;
 
     public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms) {
+        random = new Random();
+        logger = Logger.getLogger(this.getClass().getName());
+
         this.runningMode = runningMode;
 
         atomMap = new int[4];
@@ -33,12 +39,20 @@ public class ProjectileContainer {
         atomMap[1] = numOfBetaAtoms;
         atomMap[2] = numOfGammaAtoms;
         atomMap[3] = numOfSigmaAtoms;
-
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
         powerUpMap = new int[]{0, 0, 0, 0}; //the player starts with 0 power-ups
+    }
 
+    public ProjectileContainer() {
         random = new Random();
+        logger = Logger.getLogger(this.getClass().getName());
+    }
+
+    //  this setter is used in case the projectile container was created by loading a game session.
+    @JsonIgnore
+    public void setRunningMode(RunningMode runningMode) {
+        this.runningMode = runningMode;
     }
 
     /**
@@ -133,6 +147,8 @@ public class ProjectileContainer {
             totalAtomCount += count;
         if (runningMode != null) {
             runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
+        } else {
+            logger.warn("RunningMode instance is null");
         }
         return true;
     }
@@ -140,6 +156,15 @@ public class ProjectileContainer {
     public int[] getAtomMap() {
         return this.atomMap;
     }
+
+    public int getTotalAtomCount() {
+        return totalAtomCount;
+    }
+
+    public int[] getPowerUpMap() {
+        return powerUpMap;
+    }
+
 
     public int getAtomCountForType(EntityType type) {
         return atomMap[type.getValue() - 1]; //todo: fix index
