@@ -13,6 +13,10 @@ public class GameTimer {
         this.remainingTimeMillis = (int) (timeInMinutes * MIN_TO_MILLS_CONVERSION_CONSTANT);
     }
 
+    public GameTimer(){} // needed for serialization
+
+
+
     /**
      * decreases the game timer.
      * usually decreased with the same delay given to the thready this is called from.

@@ -2,12 +2,12 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
-import model.game_entities.Entity;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
+import model.game_space.Player;
 import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
@@ -71,9 +71,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
 
         //Controller
-        GameStatistics gameStatistics = new GameStatistics(this);
+        Player gameStatistics = new Player("player",this); //todo: change temp username
         this.runningMode = runningMode;
-        runningMode.setStatisticsController(gameStatistics);
+        runningMode.setPlayer(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
         setOpaque(false);

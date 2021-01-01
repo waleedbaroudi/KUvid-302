@@ -14,7 +14,7 @@ import model.game_running.states.GameState;
 import model.game_running.states.PausedState;
 import model.game_running.states.RunningState;
 import model.game_space.Blender;
-import model.game_space.GameStatistics;
+import model.game_space.Player;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
-    private GameStatistics statistics;
+    private Player player;
 
     // game state
     GameState currentState, pausedState, runningState;
@@ -216,24 +216,24 @@ public class RunningMode {
         autonomousEntities.remove(entity);
     }
 
-    public void setStatisticsController(GameStatistics gameStatistics) {
-        this.statistics = gameStatistics;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
-        if (statistics != null)
-            statistics.changeProjectileCount(type, entityType, newCount);
+        if (player != null)
+            player.updateOwnedProjectiles(type, entityType, newCount);
     }
 
     public void updateHealth(int damageAmount) {
-        if (statistics != null)
-            if (statistics.decreaseHealth(damageAmount))
+        if (player != null)
+            if (player.loseHealth(damageAmount))
                 this.setRunningState(GameConstants.GAME_STATE_STOP);
     }
 
     public void updateTimer(int amountInMillis) {
-        if (statistics != null) {
-            boolean timerOver = !statistics.updateTimer(amountInMillis);
+        if (player != null) {
+            boolean timerOver = !player.updateTime(amountInMillis);
             if (timerOver)
                 endGame();
         }
@@ -256,8 +256,12 @@ public class RunningMode {
         return this.projectileContainer;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void increaseScore() {
-        statistics.incrementScore();
+        if (player != null) player.incrementScore();
     }
 
     public void collectPowerUp(Powerup powerup) {
@@ -272,12 +276,18 @@ public class RunningMode {
         currentState.saveGameSession();
     }
 
-    public void showSavedSessions(){
+    public void showSavedSessions() {
         currentState.showSavedSessions();
     }
 
-    public void loadGameSession(GameBundle bundle){
+    public void loadGameSession(GameBundle bundle) {
         // apply the retrieved session
+
+        /*
+        NOTES:
+            - when loading the player, set the statistics change listener (get from running window)
+            - when loading the projectile container, set the running mode
+         */
     }
 
     public interface RunningStateListener {

@@ -23,8 +23,10 @@ public class PausedState implements GameState {
     @Override
     public void saveGameSession() {
         GameBundle.Builder builder = new GameBundle.Builder();
-        builder.setShooter(runningMode.getShooter()).
+        builder.setPlayer(runningMode.getPlayer()).
+                setShooter(runningMode.getShooter()).
                 setProjectileContainer(runningMode.getProjectileContainer());
+
         runningMode.getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
         GameBundle bundle = builder.build();

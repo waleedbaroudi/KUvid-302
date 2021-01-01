@@ -2,6 +2,7 @@ package model.game_building;
 
 import model.game_entities.*;
 import model.game_running.ProjectileContainer;
+import model.game_space.Player;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,7 @@ public class GameBundle {
         private final ArrayList<Molecule> molecules;
         private Shooter shooter;
         private ProjectileContainer projectileContainer;
+        private Player player;
 
         public Builder() {
             atoms = new ArrayList<>();
@@ -80,6 +82,11 @@ public class GameBundle {
 
         public Builder setProjectileContainer(ProjectileContainer projectileContainer) {
             this.projectileContainer = projectileContainer;
+            return this;
+        }
+
+        public Builder setPlayer(Player player) {
+            this.player = player;
             return this;
         }
 
