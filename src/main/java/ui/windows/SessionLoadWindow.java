@@ -7,7 +7,7 @@ import model.game_running.SessionLoader;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class SessionLoadWindow extends JFrame implements RunningMode.SaveLoadListener, SessionLoader.SessionLoadListener {
+public class SessionLoadWindow extends JFrame implements  SessionLoader.SessionLoadListener {
     private SessionLoader sessionLoader;
     private JFrame context;
 

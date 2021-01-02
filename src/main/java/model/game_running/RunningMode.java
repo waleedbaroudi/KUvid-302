@@ -41,7 +41,7 @@ public class RunningMode {
     //Listener to handle game pause and resume commands
     private final RunningStateListener runningStateListener;
     private final GameEntitiesListener gameEntitiesListener;
-    private final SaveLoadListener saveLoadListener;
+    private final SessionLoader.SessionLoadListener sessionLoadListener;
 
     // Runnables
     private MovementRunnable movementRunnable;
@@ -58,7 +58,7 @@ public class RunningMode {
     // Blender
     private final Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SaveLoadListener saveLoadListener) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoader.SessionLoadListener sessionLoadListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         Configuration config = Configuration.getInstance();
@@ -69,7 +69,7 @@ public class RunningMode {
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
-        this.saveLoadListener = saveLoadListener;
+        this.sessionLoadListener = sessionLoadListener;
 
         this.projectileContainer = new ProjectileContainer(
                 this,
@@ -162,8 +162,8 @@ public class RunningMode {
         return autonomousEntities;
     }
 
-    public SaveLoadListener getSaveLoadListener() {
-        return saveLoadListener;
+    public SessionLoader.SessionLoadListener getSessionLoadListener() {
+        return this.sessionLoadListener;
     }
 
     /**
@@ -302,7 +302,4 @@ public class RunningMode {
         void onEntitiesRemove(Collection<AutonomousEntity> entities);
     }
 
-    public interface SaveLoadListener {
-        void getSavedSessions();
-    }
 }

@@ -42,6 +42,6 @@ public class PausedState implements GameState {
 
     @Override
     public void showSavedSessions() {
-        runningMode.getSaveLoadListener().getSavedSessions();
+        runningMode.getSessionLoadListener().getSavedSessions();
     }
 }

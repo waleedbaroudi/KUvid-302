@@ -13,8 +13,8 @@ public class SessionLoader {
     private MongoDBAdapter dbAdapter;
     private static Logger logger;
 
-    public SessionLoader(SessionLoadListener listener) {
-        this.loadListener = listener;
+    public SessionLoader(SessionLoadListener loadListener) {
+        this.loadListener = loadListener;
         dbAdapter = MongoDBAdapter.getInstance();
         logger = Logger.getLogger(this.getClass().getName());
     }
@@ -41,6 +41,8 @@ public class SessionLoader {
         void onSessionRetrieved(GameBundle bundle);
 
         void onLoadFailed(String errorMessage);
+
+        void getSavedSessions();
     }
 
 }
