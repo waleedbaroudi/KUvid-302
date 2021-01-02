@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 public class SessionLoader {
 
-    private SessionLoadListener listener;
+    private SessionLoadListener loadListener;
     private MongoDBAdapter dbAdapter;
     private static Logger logger;
 
     public SessionLoader(SessionLoadListener listener) {
-        this.listener = listener;
+        this.loadListener = listener;
         dbAdapter = MongoDBAdapter.getInstance();
         logger = Logger.getLogger(this.getClass().getName());
     }
@@ -22,7 +22,7 @@ public class SessionLoader {
     public void fetchSavedSessions() {
         ArrayList<String> savedSessions = null;
 //        savedSessions = //GET THEM FROM THE DATABASE
-        listener.onSessionListFetched(savedSessions);
+        loadListener.onSessionListFetched(savedSessions);
     }
 
     public void retrieveSession(String sessionID) {
@@ -30,9 +30,9 @@ public class SessionLoader {
         try {
             loadedBundle = dbAdapter.load("filename", sessionID, GameBundle.class); // todo: @M2yad, why do we need the name? can we just use the ID?
         } catch (IOException e) {
-            listener.onLoadFailed("Could not load the selected game session.");
+            loadListener.onLoadFailed("Could not load the selected game session.");
         }
-        listener.onSessionRetrieved(loadedBundle);
+        loadListener.onSessionRetrieved(loadedBundle);
     }
 
     public interface SessionLoadListener {

@@ -13,6 +13,7 @@ public class GameBundle {
     private ArrayList<Powerup> powerUps;
     private ArrayList<Molecule> molecules;
     private Shooter shooter;
+    private Configuration config;
 
     // returning cloned lists in the below getters to avoid exposing private fields.
     public ArrayList<Atom> getAtoms() {
@@ -47,6 +48,7 @@ public class GameBundle {
         private Shooter shooter;
         private ProjectileContainer projectileContainer;
         private Player player;
+        private Configuration config;
 
         public Builder() {
             atoms = new ArrayList<>();
@@ -90,6 +92,11 @@ public class GameBundle {
             return this;
         }
 
+        public Builder setConfig(Configuration config) {
+            this.config = config;
+            return this;
+        }
+
         public GameBundle build() {
             GameBundle bundle = new GameBundle();
             bundle.atoms = this.atoms;
@@ -97,6 +104,7 @@ public class GameBundle {
             bundle.blockers = this.blockers;
             bundle.powerUps = this.powerUps;
             bundle.shooter = this.shooter;
+            bundle.config = this.config;
             return bundle;
         }
     }

@@ -1,5 +1,6 @@
 package model.game_running.states;
 
+import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
@@ -25,7 +26,8 @@ public class PausedState implements GameState {
         GameBundle.Builder builder = new GameBundle.Builder();
         builder.setPlayer(runningMode.getPlayer()).
                 setShooter(runningMode.getShooter()).
-                setProjectileContainer(runningMode.getProjectileContainer());
+                setProjectileContainer(runningMode.getProjectileContainer()).
+                setConfig(Configuration.getInstance());
 
         runningMode.getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
