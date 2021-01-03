@@ -23,6 +23,8 @@ public final class GameConstants {
     public static final int SHOOTER_ROTATION_RIGHT = 5;
     public static final int SHOOTER_ROTATION_STILL = 0;
 
+    public static final String SESSION_COLLECTION_TITLE = "GameSessions";
+
     public static final double GAME_SIZE_RATIO = (16.0 / 9.0);
 
     // Game difficulty drop rate values

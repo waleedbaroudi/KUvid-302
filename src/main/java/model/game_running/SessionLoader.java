@@ -1,6 +1,7 @@
 package model.game_running;
 
 import model.game_building.GameBundle;
+import model.game_building.GameConstants;
 import org.apache.log4j.Logger;
 import utils.database.MongoDBAdapter;
 
@@ -20,15 +21,14 @@ public class SessionLoader {
     }
 
     public void fetchSavedSessions() {
-        ArrayList<String> savedSessions = null;
-//        savedSessions = //GET THEM FROM THE DATABASE
+        ArrayList<String> savedSessions = MongoDBAdapter.getInstance().getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE);
         loadListener.onSessionListFetched(savedSessions);
     }
 
     public void retrieveSession(String sessionID) {
         GameBundle loadedBundle = null;
         try {
-            loadedBundle = dbAdapter.load("filename", sessionID, GameBundle.class); // todo: @M2yad, why do we need the name? can we just use the ID?
+            loadedBundle = dbAdapter.load(GameConstants.SESSION_COLLECTION_TITLE, sessionID, GameBundle.class);
         } catch (IOException e) {
             loadListener.onLoadFailed("Could not load the selected game session.");
         }

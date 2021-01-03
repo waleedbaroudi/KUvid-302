@@ -2,6 +2,7 @@ package model.game_running.states;
 
 import model.game_building.Configuration;
 import model.game_building.GameBundle;
+import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
 import utils.IOHandler;
@@ -34,7 +35,7 @@ public class PausedState implements GameState {
         GameBundle bundle = builder.build();
         String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
         try {
-            dbAdapter.save(fileName, fileName, bundle); // TODO: Fix unique ID issue
+            dbAdapter.save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
         } catch (IOException e) {
             logger.error("Could not save the game session", e);
         }
