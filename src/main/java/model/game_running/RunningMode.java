@@ -318,6 +318,10 @@ public class RunningMode {
         }
 
     }
+    public void saveGameRequest(){
+        this.currentState.saveGameSession();
+    }
+
     public void saveGameSession() {
         GameBundle.Builder builder = new GameBundle.Builder();
         builder.setPlayer(getPlayer()).

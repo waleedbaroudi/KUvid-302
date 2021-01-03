@@ -68,7 +68,7 @@ public class GameCommandListener implements KeyListener {
                 runningMode.rotateShooter(GameConstants.SHOOTER_ROTATION_LEFT);
                 break;
             case KeyEvent.VK_S:
-                runningMode.saveGameSession();
+                runningMode.saveGameRequest();
                 break;
             case KeyEvent.VK_L:
                 runningMode.showSavedSessions();
