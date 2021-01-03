@@ -19,8 +19,6 @@ import java.util.stream.Stream;
  * responsible for creating blockers, and powerups, molecules in the game space
  */
 public class EntityGeneratorRunnable extends GameRunnable {
-    private Configuration config;
-
     private Map<EntityType, Integer> moleculeCountPerType, blockerCountPerType, powerUpCountPerType;
     private RunningMode runningMode;
 
@@ -30,7 +28,6 @@ public class EntityGeneratorRunnable extends GameRunnable {
     public EntityGeneratorRunnable(RunningMode runningMode) {
         super();
         this.runningMode = runningMode;
-        this.config = Configuration.getInstance();
         initializeMaps();
     }
 
@@ -40,24 +37,24 @@ public class EntityGeneratorRunnable extends GameRunnable {
     private void initializeMaps() {
         //fill molecule count map
         moleculeCountPerType = new HashMap<>();
-        moleculeCountPerType.put(EntityType.ALPHA, config.getNumAlphaMolecules());
-        moleculeCountPerType.put(EntityType.BETA, config.getNumBetaMolecules());
-        moleculeCountPerType.put(EntityType.GAMMA, config.getNumGammaMolecules());
-        moleculeCountPerType.put(EntityType.SIGMA, config.getNumSigmaMolecules());
+        moleculeCountPerType.put(EntityType.ALPHA, Configuration.getInstance().getNumAlphaMolecules());
+        moleculeCountPerType.put(EntityType.BETA, Configuration.getInstance().getNumBetaMolecules());
+        moleculeCountPerType.put(EntityType.GAMMA, Configuration.getInstance().getNumGammaMolecules());
+        moleculeCountPerType.put(EntityType.SIGMA, Configuration.getInstance().getNumSigmaMolecules());
 
         //fill blocker count map
         blockerCountPerType = new HashMap<>();
-        blockerCountPerType.put(EntityType.ALPHA, config.getNumAlphaBlockers());
-        blockerCountPerType.put(EntityType.BETA, config.getNumBetaBlockers());
-        blockerCountPerType.put(EntityType.GAMMA, config.getNumGammaBlockers());
-        blockerCountPerType.put(EntityType.SIGMA, config.getNumSigmaBlockers());
+        blockerCountPerType.put(EntityType.ALPHA, Configuration.getInstance().getNumAlphaBlockers());
+        blockerCountPerType.put(EntityType.BETA, Configuration.getInstance().getNumBetaBlockers());
+        blockerCountPerType.put(EntityType.GAMMA, Configuration.getInstance().getNumGammaBlockers());
+        blockerCountPerType.put(EntityType.SIGMA, Configuration.getInstance().getNumSigmaBlockers());
 
         //fill power-up count map
         powerUpCountPerType = new HashMap<>();
-        powerUpCountPerType.put(EntityType.ALPHA, config.getNumAlphaPowerups());
-        powerUpCountPerType.put(EntityType.BETA, config.getNumBetaPowerups());
-        powerUpCountPerType.put(EntityType.GAMMA, config.getNumGammaPowerups());
-        powerUpCountPerType.put(EntityType.SIGMA, config.getNumSigmaPowerups());
+        powerUpCountPerType.put(EntityType.ALPHA, Configuration.getInstance().getNumAlphaPowerups());
+        powerUpCountPerType.put(EntityType.BETA, Configuration.getInstance().getNumBetaPowerups());
+        powerUpCountPerType.put(EntityType.GAMMA, Configuration.getInstance().getNumGammaPowerups());
+        powerUpCountPerType.put(EntityType.SIGMA, Configuration.getInstance().getNumSigmaPowerups());
     }
 
     @Override
@@ -82,7 +79,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
                     AutonomousEntity entity = GetRandomEntity(randomTypes.get(0));
                     this.runningMode.addEntity(entity);
                     //sleep before adding new objects
-                    Thread.sleep(config.getDropRate());
+                    Thread.sleep(Configuration.getInstance().getDropRate());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -117,8 +114,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (randomTypes.isEmpty())
             return null; //no more blockers
 
-        double l = GameConstants.BLOCKER_RADIUS * config.getUnitL();
-        double r = config.getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_RADIUS * config.getUnitL();
+        double l = GameConstants.BLOCKER_RADIUS * Configuration.getInstance().getUnitL();
+        double r = Configuration.getInstance().getGamePanelDimensions().getWidth() - GameConstants.BLOCKER_RADIUS * Configuration.getInstance().getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGeneratorRunnable] generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
@@ -142,8 +139,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (randomTypes.isEmpty())
             return null; //no more powerups
 
-        double l = GameConstants.POWERUP_RADIUS * config.getUnitL();
-        double r = config.getGamePanelDimensions().getWidth() - GameConstants.POWERUP_RADIUS * config.getUnitL();
+        double l = GameConstants.POWERUP_RADIUS * Configuration.getInstance().getUnitL();
+        double r = Configuration.getInstance().getGamePanelDimensions().getWidth() - GameConstants.POWERUP_RADIUS * Configuration.getInstance().getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
@@ -167,8 +164,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
         if (randomTypes.isEmpty())
             return null; //no more powerups
 
-        double l = GameConstants.MOLECULE_RADIUS * config.getUnitL();
-        double r = config.getGamePanelDimensions().getWidth() - GameConstants.MOLECULE_RADIUS * config.getUnitL();
+        double l = GameConstants.MOLECULE_RADIUS * Configuration.getInstance().getUnitL();
+        double r = Configuration.getInstance().getGamePanelDimensions().getWidth() - GameConstants.MOLECULE_RADIUS * Configuration.getInstance().getUnitL();
         double x_coord = l + Math.random() * (r - l);
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
 

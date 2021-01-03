@@ -283,10 +283,12 @@ public class RunningMode {
 
     public void loadGameSession(GameBundle session) {
 
+        // update the game configuration
+        Configuration.resetConfig(session.getConfig());
+
         // update the entities in the game view
         this.autonomousEntities.clear();
         this.autonomousEntities.addAll(session.getAtoms());
-        System.out.println(session.getAtoms().size());
         this.autonomousEntities.addAll(session.getBlockers());
         this.autonomousEntities.addAll(session.getMolecules());
         this.autonomousEntities.addAll(session.getPowerUps());
@@ -297,9 +299,6 @@ public class RunningMode {
         this.player.setStatisticsListener(listener);
         System.out.println(this.player.getTimer().getCurrentTimer());
 
-        // update the game configuration
-        Configuration.resetConfig(session.getConfig());
-
 
         // update the projectile containers
         this.projectileContainer = session.getProjectileContainer();
@@ -308,6 +307,12 @@ public class RunningMode {
         // update the shooter state
         this.shooter = session.getShooter();
         this.shooter.setContainer(this.projectileContainer);
+
+        // reflect the changes in the UI
+        gameEntitiesListener.onGameReset();
+        for (AutonomousEntity entity : this.autonomousEntities){
+            gameEntitiesListener.onEntityAdd(entity);
+        }
     }
 
     public interface RunningStateListener {
@@ -320,6 +325,11 @@ public class RunningMode {
         void onEntityAdd(AutonomousEntity entity);
 
         void onEntitiesRemove(Collection<AutonomousEntity> entities);
+
+        /**
+         * Reset all game components in the UI
+         */
+        void onGameReset();
     }
 
 }

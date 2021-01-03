@@ -125,4 +125,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         for (AutonomousEntity entity : entities)
             drawableMap.remove(entity);
     }
+
+    @Override
+    public void onGameReset(){
+        drawableMap.clear();
+    }
 }

@@ -1,5 +1,6 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.log4j.Level;
@@ -19,6 +20,7 @@ import utils.Vector;
         @JsonSubTypes.Type(value = SequentialCompositePattern.class, name = "sequential-pattern"),
         @JsonSubTypes.Type(value = CompositePattern.class, name = "composite-pattern")
 })
+@JsonIdentityReference(alwaysAsId = true)
 public abstract class PathPattern implements Cloneable {
     // step represent time stamp in the path. By default it starts from zero.
     private Coordinates currentCoords;

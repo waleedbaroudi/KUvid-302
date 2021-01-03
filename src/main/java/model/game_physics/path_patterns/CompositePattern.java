@@ -1,5 +1,6 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import utils.Coordinates;
 import utils.Vector;
@@ -12,6 +13,7 @@ import java.util.Collections;
  * for the last path finishes, it starts again from the first path pattern.
  */
 @JsonTypeName("composite-pattern")
+@JsonIdentityReference(alwaysAsId = true)
 public class CompositePattern extends PathPattern {
     private ArrayList<PathPattern> patterns;
     private ArrayList<Integer> iterations;
@@ -90,8 +92,15 @@ public class CompositePattern extends PathPattern {
             this.currentIteration = 0;
             this.currentPatternIdx += 1;
             this.currentPatternIdx %= getPatterns().size();
-            setCurrentPattern(getPatterns().get(this.currentPatternIdx));
-            getCurrentPattern().setCurrentCoords(getCurrentCoords());
+
+            try {
+                setCurrentPattern((PathPattern) getPatterns().get(this.currentPatternIdx).clone());
+                getCurrentPattern().setCurrentCoords(getCurrentCoords());
+            }
+            catch (Exception e){
+                logger.error("[CompositePattern] cloning current path pattern failed");
+                e.printStackTrace();
+            }
         }
         this.currentIteration += 1;
         setCurrentCoords(getCurrentPattern().nextPosition());
@@ -100,12 +109,6 @@ public class CompositePattern extends PathPattern {
 
     @Override
     public void reflect(Vector n) {
-        try {
-            currentPattern = (PathPattern) currentPattern.clone();
-            currentPattern.reflect(n);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        currentPattern.reflect(n);
     }
 }

@@ -1,5 +1,6 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import utils.Coordinates;
@@ -13,8 +14,9 @@ import java.util.Collections;
  * A zigzag composite pattern that follows two interchanging straight pattern
  */
 @JsonTypeName("zigzag-pattern")
+@JsonIdentityReference(alwaysAsId = true)
 public class ZigzagPatten extends PathPattern{
-    CompositePattern zigzagPattern;
+    private CompositePattern zigzagPattern;
 
     public ZigzagPatten(){}
     public ZigzagPatten(Velocity rightDiagonalVelocity, Velocity leftDiagonalVelocity, int rightDescendSteps, int leftDescentSteps, boolean rightFirst) {
@@ -67,9 +69,16 @@ public class ZigzagPatten extends PathPattern{
         this(diagonalVelocity, iterationStep, true);
     }
 
-    @JsonIgnore
+    public CompositePattern getZigzagPattern() {
+        return zigzagPattern;
+    }
+
     @Override
+    @JsonIgnore
     public void setCurrentCoords(Coordinates currentCoords) {
+        System.out.println(currentCoords);
+        System.out.println(this.zigzagPattern);
+        System.out.println(this.zigzagPattern.getCurrentPattern());
         this.zigzagPattern.getCurrentPattern().setCurrentCoords(currentCoords);
     }
 
