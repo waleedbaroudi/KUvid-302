@@ -9,9 +9,16 @@ public abstract class ShieldDecorator extends Atom {
     public ShieldDecorator(Atom atom) {
         super(atom.getCoordinates(), atom.getHitbox(), atom.getPathPattern(), atom.getType(), atom.getStabilityConstant(), atom.getEfficiency(), atom.getNumberOfProtons(), atom.getNumberOfNeutrons());
         this.atom = atom;
+        setShieldTuple(atom.getShieldTuple());
     }
 
-    Atom getAtom(){
+    Atom getAtom() {
         return this.atom;
+    }
+
+
+    @Override
+    public double getSpeedPercentage() {
+        return super.getSpeedPercentage() * getAtomSpeedPercentage();
     }
 }

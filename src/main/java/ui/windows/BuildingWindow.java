@@ -243,7 +243,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         zetaShieldTextField = new JTextField(4);
         panel.add(zetaShieldTextField);
 
-
         // Length label and textfield.
         JLabel lengthLabel = new JLabel("L unit ");
         panel.add(lengthLabel);
@@ -419,6 +418,11 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         this.betaMoleculesTextField.setText("" + bundle.getNumOfBetaMolecules());
         this.gammaMoleculesTextField.setText("" + bundle.getNumOfGammaMolecules());
         this.sigmaMoleculesTextField.setText("" + bundle.getNumOfSigmaMolecules());
+
+        this.etaShieldTextField.setText("" + bundle.getNumOfEtaShields());
+        this.lotaShieldTextField.setText("" + bundle.getNumOfThetaShields());
+        this.thetaShieldTextField.setText("" + bundle.getNumOfThetaShields());
+        this.zetaShieldTextField.setText("" + bundle.getNumOfZetaShields());
 
         this.isLinearAlpha.setSelected(bundle.isLinearAlpha());
         this.isLinearBeta.setSelected(bundle.isLinearBeta());

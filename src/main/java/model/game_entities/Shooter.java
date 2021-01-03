@@ -5,15 +5,12 @@ import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
-import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.PathPatternFactory;
-import model.game_physics.path_patterns.StraightPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.ProjectileContainer;
 import utils.Coordinates;
 import utils.MathUtils;
 import utils.Vector;
-import utils.Velocity;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +51,7 @@ public class Shooter extends Entity {
     public Projectile shoot() {
         if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
-        
+
         this.adjustProjectilePosition();
         return this.reload();
     }
@@ -93,6 +90,7 @@ public class Shooter extends Entity {
     public Projectile reload() {
         Projectile tmp = getCurrentProjectile();
         this.setCurrentProjectile(this.nextAtom());
+        tmp.setVelocity(tmp.getSpeedPercentage());
         return tmp;
     }
 
@@ -118,39 +116,39 @@ public class Shooter extends Entity {
         Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
         if (currentPowerup != null) {
             if (previousProjectile.superType == SuperType.ATOM)
-                container.increaseAtoms(previousProjectile.getType().getValue(), 1);
+                container.increaseAtoms(previousProjectile.getType().getValue(), 1, previousProjectile);
             else
                 container.addPowerUp((Powerup) previousProjectile);
             setCurrentProjectile(currentPowerup);
         }
     }
 
-    public void switchAtom(){
-
-        Projectile CurrentProjectile = getCurrentProjectile();
+    public void switchAtom() {
+        Projectile previousProjectile = getCurrentProjectile();
         Projectile nextAtom = nextAtom();
+
         if (nextAtom != null) {
-            if (CurrentProjectile.getSuperType() == SuperType.ATOM){
-                container.increaseAtoms(CurrentProjectile.getType().getValue(), 1);
-                while(CurrentProjectile.getType() == nextAtom.getType() && !uniqueTypeAvilable()){
+            if (previousProjectile.getSuperType() == SuperType.ATOM) {
+                container.increaseAtoms(previousProjectile.getType().getValue(), 1, previousProjectile);
+                while (previousProjectile.getType() == nextAtom.getType() && !uniqueTypeAvilable()) {
+                    container.increaseAtoms(nextAtom.getType().getValue(), 1, nextAtom);
                     nextAtom = nextAtom();
-                    container.increaseAtoms(CurrentProjectile.getType().getValue(), 1);
                 }
                 setCurrentProjectile(nextAtom);
+            } else {
+                container.addPowerUp((Powerup) previousProjectile);
+                setCurrentProjectile(nextAtom);
             }
-            else
-                container.addPowerUp((Powerup) CurrentProjectile);
         }
     }
 
-    private boolean uniqueTypeAvilable(){
+    private boolean uniqueTypeAvilable() {
 
         int[] types = container.getAtomMap();
         int counter = 0;
-        for(int i = 0; i< types.length; i++){
-            if(types[i] == 0)
+        for (int type : types)
+            if (type == 0)
                 counter++;
-        }
         return counter == (types.length - 1);
     }
 
@@ -231,7 +229,6 @@ public class Shooter extends Entity {
     public Atom getAtomProjectile() {
         return (Atom) getCurrentProjectile();
     }
-
 
     @Override
     public String toString() {

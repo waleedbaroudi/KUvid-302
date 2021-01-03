@@ -6,13 +6,13 @@ import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_entities.factories.AtomFactory;
+import model.game_entities.shields.ShieldTuple;
+import model.game_entities.shields.ShieldedAtomFactory;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import utils.Coordinates;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * this class will keep information about the current amount of projectiles remaining as well as provide a projectile
@@ -22,6 +22,7 @@ public class ProjectileContainer {
 
     private final int[] atomMap;
     private final int[] powerUpMap; // keeps the number of power-ups per type.
+    private final HashMap<Integer, ArrayList<ShieldTuple>> shieldsMap;
     int totalAtomCount;
 
     private final RunningMode runningMode;
@@ -44,6 +45,12 @@ public class ProjectileContainer {
         powerUpMap[1] = numOfBetaPowerUps;
         powerUpMap[2] = numOfGammaPowerUps;
         powerUpMap[3] = numOfSigmaPowerUps;
+
+        shieldsMap = new HashMap<>();
+        shieldsMap.put(0, new ArrayList<>());
+        shieldsMap.put(1, new ArrayList<>());
+        shieldsMap.put(2, new ArrayList<>());
+        shieldsMap.put(3, new ArrayList<>());
 
         random = new Random();
     }
@@ -75,6 +82,22 @@ public class ProjectileContainer {
             atomType = random.nextInt(4);
             atom = getAtom(coordinates, atomType);
         }
+        atom = shieldAtom(atom);
+        return atom;
+    }
+
+    /**
+     * return either a shielded atom from the shields available, or the atom itself depending on
+     * the number of shields of a type and a random boolean
+     *
+     * @param atom the atom to be shielded
+     * @return either a shielded atom or the atom itself
+     */
+    private Atom shieldAtom(Atom atom) {
+        EntityType type = atom.getType();
+        if (shieldedAtoms(type.getValue() - 1) > 0)
+            if (random.nextBoolean() || shieldedAtoms(type.getValue() - 1) == getAtomCountForType(type))
+                return ShieldedAtomFactory.applyShields(getShields(type.getValue() - 1), atom);
         return atom;
     }
 
@@ -117,8 +140,15 @@ public class ProjectileContainer {
      * @param count the amount of increase
      * @return returns whether the decrease was successful (purpose TBD)
      */
-    public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
+    public boolean increaseAtoms(int type, int count, Projectile atom) { //todo: make this method take an enum type instead of an int
+        addShields(atom);
         return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
+    }
+
+    private void addShields(Projectile atomProjectile) {
+        Atom atom = (Atom) atomProjectile;
+        if (atom.getShieldTuple().isNotZeros())
+            shieldsMap.get(atom.getType().getValue() - 1).add(atom.getShieldTuple());
     }
 
     /**
@@ -140,13 +170,12 @@ public class ProjectileContainer {
         map[type] = remaining + count;
         if (superType.equals(SuperType.ATOM))
             totalAtomCount += count;
-        if (runningMode != null) {
+        if (runningMode != null)
             runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
-        }
         return true;
     }
 
-    public int[] getAtomMap(){
+    public int[] getAtomMap() {
         return this.atomMap;
     }
 
@@ -160,4 +189,17 @@ public class ProjectileContainer {
                 "atomMap=" + Arrays.toString(atomMap) +
                 '}';
     }
+
+    public ShieldTuple getShields(int type) {
+        ArrayList<ShieldTuple> shieldLst = shieldsMap.get(type);
+        if (shieldLst.size() > 0)
+            return shieldsMap.get(type).get(random.nextInt(shieldLst.size()));
+        return new ShieldTuple();
+    }
+
+    public int shieldedAtoms(int type) {
+        return shieldsMap.get(type).size();
+    }
 }
+
+

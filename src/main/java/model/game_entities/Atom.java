@@ -1,10 +1,13 @@
 package model.game_entities;
 
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_entities.factories.NeutronFactory;
 import model.game_entities.factories.ProtonFactory;
+import model.game_entities.shields.ShieldTuple;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
@@ -15,13 +18,11 @@ import utils.Coordinates;
  */
 public class Atom extends Projectile {
 
-    private double width;
-    private double height;
-
     private final double stabilityConstant;
     private final double efficiency;
     private final int numberOfProtons;
     private final int numberOfNeutrons;
+    private ShieldTuple shieldTuple;
 
     private final double ATOM_SPEED_PERCENTAGE = 1;
 
@@ -34,6 +35,8 @@ public class Atom extends Projectile {
 
         this.numberOfProtons = numberOfProtons;
         this.numberOfNeutrons = numberOfNeutrons;
+
+        this.shieldTuple = new ShieldTuple();
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Atom extends Projectile {
         return this.efficiency;
     }
 
-    public double getStabilityConstant(){
+    public double getStabilityConstant() {
         return this.stabilityConstant;
     }
 
@@ -55,7 +58,7 @@ public class Atom extends Projectile {
         return this.numberOfNeutrons;
     }
 
-    public int getNumberOfProtons(){
+    public int getNumberOfProtons() {
         return this.numberOfProtons;
     }
 
@@ -92,5 +95,22 @@ public class Atom extends Projectile {
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
+    }
+
+    public void addShield(ShieldType type) {
+        shieldTuple.addShield(type);
+    }
+
+    public void setShieldTuple(ShieldTuple shieldTuple) {
+        this.shieldTuple = shieldTuple;
+    }
+
+    public ShieldTuple getShieldTuple() {
+        return this.shieldTuple;
+    }
+
+    @Override
+    public double getSpeedPercentage() {
+        return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 }

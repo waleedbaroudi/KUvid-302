@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
@@ -58,5 +59,10 @@ public class Powerup extends Projectile {
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
+    }
+
+    @Override
+    public double getSpeedPercentage() {
+        return GameConstants.DEFAULT_POWERUP_SPEED_PERCENTAGE;
     }
 }

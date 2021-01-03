@@ -2,11 +2,13 @@ package model.game_entities.shields;
 
 import static model.game_building.GameConstants.*;
 import model.game_entities.Atom;
+import model.game_entities.enums.ShieldType;
 
 public class ZetaShield extends ShieldDecorator {
 
     public ZetaShield(Atom atom) {
         super(atom);
+        addShield(ShieldType.ZETA);
     }
 
     @Override

@@ -8,7 +8,7 @@ import utils.Velocity;
  * Straight path pattern with a constant speed.
  */
 
-public class StraightPattern extends PathPattern{
+public class StraightPattern extends PathPattern {
     private Velocity initialVelocity;
 
 
@@ -36,5 +36,10 @@ public class StraightPattern extends PathPattern{
     public void reflect(Vector n) {
         this.initialVelocity = initialVelocity.reflect(n);
         PathPattern.logger.debug("[StraightPattern] pattern reflected");
+    }
+
+    @Override
+    public void setVelocity(double velocity) {
+        initialVelocity = new Velocity(initialVelocity.getXv() * velocity, initialVelocity.getYv() * velocity);
     }
 }

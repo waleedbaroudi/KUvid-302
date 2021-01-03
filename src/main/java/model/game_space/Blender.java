@@ -32,8 +32,11 @@ public class Blender {
         canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
                 (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1]));
         if (canBlend) {
-            projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
-                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1]));
+            projectileContainer.increaseAtoms(
+                    destinationAtom,
+                    destinationAtomQuantity * (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1]),
+                    null);
+
             if (blenderListener != null)
                 blenderListener.onBlend();
         } else {

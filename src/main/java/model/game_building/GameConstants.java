@@ -4,6 +4,7 @@ import java.awt.*;
 
 public final class GameConstants {
 
+
     private GameConstants() {
     }//this class should not be initialized.
 
@@ -30,7 +31,7 @@ public final class GameConstants {
     public static final int MEDIUM_MODE_GAME_DROP_RATE = 2000;
     public static final int HARD_MODE_GAME_DROP_RATE = 1000;
 
-    public static final int GAME_THREAD_DELAY = 10; // TODO: Check if valid
+    public static final int GAME_THREAD_DELAY = 7; // TODO: Check if valid
     public static final int DEFAULT_SHOOTER_DELAY = 250;
 
     // Objects Dimensions.
@@ -89,6 +90,9 @@ public final class GameConstants {
     public static final double THETA_SPEED_REDUCTION_PERCENTAGE = 0.09;
 
     public static final double[] thetaEfficiencyValues = {0.05, 0.15};
+
+    public static final double DEFAULT_ATOM_SPEED_PERCENTAGE = 1.0;
+    public static final double DEFAULT_POWERUP_SPEED_PERCENTAGE = 1.0;
 
     // Atoms' Stability Constants.
     public static final double ALPHA_STABILITY_CONSTANT = 0.85;

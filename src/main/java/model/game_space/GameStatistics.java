@@ -1,6 +1,7 @@
 package model.game_space;
 
 import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 
 public class GameStatistics {
@@ -57,6 +58,10 @@ public class GameStatistics {
         statisticsListener.onProjectileCountChange(superType, type, currentNumber);
     }
 
+    public void changeShieldCount(ShieldType type, int currentNumber) {// todo: this is called from projectile container via the controller
+        statisticsListener.onShieldsCountChange(type, currentNumber);
+    }
+
     /**
      * a listener to notify the statistics window UI of any change to the statistics
      */
@@ -68,6 +73,8 @@ public class GameStatistics {
         void onScoreChanged(int score);
 
         void onProjectileCountChange(SuperType superType, EntityType type, int newCount);
+
+        void onShieldsCountChange(ShieldType type, int newCount);
     }
 
 
