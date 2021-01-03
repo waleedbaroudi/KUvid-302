@@ -1,5 +1,6 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.Configuration;
 import utils.Coordinates;
@@ -47,6 +48,7 @@ public class RatioPattern extends PathPattern{
     }
 
 
+    @JsonIgnore
     @Override
     public void setCurrentCoords(Coordinates currentCoords) {
         super.setCurrentCoords(currentCoords);

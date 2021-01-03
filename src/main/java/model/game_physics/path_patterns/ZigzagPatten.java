@@ -1,5 +1,6 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import utils.Coordinates;
 import utils.Vector;
@@ -66,6 +67,7 @@ public class ZigzagPatten extends PathPattern{
         this(diagonalVelocity, iterationStep, true);
     }
 
+    @JsonIgnore
     @Override
     public void setCurrentCoords(Coordinates currentCoords) {
         this.zigzagPattern.getCurrentPattern().setCurrentCoords(currentCoords);

@@ -9,9 +9,10 @@ import java.util.ArrayList;
 @JsonTypeName("rectangular-hitbox")
 public class RectangularHitbox extends Hitbox {
 
-    private final double width;
-    private final double height;
+    private double width;
+    private double height;
 
+    RectangularHitbox(){};
     public RectangularHitbox(double width, double height) {
         this.width = width;
         this.height = height;

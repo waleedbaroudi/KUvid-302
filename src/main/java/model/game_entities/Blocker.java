@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
@@ -22,10 +23,15 @@ public class Blocker extends AutonomousEntity {
     private Hitbox blockingHitbox;
     private Hitbox explodingHitbox;
 
-    private boolean isExploded; // Might change to a different implementation.
+    private boolean exploded; // Might change to a different implementation.
 
 
-    public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
+    public Blocker(@JsonProperty("coordinates")Coordinates coordinates,
+                @JsonProperty("hitbox")Hitbox hitbox,
+                @JsonProperty("blockingHitbox")Hitbox blockingHitbox,
+                @JsonProperty("explodingHitbox")Hitbox explodingHitbox,
+                @JsonProperty("pathPattern")PathPattern pathPattern,
+                @JsonProperty("entityType")EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;
 
@@ -35,10 +41,23 @@ public class Blocker extends AutonomousEntity {
         this.blockingHitbox = blockingHitbox;
         this.explodingHitbox = explodingHitbox;
 
-        isExploded = false;
+        exploded = false;
     }
 
-    public Blocker(){}
+//    public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
+//        super(coordinates, hitbox, pathPattern, type);
+//        this.superType = SuperType.BLOCKER;
+//
+//        this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
+//        this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLOSION_RADIUS;
+//
+//        this.blockingHitbox = blockingHitbox;
+//        this.explodingHitbox = explodingHitbox;
+//
+//        isExploded = false;
+//    }
+//
+//    public Blocker(){}
 
 
 
@@ -87,7 +106,7 @@ public class Blocker extends AutonomousEntity {
     @Override
     public void reachBoundary(CollisionRunnable collisionRunnable) {
         super.reachBoundary(collisionRunnable);
-        this.isExploded = true;
+        this.exploded = true;
         collisionRunnable.BlockerBoundaryBehavior(this);
     }
 
@@ -97,7 +116,7 @@ public class Blocker extends AutonomousEntity {
     }
 
     public boolean isExploded(){
-        return this.isExploded;
+        return this.exploded;
     }
 
     @Override

@@ -2,18 +2,21 @@ package utils;
 
 
 //TODO complete documentation
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Immutable representation of a vector
  */
 public class Vector {
 
-    private final Coordinates originCoordinate, positionCoordinate;
+    private Coordinates originCoordinate, positionCoordinate;
 
     public Vector(Coordinates originCoordinate, Coordinates positionCoordinate) {
         this.originCoordinate = originCoordinate;
         this.positionCoordinate = positionCoordinate;
     }
-
+    public Vector(){}
     /**
      * Constructor for vectors with default original coordinates of 0, 0
      * @param positionCoordinate
@@ -42,14 +45,17 @@ public class Vector {
         return originCoordinate;
     }
 
+    @JsonIgnore
     public double getX(){
     return positionCoordinate.getX() - originCoordinate.getX();
     }
 
+    @JsonIgnore
     public double getY(){
     return positionCoordinate.getY() - originCoordinate.getY();
     }
 
+    @JsonIgnore
     public double getMagnitude(){
         return MathUtils.vectorMagnitude(this);
     }

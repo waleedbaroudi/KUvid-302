@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
@@ -61,6 +62,10 @@ public class Shooter extends Entity {
         return this.reload();
     }
 
+    public void setContainer(ProjectileContainer container) {
+        this.container = container;
+    }
+
     /**
      * Adjust the projectile coordinates and speed vector orientation according to the coordinates and orientation
      * of the shooter
@@ -74,6 +79,7 @@ public class Shooter extends Entity {
     /**
      * @return the coordinate of the projectile where it will start moving
      */
+    @JsonIgnore
     private Coordinates getShootingCoords() {
         int height = (int) getHitbox().getHeight();
         int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
@@ -126,6 +132,7 @@ public class Shooter extends Entity {
         }
     }
 
+    @JsonIgnore
     public double getAngle() {
         return getHitbox().getRotationDegree();
     }

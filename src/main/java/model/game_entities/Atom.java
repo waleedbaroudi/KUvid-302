@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.GameBundle;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
@@ -12,6 +13,7 @@ import utils.Coordinates;
 /**
  * Atom: Handles the Atom game object.
  */
+@JsonTypeName("atom")
 public class Atom extends Projectile {
     public Atom(@JsonProperty("coordinates")Coordinates coordinates,
                 @JsonProperty("hitbox")Hitbox hitbox,

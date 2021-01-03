@@ -1,5 +1,7 @@
 package model.game_space;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class GameTimer {
     private int remainingTimeMillis;
     private final int MIN_TO_MILLS_CONVERSION_CONSTANT = 60000;
@@ -27,6 +29,7 @@ public class GameTimer {
         remainingTimeMillis -= timeInMillis;
     }
 
+    @JsonIgnore
     public String getCurrentTimer() {
         return getMinutesCounter() + " : " + getSecondsCounter();
     }
@@ -40,6 +43,7 @@ public class GameTimer {
      *
      * @return returns the remaining minutes (floored)
      */
+    @JsonIgnore
     private String getMinutesCounter() {
         int remainingMinutes = remainingTimeMillis / MIN_TO_MILLS_CONVERSION_CONSTANT;
         return remainingMinutes >= 10 ? String.valueOf(remainingMinutes) : ("0" + remainingMinutes);
@@ -50,6 +54,7 @@ public class GameTimer {
      *
      * @return the number of seconds remaining in a minute
      */
+    @JsonIgnore
     private String getSecondsCounter() {
         int secondsInMillis = remainingTimeMillis % MIN_TO_MILLS_CONVERSION_CONSTANT;
         int remainingSeconds = secondsInMillis / 1000;
