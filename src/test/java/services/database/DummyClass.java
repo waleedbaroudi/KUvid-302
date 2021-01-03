@@ -1,4 +1,4 @@
-package utils.database;
+package services.database;
 
 public class DummyClass {
 

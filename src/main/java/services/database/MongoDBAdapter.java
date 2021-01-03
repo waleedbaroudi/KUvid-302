@@ -1,4 +1,4 @@
-package utils.database;
+package services.database;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;

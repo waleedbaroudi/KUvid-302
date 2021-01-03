@@ -3,7 +3,7 @@ package model.game_running;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import org.apache.log4j.Logger;
-import utils.database.MongoDBAdapter;
+import services.database.MongoDBAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
