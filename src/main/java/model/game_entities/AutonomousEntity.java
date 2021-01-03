@@ -4,7 +4,7 @@ import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.runnables.CollisionRunnable;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 /**
  * AutonomousEntity: a Superclass for all the game objects that move autonomously

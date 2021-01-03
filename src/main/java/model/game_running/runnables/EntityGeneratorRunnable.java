@@ -9,7 +9,7 @@ import model.game_entities.factories.PowerupFactory;
 import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 import java.util.*;
 import java.util.stream.Collectors;

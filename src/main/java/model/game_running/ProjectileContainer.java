@@ -2,12 +2,11 @@ package model.game_running;
 
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
-import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 import java.util.Arrays;
 import java.util.Random;

@@ -1,7 +1,7 @@
 package model.game_physics.path_patterns;
 
-import utils.Coordinates;
-import utils.Vector;
+import services.utils.Coordinates;
+import services.utils.Vector;
 
 import java.util.ArrayList;
 

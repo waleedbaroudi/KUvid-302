@@ -1,6 +1,6 @@
 package model.game_physics.hitbox;
 
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 import java.util.ArrayList;
 
