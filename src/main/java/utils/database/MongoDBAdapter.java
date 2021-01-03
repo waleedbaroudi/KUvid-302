@@ -154,7 +154,6 @@ public class MongoDBAdapter implements IDatabase { //todo: change class name, it
         Iterator<String> iter = collection.distinct(DOC_ID_KEY, String.class).iterator();
         ArrayList<String> ids = new ArrayList<>();
         iter.forEachRemaining(ids::add);
-        logger.info("[MongoDBAdapter] retrieving list of unique ids: " + ids);
         return ids;
     }
 }

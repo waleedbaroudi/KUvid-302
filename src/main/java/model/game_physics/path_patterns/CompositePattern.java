@@ -1,5 +1,6 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import utils.Coordinates;
 import utils.Vector;
 
@@ -10,14 +11,16 @@ import java.util.Collections;
  * Path pattern that follows a list of path patterns, each for some number of iterations. By default, after the number of iteration
  * for the last path finishes, it starts again from the first path pattern.
  */
+@JsonTypeName("composite-pattern")
 public class CompositePattern extends PathPattern {
-    private final ArrayList<PathPattern> patterns;
-    private final ArrayList<Integer> iterations;
+    private ArrayList<PathPattern> patterns;
+    private ArrayList<Integer> iterations;
     private PathPattern currentPattern;
     private int currentIteration;
     private int currentPatternIdx;
     private boolean circulate;
 
+    public CompositePattern(){}
     /**
      *
      * @param patterns arraylist of patterns to follow
