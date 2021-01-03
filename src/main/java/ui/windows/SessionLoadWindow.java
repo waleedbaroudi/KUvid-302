@@ -16,7 +16,7 @@ public class SessionLoadWindow extends JFrame implements  SessionLoader.SessionL
         super("Load Session");
         this.context = context;
 
-        getContentPane().add(new JPanel());
+        setContentPane(new JPanel());
         this.pack(); // Pack the frame around the components
         this.setLocationRelativeTo(null); // Center the blender frame
 
