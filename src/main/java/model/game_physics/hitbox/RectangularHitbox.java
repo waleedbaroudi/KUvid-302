@@ -1,9 +1,10 @@
 package model.game_physics.hitbox;
 
+
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import utils.Coordinates;
-import utils.MathUtils;
-import utils.Vector;
+import services.utils.Coordinates;
+import services.utils.MathUtils;
+import services.utils.Vector;
 
 import java.util.ArrayList;
 @JsonTypeName("rectangular-hitbox")

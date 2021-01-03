@@ -5,8 +5,8 @@ import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
-import utils.IOHandler;
-import utils.database.MongoDBAdapter;
+import services.utils.IOHandler;
+import services.database.MongoDBAdapter;
 
 import java.io.IOException;
 

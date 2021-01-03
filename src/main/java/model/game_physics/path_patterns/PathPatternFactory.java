@@ -2,8 +2,8 @@ package model.game_physics.path_patterns;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
-import utils.Vector;
-import utils.Velocity;
+import services.utils.Vector;
+import services.utils.Velocity;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;

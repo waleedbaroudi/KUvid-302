@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import utils.Coordinates;
-import utils.Vector;
+import services.utils.Coordinates;
+import services.utils.Vector;
 
 /**
  * This class serves as a super class for path patterns.

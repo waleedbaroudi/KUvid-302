@@ -1,8 +1,7 @@
 package model.game_physics.hitbox;
 
 import org.junit.jupiter.api.Test;
-import utils.Coordinates;
-import utils.Vector;
+import services.utils.Coordinates;
 
 import static org.junit.jupiter.api.Assertions.*;
 

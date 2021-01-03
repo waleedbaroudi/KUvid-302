@@ -8,7 +8,7 @@ import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 /**
  * Powerup: Handles the Powerup game object

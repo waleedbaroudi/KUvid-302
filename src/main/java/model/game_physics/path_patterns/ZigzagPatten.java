@@ -3,9 +3,9 @@ package model.game_physics.path_patterns;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import utils.Coordinates;
-import utils.Vector;
-import utils.Velocity;
+import services.utils.Coordinates;
+import services.utils.Vector;
+import services.utils.Velocity;
 
 import java.util.ArrayList;
 import java.util.Collections;

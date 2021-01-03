@@ -1,4 +1,4 @@
-package utils.database;
+package services.database;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -7,7 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.bson.Document;
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;

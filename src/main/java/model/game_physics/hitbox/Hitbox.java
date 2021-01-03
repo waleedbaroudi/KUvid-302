@@ -2,9 +2,9 @@ package model.game_physics.hitbox;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import utils.Coordinates;
-
+import services.utils.Coordinates;
 import java.util.ArrayList;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY, property = "type") @JsonSubTypes({
         @JsonSubTypes.Type(value = RectangularHitbox.class, name = "rectangular-hitbox"),

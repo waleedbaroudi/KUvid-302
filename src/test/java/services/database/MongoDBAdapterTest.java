@@ -1,4 +1,4 @@
-package utils.database;
+package services.database;
 
 import org.bson.Document;
 import org.junit.jupiter.api.*;

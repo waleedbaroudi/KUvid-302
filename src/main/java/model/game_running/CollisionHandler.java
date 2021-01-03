@@ -3,7 +3,7 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import utils.MathUtils;
+import services.utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 

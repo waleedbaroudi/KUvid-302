@@ -2,8 +2,8 @@ package ui.movable_drawables;
 
 import model.game_entities.Molecule;
 import model.game_entities.enums.MoleculeStructure;
-import utils.Coordinates;
-import utils.MathUtils;
+import services.utils.Coordinates;
+import services.utils.MathUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
