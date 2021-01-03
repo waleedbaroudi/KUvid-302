@@ -76,9 +76,6 @@ public class ZigzagPatten extends PathPattern{
     @Override
     @JsonIgnore
     public void setCurrentCoords(Coordinates currentCoords) {
-        System.out.println(currentCoords);
-        System.out.println(this.zigzagPattern);
-        System.out.println(this.zigzagPattern.getCurrentPattern());
         this.zigzagPattern.getCurrentPattern().setCurrentCoords(currentCoords);
     }
 

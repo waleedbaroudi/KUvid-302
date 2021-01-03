@@ -34,7 +34,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
     /**
      * fills the counting maps for molecules, blockers, power-ups
      */
-    private void initializeMaps() {
+    public void initializeMaps() {
         //fill molecule count map
         moleculeCountPerType = new HashMap<>();
         moleculeCountPerType.put(EntityType.ALPHA, Configuration.getInstance().getNumAlphaMolecules());

@@ -53,4 +53,8 @@ public class ShooterMovementRunnable extends GameRunnable {
     public void setRotationState(int state) {
         this.rotationState = state;
     }
+
+    public void setShooter(Shooter shooter) {
+        this.shooter = shooter;
+    }
 }

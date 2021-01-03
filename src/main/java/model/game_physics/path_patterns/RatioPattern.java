@@ -75,6 +75,10 @@ public class RatioPattern extends PathPattern{
         return this.getCurrentCoords();
     }
 
+    public List<Double> getRatios() {
+        return ratios;
+    }
+
     @Override
     public void reflect(Vector n) {
         try {

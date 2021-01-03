@@ -57,7 +57,7 @@ public class RunningMode {
     private Thread entityGeneratorThread;
 
     // Blender
-    private final Blender blender;
+    private Blender blender;
 
     public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoader.SessionLoadListener sessionLoadListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
@@ -293,13 +293,6 @@ public class RunningMode {
         this.autonomousEntities.addAll(session.getMolecules());
         this.autonomousEntities.addAll(session.getPowerUps());
 
-        // update the player state and statistics listener
-        GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
-        this.player = session.getPlayer();
-        this.player.setStatisticsListener(listener);
-        System.out.println(this.player.getTimer().getCurrentTimer());
-
-
         // update the projectile containers
         this.projectileContainer = session.getProjectileContainer();
         this.projectileContainer.setRunningMode(this);
@@ -308,11 +301,22 @@ public class RunningMode {
         this.shooter = session.getShooter();
         this.shooter.setContainer(this.projectileContainer);
 
+        // update the player state and statistics listener
+        GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
+        this.player = session.getPlayer();
+        this.player.setStatisticsListener(listener);
+
+        // update runnables
+        this.blender = new Blender(this.projectileContainer);
+        this.shooterRunnable.setShooter(this.shooter);
+        this.entityGeneratorRunnable.initializeMaps();
+
         // reflect the changes in the UI
         gameEntitiesListener.onGameReset();
         for (AutonomousEntity entity : this.autonomousEntities){
             gameEntitiesListener.onEntityAdd(entity);
         }
+
     }
 
     public interface RunningStateListener {

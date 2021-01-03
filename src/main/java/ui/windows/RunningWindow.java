@@ -129,5 +129,19 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     @Override
     public void onGameReset(){
         drawableMap.clear();
+        this.config = Configuration.getInstance();
+        this.blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode);
+        this.gameContentPanel = new GamePanel(this.runningMode, drawableMap);
+        this.statisticsPanel = new StatisticsPanel(this.runningMode);
+        getContentPane().removeAll();
+        getContentPane().add(gameContentPanel, BorderLayout.LINE_START);
+        getContentPane().add(statisticsPanel, BorderLayout.LINE_END);
+
+        //add separator
+        JPanel separator = new JPanel();
+        separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
+        getContentPane().add(separator, BorderLayout.CENTER);
+        separator.setBackground(Color.BLACK);
+        getContentPane().add(statisticsPanel, BorderLayout.CENTER);
     }
 }
