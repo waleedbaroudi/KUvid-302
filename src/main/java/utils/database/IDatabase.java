@@ -2,6 +2,7 @@ package utils.database;
 
 
 import java.io.IOException;
+import java.util.List;
 
 public interface IDatabase {
     /**
@@ -61,5 +62,12 @@ public interface IDatabase {
      * @throws IOException
      */
     <T> T load(String collectionTitle, String uniqueID, Class<T> tClass) throws IOException;
+
+    /**
+     * get all the documents unique id in the collection
+     * @param collectionTitle
+     * @return
+     */
+    List<String> getDocumentsIds(String collectionTitle);
 
 }

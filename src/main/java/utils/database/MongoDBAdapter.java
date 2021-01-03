@@ -10,6 +10,9 @@ import org.bson.Document;
 import utils.IOHandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -143,5 +146,14 @@ public class MongoDBAdapter implements IDatabase { //todo: change class name, it
             logger.error("[MongoDBAtlasAdapter] no instance exists with unique ID " + uniqueID);
             return null;
         }
+    }
+
+    @Override
+    public ArrayList<String> getDocumentsIds(String collectionTitle) {
+        MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
+        Iterator<String> iter = collection.distinct("_id", String.class).iterator();
+        ArrayList<String> ids = new ArrayList<>();
+        iter.forEachRemaining(ids::add);
+        return ids;
     }
 }
