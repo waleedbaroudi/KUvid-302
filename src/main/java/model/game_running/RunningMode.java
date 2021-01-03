@@ -17,7 +17,10 @@ import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
+import utils.IOHandler;
+import utils.database.MongoDBAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -273,9 +276,6 @@ public class RunningMode {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
 
-    public void saveGameSession() {
-        currentState.saveGameSession();
-    }
 
     public void showSavedSessions() {
         currentState.showSavedSessions();
@@ -317,6 +317,23 @@ public class RunningMode {
             gameEntitiesListener.onEntityAdd(entity);
         }
 
+    }
+    public void saveGameSession() {
+        GameBundle.Builder builder = new GameBundle.Builder();
+        builder.setPlayer(getPlayer()).
+                setShooter(getShooter()).
+                setProjectileContainer(getProjectileContainer()).
+                setConfig(Configuration.getInstance());
+
+        getAutonomousEntities().forEach(entity -> entity.saveState(builder));
+
+        GameBundle bundle = builder.build();
+        String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
+        try {
+            MongoDBAdapter.getInstance().save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
+        } catch (IOException e) {
+            logger.error("Could not save the game session", e);
+        }
     }
 
     public interface RunningStateListener {

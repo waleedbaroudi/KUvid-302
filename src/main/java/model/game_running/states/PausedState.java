@@ -22,27 +22,14 @@ public class PausedState implements GameState {
         logger = Logger.getLogger(this.getClass().getName());
     }
 
-    @Override
-    public void saveGameSession() {
-        GameBundle.Builder builder = new GameBundle.Builder();
-        builder.setPlayer(runningMode.getPlayer()).
-                setShooter(runningMode.getShooter()).
-                setProjectileContainer(runningMode.getProjectileContainer()).
-                setConfig(Configuration.getInstance());
-
-        runningMode.getAutonomousEntities().forEach(entity -> entity.saveState(builder));
-
-        GameBundle bundle = builder.build();
-        String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
-        try {
-            dbAdapter.save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
-        } catch (IOException e) {
-            logger.error("Could not save the game session", e);
-        }
-    }
 
     @Override
     public void showSavedSessions() {
         runningMode.getSessionLoadListener().getSavedSessions();
+    }
+
+    @Override
+    public void saveGameSession() {
+        runningMode.saveGameSession();
     }
 }

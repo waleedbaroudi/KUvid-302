@@ -12,7 +12,6 @@ import utils.IOHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -103,7 +102,7 @@ public class MongoDBAdapter implements IDatabase { //todo: change class name, it
             return false;
         }
 
-        String FileRepresentation = IOHandler.getJson(instance);
+        String FileRepresentation = IOHandler.getYamlRepresentation(instance);
         collection.insertOne(new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
         logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was saved");
         return true;
@@ -119,7 +118,7 @@ public class MongoDBAdapter implements IDatabase { //todo: change class name, it
             logger.warn("[MongoDBAtlasAdapter] trying to update a non-existing entry with ID " + uniqueID);
         }
 
-        String FileRepresentation = IOHandler.getJson(instance);
+        String FileRepresentation = IOHandler.getYamlRepresentation(instance);
         collection.updateOne(eq(DOC_ID_KEY, uniqueID), new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
         logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was updating");
         return true;

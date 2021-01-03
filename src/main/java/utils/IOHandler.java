@@ -32,8 +32,8 @@ public class IOHandler {
         writeFileWithMapper(obj, name, directoryName, JSONMapper);
     }
 
-    public static String getJson(Object obj) throws IOException {
-        return JSONMapper.writeValueAsString(obj);
+    public static String getYamlRepresentation(Object obj) throws IOException {
+        return YAMLMapper.writeValueAsString(obj);
     }
 
     private static void writeFileWithMapper(Object obj, String fileName, String directoryName, ObjectMapper mapper) {
