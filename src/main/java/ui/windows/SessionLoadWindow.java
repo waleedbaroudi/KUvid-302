@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class SessionLoadWindow extends JFrame implements  SessionLoader.SessionLoadListener {
     private SessionLoader sessionLoader;
     private JFrame context;
+    JList saveFilesNamesList;
 
     public SessionLoadWindow(JFrame context) {
         super("Load Session");
@@ -30,14 +31,17 @@ public class SessionLoadWindow extends JFrame implements  SessionLoader.SessionL
     @Override
     public void onSessionListFetched(ArrayList<String> sessions) {
         // TODO: ADD THE LIST OF SAVES TO A JLIST
+        saveFilesNamesList = new JList(sessions.toArray());
         JButton loadSessionButton = new JButton("Load Session");
+        this.getContentPane().add(saveFilesNamesList);
+        this.getContentPane().add(loadSessionButton);
+
+
         loadSessionButton.addActionListener(e -> {
-            String sessionID = null; // get the id from the selected item
+            String sessionID = saveFilesNamesList.getSelectedValue().toString(); // get the id from the selected item
             sessionLoader.retrieveSession(sessionID);
             this.dispose();
         });
-        this.getContentPane().add(loadSessionButton);
-
         setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
