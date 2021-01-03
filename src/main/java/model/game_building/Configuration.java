@@ -4,7 +4,7 @@ package model.game_building;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.awt.*;
 import java.io.File;

@@ -11,7 +11,7 @@ import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.Spinnable;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 /**
  * Molecule: Handles the Molecule game object.

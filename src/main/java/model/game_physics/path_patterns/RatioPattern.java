@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.Configuration;
-import utils.Coordinates;
-import utils.Vector;
+import services.utils.Coordinates;
+import services.utils.Vector;
 
 import java.util.List;
 

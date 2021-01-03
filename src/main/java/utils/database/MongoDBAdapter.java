@@ -7,12 +7,11 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.bson.Document;
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 

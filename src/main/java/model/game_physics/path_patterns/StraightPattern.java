@@ -2,9 +2,9 @@ package model.game_physics.path_patterns;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import utils.Coordinates;
-import utils.Vector;
-import utils.Velocity;
+import services.utils.Coordinates;
+import services.utils.Vector;
+import services.utils.Velocity;
 
 /**
  * Straight path pattern with a constant speed.

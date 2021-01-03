@@ -1,7 +1,7 @@
 package model.game_building;
 
 
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package utils;
+package services.utils;
 
 public class Pair<F extends Number, S extends Number> implements Comparable<Pair<F, S>>{
 

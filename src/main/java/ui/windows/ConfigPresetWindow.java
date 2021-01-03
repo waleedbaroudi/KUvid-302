@@ -2,7 +2,7 @@ package ui.windows;
 
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigPreset;
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import javax.swing.*;
 import java.io.IOException;
