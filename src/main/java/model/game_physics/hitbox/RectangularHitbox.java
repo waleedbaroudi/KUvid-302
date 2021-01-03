@@ -1,11 +1,12 @@
 package model.game_physics.hitbox;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import utils.Coordinates;
 import utils.MathUtils;
 import utils.Vector;
 
 import java.util.ArrayList;
-
+@JsonTypeName("rectangular-hitbox")
 public class RectangularHitbox extends Hitbox {
 
     private final double width;

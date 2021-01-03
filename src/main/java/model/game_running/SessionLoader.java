@@ -30,6 +30,7 @@ public class SessionLoader {
         try {
             loadedBundle = dbAdapter.load(GameConstants.SESSION_COLLECTION_TITLE, sessionID, GameBundle.class);
         } catch (IOException e) {
+            e.printStackTrace();
             loadListener.onLoadFailed("Could not load the selected game session.");
         }
         loadListener.onSessionRetrieved(loadedBundle);

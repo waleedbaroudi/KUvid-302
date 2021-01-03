@@ -11,6 +11,7 @@ import java.util.ArrayList;
 /**
  * Entity: a Superclass for all the game objects
  */
+
 public abstract class Entity implements Collidable {
     protected SuperType superType;
     private Coordinates coordinates;

@@ -54,6 +54,7 @@ public class SessionLoadWindow extends JFrame implements  SessionLoader.SessionL
 
     @Override
     public void onLoadFailed(String errorMessage) {
-        // todo: display error message
+        // todo: display error message window
+        System.out.println("ERROR: " + errorMessage);
     }
 }

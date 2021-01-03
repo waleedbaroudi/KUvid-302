@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.game_building.GameBundle;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
@@ -12,15 +13,17 @@ import utils.Coordinates;
  * Atom: Handles the Atom game object.
  */
 public class Atom extends Projectile {
-
-    public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type) {
+    public Atom(@JsonProperty("coordinates")Coordinates coordinates,
+                @JsonProperty("hitbox")Hitbox hitbox,
+                @JsonProperty("pathPattern")PathPattern pathPattern,
+                @JsonProperty("entityType")EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
     }
 
-    public Atom() {
-
-    }
+//    public Atom() {
+//
+//    }
 
     // visitor pattern. Double delegation
     @Override
