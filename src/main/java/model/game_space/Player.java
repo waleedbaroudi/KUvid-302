@@ -1,5 +1,6 @@
 package model.game_space;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 
@@ -41,6 +42,16 @@ public class Player {
 
     public GameTimer getTimer() {
         return timer;
+    }
+
+    @JsonIgnore
+    public GameStatistics.GameStatisticsListener getStatisticsListener(){
+        return this.statistics.getStatisticsListener();
+    }
+
+    @JsonIgnore
+    public void getStatisticsListener(GameStatistics.GameStatisticsListener listener){
+        this.statistics.setStatisticsListener(listener);
     }
 
     public void updateOwnedProjectiles(SuperType type, EntityType entityType, int newCount) {

@@ -10,6 +10,10 @@ public class GameStatistics {
         this.statisticsListener = statisticsListener;
     }
 
+    public GameStatisticsListener getStatisticsListener() {
+        return statisticsListener;
+    }
+
     public void setStatisticsListener(GameStatisticsListener listener) {
         this.statisticsListener = listener;
     }

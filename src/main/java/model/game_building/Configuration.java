@@ -52,6 +52,12 @@ public class Configuration {
         return instance;
     }
 
+    public static void resetConfig(Configuration newInstance){
+        instance = newInstance;
+    }
+
+
+
     /**
      * This method must be called in the building-mode before the game starts. It attaches the configBundle object
      * to the Configuration singleton.

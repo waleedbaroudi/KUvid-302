@@ -14,6 +14,7 @@ import model.game_running.states.GameState;
 import model.game_running.states.PausedState;
 import model.game_running.states.RunningState;
 import model.game_space.Blender;
+import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
 
@@ -32,9 +33,9 @@ public class RunningMode {
     GameState currentState, pausedState, runningState;
 
     //space objects
-    private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
-    private final ProjectileContainer projectileContainer;
-    private final Shooter shooter;
+    private  CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
+    private ProjectileContainer projectileContainer;
+    private Shooter shooter;
 
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
@@ -280,14 +281,29 @@ public class RunningMode {
         currentState.showSavedSessions();
     }
 
-    public void loadGameSession(GameBundle bundle) {
-        // apply the retrieved session
+    public void loadGameSession(GameBundle session) {
 
-        /*
-        NOTES:
-            - when loading the player, set the statistics change listener (get from running window)
-            - when loading the projectile container, set the running mode
-         */
+        // update the entities in the game view
+        this.autonomousEntities.clear();
+        this.autonomousEntities.addAll(session.getAtoms());
+        this.autonomousEntities.addAll(session.getBlockers());
+        this.autonomousEntities.addAll(session.getMolecules());
+        this.autonomousEntities.addAll(session.getPowerUps());
+
+        // update the player state and statistics listener
+        GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
+        this.player = session.getPlayer();
+        this.player.setStatisticsListener(listener);
+
+        // update the game configuration
+        Configuration.resetConfig(session.getConfig());
+
+        // update the shooter state
+        this.shooter = session.getShooter();
+
+        // update the projectile containers
+        this.projectileContainer = session.getProjectileContainer();
+        this.projectileContainer.setRunningMode(this);
     }
 
     public interface RunningStateListener {
