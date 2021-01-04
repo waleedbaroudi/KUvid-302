@@ -17,8 +17,8 @@ import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
-import utils.IOHandler;
-import utils.database.MongoDBAdapter;
+import services.database.MongoDBAdapter;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;

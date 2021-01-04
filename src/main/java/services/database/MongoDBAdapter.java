@@ -103,6 +103,7 @@ public class MongoDBAdapter implements IDatabase { //todo: change class name, it
         }
 
         String FileRepresentation = IOHandler.getYamlRepresentation(instance);
+        System.out.println(FileRepresentation);
         collection.insertOne(new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
         logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was saved");
         return true;

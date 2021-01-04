@@ -85,8 +85,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         ActionListener listener = e -> {
             if (running) {
                 if (!paused) {
-                    repaint();
                     runningMode.updateTimer(GameConstants.GAME_THREAD_DELAY);
+                    repaint();
                     if (runningMode.isGameFinished()) runningMode.endGame();
                 }
             } else {

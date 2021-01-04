@@ -33,10 +33,11 @@ public class Configuration {
             configBundle = IOHandler.readFromYaml("temp", ConfigBundle.class);
         } catch (IOException exception) {
             logger.error("[Configuration] {FATAL}: Could not load game configurations.", exception);
-//            exception.printStackTrace();
-            File temp = new File(System.getProperty("user.dir") + "/configurations/temp.yaml");
-            if (!temp.delete())
-                logger.warn("Temporary configuration file was not deleted");
+            exception.printStackTrace();
+        }
+        File temp = new File(System.getProperty("user.dir") + "/configurations/temp.yaml");
+        if (!temp.delete()) {
+            logger.warn("Temporary configuration file was not deleted");
         }
     }
 
