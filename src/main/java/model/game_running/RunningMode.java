@@ -17,8 +17,8 @@ import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
-import utils.IOHandler;
-import utils.database.MongoDBAdapter;
+import services.utils.IOHandler;
+import services.database.MongoDBAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -284,7 +284,8 @@ public class RunningMode {
     public void loadGameSession(GameBundle session) {
 
         // update the game configuration
-        Configuration.resetConfig(session.getConfig());
+        Configuration.getInstance().loadConfigBundle(session.getConfigBundle());
+        //Configuration.resetConfig(session.getConfig());
 
         // update the entities in the game view
         this.autonomousEntities.clear();
@@ -327,7 +328,7 @@ public class RunningMode {
         builder.setPlayer(getPlayer()).
                 setShooter(getShooter()).
                 setProjectileContainer(getProjectileContainer()).
-                setConfig(Configuration.getInstance());
+                setConfigBundle(Configuration.getInstance().getConfigBundle());
 
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 

@@ -52,16 +52,19 @@ public class Configuration {
         return instance;
     }
 
-    public static void resetConfig(Configuration newInstance){
-        instance = newInstance;
+    /**
+     * Sets the current configBundle to a new one. This method is used when we load a saved game to set a new bundle.
+     * This can't be done with setConfig because it does not allow for re-setting of the configBundle
+     * @param newBundle
+     */
+    public void loadConfigBundle(ConfigBundle newBundle){
+        this.configBundle = newBundle;
     }
 
 
     public ConfigBundle getConfigBundle() {
         return configBundle;
     }
-
-
 
     /**
      * This method must be called in the building-mode before the game starts. It attaches the configBundle object

@@ -13,7 +13,7 @@ public class GameBundle {
     private ArrayList<Powerup> powerUps;
     private ArrayList<Molecule> molecules;
     private Shooter shooter;
-    private Configuration config;
+    private ConfigBundle configBundle;
     private Player player;
     private ProjectileContainer projectileContainer;
 
@@ -42,8 +42,8 @@ public class GameBundle {
         return player;
     }
 
-    public Configuration getConfig() {
-        return config;
+    public ConfigBundle getConfigBundle() {
+        return configBundle;
     }
 
     public ProjectileContainer getProjectileContainer() {
@@ -62,7 +62,7 @@ public class GameBundle {
         private Shooter shooter;
         private ProjectileContainer projectileContainer;
         private Player player;
-        private Configuration config;
+        private ConfigBundle configBundle;
 
         public Builder() {
             atoms = new ArrayList<>();
@@ -106,8 +106,8 @@ public class GameBundle {
             return this;
         }
 
-        public Builder setConfig(Configuration config) {
-            this.config = config;
+        public Builder setConfigBundle(ConfigBundle configBundle) {
+            this.configBundle = configBundle;
             return this;
         }
 
@@ -119,7 +119,7 @@ public class GameBundle {
             bundle.blockers = this.blockers;
             bundle.powerUps = this.powerUps;
             bundle.shooter = this.shooter;
-            bundle.config = this.config;
+            bundle.configBundle = this.configBundle;
             bundle.player = this.player;
             bundle.projectileContainer = this.projectileContainer;
             return bundle;
