@@ -42,14 +42,13 @@ public class GameStatistics {
     }
 
     /**
-     * called when the number of a certain projectile is changed. (by shooting, blending, catching, etc.)
+     * called when the number of a any projectile is changed. (by shooting, blending, catching, etc.)
      *
-     * @param superType     the type of the projectile; atom or power-up
-     * @param type          the kind of the projectile; alpha, beta, gamma, or sigma.
-     * @param currentNumber the updated count of the specified projectile
+     * @param atoms     the count array of atom types
+     * @param powerUps  the count array of power-up types
      */
-    public void changeProjectileCount(SuperType superType, EntityType type, int currentNumber) {// todo: this is called from projectile container via the controller
-        statisticsListener.onProjectileCountChange(superType, type, currentNumber);
+    public void changeProjectileCount(int[] atoms, int[] powerUps) {// todo: this is called from projectile container via the controller
+        statisticsListener.onProjectileCountChange(atoms, powerUps);
     }
 
     /**
@@ -62,7 +61,7 @@ public class GameStatistics {
 
         void onScoreChanged(int score);
 
-        void onProjectileCountChange(SuperType superType, EntityType type, int newCount);
+        void onProjectileCountChange(int[] atoms, int[] powerUps);
     }
 
 

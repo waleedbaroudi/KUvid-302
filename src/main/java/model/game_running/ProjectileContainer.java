@@ -146,7 +146,7 @@ public class ProjectileContainer {
         if (superType.equals(SuperType.ATOM))
             totalAtomCount += count;
         if (runningMode != null) {
-            runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
+            runningMode.updateStatisticsProjectileCount(atomMap, powerUpMap);
         } else {
             logger.warn("RunningMode instance is null");
         }

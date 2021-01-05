@@ -7,7 +7,6 @@ import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
-import model.game_space.Player;
 import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
@@ -164,6 +163,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
                 runningMode.getBlender().showBlender();
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -183,6 +183,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.getShooter().setPowerup(EntityType.ALPHA);
 
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -201,6 +202,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.BETA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -219,6 +221,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.SIGMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -237,6 +240,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.GAMMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -325,33 +329,16 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onProjectileCountChange(SuperType superType, EntityType type, int newCount) {
-        String stringValue = String.valueOf(newCount);
-        switch (type) {
-            case ALPHA:
-                if (superType == SuperType.ATOM)
-                    alphaAtomsNumberLabel.setText(stringValue);
-                else
-                    alphaPowerupsNumberLabel.setText(stringValue);
-                break;
-            case BETA:
-                if (superType == SuperType.ATOM)
-                    betaAtomsNumberLabel.setText(stringValue);
-                else
-                    betaPowerupsNumberLabel.setText(stringValue);
-                break;
-            case GAMMA:
-                if (superType == SuperType.ATOM)
-                    gammaAtomsNumberLabel.setText(stringValue);
-                else
-                    gammaPowerupsNumberLabel.setText(stringValue);
-                break;
-            case SIGMA:
-                if (superType == SuperType.ATOM)
-                    sigmaAtomsNumberLabel.setText(stringValue);
-                else
-                    sigmaPowerupsNumberLabel.setText(stringValue);
-                break;
-        }
+    public void onProjectileCountChange(int[] atoms, int[] powerUps) {
+        System.out.println("PROJECTILE UPDATE CALLED");
+        alphaAtomsNumberLabel.setText(String.valueOf(atoms[0]));
+        betaAtomsNumberLabel.setText(String.valueOf(atoms[1]));
+        gammaAtomsNumberLabel.setText(String.valueOf(atoms[2]));
+        sigmaAtomsNumberLabel.setText(String.valueOf(atoms[3]));
+
+        alphaPowerupsNumberLabel.setText(String.valueOf(powerUps[0]));
+        betaPowerupsNumberLabel.setText(String.valueOf(powerUps[1]));
+        gammaPowerupsNumberLabel.setText(String.valueOf(powerUps[2]));
+        sigmaPowerupsNumberLabel.setText(String.valueOf(powerUps[3]));
     }
 }

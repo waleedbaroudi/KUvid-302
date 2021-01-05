@@ -52,8 +52,8 @@ public class Player {
         return this.statistics.getStatisticsListener();
     }
 
-    public void updateOwnedProjectiles(SuperType type, EntityType entityType, int newCount) {
-        statistics.changeProjectileCount(type, entityType, newCount);
+    public void updateOwnedProjectiles(int[] atoms, int[] powerUps) {
+        statistics.changeProjectileCount(atoms, powerUps);
     }
 
     public boolean loseHealth(int damageAmount) {

@@ -224,9 +224,9 @@ public class RunningMode {
         this.player = player;
     }
 
-    public void updateStatisticsProjectileCount(SuperType type, EntityType entityType, int newCount) {
+    public void updateStatisticsProjectileCount(int[] atoms, int[] powerUps) {
         if (player != null)
-            player.updateOwnedProjectiles(type, entityType, newCount);
+            player.updateOwnedProjectiles(atoms, powerUps);
     }
 
     public void updateHealth(int damageAmount) {
