@@ -2,6 +2,7 @@ package model.game_space;
 
 
 import model.game_building.GameConstants;
+import model.game_entities.enums.EntityType;
 import model.game_running.ProjectileContainer;
 
 import java.util.logging.Level;
@@ -23,22 +24,51 @@ public class Blender {
     /**
      * Blends/Breaks a number of source atoms into a number of target atoms
      *
-     * @param sourceAtom              The atom to be blended
-     * @param destinationAtom         The result atom
-     * @param destinationAtomQuantity The number of the desired atom.
+     * @param sourceAtom       The atom to be blended
+     * @param destinationAtom  The result atom
+     * @param numOfConversions The number of the desired atom.
      */
-    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {
+//    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {
+//        boolean canBlend;
+//        System.out.println(sourceAtom + " " + " ");
+//        canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
+//                (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]));
+//        if (canBlend) {
+//            projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
+//                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom][sourceAtom]));
+//            if (blenderListener != null)
+//                blenderListener.onBlend();
+//        } else {
+//            if (blenderListener != null)
+//                blenderListener.onFailBlend();
+//        }
+//    }
+    public void convert(int sourceAtom, int destinationAtom, int numOfConversions) {
+        if (sourceAtom > destinationAtom) {
+            breakAtoms(sourceAtom, destinationAtom, numOfConversions);
+        } else if (sourceAtom < destinationAtom) {
+            blendAtoms(sourceAtom, destinationAtom, numOfConversions);
+        }
+        blenderListener.onBlend();
+    }
+
+    public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) {
         boolean canBlend;
-        canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
-                (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom - 1][destinationAtom - 1]));
-        if (canBlend) {
-            projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
-                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom - 1][sourceAtom - 1]));
-            if (blenderListener != null)
-                blenderListener.onBlend();
-        } else {
-            if (blenderListener != null)
-                blenderListener.onFailBlend();
+        for (int i = 0; i < numOfConversions; i++) {
+            canBlend = projectileContainer.decreaseAtoms(sourceAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
+            if (!canBlend)
+                break;
+            projectileContainer.increaseAtoms(destinationAtom, 1);
+        }
+    }
+
+    private void breakAtoms(int sourceAtom, int destinationAtom, int numOfConversions) {
+        boolean canBlend;
+        for (int i = 0; i < numOfConversions; i++) {
+            canBlend = projectileContainer.decreaseAtoms(sourceAtom, 1);
+            if (!canBlend)
+                break;
+            projectileContainer.increaseAtoms(destinationAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
         }
     }
 

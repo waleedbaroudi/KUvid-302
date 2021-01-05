@@ -67,7 +67,7 @@ public class ProjectileContainer {
         if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1))
             return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
                     PathPatternFactory.getInstance().getAtomPathPattern(),
-                    EntityType.forValue(type + 1)); //TODO: FIX indices
+                    EntityType.forValue(type));
         return null;
     }
 
@@ -92,15 +92,15 @@ public class ProjectileContainer {
      * @return the desired power-up if there are remaining power-ups of that type. null otherwise.
      */
     public Powerup getPowerUp(Coordinates coordinates, EntityType type) { //todo: to be implemented
-        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue() - 1, -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
+        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue(), -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
             return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
                     PathPatternFactory.getInstance().getPowerUpPathPattern(),
-                    EntityType.forValue(type.getValue()), false); //TODO: FIX indices
+                    EntityType.forValue(type.getValue()), false);
         return null;
     }
 
     public void addPowerUp(Powerup powerup) {
-        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getEntityType().getValue() - 1, 1);
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue(), 1);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (player is not out of atoms)
      */
     public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, -count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type, -count);
     }
 
 
@@ -123,7 +123,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (purpose TBD)
      */
     public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type, count);
     }
 
     /**
@@ -167,7 +167,7 @@ public class ProjectileContainer {
 
 
     public int getAtomCountForType(EntityType type) {
-        return atomMap[type.getValue() - 1]; //todo: fix index
+        return atomMap[type.getValue()];
     }
 
     public int getPowerUpCountForType(EntityType type) {
