@@ -1,6 +1,6 @@
 package model.game_building;
 
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 public class ConfigConfirmation {
     private final ParametersConfirmationListener confirmationListener;

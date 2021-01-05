@@ -1,4 +1,4 @@
-package utils;
+package services.utils;
 
 /**
  * Immutable representation for velocity

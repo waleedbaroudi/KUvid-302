@@ -1,6 +1,7 @@
 package ui.windows;
 
 import model.game_building.GameConstants;
+import model.game_entities.enums.EntityType;
 import model.game_running.RunningMode;
 import model.game_space.Blender;
 
@@ -8,9 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
 
 public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JPanel contentPane;
@@ -29,7 +27,6 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JButton blendButton;
     private RunningMode runningMode;
 
-    Map<String, Integer> atomTypesRanks; // This map contains a mapping between atom types and their weights (1 to 4)
     Blender blender;
 
     public BlenderWindow(Blender blender, RunningMode runningMode) {
@@ -37,7 +34,6 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         this.blender = blender;
         blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
         this.runningMode = runningMode;
-        this.atomTypesRanks = new HashMap<>();
         this.addOnBlenderCloseListener(runningMode);
 
         this.contentPane = new JPanel();
@@ -51,18 +47,14 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
 
     /**
      * Add all the components to the content panel
+     *
      * @param contentPane
      */
     private void addComponents(JPanel contentPane) {
-        this.atomTypesRanks.put("Alpha", 1);
-        this.atomTypesRanks.put("Beta", 2);
-        this.atomTypesRanks.put("Gamma", 3);
-        this.atomTypesRanks.put("Sigma", 4);
-
         sourceLabel = new JLabel("Source");
-        sourceComboBox = new JComboBox((atomTypesRanks.keySet().toArray()));
+        sourceComboBox = new JComboBox(EntityType.stringValues());
         destinationLabel = new JLabel("Destination");
-        destinationComboBox = new JComboBox(atomTypesRanks.keySet().toArray());
+        destinationComboBox = new JComboBox(EntityType.stringValues());
         destinationQuantityLabel = new JLabel("Quantity");
         destinationQuantityField = new JTextField(3);
         destinationQuantityField.setText("1");
@@ -80,14 +72,16 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
 
     /**
      * Retrieve the blender object
+     *
      * @return
      */
-    public Blender getBlender(){
+    public Blender getBlender() {
         return this.blender;
     }
 
     /**
      * Add a listener to the blender window to resume the game if we close it with the x button
+     *
      * @param runningMode
      */
     private void addOnBlenderCloseListener(RunningMode runningMode) {
@@ -102,35 +96,34 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
 
     /**
      * add action listener to the button to call the blend method on the domain object
+     *
      * @param btn
      */
     private void addButtonActionListener(JButton btn) {
         btn.addActionListener(e -> {
-            String source = String.valueOf(sourceComboBox.getSelectedItem());
-            String destination = String.valueOf(destinationComboBox.getSelectedItem());
-            int sourceRank = atomTypesRanks.get(source);
-            int destinationRank = atomTypesRanks.get(destination);
+            int sourceRank = sourceComboBox.getSelectedIndex();
+            int destinationRank = destinationComboBox.getSelectedIndex();
             int destinationRankQuantity;
             try {
-               destinationRankQuantity = Integer.parseInt(destinationQuantityField.getText());
-            } catch (NumberFormatException exception){
+                destinationRankQuantity = Integer.parseInt(destinationQuantityField.getText());
+            } catch (NumberFormatException exception) {
                 destinationRankQuantity = 1;
             }
 
-            blender.blend(sourceRank, destinationRank, destinationRankQuantity);
+            blender.convert(sourceRank, destinationRank, destinationRankQuantity);
         });
     }
 
     @Override
     public void onBlend() {
-       this.setVisible(false);
-       runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
-       // this.dispose();
+        this.setVisible(false);
+        runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+        // this.dispose();
     }
 
     @Override
     public void onFailBlend() {
-        if(errorLabel != null)
+        if (errorLabel != null)
             this.contentPane.remove(errorLabel); // Remove the error message before displaying a new one
         errorLabel = new JLabel("Not enough Atoms of type " + sourceComboBox.getSelectedItem().toString());
         errorLabel.setForeground(Color.red);

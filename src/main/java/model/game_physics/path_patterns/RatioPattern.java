@@ -1,8 +1,8 @@
 package model.game_physics.path_patterns;
 
 import model.game_building.Configuration;
-import utils.Coordinates;
-import utils.Vector;
+import services.utils.Coordinates;
+import services.utils.Vector;
 
 import java.util.List;
 
