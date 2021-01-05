@@ -304,9 +304,7 @@ public class RunningMode {
 
         // update the player state and statistics listener
         GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
-        System.out.println("LOADING...");
         this.player = session.getPlayer();
-        System.out.println(player); // TODO: DELETE
         this.player.setStatisticsListener(listener);
 
         // update runnables
@@ -328,8 +326,6 @@ public class RunningMode {
 
     public void saveGameSession() {
         GameBundle.Builder builder = new GameBundle.Builder();
-        System.out.println("SAVING...");
-        System.out.println(getPlayer());
         builder.setPlayer(getPlayer()).
                 setShooter(getShooter()).
                 setProjectileContainer(getProjectileContainer()).
