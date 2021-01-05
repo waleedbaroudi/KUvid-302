@@ -30,7 +30,8 @@ public class SessionLoadWindow extends JFrame implements  SessionLoader.SessionL
 
     @Override
     public void onSessionListFetched(ArrayList<String> sessions) {
-        // TODO: ADD THE LIST OF SAVES TO A JLIST
+        // Remove all the elements before appending the new sessions.
+        this.getContentPane().removeAll();
         saveFilesNamesList = new JList(sessions.toArray());
         JButton loadSessionButton = new JButton("Load Session");
         this.getContentPane().add(saveFilesNamesList);
