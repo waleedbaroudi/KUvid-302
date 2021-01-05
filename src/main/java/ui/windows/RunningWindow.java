@@ -5,6 +5,7 @@ import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_running.RunningMode;
+import model.game_space.Player;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
 import ui.movable_drawables.ImageResources;
@@ -44,7 +45,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
-
+        Player player = new Player("player",statisticsPanel); //todo: change temp username
+        this.runningMode.setPlayer(player);
         background = ImageResources.getIcon("kuvid_bc", getWidth(), getHeight());
         JPanel backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
@@ -131,8 +133,13 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         drawableMap.clear();
         this.config = Configuration.getInstance();
         this.blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode);
+        // todo: elements are shifted down when loaded @m2yad
         this.gameContentPanel = new GamePanel(this.runningMode, drawableMap);
+        //
+        // todo: can we do it without creating a new panel? @m2yad
         this.statisticsPanel = new StatisticsPanel(this.runningMode);
+        runningMode.getPlayer().setStatisticsListener(statisticsPanel);
+        //
         getContentPane().removeAll();
         getContentPane().add(gameContentPanel, BorderLayout.LINE_START);
         getContentPane().add(statisticsPanel, BorderLayout.LINE_END);

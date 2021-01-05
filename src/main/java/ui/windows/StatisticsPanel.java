@@ -71,9 +71,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
 
         //Controller
-        Player gameStatistics = new Player("player",this); //todo: change temp username
         this.runningMode = runningMode;
-        runningMode.setPlayer(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
         setOpaque(false);

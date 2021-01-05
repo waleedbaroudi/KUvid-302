@@ -26,6 +26,9 @@ public class Player {
 
     public void setStatisticsListener(GameStatistics.GameStatisticsListener listener) {
         statistics.setStatisticsListener(listener);
+        statistics.updateHealth(health);
+        statistics.updateTimer(timer.getCurrentTimer());
+        statistics.updateScore(score);
     }
 
     public String getUsername() {
@@ -47,11 +50,6 @@ public class Player {
     @JsonIgnore
     public GameStatistics.GameStatisticsListener getStatisticsListener(){
         return this.statistics.getStatisticsListener();
-    }
-
-    @JsonIgnore
-    public void getStatisticsListener(GameStatistics.GameStatisticsListener listener){
-        this.statistics.setStatisticsListener(listener);
     }
 
     public void updateOwnedProjectiles(SuperType type, EntityType entityType, int newCount) {
