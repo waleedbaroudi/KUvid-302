@@ -329,16 +329,17 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onProjectileCountChange(int[] atoms, int[] powerUps) {
-        System.out.println("PROJECTILE UPDATE CALLED");
-        alphaAtomsNumberLabel.setText(String.valueOf(atoms[0]));
-        betaAtomsNumberLabel.setText(String.valueOf(atoms[1]));
-        gammaAtomsNumberLabel.setText(String.valueOf(atoms[2]));
-        sigmaAtomsNumberLabel.setText(String.valueOf(atoms[3]));
+    public void onProjectileCountChange() {
+        ProjectileContainer container = this.runningMode.getProjectileContainer();
 
-        alphaPowerupsNumberLabel.setText(String.valueOf(powerUps[0]));
-        betaPowerupsNumberLabel.setText(String.valueOf(powerUps[1]));
-        gammaPowerupsNumberLabel.setText(String.valueOf(powerUps[2]));
-        sigmaPowerupsNumberLabel.setText(String.valueOf(powerUps[3]));
+        alphaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
+        betaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
+        gammaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
+        sigmaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
+
+        alphaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.ALPHA)));
+        betaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.BETA)));
+        gammaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.GAMMA)));
+        sigmaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.SIGMA)));
     }
 }

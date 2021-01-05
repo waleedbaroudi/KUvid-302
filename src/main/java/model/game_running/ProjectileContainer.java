@@ -146,7 +146,7 @@ public class ProjectileContainer {
         if (superType.equals(SuperType.ATOM))
             totalAtomCount += count;
         if (runningMode != null) {
-            runningMode.updateStatisticsProjectileCount(atomMap, powerUpMap);
+            runningMode.updateStatisticsProjectileCount();
         } else {
             logger.warn("RunningMode instance is null");
         }
@@ -168,6 +168,10 @@ public class ProjectileContainer {
 
     public int getAtomCountForType(EntityType type) {
         return atomMap[type.getValue() - 1]; //todo: fix index
+    }
+
+    public int getPowerUpCountForType(EntityType type) {
+        return powerUpMap[type.getValue() - 1]; //todo: fix index
     }
 
     @Override

@@ -1,8 +1,5 @@
 package model.game_space;
 
-import model.game_entities.enums.EntityType;
-import model.game_entities.enums.SuperType;
-
 public class GameStatistics {
     GameStatisticsListener statisticsListener;
 
@@ -44,11 +41,9 @@ public class GameStatistics {
     /**
      * called when the number of a any projectile is changed. (by shooting, blending, catching, etc.)
      *
-     * @param atoms     the count array of atom types
-     * @param powerUps  the count array of power-up types
      */
-    public void changeProjectileCount(int[] atoms, int[] powerUps) {// todo: this is called from projectile container via the controller
-        statisticsListener.onProjectileCountChange(atoms, powerUps);
+    public void changeProjectileCount() {// todo: this is called from projectile container via the controller
+        statisticsListener.onProjectileCountChange();
     }
 
     /**
@@ -61,7 +56,7 @@ public class GameStatistics {
 
         void onScoreChanged(int score);
 
-        void onProjectileCountChange(int[] atoms, int[] powerUps);
+        void onProjectileCountChange();
     }
 
 

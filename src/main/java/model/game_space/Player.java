@@ -1,8 +1,6 @@
 package model.game_space;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import model.game_entities.enums.EntityType;
-import model.game_entities.enums.SuperType;
 
 //todo: can be a controller for shooter, projectile container, and blender.
 public class Player {
@@ -52,8 +50,8 @@ public class Player {
         return this.statistics.getStatisticsListener();
     }
 
-    public void updateOwnedProjectiles(int[] atoms, int[] powerUps) {
-        statistics.changeProjectileCount(atoms, powerUps);
+    public void updateOwnedProjectiles() {
+        statistics.changeProjectileCount();
     }
 
     public boolean loseHealth(int damageAmount) {

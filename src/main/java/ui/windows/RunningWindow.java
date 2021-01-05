@@ -42,10 +42,10 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.sessionLoadWindow = new SessionLoadWindow(this);
         this.runningMode = new RunningMode(this, this, sessionLoadWindow);
         System.out.println("in running window" + runningMode.getBlender());
-        blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
+        blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
-        Player player = new Player("player",statisticsPanel); //todo: change temp username
+        Player player = new Player("player", statisticsPanel); //todo: change temp username
         this.runningMode.setPlayer(player);
         background = ImageResources.getIcon("kuvid_bc", getWidth(), getHeight());
         JPanel backgroundPanel = new JPanel() {
@@ -129,26 +129,12 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     }
 
     @Override
-    public void onGameReset(){
+    public void onGameReset() {
         drawableMap.clear();
         this.config = Configuration.getInstance();
-        this.blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode);
-        // todo: elements are shifted down when loaded @m2yad
-        this.gameContentPanel = new GamePanel(this.runningMode, drawableMap);
-        //
-        // todo: can we do it without creating a new panel? @m2yad
-        this.statisticsPanel = new StatisticsPanel(this.runningMode);
-        runningMode.getPlayer().setStatisticsListener(statisticsPanel);
-        //
-        getContentPane().removeAll();
-        getContentPane().add(gameContentPanel, BorderLayout.LINE_START);
-        getContentPane().add(statisticsPanel, BorderLayout.LINE_END);
-
-        //add separator
-        JPanel separator = new JPanel();
-        separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
-        getContentPane().add(separator, BorderLayout.CENTER);
-        separator.setBackground(Color.BLACK);
-        getContentPane().add(statisticsPanel, BorderLayout.CENTER);
+        this.gameContentPanel.reset(drawableMap);
+        this.statisticsPanel.onProjectileCountChange();
+        invalidate();
+        repaint();
     }
 }

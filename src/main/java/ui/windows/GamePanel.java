@@ -14,7 +14,7 @@ import java.util.Map;
 public class GamePanel extends JPanel {
     RunningMode runningMode;
     GameCommandListener commandListener;
-    private final Map<AutonomousEntity, Drawable> drawableMap;
+    private Map<AutonomousEntity, Drawable> drawableMap;
     ShooterDrawer shooterDrawer;
 
     public GamePanel(RunningMode runningMode, Map<AutonomousEntity, Drawable> drawableMap) {
@@ -26,6 +26,12 @@ public class GamePanel extends JPanel {
         this.addKeyListener(commandListener);
         this.drawableMap = drawableMap;
         this.setOpaque(false);
+        this.shooterDrawer = new ShooterDrawer(runningMode.getShooter());
+    }
+
+
+    public void reset(Map<AutonomousEntity, Drawable> drawableMap) {
+        this.drawableMap = drawableMap;
         this.shooterDrawer = new ShooterDrawer(runningMode.getShooter());
     }
 

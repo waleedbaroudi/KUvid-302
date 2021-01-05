@@ -10,10 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class BlenderWindow extends JFrame implements Blender.BlenderListener {
-    private JPanel contentPane;
+    private JPanel contentPane; // TODO: delete this and use getContentPane() instead.
 
     // Labels
     private JLabel sourceLabel;
@@ -30,12 +29,10 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private RunningMode runningMode;
 
     Map<String, Integer> atomTypesRanks; // This map contains a mapping between atom types and their weights (1 to 4)
-    Blender blender;
 
-    public BlenderWindow(Blender blender, RunningMode runningMode) {
+    public BlenderWindow(RunningMode runningMode) {
         super("blender");
-        this.blender = blender;
-        blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
+        runningMode.getBlender().setBlenderListener(this); // Pass this listener to Blender for the observer pattern
         this.runningMode = runningMode;
         this.atomTypesRanks = new HashMap<>();
         this.addOnBlenderCloseListener(runningMode);
@@ -83,7 +80,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
      * @return
      */
     public Blender getBlender(){
-        return this.blender;
+        return runningMode.getBlender();
     }
 
     /**
@@ -117,7 +114,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
                 destinationRankQuantity = 1;
             }
 
-            blender.blend(sourceRank, destinationRank, destinationRankQuantity);
+            runningMode.getBlender().blend(sourceRank, destinationRank, destinationRankQuantity);
         });
     }
 

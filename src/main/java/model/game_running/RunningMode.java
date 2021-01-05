@@ -4,7 +4,6 @@ import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.EntityGeneratorRunnable;
@@ -224,9 +223,9 @@ public class RunningMode {
         this.player = player;
     }
 
-    public void updateStatisticsProjectileCount(int[] atoms, int[] powerUps) {
+    public void updateStatisticsProjectileCount() {
         if (player != null)
-            player.updateOwnedProjectiles(atoms, powerUps);
+            player.updateOwnedProjectiles();
     }
 
     public void updateHealth(int damageAmount) {
@@ -306,7 +305,7 @@ public class RunningMode {
         this.player.setStatisticsListener(listener);
 
         // update runnables
-        this.blender = new Blender(this.projectileContainer);
+        this.blender.setProjectileContainer(projectileContainer);
         this.shooterRunnable.setShooter(this.shooter);
         this.entityGeneratorRunnable.initializeMaps();
 
