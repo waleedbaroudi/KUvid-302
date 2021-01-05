@@ -41,6 +41,12 @@ public class Configuration {
         }
     }
 
+    private Configuration(ConfigBundle bundle) {
+        BasicConfigurator.configure();
+        logger = Logger.getLogger(Configuration.class.getName());
+        configBundle = bundle;
+    }
+
     /**
      * Creates a configuration instance if there wasn't one created already.
      *
@@ -54,12 +60,13 @@ public class Configuration {
     }
 
     /**
-     * Sets the current configBundle to a new one. This method is used when we load a saved game to set a new bundle.
-     * This can't be done with setConfig because it does not allow for re-setting of the configBundle
-     * @param newBundle
+     * Sets the current configBundle to a new one.
+     * This method is used when we load a saved game to set a new bundle.
+     *
+     * @param newBundle the bundle that holds the configs of the loaded game
      */
-    public void loadConfigBundle(ConfigBundle newBundle){
-        this.configBundle = newBundle;
+    public void reset(ConfigBundle newBundle) {
+        instance = new Configuration(newBundle);
     }
 
 
@@ -251,6 +258,7 @@ public class Configuration {
         }
         return true;
     }
+
     @JsonIgnore
     public double getShooterSpeed() {
         return getUnitL() / (double) FPS; //TODO: ask about the speed.

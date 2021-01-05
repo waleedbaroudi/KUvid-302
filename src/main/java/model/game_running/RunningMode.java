@@ -284,9 +284,7 @@ public class RunningMode {
     public void loadGameSession(GameBundle session) {
 
         // update the game configuration
-        Configuration.getInstance().loadConfigBundle(session.getConfigBundle());
-//        Configuration.resetConfig(session.getConfig());
-
+        Configuration.getInstance().reset(session.getConfigBundle());
         // update the entities in the game view
         this.autonomousEntities.clear();
         this.autonomousEntities.addAll(session.getAtoms());
