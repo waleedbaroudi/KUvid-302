@@ -60,4 +60,11 @@ public class GameTimer {
         int remainingSeconds = secondsInMillis / 1000;
         return remainingSeconds >= 10 ? String.valueOf(remainingSeconds) : ("0" + remainingSeconds);
     }
+
+    @Override
+    public String toString() {
+        return "GameTimer{" +
+                "remainingTimeMillis=" + remainingTimeMillis +
+                '}';
+    }
 }

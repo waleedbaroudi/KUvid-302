@@ -76,4 +76,14 @@ public class Player {
         this.score++;
         statistics.updateScore(score);
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "username='" + username + '\'' +
+                ", health=" + health +
+                ", score=" + score +
+                ", timer=" + timer +
+                '}';
+    }
 }

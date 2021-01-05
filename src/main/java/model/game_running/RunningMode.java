@@ -36,7 +36,7 @@ public class RunningMode {
     GameState currentState, pausedState, runningState;
 
     //space objects
-    private  CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
+    private CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private ProjectileContainer projectileContainer;
     private Shooter shooter;
 
@@ -284,7 +284,8 @@ public class RunningMode {
     public void loadGameSession(GameBundle session) {
 
         // update the game configuration
-        Configuration.resetConfig(session.getConfig());
+        Configuration.getInstance().loadConfigBundle(session.getConfigBundle());
+        //Configuration.resetConfig(session.getConfig());
 
         // update the entities in the game view
         this.autonomousEntities.clear();
@@ -303,7 +304,9 @@ public class RunningMode {
 
         // update the player state and statistics listener
         GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
+        System.out.println("LOADING...");
         this.player = session.getPlayer();
+        System.out.println(player); // TODO: DELETE
         this.player.setStatisticsListener(listener);
 
         // update runnables
@@ -313,21 +316,24 @@ public class RunningMode {
 
         // reflect the changes in the UI
         gameEntitiesListener.onGameReset();
-        for (AutonomousEntity entity : this.autonomousEntities){
+        for (AutonomousEntity entity : this.autonomousEntities) {
             gameEntitiesListener.onEntityAdd(entity);
         }
 
     }
-    public void saveGameRequest(){
+
+    public void saveGameRequest() {
         this.currentState.saveGameSession();
     }
 
     public void saveGameSession() {
         GameBundle.Builder builder = new GameBundle.Builder();
+        System.out.println("SAVING...");
+        System.out.println(getPlayer());
         builder.setPlayer(getPlayer()).
                 setShooter(getShooter()).
                 setProjectileContainer(getProjectileContainer()).
-                setConfig(Configuration.getInstance());
+                setConfigBundle(Configuration.getInstance().getConfigBundle());
 
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
