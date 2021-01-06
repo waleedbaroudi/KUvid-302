@@ -377,28 +377,28 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyEtaShield();
+                runningMode.getShieldHandler().applyEtaShield();
             }
         };
         MouseAdapter lotaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyLotaShield();
+                runningMode.getShieldHandler().applyLotaShield();
             }
         };
         MouseAdapter thetaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyThetaShield();
+                runningMode.getShieldHandler().applyThetaShield();
             }
         };
         MouseAdapter zetaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyZetaShield();
+                runningMode.getShieldHandler().applyZetaShield();
             }
 
         };
