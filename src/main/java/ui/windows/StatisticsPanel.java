@@ -9,6 +9,7 @@ import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
 import ui.movable_drawables.ImageResources;
+import utils.MathUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -437,8 +438,8 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onScoreChanged(int score) {
-        scoreLabel.setText(String.valueOf(score));
+    public void onScoreChanged(double score) {
+        scoreLabel.setText(MathUtils.truncateByTwo(score));
     }
 
     @Override

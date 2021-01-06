@@ -11,8 +11,8 @@ import model.game_entities.shields.ZetaShield;
 
 public class ShieldHandler {
 
-    private RunningMode runningMode;
-    private Shooter shooter;
+    private final RunningMode runningMode;
+    private final Shooter shooter;
 
     private int etaShields;
     private int lotaShields;

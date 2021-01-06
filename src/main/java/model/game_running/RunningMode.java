@@ -258,8 +258,8 @@ public class RunningMode {
         return this.projectileContainer;
     }
 
-    public void increaseScore() {
-        statistics.incrementScore();
+    public void increaseScore(double score) {
+        statistics.incrementScore(score);
     }
 
     public void collectPowerUp(Powerup powerup) {
