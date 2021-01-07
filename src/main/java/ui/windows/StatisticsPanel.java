@@ -25,65 +25,29 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     private final RunningMode runningMode;
 
     //Icons
-    private Image atomAlphaImg;
-    private Image atomBetaImg;
-    private Image atomSigmaImg;
-    private Image atomGammaImg;
+    private Image atomAlphaImg, atomBetaImg, atomSigmaImg, atomGammaImg;
+    private Image healthImg, watchImg, blenderImg, blenderImg_bg;
 
-    private Image powerupAlphaImg;
-    private Image powerupBetaImg;
-    private Image powerupSigmaImg;
-    private Image powerupGammaImg;
-
-    private Image powerupAlphaImg_bg;
-    private Image powerupBetaImg_bg;
-    private Image powerupSigmaImg_bg;
-    private Image powerupGammaImg_bg;
-
-    private Image healthImg;
-    private Image watchImg;
-    private Image blenderImg;
-    private Image blenderImg_bg;
+    //powerups
+    private Image powerupAlphaImg, powerupBetaImg, powerupSigmaImg, powerupGammaImg;
+    private Image powerupAlphaImg_bg, powerupBetaImg_bg, powerupSigmaImg_bg, powerupGammaImg_bg;
 
     //shields
-    private JLabel etaButton;
-    private JLabel lotaButton;
-    private JLabel thetaButton;
-    private JLabel zetaButton;
+    private Image etaImg, lotaImg, thetaImg, zetaImg;
+    private Image etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
+    private JLabel etaButton, lotaButton, thetaButton, zetaButton;
+    private JLabel etaNumberLabel, lotaNumberLabel, thetaNumberLabel, zetaNumberLabel;
 
-    private Image etaImg;
-    private Image lotaImg;
-    private Image thetaImg;
-    private Image zetaImg;
-
+    //Atoms
+    
 
     // JLabels
-    JLabel gammaAtomsNumberLabel;
-    JLabel alphaAtomsNumberLabel;
-    JLabel betaAtomsNumberLabel;
-    JLabel sigmaAtomsNumberLabel;
-
-    JLabel gammaPowerupsNumberLabel;
-    JLabel alphaPowerupsNumberLabel;
-    JLabel betaPowerupsNumberLabel;
-    JLabel sigmaPowerupsNumberLabel;
-
-    JLabel healthLabel;
-    JLabel timeLabel;
-    JLabel SCORE;
-    JLabel scoreLabel;
+    private JLabel gammaAtomsNumberLabel, alphaAtomsNumberLabel, betaAtomsNumberLabel, sigmaAtomsNumberLabel;
+    private JLabel gammaPowerupsNumberLabel, alphaPowerupsNumberLabel, betaPowerupsNumberLabel, sigmaPowerupsNumberLabel;
+    private JLabel healthLabel, timeLabel, SCORE, scoreLabel;
 
     // JButtons
-    JLabel blenderButton;
-    JLabel alphaPowerupButton;
-    JLabel betaPowerupButton;
-    JLabel gammaPowerupButton;
-    JLabel sigmaPowerupButton;
-
-    JLabel etaNumberLabel;
-    JLabel lotaNumberLabel;
-    JLabel thetaNumberLabel;
-    JLabel zetaNumberLabel;
+    private JLabel blenderButton, alphaPowerupButton, betaPowerupButton, gammaPowerupButton, sigmaPowerupButton;
 
     //iconSize
     int iconSize = (int) (Configuration.getInstance().getUnitL() * GameConstants.ICON_SIZE);
@@ -248,30 +212,35 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
      * retrieves images from ImageResources with the specified height and width
      */
     private void retrieveImages() {
-        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.ALPHA, iconSize, iconSize, false);
-        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.BETA, iconSize, iconSize, false);
-        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.SIGMA, iconSize, iconSize, false);
-        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM, EntityType.GAMMA, iconSize, iconSize, false);
+        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.ALPHA.toString(), iconSize, iconSize, false);
+        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.BETA.toString(), iconSize, iconSize, false);
+        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.SIGMA.toString(), iconSize, iconSize, false);
+        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.GAMMA.toString(), iconSize, iconSize, false);
 
-        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, false);
-        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, false);
-        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, false);
-        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, false);
+        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.ALPHA.toString(), iconSize, iconSize, false);
+        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.BETA.toString(), iconSize, iconSize, false);
+        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.SIGMA.toString(), iconSize, iconSize, false);
+        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.GAMMA.toString(), iconSize, iconSize, false);
 
-        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.ALPHA, iconSize, iconSize, true);
-        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.BETA, iconSize, iconSize, true);
-        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.SIGMA, iconSize, iconSize, true);
-        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP, EntityType.GAMMA, iconSize, iconSize, true);
+        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.ALPHA.toString(), iconSize, iconSize, true);
+        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.BETA.toString(), iconSize, iconSize, true);
+        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.SIGMA.toString(), iconSize, iconSize, true);
+        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.GAMMA.toString(), iconSize, iconSize, true);
 
-        healthImg = ImageResources.getIcon("health", iconSize, iconSize);
-        watchImg = ImageResources.getIcon("timer", iconSize, iconSize);
-        blenderImg = ImageResources.getIcon("blender", iconSize, iconSize);
-        blenderImg_bg = ImageResources.getIcon("blender_bg", iconSize, iconSize);
+        healthImg = ImageResources.getEntityIcon("icons", "health", iconSize, iconSize, false);
+        watchImg = ImageResources.getEntityIcon("icons", "timer", iconSize, iconSize, false);
+        blenderImg = ImageResources.getEntityIcon("icons", "blender", iconSize, iconSize, false);
+        blenderImg_bg = ImageResources.getEntityIcon("icons", "blender", iconSize, iconSize, true);
 
-        etaImg = ImageResources.getIcon("eta", iconSize, iconSize);
-        lotaImg = ImageResources.getIcon("lota", iconSize, iconSize);
-        thetaImg = ImageResources.getIcon("theta", iconSize, iconSize);
-        zetaImg = ImageResources.getIcon("zeta", iconSize, iconSize);
+        etaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ETA.toString(), iconSize, iconSize, false);
+        lotaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.LOTA.toString(), iconSize, iconSize, false);
+        thetaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.THETA.toString(), iconSize, iconSize, false);
+        zetaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ZETA.toString(), iconSize, iconSize, false);
+
+        etaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ETA.toString(), iconSize, iconSize, true);
+        lotaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.LOTA.toString(), iconSize, iconSize, true);
+        thetaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.THETA.toString(), iconSize, iconSize, true);
+        zetaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ZETA.toString(), iconSize, iconSize, true);
     }
 
     private void setButtonListeners() {
@@ -380,12 +349,37 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShieldHandler().applyEtaShield();
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                etaButton.setIcon(new ImageIcon(etaImg_bg));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                etaButton.setIcon(new ImageIcon(etaImg));
+            }
         };
+
         MouseAdapter lotaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 runningMode.getShieldHandler().applyLotaShield();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                lotaButton.setIcon(new ImageIcon(lotaImg_bg));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                lotaButton.setIcon(new ImageIcon(lotaImg));
             }
         };
         MouseAdapter thetaAdapter = new MouseAdapter() {
@@ -393,6 +387,18 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 runningMode.getShieldHandler().applyThetaShield();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                thetaButton.setIcon(new ImageIcon(thetaImg_bg));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                thetaButton.setIcon(new ImageIcon(thetaImg));
             }
         };
         MouseAdapter zetaAdapter = new MouseAdapter() {
@@ -402,6 +408,17 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.getShieldHandler().applyZetaShield();
             }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                zetaButton.setIcon(new ImageIcon(zetaImg_bg));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                zetaButton.setIcon(new ImageIcon(zetaImg));
+            }
         };
 
         blenderButton.addMouseListener(blenderAdapter);

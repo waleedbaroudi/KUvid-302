@@ -39,7 +39,7 @@ public class ShooterDrawer implements Drawable {
                 shooter.getHitbox().getWidth(),
                 shooter.getHitbox().getHeight());
 
-        g2d.drawImage(shooterImageGif, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
+        g2d.drawImage(shooterImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
         if (projectile != null) {
             Coordinates projectileCoord = MathUtils.drawingCoordinates(
                     shooter.getCoordinates(),
