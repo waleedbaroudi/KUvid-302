@@ -72,11 +72,11 @@ public class MathUtils {
      * @return True if the coordinates are inside the circle defined by the given vector. False otherwise.
      */
     public static boolean isWithinCircle(Coordinates centerCoordinates, double radius, Coordinates point) {
-        // EFFECTS: If centerCoordinates is null throws nullPointerException
-        // If point is null throws nullPointerException
-        // If (x of the point - x of the center coordinate)^2 + (y of the point - y of the center coordinate)^2 is less than or equal to the radius^2 return true
+        // EFFECTS: If centerCoordinates is null
+        // or point is null throws nullPointerException
+        // If (x of the point - x of the center coordinate)^2 + (y of the point - y of the center coordinate)^2 is less than the radius^2 return true
         // else return false.
-        if(point == null || centerCoordinates == null)
+        if(centerCoordinates == null || point == null)
             throw new NullPointerException("MathUtils.isWithinCircle");
 
         double x = point.getX();
@@ -84,6 +84,10 @@ public class MathUtils {
 
         double x_0 = centerCoordinates.getX();
         double y_0 = centerCoordinates.getY();
+
+        // If the radius is zero nothing can be inside the circle
+        if(radius == 0)
+            return false;
 
         return pow((x - x_0), 2) + pow((y - y_0), 2) <= pow(radius, 2);
     }
