@@ -9,6 +9,7 @@ import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
 import ui.movable_drawables.ImageResources;
+import utils.MathUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -377,28 +378,28 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyEtaShield();
+                runningMode.getShieldHandler().applyEtaShield();
             }
         };
         MouseAdapter lotaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyLotaShield();
+                runningMode.getShieldHandler().applyLotaShield();
             }
         };
         MouseAdapter thetaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyThetaShield();
+                runningMode.getShieldHandler().applyThetaShield();
             }
         };
         MouseAdapter zetaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.applyZetaShield();
+                runningMode.getShieldHandler().applyZetaShield();
             }
 
         };
@@ -437,8 +438,8 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onScoreChanged(int score) {
-        scoreLabel.setText(String.valueOf(score));
+    public void onScoreChanged(double score) {
+        scoreLabel.setText(MathUtils.truncateByTwo(score));
     }
 
     @Override

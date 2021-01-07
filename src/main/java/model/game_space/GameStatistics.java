@@ -5,7 +5,8 @@ import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 
 public class GameStatistics {
-    int health, score; //might be doubles?
+    int health; //might be doubles?
+    double score;
     GameTimer timer;
     GameStatisticsListener statisticsListener;
 
@@ -42,9 +43,9 @@ public class GameStatistics {
         return timer.getRemainingTimeMillis() >= 1;
     }
 
-    public void incrementScore() { //assuming the score will only be incremented by 1.
-        this.score++;
-        statisticsListener.onScoreChanged(score);
+    public void incrementScore(double score) { //assuming the score will only be incremented by 1.
+        this.score += score;
+        statisticsListener.onScoreChanged(this.score);
     }
 
     /**
@@ -70,7 +71,7 @@ public class GameStatistics {
 
         void onTimerChanged(String currentTime);
 
-        void onScoreChanged(int score);
+        void onScoreChanged(double score);
 
         void onProjectileCountChange(SuperType superType, EntityType type, int newCount);
 

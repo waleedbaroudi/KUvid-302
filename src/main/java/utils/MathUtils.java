@@ -2,6 +2,7 @@ package utils;
 
 
 import java.nio.charset.CoderMalfunctionError;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -295,6 +296,10 @@ public class MathUtils {
         Random random = new Random();
         int randomIndex = random.nextInt(array.length);
         return array[randomIndex];
+    }
+
+    public static String truncateByTwo(double toBeTruncated){
+        return new DecimalFormat("#.##").format(toBeTruncated);
     }
 
 }

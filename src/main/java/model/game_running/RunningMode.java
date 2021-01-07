@@ -75,7 +75,7 @@ public class RunningMode {
 
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
-        this.shieldHandler = new ShieldHandler(this);
+        this.shieldHandler = new ShieldHandler(this, shooter);
         initialize();
     }
 
@@ -238,6 +238,10 @@ public class RunningMode {
         runningStateListener.onGameOver();
     }
 
+    public ShieldHandler getShieldHandler() {
+        return this.shieldHandler;
+    }
+
     public void switchAtom() {
         getShooter().switchAtom();
     }
@@ -254,8 +258,8 @@ public class RunningMode {
         return this.projectileContainer;
     }
 
-    public void increaseScore() {
-        statistics.incrementScore();
+    public void increaseScore(double score) {
+        statistics.incrementScore(score);
     }
 
     public void collectPowerUp(Powerup powerup) {
@@ -265,30 +269,6 @@ public class RunningMode {
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
-
-
-    public void applyEtaShield() {
-        if (shooter.projectileIsAtom()) {
-            Atom a = shieldHandler.applyEtaShield(shooter.getAtomProjectile());
-            shooter.setCurrentProjectile(a);
-        }
-    }
-
-    public void applyLotaShield() {
-        if (shooter.projectileIsAtom())
-            shooter.setCurrentProjectile(shieldHandler.applyLotaShield(shooter.getAtomProjectile()));
-    }
-
-    public void applyThetaShield() {
-        if (shooter.projectileIsAtom())
-            shooter.setCurrentProjectile(shieldHandler.applyThetaShield(shooter.getAtomProjectile()));
-    }
-
-    public void applyZetaShield() {
-        if (shooter.projectileIsAtom())
-            shooter.setCurrentProjectile(shieldHandler.applyZetaShield(shooter.getAtomProjectile()));
-    }
-
 
     public interface RunningStateListener {
         void onRunningStateChanged(int state);
