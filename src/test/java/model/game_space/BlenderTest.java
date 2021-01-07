@@ -10,7 +10,7 @@ class BlenderTest {
     @Test
     void blend() {
 
-        ProjectileContainer container = new ProjectileContainer(null, 5, 5, 5, 5, 0, 0, 0, 0);
+        ProjectileContainer container = new ProjectileContainer(null, 5, 5, 5, 5);
         Blender blender = new Blender(container);
 
         assertArrayEquals(container.getAtomMap(), new int[]{5, 5, 5, 5});
@@ -28,7 +28,7 @@ class BlenderTest {
         assertArrayEquals(container.getAtomMap(), new int[]{11, 0, 5, 5});
 
 
-        container = new ProjectileContainer(null, 3, 3, 3, 3, 0, 0, 0, 0);
+        container = new ProjectileContainer(null, 3, 3, 3, 3);
         blender = new Blender(container);
 
         assertArrayEquals(container.getAtomMap(), new int[]{3, 3, 3, 3});
@@ -39,7 +39,7 @@ class BlenderTest {
         blender.blendAtoms(3, 2, 3); // Blending 3 GAMMA into 6 BETA
         assertArrayEquals(container.getAtomMap(), new int[]{3, 6, 0, 4});
 
-        container = new ProjectileContainer(null, 0, 0, 0, 0, 0, 0, 0, 0);
+        container = new ProjectileContainer(null, 0, 0, 0, 0);
         blender = new Blender(container);
 
         assertArrayEquals(container.getAtomMap(), new int[]{0, 0, 0, 0});

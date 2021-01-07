@@ -1,9 +1,11 @@
 package ui.windows;
 
 import model.game_building.Configuration;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_running.RunningMode;
+import model.game_space.Player;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
 import ui.movable_drawables.ImageResources;
@@ -28,6 +30,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     Configuration config;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
+    private SessionLoadWindow sessionLoadWindow;
     private final Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
@@ -36,12 +39,14 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.runningMode = new RunningMode(this, this);
+        this.sessionLoadWindow = new SessionLoadWindow(this);
+        this.runningMode = new RunningMode(this, this, sessionLoadWindow);
         System.out.println("in running window" + runningMode.getBlender());
-        blenderWindow = new BlenderWindow(runningMode.getBlender(), runningMode); // Window that implements the blending listener for the observer pattern
+        blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
-
+        Player player = new Player("player", statisticsPanel); //todo: change temp username
+        this.runningMode.setPlayer(player);
         background = ImageResources.getIcon("kuvid_bc", getWidth(), getHeight());
         JPanel backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
@@ -82,8 +87,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         ActionListener listener = e -> {
             if (running) {
                 if (!paused) {
-                    repaint();
                     runningMode.updateTimer(GameConstants.GAME_THREAD_DELAY);
+                    repaint();
                     if (runningMode.isGameFinished()) runningMode.endGame();
                 }
             } else {
@@ -95,6 +100,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         gameTimer.start();
     }
 
+    public void loadGameSession(GameBundle bundle) {
+        runningMode.loadGameSession(bundle);
+    }
 
     /**
      * starts the loop that draws game elements.
@@ -118,5 +126,15 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     public void onEntitiesRemove(Collection<AutonomousEntity> entities) {
         for (AutonomousEntity entity : entities)
             drawableMap.remove(entity);
+    }
+
+    @Override
+    public void onGameReset() {
+        drawableMap.clear();
+        this.config = Configuration.getInstance();
+        this.gameContentPanel.reset(drawableMap);
+        this.statisticsPanel.onProjectileCountChange();
+        invalidate();
+        repaint();
     }
 }

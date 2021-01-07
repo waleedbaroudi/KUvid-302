@@ -11,7 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class BlenderWindow extends JFrame implements Blender.BlenderListener {
-    private JPanel contentPane;
+    private JPanel contentPane; // TODO: delete this and use getContentPane() instead.
 
     // Labels
     private JLabel sourceLabel;
@@ -27,12 +27,9 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     private JButton blendButton;
     private RunningMode runningMode;
 
-    Blender blender;
-
-    public BlenderWindow(Blender blender, RunningMode runningMode) {
+    public BlenderWindow(RunningMode runningMode) {
         super("blender");
-        this.blender = blender;
-        blender.setBlenderListener(this); // Pass this listener to Blender for the observer pattern
+        runningMode.getBlender().setBlenderListener(this); // Pass this listener to Blender for the observer pattern
         this.runningMode = runningMode;
         this.addOnBlenderCloseListener(runningMode);
 
@@ -71,15 +68,6 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     }
 
     /**
-     * Retrieve the blender object
-     *
-     * @return
-     */
-    public Blender getBlender() {
-        return this.blender;
-    }
-
-    /**
      * Add a listener to the blender window to resume the game if we close it with the x button
      *
      * @param runningMode
@@ -103,14 +91,14 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         btn.addActionListener(e -> {
             int sourceRank = sourceComboBox.getSelectedIndex();
             int destinationRank = destinationComboBox.getSelectedIndex();
-            int destinationRankQuantity;
+            int numOfConversions;
             try {
-                destinationRankQuantity = Integer.parseInt(destinationQuantityField.getText());
+                numOfConversions = Integer.parseInt(destinationQuantityField.getText());
             } catch (NumberFormatException exception) {
-                destinationRankQuantity = 1;
+                numOfConversions = 1;
             }
 
-            blender.convert(sourceRank, destinationRank, destinationRankQuantity);
+            runningMode.getBlender().convert(sourceRank, destinationRank, numOfConversions);
         });
     }
 
@@ -137,4 +125,3 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
         this.setVisible(true);
     }
 }
-

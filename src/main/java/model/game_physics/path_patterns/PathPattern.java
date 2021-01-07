@@ -1,5 +1,8 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import services.utils.Coordinates;
@@ -8,6 +11,16 @@ import services.utils.Vector;
 /**
  * This class serves as a super class for path patterns.
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY, property = "type") @JsonSubTypes({
+
+        @JsonSubTypes.Type(value = RatioPattern.class, name = "ratio-pattern"),
+        @JsonSubTypes.Type(value = StraightPattern.class, name = "straight-pattern"),
+        @JsonSubTypes.Type(value = ZigzagPatten.class, name = "zigzag-pattern"),
+        @JsonSubTypes.Type(value = SequentialCompositePattern.class, name = "sequential-pattern"),
+        @JsonSubTypes.Type(value = CompositePattern.class, name = "composite-pattern")
+})
+@JsonIdentityReference(alwaysAsId = true)
 public abstract class PathPattern implements Cloneable {
     // step represent time stamp in the path. By default it starts from zero.
     private Coordinates currentCoords;

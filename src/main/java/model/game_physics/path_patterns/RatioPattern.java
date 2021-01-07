@@ -1,5 +1,8 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.Configuration;
 import services.utils.Coordinates;
 import services.utils.Vector;
@@ -10,14 +13,17 @@ import java.util.List;
  * This is a composite path pattern that alternate between set of path patterns based on the ration of the game
  * view
  */
+@JsonTypeName("ratio-pattern")
+@JsonIdentityReference(alwaysAsId = true)
 public class RatioPattern extends PathPattern{
 
-    private final List<PathPattern> patterns;
-    private final List<Double> ratios;
+    private List<PathPattern> patterns;
+    private List<Double> ratios;
     private PathPattern currentPattern;
     private int currentPatternIdx;
     private double lastYCoords;
 
+    public RatioPattern(){}
     /**
      * @param patterns List of patterns to follow
      * @param ratios List of screen ration corresponding to the patterns
@@ -44,6 +50,7 @@ public class RatioPattern extends PathPattern{
     }
 
 
+    @JsonIgnore
     @Override
     public void setCurrentCoords(Coordinates currentCoords) {
         super.setCurrentCoords(currentCoords);
@@ -66,6 +73,10 @@ public class RatioPattern extends PathPattern{
         }
         setCurrentCoords(getCurrentPattern().nextPosition());
         return this.getCurrentCoords();
+    }
+
+    public List<Double> getRatios() {
+        return ratios;
     }
 
     @Override

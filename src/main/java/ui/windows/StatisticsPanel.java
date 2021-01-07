@@ -2,7 +2,6 @@ package ui.windows;
 
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
-import model.game_entities.Entity;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
@@ -71,9 +70,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
 
         //Controller
-        GameStatistics gameStatistics = new GameStatistics(this);
         this.runningMode = runningMode;
-        runningMode.setStatisticsController(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
         setOpaque(false);
@@ -166,6 +163,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
                 runningMode.getBlender().showBlender();
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -185,6 +183,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.getShooter().setPowerup(EntityType.ALPHA);
 
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -203,6 +202,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.BETA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -221,6 +221,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.SIGMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -239,6 +240,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.GAMMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -327,33 +329,17 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onProjectileCountChange(SuperType superType, EntityType type, int newCount) {
-        String stringValue = String.valueOf(newCount);
-        switch (type) {
-            case ALPHA:
-                if (superType == SuperType.ATOM)
-                    alphaAtomsNumberLabel.setText(stringValue);
-                else
-                    alphaPowerupsNumberLabel.setText(stringValue);
-                break;
-            case BETA:
-                if (superType == SuperType.ATOM)
-                    betaAtomsNumberLabel.setText(stringValue);
-                else
-                    betaPowerupsNumberLabel.setText(stringValue);
-                break;
-            case GAMMA:
-                if (superType == SuperType.ATOM)
-                    gammaAtomsNumberLabel.setText(stringValue);
-                else
-                    gammaPowerupsNumberLabel.setText(stringValue);
-                break;
-            case SIGMA:
-                if (superType == SuperType.ATOM)
-                    sigmaAtomsNumberLabel.setText(stringValue);
-                else
-                    sigmaPowerupsNumberLabel.setText(stringValue);
-                break;
-        }
+    public void onProjectileCountChange() {
+        ProjectileContainer container = this.runningMode.getProjectileContainer();
+
+        alphaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
+        betaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
+        gammaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
+        sigmaAtomsNumberLabel.setText(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
+
+        alphaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.ALPHA)));
+        betaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.BETA)));
+        gammaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.GAMMA)));
+        sigmaPowerupsNumberLabel.setText(String.valueOf(container.getPowerUpCountForType(EntityType.SIGMA)));
     }
 }
