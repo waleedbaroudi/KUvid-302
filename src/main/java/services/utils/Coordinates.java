@@ -1,5 +1,7 @@
 package services.utils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.awt.*;
 
 public class Coordinates {
@@ -10,6 +12,12 @@ public class Coordinates {
         X = x;
         Y = y;
     }
+
+    public Coordinates() {
+
+    }
+
+
 
     @Override
     public boolean equals(Object obj) {
@@ -40,6 +48,7 @@ public class Coordinates {
         return "( " + X + ", " + Y + ")";
     }
 
+    @JsonIgnore
     public Point getPoint() {
         return new Point((int) X, (int) Y);
     }

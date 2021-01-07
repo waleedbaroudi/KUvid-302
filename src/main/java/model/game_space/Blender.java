@@ -13,7 +13,7 @@ public class Blender {
 
     private static final Logger logger = Logger.getLogger(Blender.class.getName());
 
-    private final ProjectileContainer projectileContainer;
+    private ProjectileContainer projectileContainer;
     private BlenderListener blenderListener;
 
     public Blender(ProjectileContainer projectileContainer) {
@@ -78,6 +78,10 @@ public class Blender {
 
     public void setBlenderListener(BlenderListener blenderListener) {
         this.blenderListener = blenderListener;
+    }
+
+    public void setProjectileContainer(ProjectileContainer projectileContainer) {
+        this.projectileContainer = projectileContainer;
     }
 
     public interface BlenderListener {

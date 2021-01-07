@@ -1,5 +1,7 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import services.utils.Coordinates;
 import services.utils.Vector;
 import services.utils.Velocity;
@@ -7,11 +9,13 @@ import services.utils.Velocity;
 /**
  * Straight path pattern with a constant speed.
  */
-
+@JsonTypeName("straight-pattern")
+@JsonIdentityReference(alwaysAsId = true)
 public class StraightPattern extends PathPattern{
     private Velocity initialVelocity;
 
-
+    public StraightPattern(){
+    }
     public StraightPattern(Coordinates initialCoords, Velocity initialVelocity) {
         super(initialCoords);
         this.initialVelocity = initialVelocity;
@@ -24,6 +28,7 @@ public class StraightPattern extends PathPattern{
     public Velocity getInitialVelocity() {
         return initialVelocity;
     }
+
 
     @Override
     public Coordinates nextPosition() {

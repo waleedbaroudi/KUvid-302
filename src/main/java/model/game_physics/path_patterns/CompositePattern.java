@@ -1,5 +1,7 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import services.utils.Coordinates;
 import services.utils.Vector;
 
@@ -10,14 +12,17 @@ import java.util.Collections;
  * Path pattern that follows a list of path patterns, each for some number of iterations. By default, after the number of iteration
  * for the last path finishes, it starts again from the first path pattern.
  */
+@JsonTypeName("composite-pattern")
+@JsonIdentityReference(alwaysAsId = true)
 public class CompositePattern extends PathPattern {
-    private final ArrayList<PathPattern> patterns;
-    private final ArrayList<Integer> iterations;
+    private ArrayList<PathPattern> patterns;
+    private ArrayList<Integer> iterations;
     private PathPattern currentPattern;
     private int currentIteration;
     private int currentPatternIdx;
     private boolean circulate;
 
+    public CompositePattern(){}
     /**
      *
      * @param patterns arraylist of patterns to follow
@@ -87,8 +92,15 @@ public class CompositePattern extends PathPattern {
             this.currentIteration = 0;
             this.currentPatternIdx += 1;
             this.currentPatternIdx %= getPatterns().size();
-            setCurrentPattern(getPatterns().get(this.currentPatternIdx));
-            getCurrentPattern().setCurrentCoords(getCurrentCoords());
+
+            try {
+                setCurrentPattern((PathPattern) getPatterns().get(this.currentPatternIdx).clone());
+                getCurrentPattern().setCurrentCoords(getCurrentCoords());
+            }
+            catch (Exception e){
+                logger.error("[CompositePattern] cloning current path pattern failed");
+                e.printStackTrace();
+            }
         }
         this.currentIteration += 1;
         setCurrentCoords(getCurrentPattern().nextPosition());
@@ -97,12 +109,6 @@ public class CompositePattern extends PathPattern {
 
     @Override
     public void reflect(Vector n) {
-        try {
-            currentPattern = (PathPattern) currentPattern.clone();
-            currentPattern.reflect(n);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        currentPattern.reflect(n);
     }
 }

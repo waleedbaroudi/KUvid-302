@@ -8,9 +8,10 @@ public enum EntityType {
 
     private int value;
 
-    //TODO check if this constructor is required (sarieh)
     EntityType() {
     }
+
+
 
     // constructor with value
     EntityType(int value) {

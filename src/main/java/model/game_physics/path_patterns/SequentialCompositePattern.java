@@ -1,5 +1,7 @@
 package model.game_physics.path_patterns;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import services.utils.Coordinates;
 import services.utils.Vector;
 
@@ -10,6 +12,8 @@ import java.util.ArrayList;
  * the initial coordinates of the next pattern, then it follows the next path pattern until it reaches the
  * initialCoordinates of the next path pattern, and so on and so forth.
  */
+@JsonTypeName("sequential-pattern")
+@JsonIdentityReference(alwaysAsId = true)
 public class SequentialCompositePattern extends PathPattern{
     private ArrayList<PathPattern> patterns;
     private PathPattern currentPattern;
