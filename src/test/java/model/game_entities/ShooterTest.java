@@ -57,7 +57,7 @@ class ShooterTest {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // testing when the projectile container has only one type of atoms. in this case , when we call switchAtom(), the current projectile is an atom of the same type.
+        // testing when the current projectile is a random atom. in this case , when we call switchAtom(), the current projectile is switched to an atom of different type.
         container = new ProjectileContainer(null, 10, 15, 12, 11, 0, 0, 0, 0);
         shooter = new Shooter(container);
 
@@ -72,7 +72,7 @@ class ShooterTest {
         // the current atom after switch.
         switched = shooter.getCurrentProjectile();
         EntityType switchedType = switched.getType();
-        
+
 
         // they  should have the same type
         assertFalse(switchedType == currentType);
