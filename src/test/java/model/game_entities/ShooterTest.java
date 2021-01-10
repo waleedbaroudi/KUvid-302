@@ -40,5 +40,22 @@ class ShooterTest {
         assertEquals(switched, null);
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // testing when the projectile container has only one type of atoms. in this case , when we call switchAtom(), the current projectile is an atom of the same type.
+        container = new ProjectileContainer(null, 10, 0, 0, 0, 0, 0, 0, 0);
+        shooter = new Shooter(container);
+
+        // the current atom before switch.
+        current = shooter.getCurrentProjectile();
+        shooter.switchAtom();
+        // the current atom after switch.
+        switched = shooter.getCurrentProjectile();
+
+        // they  should have the same type
+        assertEquals(current.getType(), switched.getType());
+
+
+
     }
 }
