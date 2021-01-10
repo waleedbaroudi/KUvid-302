@@ -20,6 +20,8 @@ import java.io.IOException;
  */
 public class ImageResources {
 
+    private static final String theme = Configuration.getInstance().getTheme();
+
     /**
      * @param entity the entity that needs an image to draw itself
      * @return the corresponding image with the specified dimensions
@@ -31,14 +33,17 @@ public class ImageResources {
         switch (entity.getSuperType()) {
             //Entity is a Blocker, atom, powerup, or molecule, return the corresponding image
             case ATOM:
-            case BLOCKER:
             case POWERUP:
                 AutonomousEntity a = (AutonomousEntity) entity;
-                return getImage(a.getSuperType() + "/" + a.getEntityType() + ".png", width, height);
+                return getImage(a.getSuperType() + "/" + a.getType() + ".png", width, height);
+
+            case BLOCKER:
+                AutonomousEntity b = (AutonomousEntity) entity;
+                return getImage(b.getSuperType() + "/" + b.getType() + ".png", width, (int) (height * 1.28));
 
             case MOLECULE:
-                Molecule b = (Molecule) entity;
-                return getImage(b.getSuperType() + "/" + b.getEntityType() + b.getStructure() + ".png", width, height);
+                Molecule m = (Molecule) entity;
+                return getImage(m.getSuperType() + "/" + m.getType() + m.getStructure() + ".png", width, height);
 
             //Entity is a Shooter, return shooter image
             case SHOOTER:
@@ -51,24 +56,24 @@ public class ImageResources {
         }
     }
 
+
     /**
-     * @param icon       the icon to be returned
-     * @param iconWidth  that will be used to scale the icon
-     * @param iconHeight that will be used to scale the icon
+     * @param type of the icon to be returned
+     * @param size that will be used to scale the icon
      * @return the corresponding icon with the specified dimensions
      */
-    public static Image getIcon(String icon, int iconWidth, int iconHeight) {
-        return getImage(icon + ".png", iconWidth, iconHeight);
+    public static ImageIcon getStatIcon(String folder, String type, int size, boolean bkg) {
+        return new ImageIcon(getImage("statisticsIcons" + "/" + folder + "/" + type + bkg + ".png", size, size));
     }
 
     /**
-     * @param type       of the icon to be returned
-     * @param iconWidth  that will be used to scale the icon
-     * @param iconHeight that will be used to scale the icon
+     * @param name   of the icon to be returned
+     * @param width  that will be used to scale the icon
+     * @param height that will be used to scale the icon
      * @return the corresponding icon with the specified dimensions
      */
-    public static Image getEntityIcon(String superType, String type, int iconWidth, int iconHeight, boolean background) {
-        return getImage("statisticsIcons" + "/" + superType + "/" + type + background + ".png", iconWidth, iconHeight);
+    public static Image get(String name, int width, int height) {
+        return getImage(name + ".png", width, height);
     }
 
     /**
@@ -80,20 +85,27 @@ public class ImageResources {
     private static Image getImage(String image, int width, int height) {
         BufferedImage img;
         try {
-            img = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/" + image));
+            img = ImageIO.read(new File(getPath() + image));
         } catch (IOException e) {
-            System.err.println("error retrieving image: " + e.getMessage() + " - image: " + image);
+            System.err.println("error retrieving image: " + e.getMessage() + " - image: " + image + " - path: " + getPath() + image);
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
-    public static Image getGif() {
-        double l = Configuration.getInstance().getUnitL();
-        double w = GameConstants.SHOOTER_WIDTH * l;
-        double h = GameConstants.SHOOTER_HEIGHT * l;
-        return new ImageIcon(System.getProperty("user.dir") + "/assets/" + "pepega.gif", "").
-                getImage().
-                getScaledInstance((int) w, (int) h, Image.SCALE_SMOOTH);
+    public static Image getGif(String name, int width, int height) {
+        return new ImageIcon(getPath() + "gifs/" + name + ".gif", "").
+                getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
+
+    private static String getPath() {
+        return System.getProperty("user.dir") + "/assets/" + theme + "/";
+    }
+
+    public static Image backGround(int width, int height) {
+        if (theme.equalsIgnoreCase("Disco"))
+            return getGif("kuvid_bc", width, height);
+        else
+            return getImage("kuvid_bc" + ".png", width, height);
     }
 }
