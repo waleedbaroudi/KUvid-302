@@ -60,10 +60,9 @@ public class Blender {
      */
     public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException {
         //MODIFIES: projectileContainer
-        //EFFECTS: If projectileContainer is not initialized it does nothing.
-        //if the projectileContainer has enough atoms to blend it decreases the number of sourceAtom by a certain
-        // number, and increases the number of destinationAtoms in projectile container, and does nothing when there is
-        // not enough sourceAtoms to blend into destinationAtoms.
+        //EFFECTS:if the projectileContainer has enough atoms to blend it decreases the number of sourceAtom by a
+        // certain number, and increases the number of destinationAtoms in projectile container, and does nothing when
+        // there is not enough sourceAtoms to blend into destinationAtoms.
         if (this.projectileContainer == null)
             throw new ContainerNotInitializedException();
         boolean canBlend;
