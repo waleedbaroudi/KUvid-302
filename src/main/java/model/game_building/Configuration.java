@@ -298,5 +298,12 @@ public class Configuration {
         return getUnitL() / (double) FPS;
     }
 
+    public String getTheme() {
+        return configBundle.getTheme();
+    }
+
+    public boolean isDiscoTheme() {
+        return configBundle.getTheme().equalsIgnoreCase("disco");
+    }
 
 }

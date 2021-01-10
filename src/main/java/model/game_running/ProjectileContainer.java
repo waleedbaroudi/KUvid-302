@@ -159,13 +159,13 @@ public class ProjectileContainer {
      */
     public boolean increaseAtoms(int type, int count, Projectile atom) { //todo: make this method take an enum type instead of an int
         addShields(atom);
-        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type, count); //todo: fix index
     }
 
     private void addShields(Projectile atomProjectile) {
         Atom atom = (Atom) atomProjectile;
         if (atom.getShieldTuple().isNotZeros())
-            shieldsMap.get(atom.getEntityType().getValue() - 1).add(atom.getShieldTuple());
+            shieldsMap.get(atom.getEntityType().getValue()).add(atom.getShieldTuple());
     }
 
     /**

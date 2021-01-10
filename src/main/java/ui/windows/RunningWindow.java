@@ -31,7 +31,6 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
     private SessionLoadWindow sessionLoadWindow;
-    private final Image background;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
@@ -47,7 +46,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         statisticsPanel = new StatisticsPanel(this.runningMode);
         Player player = new Player("player", statisticsPanel); //todo: change temp username
         this.runningMode.setPlayer(player);
-        background = ImageResources.getIcon("kuvid_bc", getWidth(), getHeight());
+        Image background = ImageResources.backGround(getWidth(), getHeight());
         JPanel backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
@@ -61,7 +60,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         //add separator
         JPanel separator = new JPanel();
         separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
-        getContentPane().add(separator, BorderLayout.CENTER);
+//        getContentPane().add(separator, BorderLayout.CENTER);
         separator.setBackground(Color.BLACK);
         getContentPane().add(statisticsPanel, BorderLayout.CENTER);
 

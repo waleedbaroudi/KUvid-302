@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameCommandListener implements KeyListener {
-    private boolean canShoot = true;
+    static public boolean canShoot = true;
     private final Timer timer = new Timer();
     private final RunningMode runningMode;
 

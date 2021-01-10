@@ -36,7 +36,7 @@ public class Shooter extends Entity {
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
-                        GameConstants.SHOOTER_HEIGHT));
+                        GameConstants.SHOOTER_HEIGHT - HitboxFactory.getInstance().getShooterHitbox().getHeight()));
 
         // sets the Hitbox
         setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead

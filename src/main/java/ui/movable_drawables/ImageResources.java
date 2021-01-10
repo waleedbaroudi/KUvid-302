@@ -35,15 +35,15 @@ public class ImageResources {
             case ATOM:
             case POWERUP:
                 AutonomousEntity a = (AutonomousEntity) entity;
-                return getImage(a.getSuperType() + "/" + a.getType() + ".png", width, height);
+                return getImage(a.getSuperType() + "/" + a.getEntityType() + ".png", width, height);
 
             case BLOCKER:
                 AutonomousEntity b = (AutonomousEntity) entity;
-                return getImage(b.getSuperType() + "/" + b.getType() + ".png", width, (int) (height * 1.28));
+                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", width, height);
 
             case MOLECULE:
                 Molecule m = (Molecule) entity;
-                return getImage(m.getSuperType() + "/" + m.getType() + m.getStructure() + ".png", width, height);
+                return getImage(m.getSuperType() + "/" + m.getEntityType() + m.getStructure() + ".png", width, height);
 
             //Entity is a Shooter, return shooter image
             case SHOOTER:

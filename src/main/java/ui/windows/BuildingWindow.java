@@ -62,6 +62,8 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
+    JComboBox<String> themeBox;
+    String[] themes = {"Pepega", "Disco"};
     ArrayList<Integer> atoms, powerups, blockers, molecules, shields;
 
     double l;
@@ -291,6 +293,10 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         loadConfigPresetButton.addActionListener(e -> new ConfigPresetWindow(this));
         panel.add(loadConfigPresetButton);
 
+        themeBox = new JComboBox<>(themes);
+        themeBox.setSelectedIndex(1);
+        panel.add(themeBox);
+
     }
 
     private void loadDefaultParams() {
@@ -325,7 +331,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         getParametersValues();
         return new ConfigBundle(atoms, powerups, blockers, molecules, shields, l,
                 isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
-                isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex());
+                isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex(), themeBox.getItemAt(themeBox.getSelectedIndex()));
     }
 
     /**
