@@ -67,7 +67,7 @@ public class ImageResources {
      * @param iconHeight that will be used to scale the icon
      * @return the corresponding icon with the specified dimensions
      */
-    public static Image getEntityIcon(SuperType superType, EntityType type, int iconWidth, int iconHeight, boolean background) {
+    public static Image getEntityIcon(String superType, String type, int iconWidth, int iconHeight, boolean background) {
         return getImage("statisticsIcons" + "/" + superType + "/" + type + background + ".png", iconWidth, iconHeight);
     }
 
