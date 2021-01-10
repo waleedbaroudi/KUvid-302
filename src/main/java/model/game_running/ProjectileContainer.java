@@ -100,7 +100,7 @@ public class ProjectileContainer {
     }
 
     public void addPowerUp(Powerup powerup) {
-        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue(), 1);
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getEntityType().getValue(), 1);
     }
 
     /**

@@ -52,7 +52,19 @@ public class Blender {
         blenderListener.onBlend();
     }
 
+    /**
+     * Blends a number of source atoms into a number of target atoms
+     * @param sourceAtom he atom to be blended
+     * @param destinationAtom The result atom
+     * @param numOfConversions The number of the desired atom.
+     */
     public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) {
+        //MODIFIES: projectileContainer
+        //EFFECTS: If projectileContainer is not initialized it does nothing.
+        //if the projectileContainer has enough atoms to blend it decreases the number of sourceAtom by a certain number
+        // , and increases the number of destinationAtoms in projectile container
+        if (this.projectileContainer == null)
+            return;
         boolean canBlend;
         for (int i = 0; i < numOfConversions; i++) {
             canBlend = projectileContainer.decreaseAtoms(sourceAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
@@ -61,7 +73,12 @@ public class Blender {
             projectileContainer.increaseAtoms(destinationAtom, 1);
         }
     }
-
+    /**
+     * Breaks a number of source atoms into a number of target atoms
+     * @param sourceAtom he atom to be blended
+     * @param destinationAtom The result atom
+     * @param numOfConversions The number of the desired atom.
+     */
     private void breakAtoms(int sourceAtom, int destinationAtom, int numOfConversions) {
         boolean canBlend;
         for (int i = 0; i < numOfConversions; i++) {
