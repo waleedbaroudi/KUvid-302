@@ -124,6 +124,9 @@ public class Shooter extends Entity {
     }
 
     public void switchAtom() {
+        // @REQUIRES: the the projectileContainer not to be empty nor the currentProjectile on the tip of the shooter to be of type powerup.
+        // @MODIFIES: projectileContainer
+        // @EFFECTS: changes the atom on the tip of the shooter to an atom of different type.
         Projectile previousProjectile = getCurrentProjectile();
         Projectile nextAtom = nextAtom();
 
