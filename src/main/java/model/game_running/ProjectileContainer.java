@@ -14,7 +14,10 @@ import model.game_physics.path_patterns.PathPatternFactory;
 import org.apache.log4j.Logger;
 import services.utils.Coordinates;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * this class will keep information about the current amount of projectiles remaining as well as provide a projectile
@@ -157,15 +160,16 @@ public class ProjectileContainer {
      * @param count the amount of increase
      * @return returns whether the decrease was successful (purpose TBD)
      */
-    public boolean increaseAtoms(int type, int count, Projectile atom) { //todo: make this method take an enum type instead of an int
-        addShields(atom);
-        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
+    public boolean increaseAtoms(int type, int count, Projectile atom) {
+        if (atom != null)
+            addShields(atom);
+        return updateProjectileMap(atomMap, SuperType.ATOM, type, count);
     }
 
     private void addShields(Projectile atomProjectile) {
         Atom atom = (Atom) atomProjectile;
         if (atom.getShieldTuple().isNotZeros())
-            shieldsMap.get(atom.getEntityType().getValue() - 1).add(atom.getShieldTuple());
+            shieldsMap.get(atom.getEntityType().getValue()).add(atom.getShieldTuple());
     }
 
     /**
