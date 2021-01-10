@@ -16,8 +16,9 @@ public class Coordinates {
     public Coordinates() {
 
     }
-
-
+    public Coordinates rotate(Coordinates rotationCenter, double angle){
+        return MathUtils.applyRotation(angle, rotationCenter, this);
+    }
 
     @Override
     public boolean equals(Object obj) {

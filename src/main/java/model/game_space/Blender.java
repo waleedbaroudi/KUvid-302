@@ -2,7 +2,6 @@ package model.game_space;
 
 
 import model.game_building.GameConstants;
-import model.game_entities.enums.EntityType;
 import model.game_running.ProjectileContainer;
 
 import java.util.logging.Level;
@@ -58,7 +57,7 @@ public class Blender {
             canBlend = projectileContainer.decreaseAtoms(sourceAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
             if (!canBlend)
                 break;
-            projectileContainer.increaseAtoms(destinationAtom, 1);
+            projectileContainer.increaseAtoms(destinationAtom, 1, null);
         }
     }
 
@@ -68,7 +67,7 @@ public class Blender {
             canBlend = projectileContainer.decreaseAtoms(sourceAtom, 1);
             if (!canBlend)
                 break;
-            projectileContainer.increaseAtoms(destinationAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
+            projectileContainer.increaseAtoms(destinationAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom], null);
         }
     }
 

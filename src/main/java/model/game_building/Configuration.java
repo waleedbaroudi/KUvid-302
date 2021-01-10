@@ -174,6 +174,25 @@ public class Configuration {
     }
 
     @JsonIgnore
+    public int getNumOfEtaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfEtaShields() : -1;
+    }
+    @JsonIgnore
+    public int getNumOfLotaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfLotaShields() : -1;
+    }
+
+    @JsonIgnore
+    public int getNumOfThetaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfThetaShields() : -1;
+    }
+
+    @JsonIgnore
+    public int getNumOfZetaShields() {
+        return isConfigBundleSet() ? configBundle.getNumOfZetaShields() : -1;
+    }
+
+    @JsonIgnore
     public int getDropRate() {// TODO: modify when difficulty is converted to enum
         if (!isConfigBundleSet())
             return -1;

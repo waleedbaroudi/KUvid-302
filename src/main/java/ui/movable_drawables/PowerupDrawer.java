@@ -5,6 +5,7 @@ import services.utils.Coordinates;
 import services.utils.MathUtils;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 
 /**
@@ -22,10 +23,19 @@ public class PowerupDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform old = g2d.getTransform();
+
+        g2d.rotate(Math.toRadians(powerup.getHitbox().getRotationDegree()),
+                (int) powerup.getCoordinates().getX(),
+                (int) powerup.getCoordinates().getY());
+
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(powerup.getCoordinates(),
                 powerup.getHitbox().getWidth(),
                 powerup.getHitbox().getHeight());
-        g.drawImage(powerupImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
+        g2d.drawImage(powerupImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
+
+        g2d.setTransform(old);
     }
 
     @Override

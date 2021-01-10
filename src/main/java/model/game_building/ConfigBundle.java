@@ -12,7 +12,7 @@ public class ConfigBundle {
     private double l;
     private boolean linearAlpha, linearBeta, spinningAlpha, spinningBeta; // TODO: convert to enums
     private int difficulty; // 0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
-    private ArrayList<Integer> atoms, powerups, molecules, blockers;
+    private ArrayList<Integer> atoms, powerups, molecules, blockers, shields;
 
     /**
      * Constructor to initialize game parameter attributes
@@ -28,12 +28,23 @@ public class ConfigBundle {
      * @param spinningBeta  a boolean indicates weather Beta molecules are spinning or not
      * @param difficulty    integer number indicates the difficulty level
      */
-    public ConfigBundle(ArrayList<Integer> atoms, ArrayList<Integer> powerups, ArrayList<Integer> blockers, ArrayList<Integer> molecules, double l, boolean linearAlpha, boolean linearBeta, boolean spinningAlpha,
-                        boolean spinningBeta, int difficulty) {
+    public ConfigBundle(ArrayList<Integer> atoms,
+                        ArrayList<Integer> powerups,
+                        ArrayList<Integer> blockers,
+                        ArrayList<Integer> molecules,
+                        ArrayList<Integer> shields,
+                        double l,
+                        boolean linearAlpha,
+                        boolean linearBeta,
+                        boolean spinningAlpha,
+                        boolean spinningBeta,
+                        int difficulty) {
+
         this.atoms = atoms;
         this.powerups = powerups;
         this.blockers = blockers;
         this.molecules = molecules;
+        this.shields = shields;
         this.l = l;
         this.linearAlpha = linearAlpha;
         this.linearBeta = linearBeta;
@@ -59,6 +70,10 @@ public class ConfigBundle {
 
     public ArrayList<Integer> getBlockers() {
         return blockers;
+    }
+
+    public ArrayList<Integer> getShields() {
+        return shields;
     }
 
     /*
@@ -145,6 +160,26 @@ public class ConfigBundle {
     @JsonIgnore
     public int getNumOfSigmaMolecules() {
         return molecules.get(3);
+    }
+
+    @JsonIgnore
+    public int getNumOfEtaShields() {
+        return shields.get(0);
+    }
+
+    @JsonIgnore
+    public int getNumOfLotaShields() {
+        return shields.get(1);
+    }
+
+    @JsonIgnore
+    public int getNumOfThetaShields() {
+        return shields.get(2);
+    }
+
+    @JsonIgnore
+    public int getNumOfZetaShields() {
+        return shields.get(3);
     }
 
     public double getL() {

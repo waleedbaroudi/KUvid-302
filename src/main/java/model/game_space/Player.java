@@ -1,6 +1,7 @@
 package model.game_space;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import model.game_entities.enums.ShieldType;
 
 //todo: can be a controller for shooter, projectile container, and blender.
 public class Player {
@@ -54,6 +55,11 @@ public class Player {
         statistics.changeProjectileCount();
     }
 
+
+    public void changeShieldCount(ShieldType type, int newCount){
+        statistics.changeShieldCount(type, newCount);
+    }
+
     public boolean loseHealth(int damageAmount) {
         health -= damageAmount;
         if (health < 0)
@@ -68,9 +74,9 @@ public class Player {
         return timer.getRemainingTimeMillis() >= 1;
     }
 
-    public void incrementScore() { //assuming the score will only be incremented by 1.
-        this.score++;
-        statistics.updateScore(score);
+    public void incrementScore(double scoreIncrement) { //assuming the score will only be incremented by 1.
+        this.score += scoreIncrement;
+        statistics.updateScore(this.score);
     }
 
     @Override

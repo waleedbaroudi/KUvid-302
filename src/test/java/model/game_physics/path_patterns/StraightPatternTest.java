@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StraightPatternTest {
     @Test
-    void move() {
+    void nextPosition() {
         BasicConfigurator.configure();
         // create a StraightPattern
         Coordinates coords = new Coordinates(1, 1);

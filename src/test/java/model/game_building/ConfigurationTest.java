@@ -45,7 +45,13 @@ class ConfigurationTest {
             add(3);
         }};
 
-        ConfigBundle bundle = new ConfigBundle(atoms, powerups, blockers, molecules, 1.2, true, true, true, true, 2);
+        ArrayList<Integer> shields = new ArrayList<Integer>() {{
+            add(1);
+            add(2);
+            add(3);
+        }};
+
+        ConfigBundle bundle = new ConfigBundle(atoms, powerups, blockers, molecules, shields, 1.2, true, true, true, true, 2);
         //TODO: fix this test. we don't use setConfig anymore. instead configuration is read from a file.
 
         Configuration.getInstance().setConfig(bundle);

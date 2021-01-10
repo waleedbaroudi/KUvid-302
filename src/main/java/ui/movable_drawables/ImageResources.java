@@ -1,5 +1,7 @@
 package ui.movable_drawables;
 
+import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
@@ -7,6 +9,7 @@ import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -64,7 +67,7 @@ public class ImageResources {
      * @param iconHeight that will be used to scale the icon
      * @return the corresponding icon with the specified dimensions
      */
-    public static Image getEntityIcon(SuperType superType, EntityType type, int iconWidth, int iconHeight, boolean background) {
+    public static Image getEntityIcon(String superType, String type, int iconWidth, int iconHeight, boolean background) {
         return getImage("statisticsIcons" + "/" + superType + "/" + type + background + ".png", iconWidth, iconHeight);
     }
 
@@ -83,5 +86,14 @@ public class ImageResources {
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
+
+    public static Image getGif() {
+        double l = Configuration.getInstance().getUnitL();
+        double w = GameConstants.SHOOTER_WIDTH * l;
+        double h = GameConstants.SHOOTER_HEIGHT * l;
+        return new ImageIcon(System.getProperty("user.dir") + "/assets/" + "pepega.gif", "").
+                getImage().
+                getScaledInstance((int) w, (int) h, Image.SCALE_SMOOTH);
     }
 }

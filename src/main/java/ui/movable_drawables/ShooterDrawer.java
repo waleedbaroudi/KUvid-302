@@ -5,8 +5,10 @@ import model.game_entities.Shooter;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.net.URL;
 
 /**
  * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
@@ -15,11 +17,12 @@ public class ShooterDrawer implements Drawable {
 
     private final Shooter shooter;
     private final Image shooterImage;
+    private Image shooterImageGif;
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
         this.shooterImage = ImageResources.get(shooter);
-
+        this.shooterImageGif = ImageResources.getGif();
     }
 
     @Override
@@ -27,7 +30,10 @@ public class ShooterDrawer implements Drawable {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
 
-        g2d.rotate(Math.toRadians(shooter.getAngle()), (int) shooter.getCoordinates().getX(), (int) shooter.getCoordinates().getY());
+        g2d.rotate(Math.toRadians(shooter.getAngle()),
+                (int) shooter.getCoordinates().getX(),
+                (int) shooter.getCoordinates().getY());
+
         Projectile projectile = shooter.getCurrentProjectile();
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
                 shooter.getHitbox().getWidth(),
@@ -38,8 +44,9 @@ public class ShooterDrawer implements Drawable {
             Coordinates projectileCoord = MathUtils.drawingCoordinates(
                     shooter.getCoordinates(),
                     0, projectile.getHitbox().getHeight() + shooter.getHitbox().getHeight());
+
             projectile.setCoordinates(projectileCoord);
-            DrawableFactory.get(projectile).draw(g);
+            DrawableFactory.get(projectile).draw(g2d);
         }
         g2d.setTransform(old);
     }
