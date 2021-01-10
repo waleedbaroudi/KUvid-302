@@ -77,6 +77,9 @@ class ShooterTest {
         // they  should have the same type
         assertFalse(switchedType == currentType);
 
+       
+
+
 
     }
 }
