@@ -1,5 +1,8 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.EntityType;
@@ -11,11 +14,11 @@ import model.game_entities.shields.ShieldTuple;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
-import utils.Coordinates;
-
+import services.utils.Coordinates;
 /**
  * Atom: Handles the Atom game object.
  */
+@JsonTypeName("atom")
 public class Atom extends Projectile {
 
     private final double stabilityConstant;
@@ -26,7 +29,15 @@ public class Atom extends Projectile {
 
     private final double ATOM_SPEED_PERCENTAGE = 1;
 
-    public Atom(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, double stabilityConstant, double efficiency, int numberOfProtons, int numberOfNeutrons) {
+    public Atom(@JsonProperty("coordinates")Coordinates coordinates,
+                @JsonProperty("hitbox")Hitbox hitbox,
+                @JsonProperty("pathPattern")PathPattern pathPattern,
+                @JsonProperty("entityType")EntityType type,
+                @JsonProperty("stabilityConstant") Double stabilityConstant,
+                @JsonProperty("efficiency") Double efficiency,
+                @JsonProperty("stabilityConstant") Integer numberOfProtons,
+                @JsonProperty("stabilityConstant") Integer numberOfNeutrons
+                ) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
 
@@ -37,33 +48,6 @@ public class Atom extends Projectile {
         this.numberOfNeutrons = numberOfNeutrons;
 
         this.shieldTuple = new ShieldTuple();
-    }
-
-    @Override
-    public String toString() {
-        return "Atom{" +
-                "type=" + getType() +
-                '}';
-    }
-
-    public double getEfficiency() {
-        return this.efficiency;
-    }
-
-    public double getStabilityConstant() {
-        return this.stabilityConstant;
-    }
-
-    public int getNumberOfNeutrons() {
-        return this.numberOfNeutrons;
-    }
-
-    public int getNumberOfProtons() {
-        return this.numberOfProtons;
-    }
-
-    public double getAtomSpeedPercentage() {
-        return ATOM_SPEED_PERCENTAGE;
     }
 
     // visitor pattern. Double delegation
@@ -97,6 +81,17 @@ public class Atom extends Projectile {
         entity.collideWith(visitor, this);
     }
 
+    @Override
+    public void saveState(GameBundle.Builder builder) {
+        builder.addEntity(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Atom{" +
+                "type=" + getEntityType() +
+                '}';}
+
     public void addShield(ShieldType type) {
         shieldTuple.addShield(type);
     }
@@ -107,6 +102,26 @@ public class Atom extends Projectile {
 
     public ShieldTuple getShieldTuple() {
         return this.shieldTuple;
+    }
+
+    public double getEfficiency() {
+        return this.efficiency;
+    }
+
+    public double getStabilityConstant() {
+        return this.stabilityConstant;
+    }
+
+    public int getNumberOfNeutrons() {
+        return this.numberOfNeutrons;
+    }
+
+    public int getNumberOfProtons() {
+        return this.numberOfProtons;
+    }
+
+    public double getAtomSpeedPercentage() {
+        return ATOM_SPEED_PERCENTAGE;
     }
 
     @Override

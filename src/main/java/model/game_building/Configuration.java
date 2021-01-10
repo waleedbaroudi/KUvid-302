@@ -1,9 +1,10 @@
 package model.game_building;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -29,15 +30,21 @@ public class Configuration {
         logger = Logger.getLogger(Configuration.class.getName());
 
         try {
-            configBundle = IOHandler.readConfigFromYaml("temp");
+            configBundle = IOHandler.readFromYaml("temp", ConfigBundle.class);
         } catch (IOException exception) {
             logger.error("[Configuration] {FATAL}: Could not load game configurations.", exception);
             exception.printStackTrace();
         }
-
         File temp = new File(System.getProperty("user.dir") + "/configurations/temp.yaml");
-        if (!temp.delete())
+        if (!temp.delete()) {
             logger.warn("Temporary configuration file was not deleted");
+        }
+    }
+
+    private Configuration(ConfigBundle bundle) {
+        BasicConfigurator.configure();
+        logger = Logger.getLogger(Configuration.class.getName());
+        configBundle = bundle;
     }
 
     /**
@@ -50,6 +57,21 @@ public class Configuration {
             instance = new Configuration(); //makeInstance
         }
         return instance;
+    }
+
+    /**
+     * Sets the current configBundle to a new one.
+     * This method is used when we load a saved game to set a new bundle.
+     *
+     * @param newBundle the bundle that holds the configs of the loaded game
+     */
+    public void reset(ConfigBundle newBundle) {
+        instance = new Configuration(newBundle);
+    }
+
+
+    public ConfigBundle getConfigBundle() {
+        return configBundle;
     }
 
     /**
@@ -71,86 +93,106 @@ public class Configuration {
         }
     }
 
+    @JsonIgnore
     public int getNumAlphaAtoms() {
         return isConfigBundleSet() ? configBundle.getNumOfAlphaAtoms() : -1;
     }
 
+    @JsonIgnore
     public int getNumBetaAtoms() {
         return isConfigBundleSet() ? configBundle.getNumOfBetaAtoms() : -1;
     }
 
+    @JsonIgnore
     public int getNumGammaAtoms() {
         return isConfigBundleSet() ? configBundle.getNumOfGammaAtoms() : -1;
     }
 
+    @JsonIgnore
     public int getNumSigmaAtoms() {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaAtoms() : -1;
     }
 
+    @JsonIgnore
     public int getNumAlphaPowerups() {
         return isConfigBundleSet() ? configBundle.getNumOfAlphaPowerups() : -1;
     }
 
+    @JsonIgnore
     public int getNumBetaPowerups() {
         return isConfigBundleSet() ? configBundle.getNumOfBetaPowerups() : -1;
     }
 
+    @JsonIgnore
     public int getNumGammaPowerups() {
         return isConfigBundleSet() ? configBundle.getNumOfGammaPowerups() : -1;
     }
 
+    @JsonIgnore
     public int getNumSigmaPowerups() {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaPowerups() : -1;
     }
 
+    @JsonIgnore
     public int getNumAlphaBlockers() {
         return isConfigBundleSet() ? configBundle.getNumOfAlphaBlockers() : -1;
     }
 
+    @JsonIgnore
     public int getNumBetaBlockers() {
         return isConfigBundleSet() ? configBundle.getNumOfBetaBlockers() : -1;
     }
 
+    @JsonIgnore
     public int getNumGammaBlockers() {
         return isConfigBundleSet() ? configBundle.getNumOfGammaBlockers() : -1;
     }
 
+    @JsonIgnore
     public int getNumSigmaBlockers() {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaBlockers() : -1;
     }
 
+    @JsonIgnore
     public int getNumAlphaMolecules() {
         return isConfigBundleSet() ? configBundle.getNumOfAlphaMolecules() : -1;
     }
 
+    @JsonIgnore
     public int getNumBetaMolecules() {
         return isConfigBundleSet() ? configBundle.getNumOfBetaMolecules() : -1;
     }
 
+    @JsonIgnore
     public int getNumGammaMolecules() {
         return isConfigBundleSet() ? configBundle.getNumOfGammaMolecules() : -1;
     }
 
+    @JsonIgnore
     public int getNumSigmaMolecules() {
         return isConfigBundleSet() ? configBundle.getNumOfSigmaMolecules() : -1;
     }
 
+    @JsonIgnore
     public int getNumOfEtaShields() {
         return isConfigBundleSet() ? configBundle.getNumOfEtaShields() : -1;
     }
-
+    @JsonIgnore
     public int getNumOfLotaShields() {
         return isConfigBundleSet() ? configBundle.getNumOfLotaShields() : -1;
     }
 
+    @JsonIgnore
     public int getNumOfThetaShields() {
         return isConfigBundleSet() ? configBundle.getNumOfThetaShields() : -1;
     }
 
+    @JsonIgnore
     public int getNumOfZetaShields() {
         return isConfigBundleSet() ? configBundle.getNumOfZetaShields() : -1;
     }
 
+    @JsonIgnore
     public int getDropRate() {// TODO: modify when difficulty is converted to enum
         if (!isConfigBundleSet())
             return -1;
@@ -167,46 +209,57 @@ public class Configuration {
         }
     }
 
+    @JsonIgnore
     public double getUnitL() {
         return isConfigBundleSet() ? configBundle.getL() : -1;
     }
 
+    @JsonIgnore
     public int getDifficulty() {
         return isConfigBundleSet() ? configBundle.getDifficulty() : -1;
     }
 
+    @JsonIgnore
     public boolean isLinearAlpha() {
         return isConfigBundleSet() && configBundle.isLinearAlpha();
     }
 
+    @JsonIgnore
     public boolean isLinearBeta() {
         return isConfigBundleSet() && configBundle.isLinearBeta();
     }
 
+    @JsonIgnore
     public boolean isSpinningAlpha() {
         return isConfigBundleSet() && configBundle.isSpinningAlpha();
     }
 
+    @JsonIgnore
     public boolean isSpinningBeta() {
         return isConfigBundleSet() && configBundle.isSpinningBeta();
     }
 
+    @JsonIgnore
     public int getGameHeight() {
         return (int) (10 * getUnitL());
     }
 
+    @JsonIgnore
     public int getGameWidth() {
         return (int) (getGameHeight() * GAME_SIZE_RATIO);
     }
 
+    @JsonIgnore
     public Dimension getGamePanelDimensions() {
         return new Dimension((int) (getGameWidth() * GAME_PANEL_WIDTH_RATIO), getGameHeight());
     }
 
+    @JsonIgnore
     public Dimension getStatisticsPanelDimensions() {
         return new Dimension((int) (getGameWidth() * STATISTICS_PANEL_WIDTH_RATIO), getGameHeight());
     }
 
+    @JsonIgnore
     public Dimension getRunningWindowDimension() {
         return new Dimension(getGameWidth() + PANEL_SEPARATOR_WIDTH, getGameHeight());
     }
@@ -216,6 +269,7 @@ public class Configuration {
      *
      * @return whether the config bundle is null or not
      */
+    @JsonIgnore
     private boolean isConfigBundleSet() {
         if (configBundle == null) {
             logger.warn("Config bundle is not set yet. returned values are inaccurate");
@@ -224,18 +278,22 @@ public class Configuration {
         return true;
     }
 
+    @JsonIgnore
     public double getShooterSpeed() {
         return getUnitL() / (double) FPS; //TODO: ask about the speed.
     }
 
+    @JsonIgnore
     public double getStraightPatternSpeed() {
         return getUnitL() / (double) FPS;
     }
 
+    @JsonIgnore
     public double getAtomSpeed() {
         return 3 * getUnitL() / (double) FPS;
     }
 
+    @JsonIgnore
     public double getZigZagPatternSpeed() {
         return getUnitL() / (double) FPS;
     }

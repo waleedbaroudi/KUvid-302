@@ -1,12 +1,17 @@
 package model.game_entities.enums;
 
 public enum EntityType {
-    ALPHA(1),
-    BETA(2),
-    GAMMA(3),
-    SIGMA(4);
+    ALPHA(0),
+    BETA(1),
+    GAMMA(2),
+    SIGMA(3);
 
-    private final int value;
+    private int value;
+
+    EntityType() {
+    }
+
+
 
     // constructor with value
     EntityType(int value) {
@@ -15,6 +20,10 @@ public enum EntityType {
 
     public int getValue() {
         return value;
+    }
+
+    public static String[] stringValues() {
+        return new String[]{"Alpha", "Beta", "Gamma", "Sigma"};
     }
 
     public static EntityType forValue(int val) {

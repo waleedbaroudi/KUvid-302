@@ -3,9 +3,7 @@ package model.game_entities.shields;
 import model.game_building.GameConstants;
 import model.game_entities.Atom;
 import model.game_entities.enums.ShieldType;
-import utils.MathUtils;
-import static model.game_building.GameConstants.*;
-
+import services.utils.MathUtils;
 
 public class ThetaShield extends ShieldDecorator {
 

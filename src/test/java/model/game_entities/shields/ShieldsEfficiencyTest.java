@@ -9,9 +9,9 @@ import model.game_physics.path_patterns.PathPattern;
 import model.game_physics.path_patterns.StraightPattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.Coordinates;
-import utils.MathUtils;
-import utils.Velocity;
+import services.utils.Coordinates;
+import services.utils.MathUtils;
+import services.utils.Velocity;
 
 import static model.game_building.GameConstants.*;
 import static model.game_building.GameConstants.SIGMA_PROTONS;

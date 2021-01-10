@@ -5,11 +5,8 @@ import model.game_entities.AutonomousEntity;
 import model.game_entities.Blocker;
 import model.game_running.CollisionVisitor;
 import model.game_running.RunningMode;
-import utils.Coordinates;
-import utils.MathUtils;
-import utils.Vector;
-import utils.Velocity;
-
+import services.utils.Coordinates;
+import services.utils.Vector;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

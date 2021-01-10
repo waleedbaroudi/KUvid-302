@@ -2,7 +2,7 @@ package ui.windows;
 
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigPreset;
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
         this.configPreset = new ConfigPreset(this);
         this.buildingGameFrame = parent;
         this.setContentPane(new JPanel());
-        boolean presetsLoaded = this.addComponents(IOHandler.getConfigFiles());
+        boolean presetsLoaded = this.addComponents(IOHandler.getFilesInDirectory());
         this.pack(); // Pack the frame around the components
         this.setLocationRelativeTo(null); // Center the blender frame
         if (presetsLoaded)

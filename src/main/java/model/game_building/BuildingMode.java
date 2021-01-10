@@ -1,7 +1,7 @@
 package model.game_building;
 
 
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class BuildingMode {
     }
 
     public static ConfigBundle getDefaultBundle() throws IOException {
-        return IOHandler.readConfigFromYaml("Default");
+        return IOHandler.readFromYaml("Default", ConfigBundle.class);
     }
 
     //TODO: specify the wrong field in the warning popup window

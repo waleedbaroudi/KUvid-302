@@ -7,7 +7,7 @@ import model.game_entities.enums.MoleculeStructure;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 public class MoleculeFactory {
     private static MoleculeFactory moleculeFactory = new MoleculeFactory();

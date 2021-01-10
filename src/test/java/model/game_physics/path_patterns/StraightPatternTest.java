@@ -2,14 +2,14 @@ package model.game_physics.path_patterns;
 
 import org.apache.log4j.BasicConfigurator;
 import org.junit.jupiter.api.Test;
-import utils.Coordinates;
-import utils.Velocity;
+import services.utils.Coordinates;
+import services.utils.Velocity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StraightPatternTest {
     @Test
-    void move() {
+    void nextPosition() {
         BasicConfigurator.configure();
         // create a StraightPattern
         Coordinates coords = new Coordinates(1, 1);

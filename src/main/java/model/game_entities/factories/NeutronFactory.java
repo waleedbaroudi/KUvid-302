@@ -2,7 +2,7 @@ package model.game_entities.factories;
 
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
-import utils.MathUtils;
+import services.utils.MathUtils;
 
 public class NeutronFactory {
 

@@ -4,13 +4,14 @@ import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_running.Collidable;
 import org.apache.log4j.Logger;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 import java.util.ArrayList;
 
 /**
  * Entity: a Superclass for all the game objects
  */
+
 public abstract class Entity implements Collidable {
     protected SuperType superType;
     private Coordinates coordinates;
@@ -28,6 +29,7 @@ public abstract class Entity implements Collidable {
     public Coordinates getCoordinates() {
         return coordinates;
     }
+
 
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;

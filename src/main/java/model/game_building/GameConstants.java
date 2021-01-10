@@ -4,7 +4,6 @@ import java.awt.*;
 
 public final class GameConstants {
 
-
     private GameConstants() {
     }//this class should not be initialized.
 
@@ -23,6 +22,8 @@ public final class GameConstants {
     public static final int SHOOTER_ROTATION_LEFT = -5;
     public static final int SHOOTER_ROTATION_RIGHT = 5;
     public static final int SHOOTER_ROTATION_STILL = 0;
+
+    public static final String SESSION_COLLECTION_TITLE = "GameSessions";
 
     public static final double GAME_SIZE_RATIO = (16.0 / 9.0);
 
@@ -59,6 +60,8 @@ public final class GameConstants {
     public static final double ZIGZAG_SPEED_ANGLE = 45;
 
     public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
+    public static final int ICON_WIDTH = 50;
+    public static final int ICON_HEIGHT = 50;
 
     public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
     public static final double GAME_PANEL_WIDTH_RATIO = 0.8;

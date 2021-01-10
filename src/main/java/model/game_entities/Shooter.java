@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
@@ -8,9 +9,9 @@ import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_running.CollisionVisitor;
 import model.game_running.ProjectileContainer;
-import utils.Coordinates;
-import utils.MathUtils;
-import utils.Vector;
+import services.utils.Coordinates;
+import services.utils.MathUtils;
+import services.utils.Vector;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,17 +31,22 @@ public class Shooter extends Entity {
         logger.setLevel(Level.OFF);
 
         // sets the initial coordinates
-        // TODO: get initial coords from the game configuration
+        // TODO 1: get initial coords from the game configuration
+        // TODO 2: set this in super instead
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
                         GameConstants.SHOOTER_HEIGHT));
 
         // sets the Hitbox
-        setHitbox(HitboxFactory.getInstance().getShooterHitbox());
+        setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead
         this.superType = SuperType.SHOOTER;
         this.container = container;
         this.setCurrentProjectile(this.nextAtom());
+    }
+
+    public Shooter(){
+
     }
 
     /**
@@ -54,6 +60,10 @@ public class Shooter extends Entity {
 
         this.adjustProjectilePosition();
         return this.reload();
+    }
+
+    public void setContainer(ProjectileContainer container) {
+        this.container = container;
     }
 
     /**
@@ -70,6 +80,7 @@ public class Shooter extends Entity {
     /**
      * @return the coordinate of the projectile where it will start moving
      */
+    @JsonIgnore
     private Coordinates getShootingCoords() {
         int height = (int) getHitbox().getHeight();
         int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
@@ -116,7 +127,7 @@ public class Shooter extends Entity {
         Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
         if (currentPowerup != null) {
             if (previousProjectile.superType == SuperType.ATOM)
-                container.increaseAtoms(previousProjectile.getType().getValue(), 1, previousProjectile);
+                container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1, previousProjectile);
             else
                 container.addPowerUp((Powerup) previousProjectile);
             setCurrentProjectile(currentPowerup);
@@ -129,9 +140,9 @@ public class Shooter extends Entity {
 
         if (nextAtom != null) {
             if (previousProjectile.getSuperType() == SuperType.ATOM) {
-                container.increaseAtoms(previousProjectile.getType().getValue(), 1, previousProjectile);
-                while (previousProjectile.getType() == nextAtom.getType() && !uniqueTypeAvilable()) {
-                    container.increaseAtoms(nextAtom.getType().getValue(), 1, nextAtom);
+                container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1, previousProjectile);
+                while (previousProjectile.getEntityType() == nextAtom.getEntityType() && !uniqueTypeAvilable()) {
+                    container.increaseAtoms(nextAtom.getEntityType().getValue(), 1, nextAtom);
                     nextAtom = nextAtom();
                 }
                 setCurrentProjectile(nextAtom);
@@ -152,6 +163,7 @@ public class Shooter extends Entity {
         return counter == (types.length - 1);
     }
 
+    @JsonIgnore
     public double getAngle() {
         return getHitbox().getRotationDegree();
     }

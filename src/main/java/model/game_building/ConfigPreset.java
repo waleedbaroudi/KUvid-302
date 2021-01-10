@@ -1,6 +1,6 @@
 package model.game_building;
 
-import utils.IOHandler;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ public class ConfigPreset {
 
 
     public void getConfigBundleFromFile(String filename) throws IOException {
-        ConfigBundle bundle = IOHandler.readConfigFromYaml(filename);
+        ConfigBundle bundle = IOHandler.readFromYaml(filename, ConfigBundle.class);
         if (bundle == null)
             listener.onPresetsFailure("could not load preset configurations!");
         else

@@ -7,8 +7,8 @@ import model.game_physics.hitbox.Hitbox;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_physics.path_patterns.PathPatternFactory;
-import utils.Coordinates;
-import utils.MathUtils;
+import services.utils.Coordinates;
+import services.utils.MathUtils;
 
 public class AtomFactory {
 

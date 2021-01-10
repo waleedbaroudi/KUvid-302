@@ -3,7 +3,7 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import utils.MathUtils;
+import services.utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 
@@ -27,7 +27,7 @@ public class CollisionHandler implements CollisionVisitor {
 
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
-        if (atom.getType().getValue() == molecule.getType().getValue()) {
+        if (atom.getEntityType().getValue() == molecule.getEntityType().getValue()) {
             controller.increaseScore(atom.getEfficiency());
             defaultCollision(atom, molecule);
         }
@@ -40,14 +40,14 @@ public class CollisionHandler implements CollisionVisitor {
         if (blocker.isExploded()){
             controller.removeEntity(atom);
         }else{
-             if (atom.getType().getValue() == blocker.getType().getValue())
+             if (atom.getEntityType().getValue() == blocker.getEntityType().getValue())
               controller.removeEntity(atom);
         }
     }
 
     @Override
     public void handleCollision(Powerup powerup, Blocker blocker) {
-        if ((blocker.getType().getValue() == powerup.getType().getValue()) && !powerup.isFalling())
+        if ((blocker.getEntityType().getValue() == powerup.getEntityType().getValue()) && !powerup.isFalling())
             defaultCollision(powerup, blocker);
     }
 

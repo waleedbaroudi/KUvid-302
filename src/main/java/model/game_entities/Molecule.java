@@ -1,5 +1,8 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.MoleculeStructure;
@@ -8,7 +11,7 @@ import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
 import model.game_running.Spinnable;
-import utils.Coordinates;
+import services.utils.Coordinates;
 
 /**
  * Molecule: Handles the Molecule game object.
@@ -17,11 +20,24 @@ public class Molecule extends AutonomousEntity implements Spinnable {
 
     private MoleculeStructure structure;
 
-    public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
+//    public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
+//        super(coordinates, hitbox, pathPattern, type);
+//        superType = SuperType.MOLECULE;
+//        this.structure = structure;
+//    }
+
+    public Molecule(@JsonProperty("coordinates")Coordinates coordinates,
+                   @JsonProperty("hitbox")Hitbox hitbox,
+                   @JsonProperty("pathPattern")PathPattern pathPattern,
+                   @JsonProperty("entityType")EntityType type,
+                   @JsonProperty("structure") MoleculeStructure structure) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.MOLECULE;
         this.structure = structure;
     }
+
+//    public Molecule() {
+//    }
 
     public void setStructure(MoleculeStructure structure) {
         this.structure = structure;
@@ -31,6 +47,7 @@ public class Molecule extends AutonomousEntity implements Spinnable {
         return structure;
     }
 
+    @JsonIgnore
     @Override
     public double getRotationDegree() {
         return this.getHitbox().getRotationDegree();
@@ -41,6 +58,7 @@ public class Molecule extends AutonomousEntity implements Spinnable {
         this.getHitbox().rotate(GameConstants.SPINNING_SPEED);
     }
 
+    @JsonIgnore
     public boolean isSpinnable() {
         return structure == MoleculeStructure.LINEAR_SPINNING;
     }
@@ -48,7 +66,7 @@ public class Molecule extends AutonomousEntity implements Spinnable {
     @Override
     public String toString() {
         return "Molecule{" +
-                "type=" + getType() +
+                "type=" + getEntityType() +
                 ", structure=" + structure +
                 '}';
     }
@@ -84,4 +102,8 @@ public class Molecule extends AutonomousEntity implements Spinnable {
         entity.collideWith(visitor, this);
     }
 
+    @Override
+    public void saveState(GameBundle.Builder builder) {
+        builder.addEntity(this);
+    }
 }

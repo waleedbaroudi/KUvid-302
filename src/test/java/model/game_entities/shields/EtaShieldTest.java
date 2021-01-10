@@ -1,13 +1,9 @@
 package model.game_entities.shields;
 
-import model.game_building.GameConstants;
 import model.game_entities.Atom;
 import model.game_entities.enums.EntityType;
 import model.game_entities.factories.AtomFactory;
 import org.junit.jupiter.api.Test;
-import utils.MathUtils;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class EtaShieldTest {
 

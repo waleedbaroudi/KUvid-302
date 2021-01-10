@@ -1,5 +1,6 @@
 package model.game_running;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
 import model.game_entities.Projectile;
@@ -10,7 +11,8 @@ import model.game_entities.shields.ShieldTuple;
 import model.game_entities.shields.ShieldedAtomFactory;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
-import utils.Coordinates;
+import org.apache.log4j.Logger;
+import services.utils.Coordinates;
 
 import java.util.*;
 
@@ -19,16 +21,20 @@ import java.util.*;
  * on demand.
  */
 public class ProjectileContainer {
+    private static Logger logger;
 
-    private final int[] atomMap;
-    private final int[] powerUpMap; // keeps the number of power-ups per type.
-    private final HashMap<Integer, ArrayList<ShieldTuple>> shieldsMap;
+    private int[] atomMap;
+    private int[] powerUpMap; // keeps the number of power-ups per type.
+    private HashMap<Integer, ArrayList<ShieldTuple>> shieldsMap;
     int totalAtomCount;
 
-    private final RunningMode runningMode;
+    private RunningMode runningMode;
     private Random random;
 
-    public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms, int numOfAlphaPowerUps, int numOfBetaPowerUps, int numOfSigmaPowerUps, int numOfGammaPowerUps) {
+    public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms) {
+        random = new Random();
+        logger = Logger.getLogger(this.getClass().getName());
+
         this.runningMode = runningMode;
 
         atomMap = new int[4];
@@ -39,19 +45,31 @@ public class ProjectileContainer {
 
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
-        powerUpMap = new int[4];
-        powerUpMap[0] = numOfAlphaPowerUps;
-        powerUpMap[1] = numOfBetaPowerUps;
-        powerUpMap[2] = numOfGammaPowerUps;
-        powerUpMap[3] = numOfSigmaPowerUps;
+        powerUpMap = new int[]{0, 0, 0, 0}; //the player starts with 0 power-ups
 
         shieldsMap = new HashMap<>();
         shieldsMap.put(0, new ArrayList<>());
         shieldsMap.put(1, new ArrayList<>());
         shieldsMap.put(2, new ArrayList<>());
         shieldsMap.put(3, new ArrayList<>());
-
         random = new Random();
+        logger = Logger.getLogger(this.getClass().getName());
+    }
+
+    public ProjectileContainer() {
+        shieldsMap = new HashMap<>();
+        shieldsMap.put(0, new ArrayList<>());
+        shieldsMap.put(1, new ArrayList<>());
+        shieldsMap.put(2, new ArrayList<>());
+        shieldsMap.put(3, new ArrayList<>());
+        random = new Random();
+        logger = Logger.getLogger(this.getClass().getName());
+    }
+
+    //  this setter is used in case the projectile container was created by loading a game session.
+    @JsonIgnore
+    public void setRunningMode(RunningMode runningMode) {
+        this.runningMode = runningMode;
     }
 
     /**
@@ -64,7 +82,7 @@ public class ProjectileContainer {
      */
     private Atom getAtom(Coordinates coordinates, int type) {
         if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1)) {
-            Atom atom = AtomFactory.getInstance().getAtom((EntityType.forValue(type + 1))); //TODO: FIX indices
+            Atom atom = AtomFactory.getInstance().getAtom((EntityType.forValue(type))); //TODO: FIX indices
             if (atom != null)
                 atom.setCoordinates(coordinates);
             return atom;
@@ -93,10 +111,10 @@ public class ProjectileContainer {
      * @return either a shielded atom or the atom itself
      */
     private Atom shieldAtom(Atom atom) {
-        EntityType type = atom.getType();
-        if (shieldedAtoms(type.getValue() - 1) > 0)
-            if (random.nextBoolean() || shieldedAtoms(type.getValue() - 1) == getAtomCountForType(type))
-                return ShieldedAtomFactory.applyShields(getShields(type.getValue() - 1), atom);
+        EntityType type = atom.getEntityType();
+        if (shieldedAtoms(type.getValue()) > 0)
+            if (random.nextBoolean() || shieldedAtoms(type.getValue()) == getAtomCountForType(type))
+                return ShieldedAtomFactory.applyShields(getShields(type.getValue()), atom);
         return atom;
     }
 
@@ -109,15 +127,15 @@ public class ProjectileContainer {
      * @return the desired power-up if there are remaining power-ups of that type. null otherwise.
      */
     public Powerup getPowerUp(Coordinates coordinates, EntityType type) { //todo: to be implemented
-        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue() - 1, -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
+        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue(), -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
             return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
                     PathPatternFactory.getInstance().getPowerUpPathPattern(),
-                    EntityType.forValue(type.getValue()), false); //TODO: FIX indices
+                    EntityType.forValue(type.getValue()), false);
         return null;
     }
 
     public void addPowerUp(Powerup powerup) {
-        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue() - 1, 1);
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getEntityType().getValue(), 1);
     }
 
     /**
@@ -128,7 +146,7 @@ public class ProjectileContainer {
      * @return returns whether the decrease was successful (player is not out of atoms)
      */
     public boolean decreaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, -count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type, -count);
     }
 
 
@@ -147,7 +165,7 @@ public class ProjectileContainer {
     private void addShields(Projectile atomProjectile) {
         Atom atom = (Atom) atomProjectile;
         if (atom.getShieldTuple().isNotZeros())
-            shieldsMap.get(atom.getType().getValue() - 1).add(atom.getShieldTuple());
+            shieldsMap.get(atom.getEntityType().getValue() - 1).add(atom.getShieldTuple());
     }
 
     /**
@@ -169,8 +187,11 @@ public class ProjectileContainer {
         map[type] = remaining + count;
         if (superType.equals(SuperType.ATOM))
             totalAtomCount += count;
-        if (runningMode != null)
-            runningMode.updateStatisticsProjectileCount(superType, EntityType.forValue(type + 1), map[type]);
+        if (runningMode != null) {
+            runningMode.updateStatisticsProjectileCount();
+        } else {
+            logger.warn("RunningMode instance is null");
+        }
         return true;
     }
 
@@ -178,8 +199,21 @@ public class ProjectileContainer {
         return this.atomMap;
     }
 
+    public int getTotalAtomCount() {
+        return totalAtomCount;
+    }
+
+    public int[] getPowerUpMap() {
+        return powerUpMap;
+    }
+
+
     public int getAtomCountForType(EntityType type) {
-        return atomMap[type.getValue() - 1]; //todo: fix index
+        return atomMap[type.getValue()];
+    }
+
+    public int getPowerUpCountForType(EntityType type) {
+        return powerUpMap[type.getValue()]; //todo: fix index
     }
 
     private ShieldTuple getShields(int type) {
@@ -200,5 +234,3 @@ public class ProjectileContainer {
                 '}';
     }
 }
-
-

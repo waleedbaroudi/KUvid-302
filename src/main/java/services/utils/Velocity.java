@@ -1,11 +1,13 @@
-package utils;
+package services.utils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Immutable representation for velocity
  */
 public class Velocity {
 
-    private final Vector velocityVector;
+    private Vector velocityVector;
 
     public Velocity(double xv, double yv) {
         this.velocityVector = new Vector(new Coordinates(xv, yv));
@@ -15,10 +17,14 @@ public class Velocity {
         this.velocityVector = velocityVector;
     }
 
+    public Velocity(){}
+
+    @JsonIgnore
     public double getXv() {
         return velocityVector.getX();
     }
 
+    @JsonIgnore
     public double getYv() {
         return velocityVector.getY();
     }

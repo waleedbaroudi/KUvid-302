@@ -8,8 +8,8 @@ import model.game_physics.path_patterns.PathPattern;
 import model.game_physics.path_patterns.StraightPattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.Coordinates;
-import utils.Velocity;
+import services.utils.Coordinates;
+import services.utils.Velocity;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,9 +1,15 @@
 package model.game_physics.hitbox;
 
-import utils.Coordinates;
-
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import services.utils.Coordinates;
 import java.util.ArrayList;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY, property = "type") @JsonSubTypes({
+        @JsonSubTypes.Type(value = RectangularHitbox.class, name = "rectangular-hitbox"),
+        @JsonSubTypes.Type(value = CircularHitbox.class, name = "circular-hitbox")
+})
 public abstract class Hitbox {
 
     protected double rotationDegree = 0;

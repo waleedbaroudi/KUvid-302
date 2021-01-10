@@ -7,7 +7,7 @@ public abstract class ShieldDecorator extends Atom {
     protected Atom atom;
 
     public ShieldDecorator(Atom atom) {
-        super(atom.getCoordinates(), atom.getHitbox(), atom.getPathPattern(), atom.getType(), atom.getStabilityConstant(), atom.getEfficiency(), atom.getNumberOfProtons(), atom.getNumberOfNeutrons());
+        super(atom.getCoordinates(), atom.getHitbox(), atom.getPathPattern(), atom.getEntityType(), atom.getSpeedPercentage(), atom.getEfficiency(), atom.getNumberOfProtons(), atom.getNumberOfNeutrons());
         this.atom = atom;
         setShieldTuple(atom.getShieldTuple());
     }
@@ -23,6 +23,6 @@ public abstract class ShieldDecorator extends Atom {
         //EFFECTS: the speed of the original atom/shielded atom will be reduced by a percentage depending on the
         //type of the shield
 
-        return super.getSpeedPercentage() * getAtomSpeedPercentage();
+        return super.getSpeedPercentage() * getSpeedPercentage();
     }
 }
