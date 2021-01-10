@@ -3,6 +3,7 @@ package model.game_entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.GameBundle;
+import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
@@ -17,11 +18,6 @@ import services.utils.Coordinates;
 public class Powerup extends Projectile {
     private boolean falling; // This variable indicates whether the powerup is falling or being shot.
 
-//    public Powerup(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, boolean falling) {
-//        super(coordinates, hitbox, pathPattern, type);
-//        superType = SuperType.POWERUP;
-//        this.falling = falling;
-//    }
 
     public Powerup(@JsonProperty("coordinates")Coordinates coordinates,
                 @JsonProperty("hitbox")Hitbox hitbox,
@@ -80,6 +76,9 @@ public class Powerup extends Projectile {
     public String toString() {
         return "Powerup{" +
                 "type=" + getEntityType() +
-                '}';
+                '}';}
+    
+    public double getSpeedPercentage() {
+        return GameConstants.DEFAULT_POWERUP_SPEED_PERCENTAGE;
     }
 }

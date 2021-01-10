@@ -2,6 +2,8 @@ package services.utils;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -197,6 +199,27 @@ class MathUtilsTest {
 
         assertTrue(Math.abs(MathUtils.distanceBetween(firstPoint,secondPoint) - 4) <= epsilon);
 
+    }
+
+    @Test
+    void chooseFrom() {
+        int[] array = {1, 3, 5, 7, 9};
+
+        int randomElement = MathUtils.chooseFrom(array);
+        int randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+        randomElement = MathUtils.chooseFrom(array);
+        randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+        randomElement = MathUtils.chooseFrom(array);
+        randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
+
+        randomElement = MathUtils.chooseFrom(array);
+        randomElementIndex = Arrays.binarySearch(array, randomElement);
+        assertEquals(randomElement, array[randomElementIndex]);
 
     }
 }

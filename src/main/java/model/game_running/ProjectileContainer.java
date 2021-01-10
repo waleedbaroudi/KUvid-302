@@ -3,15 +3,18 @@ package model.game_running;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
 import model.game_entities.Powerup;
+import model.game_entities.Projectile;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
+import model.game_entities.factories.AtomFactory;
+import model.game_entities.shields.ShieldTuple;
+import model.game_entities.shields.ShieldedAtomFactory;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import org.apache.log4j.Logger;
 import services.utils.Coordinates;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  * this class will keep information about the current amount of projectiles remaining as well as provide a projectile
@@ -22,11 +25,11 @@ public class ProjectileContainer {
 
     private int[] atomMap;
     private int[] powerUpMap; // keeps the number of power-ups per type.
+    private HashMap<Integer, ArrayList<ShieldTuple>> shieldsMap;
     int totalAtomCount;
 
     private RunningMode runningMode;
-
-    Random random;
+    private Random random;
 
     public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms) {
         random = new Random();
@@ -42,9 +45,22 @@ public class ProjectileContainer {
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
         powerUpMap = new int[]{0, 0, 0, 0}; //the player starts with 0 power-ups
+
+        shieldsMap = new HashMap<>();
+        shieldsMap.put(0, new ArrayList<>());
+        shieldsMap.put(1, new ArrayList<>());
+        shieldsMap.put(2, new ArrayList<>());
+        shieldsMap.put(3, new ArrayList<>());
+        random = new Random();
+        logger = Logger.getLogger(this.getClass().getName());
     }
 
     public ProjectileContainer() {
+        shieldsMap = new HashMap<>();
+        shieldsMap.put(0, new ArrayList<>());
+        shieldsMap.put(1, new ArrayList<>());
+        shieldsMap.put(2, new ArrayList<>());
+        shieldsMap.put(3, new ArrayList<>());
         random = new Random();
         logger = Logger.getLogger(this.getClass().getName());
     }
@@ -64,10 +80,12 @@ public class ProjectileContainer {
      * @return the desired atom if there are remaining atoms of that type. null otherwise.
      */
     private Atom getAtom(Coordinates coordinates, int type) {
-        if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1))
-            return new Atom(coordinates, HitboxFactory.getInstance().getAtomHitbox(),
-                    PathPatternFactory.getInstance().getAtomPathPattern(),
-                    EntityType.forValue(type));
+        if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1)) {
+            Atom atom = AtomFactory.getInstance().getAtom((EntityType.forValue(type))); //TODO: FIX indices
+            if (atom != null)
+                atom.setCoordinates(coordinates);
+            return atom;
+        }
         return null;
     }
 
@@ -80,6 +98,22 @@ public class ProjectileContainer {
             atomType = random.nextInt(4);
             atom = getAtom(coordinates, atomType);
         }
+        atom = shieldAtom(atom);
+        return atom;
+    }
+
+    /**
+     * return either a shielded atom from the shields available, or the atom itself depending on
+     * the number of shields of a type and a random boolean
+     *
+     * @param atom the atom to be shielded
+     * @return either a shielded atom or the atom itself
+     */
+    private Atom shieldAtom(Atom atom) {
+        EntityType type = atom.getEntityType();
+        if (shieldedAtoms(type.getValue()) > 0)
+            if (random.nextBoolean() || shieldedAtoms(type.getValue()) == getAtomCountForType(type))
+                return ShieldedAtomFactory.applyShields(getShields(type.getValue()), atom);
         return atom;
     }
 
@@ -100,7 +134,7 @@ public class ProjectileContainer {
     }
 
     public void addPowerUp(Powerup powerup) {
-        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getType().getValue(), 1);
+        updateProjectileMap(powerUpMap, SuperType.POWERUP, powerup.getEntityType().getValue(), 1);
     }
 
     /**
@@ -122,8 +156,15 @@ public class ProjectileContainer {
      * @param count the amount of increase
      * @return returns whether the decrease was successful (purpose TBD)
      */
-    public boolean increaseAtoms(int type, int count) { //todo: make this method take an enum type instead of an int
-        return updateProjectileMap(atomMap, SuperType.ATOM, type, count);
+    public boolean increaseAtoms(int type, int count, Projectile atom) { //todo: make this method take an enum type instead of an int
+        addShields(atom);
+        return updateProjectileMap(atomMap, SuperType.ATOM, type - 1, count); //todo: fix index
+    }
+
+    private void addShields(Projectile atomProjectile) {
+        Atom atom = (Atom) atomProjectile;
+        if (atom.getShieldTuple().isNotZeros())
+            shieldsMap.get(atom.getEntityType().getValue() - 1).add(atom.getShieldTuple());
     }
 
     /**
@@ -171,7 +212,19 @@ public class ProjectileContainer {
     }
 
     public int getPowerUpCountForType(EntityType type) {
-        return powerUpMap[type.getValue() - 1]; //todo: fix index
+        return powerUpMap[type.getValue()]; //todo: fix index
+    }
+
+    private ShieldTuple getShields(int type) {
+        ArrayList<ShieldTuple> shieldLst = shieldsMap.get(type);
+        if (shieldLst.size() > 0)
+            return shieldsMap.get(type).get(random.nextInt(shieldLst.size()));
+        return new ShieldTuple();
+    }
+
+    private int shieldedAtoms(int type) {
+        System.out.println(type);
+        return shieldsMap.get(type).size();
     }
 
     @Override
@@ -181,3 +234,5 @@ public class ProjectileContainer {
                 '}';
     }
 }
+
+

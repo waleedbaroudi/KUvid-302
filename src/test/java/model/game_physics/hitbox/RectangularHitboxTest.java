@@ -18,6 +18,7 @@ class RectangularHitboxTest {
         assertFalse(rectHitbox.isInside(ownerCoordinates, new Coordinates(1,3)));
 
         rectHitbox.rotate(90);
+        assertFalse(rectHitbox.isInside(ownerCoordinates, new Coordinates(4,0)));
         assertTrue(rectHitbox.isInside(ownerCoordinates, new Coordinates(1,3)));
         assertFalse(rectHitbox.isInside(ownerCoordinates, new Coordinates(0,0)));
         assertTrue(rectHitbox.isInside(ownerCoordinates, new Coordinates(3,1)));

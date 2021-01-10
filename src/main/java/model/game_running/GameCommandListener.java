@@ -9,8 +9,7 @@ import java.util.TimerTask;
 
 public class GameCommandListener implements KeyListener {
     private boolean canShoot = true;
-    private final int DEFAULT_SHOOTER_DELAY = 500;
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
     private final RunningMode runningMode;
 
     public GameCommandListener(RunningMode runningMode) {
@@ -31,7 +30,7 @@ public class GameCommandListener implements KeyListener {
                 runningMode.getBlender().showBlender();
                 break;
             case KeyEvent.VK_C:
-//                switchAtom
+                runningMode.switchAtom();
                 break;
             case KeyEvent.VK_UP:
                 if (canShoot) { // TODO: Change implementation later.
@@ -42,7 +41,7 @@ public class GameCommandListener implements KeyListener {
                         public void run() {
                             canShoot = true;
                         }
-                    }, DEFAULT_SHOOTER_DELAY);
+                    }, GameConstants.DEFAULT_SHOOTER_DELAY);
                 }
                 break;
             case KeyEvent.VK_LEFT:

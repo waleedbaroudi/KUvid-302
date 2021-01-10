@@ -7,7 +7,6 @@ import model.game_running.CollisionVisitor;
 import model.game_running.RunningMode;
 import services.utils.Coordinates;
 import services.utils.Vector;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,31 +42,41 @@ public class CollisionRunnable extends GameRunnable {
                     for (AutonomousEntity targetEntity : runningMode.getAutonomousEntities()) {
                         if (sourceEntity == targetEntity) //don't collision check an entity with itself
                             continue;
-                        if (sourceEntity.isCollidedWith(targetEntity)) {
-                            /*TODO: THIS REMOVES ANY TWO COLLIDING OBJECTS.
-                                handle collision of atoms with blockers and increasing score when
-                                collecting molecules.
-                             */
+                        if (sourceEntity.isCollidedWith(targetEntity))
                             sourceEntity.acceptCollision(collisionHandler, targetEntity);
-                        }
                     }
                     // check if the entity left the game view from the top or bottom boarder
                     if (sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height) {
+                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height)
                         sourceEntity.reachBoundary(this);
-                    }
 
                     ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
                     for (Coordinates coord : coords) {
                         if (coord.getX() > config.getGamePanelDimensions().width) {
-                            sourceEntity.getPathPattern().reflect(
-                                    new Vector(new Coordinates(1, 0)));
+                            sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
+                            System.err.println(sourceEntity.getHitbox().getRotationDegree());
+
+                            //TODO : For moayad
+                            /*
+                            Vector tmpVector = new Vector(
+                                    Math.cos(Math.toRadians(sourceEntity.getHitbox().getRotationDegree())),
+                                    Math.sin(Math.toRadians(sourceEntity.getHitbox().getRotationDegree())));
+                            System.err.println(tmpVector);
+
+                            Vector areaVector = new Vector(new Coordinates(1, 0));
+                            System.err.println(areaVector);
+
+                            Vector rotatedV = areaVector.scale(areaVector.dot(tmpVector) * 2).subtract(tmpVector).reverse();
+                            System.err.println(rotatedV);
+
+                            sourceEntity.getHitbox().rotate(Math.toDegrees(Math.tanh(rotatedV.getY() / rotatedV.getX())));
+                            System.err.println(Math.toDegrees(Math.tanh(rotatedV.getY() / rotatedV.getX())));
+                            */
                             sourceEntity.move();
                             GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
                         }
                         if (coord.getX() < 0) {
-                            sourceEntity.getPathPattern().reflect(
-                                    new Vector(new Coordinates(-1, 0)));
+                            sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
                             sourceEntity.move();
                             GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
                         }
@@ -91,7 +100,7 @@ public class CollisionRunnable extends GameRunnable {
             if (blocker.isCollidedWithExplodingHitbox(entity))
                 blocker.acceptCollision(collisionHandler, entity);
         }
-        if(blocker.isExploded())
+        if (blocker.isExploded())
             runningMode.removeEntity(blocker);
     }
 }

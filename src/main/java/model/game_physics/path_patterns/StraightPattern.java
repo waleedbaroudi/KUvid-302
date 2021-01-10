@@ -42,4 +42,9 @@ public class StraightPattern extends PathPattern{
         this.initialVelocity = initialVelocity.reflect(n);
         PathPattern.logger.debug("[StraightPattern] pattern reflected");
     }
+
+    @Override
+    public void setVelocity(double velocity) {
+        initialVelocity = new Velocity(initialVelocity.getXv() * velocity, initialVelocity.getYv() * velocity);
+    }
 }

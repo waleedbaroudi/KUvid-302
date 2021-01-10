@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 import services.utils.Vector;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 @JsonTypeName("rectangular-hitbox")
@@ -33,7 +35,9 @@ public class RectangularHitbox extends Hitbox {
     public ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords) {
         Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth()/2, entityCoords.getY() + getHeight()/2);
         Vector cornerVector = new Vector(entityCoords, cornerCoords);
-        return MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
+        ArrayList<Coordinates> pts = MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
+        // apply rotation to all coordinates
+        return new ArrayList<>(pts.stream().map(c -> c.rotate(entityCoords, getRotationDegree())).collect(Collectors.toList()));
     }
 
     @Override
