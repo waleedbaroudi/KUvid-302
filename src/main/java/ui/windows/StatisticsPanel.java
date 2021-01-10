@@ -23,67 +23,188 @@ import java.awt.event.MouseEvent;
 public class StatisticsPanel extends JPanel implements GameStatistics.GameStatisticsListener {
 
     private final RunningMode runningMode;
+    private final Configuration config;
 
-    //Icons
-    private Image atomAlphaImg, atomBetaImg, atomSigmaImg, atomGammaImg;
-    private Image healthImg, watchImg, blenderImg, blenderImg_bg;
+    //icons
+    private JLabel healthLabel, timeLabel, SCORE, scoreLabel, blenderButton;
+    private ImageIcon healthImg, watchImg, blenderImg, blenderImg_bg;
+
+    //atoms
+    private JLabel gammaAtomsNumberLabel, alphaAtomsNumberLabel, betaAtomsNumberLabel, sigmaAtomsNumberLabel;
+    private ImageIcon atomAlphaImg, atomBetaImg, atomSigmaImg, atomGammaImg;
 
     //powerups
-    private Image powerupAlphaImg, powerupBetaImg, powerupSigmaImg, powerupGammaImg;
-    private Image powerupAlphaImg_bg, powerupBetaImg_bg, powerupSigmaImg_bg, powerupGammaImg_bg;
+    private JLabel gammaPowerupsNumberLabel, alphaPowerupsNumberLabel, betaPowerupsNumberLabel, sigmaPowerupsNumberLabel;
+    private JLabel alphaPowerupButton, betaPowerupButton, gammaPowerupButton, sigmaPowerupButton;
+    private ImageIcon powerupAlphaImg_bg, powerupBetaImg_bg, powerupSigmaImg_bg, powerupGammaImg_bg;
+    private ImageIcon powerupAlphaImg, powerupBetaImg, powerupSigmaImg, powerupGammaImg;
 
     //shields
-    private Image etaImg, lotaImg, thetaImg, zetaImg;
-    private Image etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
-    private JLabel etaButton, lotaButton, thetaButton, zetaButton;
     private JLabel etaNumberLabel, lotaNumberLabel, thetaNumberLabel, zetaNumberLabel;
-
-    //Atoms
-
-
-    // JLabels
-    private JLabel gammaAtomsNumberLabel, alphaAtomsNumberLabel, betaAtomsNumberLabel, sigmaAtomsNumberLabel;
-    private JLabel gammaPowerupsNumberLabel, alphaPowerupsNumberLabel, betaPowerupsNumberLabel, sigmaPowerupsNumberLabel;
-    private JLabel healthLabel, timeLabel, SCORE, scoreLabel;
-
-    // JButtons
-    private JLabel blenderButton, alphaPowerupButton, betaPowerupButton, gammaPowerupButton, sigmaPowerupButton;
+    private JLabel etaButton, lotaButton, thetaButton, zetaButton;
+    private ImageIcon etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
+    private ImageIcon etaImg, lotaImg, thetaImg, zetaImg;
 
     //iconSize
-    int iconSize = (int) (Configuration.getInstance().getUnitL() * GameConstants.ICON_SIZE);
+    private final int iconSize;
 
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
-
+        this.config = Configuration.getInstance();
+        this.iconSize = (int) (config.getUnitL() * GameConstants.ICON_SIZE);
         //Controller
+        GameStatistics gameStatistics = new GameStatistics(this);
         this.runningMode = runningMode;
+        runningMode.setStatisticsController(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
         setOpaque(false);
 
         retrieveImages();
         initializeTextLabels();
-        setContent();
+        initializeButtons();
+        if (config.isDiscoTheme())
+            setDiscoThemeContent();
+        else
+            setPepegaThemeContent();
+        setButtonListeners();
+
     }
 
     /**
-     * Add images and numbers to the window
+     * retrieves images from ImageResources with the specified height and width
      */
-    private void setContent() {
+    private void retrieveImages() {
+        atomAlphaImg = ImageResources.getStatIcon(SuperType.ATOM + "", EntityType.ALPHA + "", iconSize, false);
+        atomBetaImg = ImageResources.getStatIcon(SuperType.ATOM + "", EntityType.BETA + "", iconSize, false);
+        atomSigmaImg = ImageResources.getStatIcon(SuperType.ATOM + "", EntityType.SIGMA + "", iconSize, false);
+        atomGammaImg = ImageResources.getStatIcon(SuperType.ATOM + "", EntityType.GAMMA + "", iconSize, false);
+
+        powerupAlphaImg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.ALPHA + "", iconSize, false);
+        powerupBetaImg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.BETA + "", iconSize, false);
+        powerupSigmaImg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.SIGMA + "", iconSize, false);
+        powerupGammaImg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.GAMMA + "", iconSize, false);
+
+        powerupAlphaImg_bg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.ALPHA + "", iconSize, true);
+        powerupBetaImg_bg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.BETA + "", iconSize, true);
+        powerupSigmaImg_bg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.SIGMA + "", iconSize, true);
+        powerupGammaImg_bg = ImageResources.getStatIcon(SuperType.POWERUP + "", EntityType.GAMMA + "", iconSize, true);
+
+        healthImg = ImageResources.getStatIcon("icons", "health", iconSize / 3 * 2, false);
+        watchImg = ImageResources.getStatIcon("icons", "timer", iconSize / 3 * 2, false);
+        blenderImg = ImageResources.getStatIcon("icons", "blender", iconSize * 2, false);
+        blenderImg_bg = ImageResources.getStatIcon("icons", "blender", iconSize * 2, true);
+
+        etaImg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.ETA + "", iconSize, false);
+        lotaImg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.LOTA + "", iconSize, false);
+        thetaImg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.THETA + "", iconSize, false);
+        zetaImg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.ZETA + "", iconSize, false);
+
+        etaImg_bg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.ETA + "", iconSize, true);
+        lotaImg_bg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.LOTA + "", iconSize, true);
+        thetaImg_bg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.THETA + "", iconSize, true);
+        zetaImg_bg = ImageResources.getStatIcon(SuperType.SHIELD + "", ShieldType.ZETA + "", iconSize, true);
+    }
+
+    /**
+     * initializes TextField that correspond to number of atoms/powerups, score, health, and time
+     */
+    private void initializeTextLabels() {
+        ProjectileContainer container = this.runningMode.getProjectileContainer();
+        int fontSize = (int) (iconSize * 0.6);
+        int smallFontSize = (int) (iconSize * 0.35);
+        Font normalFont = new Font(Font.SANS_SERIF, Font.BOLD, fontSize);
+        Font smallFont = new Font(Font.SANS_SERIF, Font.BOLD, smallFontSize);
+
+        alphaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
+        alphaAtomsNumberLabel.setForeground(Color.DARK_GRAY);
+        alphaAtomsNumberLabel.setFont(normalFont);
+        betaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
+        betaAtomsNumberLabel.setForeground(Color.DARK_GRAY);
+        betaAtomsNumberLabel.setFont(normalFont);
+        gammaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
+        gammaAtomsNumberLabel.setForeground(Color.DARK_GRAY);
+        gammaAtomsNumberLabel.setFont(normalFont);
+        sigmaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
+        sigmaAtomsNumberLabel.setForeground(Color.DARK_GRAY);
+        sigmaAtomsNumberLabel.setFont(normalFont);
+
+        gammaPowerupsNumberLabel = new JLabel("0");
+        gammaPowerupsNumberLabel.setForeground(Color.white);
+        gammaPowerupsNumberLabel.setFont(normalFont);
+        alphaPowerupsNumberLabel = new JLabel("0");
+        alphaPowerupsNumberLabel.setForeground(Color.white);
+        alphaPowerupsNumberLabel.setFont(normalFont);
+        betaPowerupsNumberLabel = new JLabel("0");
+        betaPowerupsNumberLabel.setForeground(Color.white);
+        betaPowerupsNumberLabel.setFont(normalFont);
+        sigmaPowerupsNumberLabel = new JLabel("0");
+        sigmaPowerupsNumberLabel.setForeground(Color.white);
+        sigmaPowerupsNumberLabel.setFont(normalFont);
+
+        etaNumberLabel = new JLabel("" + config.getNumOfEtaShields());
+        etaNumberLabel.setForeground(Color.black);
+        etaNumberLabel.setOpaque(true);
+        etaNumberLabel.setBackground(Color.lightGray);
+        etaNumberLabel.setFont(smallFont);
+        lotaNumberLabel = new JLabel("" + config.getNumOfLotaShields());
+        lotaNumberLabel.setForeground(Color.black);
+        lotaNumberLabel.setOpaque(true);
+        lotaNumberLabel.setBackground(Color.lightGray);
+        lotaNumberLabel.setFont(smallFont);
+        thetaNumberLabel = new JLabel("" + config.getNumOfThetaShields());
+        thetaNumberLabel.setForeground(Color.black);
+        thetaNumberLabel.setOpaque(true);
+        thetaNumberLabel.setBackground(Color.lightGray);
+        thetaNumberLabel.setFont(smallFont);
+        zetaNumberLabel = new JLabel("" + config.getNumOfZetaShields());
+        zetaNumberLabel.setForeground(Color.black);
+        zetaNumberLabel.setOpaque(true);
+        zetaNumberLabel.setBackground(Color.lightGray);
+        zetaNumberLabel.setFont(smallFont);
+
+        healthLabel = new JLabel("100%");
+        healthLabel.setForeground(Color.red);
+        healthLabel.setFont(normalFont);
+        timeLabel = new JLabel("10 : 00");
+        timeLabel.setForeground(Color.white);
+        timeLabel.setFont(normalFont);
+        SCORE = new JLabel("Score: ");
+        SCORE.setForeground(Color.white);
+        SCORE.setFont(normalFont);
+        scoreLabel = new JLabel("0.0");
+        scoreLabel.setForeground(Color.white);
+        scoreLabel.setFont(normalFont);
+    }
+
+    private void initializeButtons() {
+        blenderButton = new JLabel(blenderImg);
+        alphaPowerupButton = new JLabel(powerupAlphaImg);
+        betaPowerupButton = new JLabel(powerupBetaImg);
+        gammaPowerupButton = new JLabel(powerupGammaImg);
+        sigmaPowerupButton = new JLabel(powerupSigmaImg);
+
+        etaButton = new JLabel(etaImg);
+        lotaButton = new JLabel(lotaImg);
+        thetaButton = new JLabel(thetaImg);
+        zetaButton = new JLabel(zetaImg);
+    }
+
+    private void setPepegaThemeContent() {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         // Defining our buttons
-        blenderButton = new JLabel(new ImageIcon(blenderImg));
-        alphaPowerupButton = new JLabel(new ImageIcon(powerupAlphaImg));
-        betaPowerupButton = new JLabel(new ImageIcon(powerupBetaImg));
-        gammaPowerupButton = new JLabel(new ImageIcon(powerupGammaImg));
-        sigmaPowerupButton = new JLabel(new ImageIcon(powerupSigmaImg));
+        blenderButton = new JLabel(blenderImg);
+        alphaPowerupButton = new JLabel(powerupAlphaImg);
+        betaPowerupButton = new JLabel(powerupBetaImg);
+        gammaPowerupButton = new JLabel(powerupGammaImg);
+        sigmaPowerupButton = new JLabel(powerupSigmaImg);
 
-        etaButton = new JLabel(new ImageIcon(etaImg));
-        lotaButton = new JLabel(new ImageIcon(lotaImg));
-        thetaButton = new JLabel(new ImageIcon(thetaImg));
-        zetaButton = new JLabel(new ImageIcon(zetaImg));
+        etaButton = new JLabel(etaImg);
+        lotaButton = new JLabel(lotaImg);
+        thetaButton = new JLabel(thetaImg);
+        zetaButton = new JLabel(zetaImg);
 
 
         gridBagConstraints.gridwidth = 2;
@@ -95,9 +216,9 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridy = 0;
         add(SCORE, gridBagConstraints);
         gridBagConstraints.gridy = 1;
-        add(new JLabel(new ImageIcon(watchImg)), gridBagConstraints);
+        add(new JLabel(watchImg), gridBagConstraints);
         gridBagConstraints.gridy = 2;
-        add(new JLabel(new ImageIcon(healthImg)), gridBagConstraints);
+        add(new JLabel(healthImg), gridBagConstraints);
         gridBagConstraints.gridy = 3;
         add(alphaPowerupButton, gridBagConstraints);
         gridBagConstraints.gridy = 4;
@@ -146,13 +267,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         //x = 1
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
-        add(new JLabel(new ImageIcon(atomAlphaImg)), gridBagConstraints);
+        add(new JLabel(atomAlphaImg), gridBagConstraints);
         gridBagConstraints.gridy = 9;
-        add(new JLabel(new ImageIcon(atomBetaImg)), gridBagConstraints);
+        add(new JLabel(atomBetaImg), gridBagConstraints);
         gridBagConstraints.gridy = 10;
-        add(new JLabel(new ImageIcon(atomGammaImg)), gridBagConstraints);
+        add(new JLabel(atomGammaImg), gridBagConstraints);
         gridBagConstraints.gridy = 11;
-        add(new JLabel(new ImageIcon(atomSigmaImg)), gridBagConstraints);
+        add(new JLabel(atomSigmaImg), gridBagConstraints);
 
         //x = 2
         gridBagConstraints.gridx = 2;
@@ -181,67 +302,137 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     /**
-     * initializes TextField that correspond to number of atoms/powerups, score, health, and time
+     * Add images and numbers to the window
      */
-    private void initializeTextLabels() {
-        ProjectileContainer container = this.runningMode.getProjectileContainer();
-        alphaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.ALPHA)));
-        betaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.BETA)));
-        gammaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.GAMMA)));
-        sigmaAtomsNumberLabel = new JLabel(String.valueOf(container.getAtomCountForType(EntityType.SIGMA)));
+    private void setDiscoThemeContent() {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        double fiveUnits = (1.0 / 9.0) * iconSize;
 
-        gammaPowerupsNumberLabel = new JLabel("0");
-        alphaPowerupsNumberLabel = new JLabel("0");
-        betaPowerupsNumberLabel = new JLabel("0");
-        sigmaPowerupsNumberLabel = new JLabel("0");
+        gridBagConstraints.insets = new Insets((int) (7 * fiveUnits), 0, 0, 0);
+        gridBagConstraints.weightx = 1;
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.gridwidth = 1;
 
-        etaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfEtaShields());
-        lotaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfLotaShields());
-        thetaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfThetaShields());
-        zetaNumberLabel = new JLabel("" + Configuration.getInstance().getNumOfZetaShields());
+        //score
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.weighty = 0;
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        add(SCORE, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        add(scoreLabel, gridBagConstraints);
 
-        healthLabel = new JLabel("100");
-        timeLabel = new JLabel("10 : 00");
-        SCORE = new JLabel("Score: ");
-        scoreLabel = new JLabel("0.0");
-    }
+        //health and time
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.insets = new Insets((int) (2 * fiveUnits), 0, 0, 0);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        add(new JLabel(healthImg), gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        add(healthLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        add(new JLabel(watchImg), gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        gridBagConstraints.insets = new Insets((int) (2 * fiveUnits), 0, 0, (int) (2 * fiveUnits));
+        add(timeLabel, gridBagConstraints);
 
-    /**
-     * retrieves images from ImageResources with the specified height and width
-     */
-    private void retrieveImages() {
-        atomAlphaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.ALPHA.toString(), iconSize, iconSize, false);
-        atomBetaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.BETA.toString(), iconSize, iconSize, false);
-        atomSigmaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.SIGMA.toString(), iconSize, iconSize, false);
-        atomGammaImg = ImageResources.getEntityIcon(SuperType.ATOM.toString(), EntityType.GAMMA.toString(), iconSize, iconSize, false);
+        //powerups
+        gridBagConstraints.insets = new Insets((int) (14 * fiveUnits), (int) (10 * fiveUnits), 0, 0);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        add(alphaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.insets = new Insets((int) (14 * fiveUnits), 0, 0, 0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        add(alphaPowerupButton, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        add(sigmaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        add(sigmaPowerupButton, gridBagConstraints);
 
-        powerupAlphaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.ALPHA.toString(), iconSize, iconSize, false);
-        powerupBetaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.BETA.toString(), iconSize, iconSize, false);
-        powerupSigmaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.SIGMA.toString(), iconSize, iconSize, false);
-        powerupGammaImg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.GAMMA.toString(), iconSize, iconSize, false);
+        gridBagConstraints.insets = new Insets((int) (4 * fiveUnits), (int) (10 * fiveUnits), 0, 0);
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        add(betaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.insets = new Insets((int) (4 * fiveUnits), 0, 0, 0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        add(betaPowerupButton, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        add(gammaPowerupsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        add(gammaPowerupButton, gridBagConstraints);
 
-        powerupAlphaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.ALPHA.toString(), iconSize, iconSize, true);
-        powerupBetaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.BETA.toString(), iconSize, iconSize, true);
-        powerupSigmaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.SIGMA.toString(), iconSize, iconSize, true);
-        powerupGammaImg_bg = ImageResources.getEntityIcon(SuperType.POWERUP.toString(), EntityType.GAMMA.toString(), iconSize, iconSize, true);
+        //blender
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        gridBagConstraints.weightx = 1;
+        gridBagConstraints.insets = new Insets((int) (16 * fiveUnits), (int) (12 * fiveUnits), (int) (2 * fiveUnits), 0);
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridwidth = 4;
+        add(blenderButton, gridBagConstraints);
 
-        healthImg = ImageResources.getEntityIcon("icons", "health", iconSize, iconSize, false);
-        watchImg = ImageResources.getEntityIcon("icons", "timer", iconSize, iconSize, false);
-        blenderImg = ImageResources.getEntityIcon("icons", "blender", iconSize, iconSize, false);
-        blenderImg_bg = ImageResources.getEntityIcon("icons", "blender", iconSize, iconSize, true);
+        //atom labels and shields buttons
+        int leftMargin = (int) (3 * fiveUnits);
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.insets = new Insets((int) (6 * fiveUnits), leftMargin, 0, 0);
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 1;
+        add(alphaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        add(etaButton, gridBagConstraints);
 
-        etaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ETA.toString(), iconSize, iconSize, false);
-        lotaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.LOTA.toString(), iconSize, iconSize, false);
-        thetaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.THETA.toString(), iconSize, iconSize, false);
-        zetaImg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ZETA.toString(), iconSize, iconSize, false);
+        gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridx = 1;
+        add(betaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        add(lotaButton, gridBagConstraints);
 
-        etaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ETA.toString(), iconSize, iconSize, true);
-        lotaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.LOTA.toString(), iconSize, iconSize, true);
-        thetaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.THETA.toString(), iconSize, iconSize, true);
-        zetaImg_bg = ImageResources.getEntityIcon(SuperType.SHIELD.toString(), ShieldType.ZETA.toString(), iconSize, iconSize, true);
+        gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridx = 1;
+        add(gammaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        add(thetaButton, gridBagConstraints);
+
+        gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridx = 1;
+        add(sigmaAtomsNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        add(zetaButton, gridBagConstraints);
+
+        //shields labels
+        gridBagConstraints.insets = new Insets((int) (0.8 * fiveUnits), leftMargin, 0, 0);
+        gridBagConstraints.weighty = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 3;
+        add(etaNumberLabel, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
+        gridBagConstraints.gridy = 8;
+        add(lotaNumberLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        add(thetaNumberLabel, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(0, leftMargin, (int) (4 * fiveUnits), 0);
+        gridBagConstraints.gridy = 12;
+        add(zetaNumberLabel, gridBagConstraints);
     }
 
     private void setButtonListeners() {
+        //blender listener
         MouseAdapter blenderAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -249,18 +440,22 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
                 runningMode.getBlender().showBlender();
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                blenderButton.setIcon(new ImageIcon(blenderImg_bg));
+                blenderButton.setIcon(blenderImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                blenderButton.setIcon(new ImageIcon(blenderImg));
+                blenderButton.setIcon(blenderImg);
             }
         };
+        blenderButton.addMouseListener(blenderAdapter);
+
+        //powerups listeners
         MouseAdapter alphaPowerupAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -268,16 +463,17 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.getShooter().setPowerup(EntityType.ALPHA);
 
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                alphaPowerupButton.setIcon(new ImageIcon(powerupAlphaImg_bg));
+                alphaPowerupButton.setIcon(powerupAlphaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                alphaPowerupButton.setIcon(new ImageIcon(powerupAlphaImg));
+                alphaPowerupButton.setIcon(powerupAlphaImg);
             }
         };
         MouseAdapter betaPowerupAdapter = new MouseAdapter() {
@@ -286,16 +482,17 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.BETA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                betaPowerupButton.setIcon(new ImageIcon(powerupBetaImg_bg));
+                betaPowerupButton.setIcon(powerupBetaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                betaPowerupButton.setIcon(new ImageIcon(powerupBetaImg));
+                betaPowerupButton.setIcon(powerupBetaImg);
             }
         };
         MouseAdapter sigmaPowerupAdapter = new MouseAdapter() {
@@ -304,16 +501,17 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.SIGMA);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                sigmaPowerupButton.setIcon(new ImageIcon(powerupSigmaImg_bg));
+                sigmaPowerupButton.setIcon(powerupSigmaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                sigmaPowerupButton.setIcon(new ImageIcon(powerupSigmaImg));
+                sigmaPowerupButton.setIcon(powerupSigmaImg);
             }
         };
         MouseAdapter gammaPowerupAdapter = new MouseAdapter() {
@@ -326,17 +524,21 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                gammaPowerupButton.setIcon(new ImageIcon(powerupGammaImg_bg));
+                gammaPowerupButton.setIcon(powerupGammaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                gammaPowerupButton.setIcon(new ImageIcon(powerupGammaImg));
+                gammaPowerupButton.setIcon(powerupGammaImg);
             }
         };
+        alphaPowerupButton.addMouseListener(alphaPowerupAdapter);
+        betaPowerupButton.addMouseListener(betaPowerupAdapter);
+        sigmaPowerupButton.addMouseListener(sigmaPowerupAdapter);
+        gammaPowerupButton.addMouseListener(gammaPowerupAdapter);
 
-
+        //shields listeners
         MouseAdapter etaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -347,16 +549,15 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                etaButton.setIcon(new ImageIcon(etaImg_bg));
+                etaButton.setIcon(etaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                etaButton.setIcon(new ImageIcon(etaImg));
+                etaButton.setIcon(etaImg);
             }
         };
-
         MouseAdapter lotaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -367,13 +568,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                lotaButton.setIcon(new ImageIcon(lotaImg_bg));
+                lotaButton.setIcon(lotaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                lotaButton.setIcon(new ImageIcon(lotaImg));
+                lotaButton.setIcon(lotaImg);
             }
         };
         MouseAdapter thetaAdapter = new MouseAdapter() {
@@ -386,13 +587,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                thetaButton.setIcon(new ImageIcon(thetaImg_bg));
+                thetaButton.setIcon(thetaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                thetaButton.setIcon(new ImageIcon(thetaImg));
+                thetaButton.setIcon(thetaImg);
             }
         };
         MouseAdapter zetaAdapter = new MouseAdapter() {
@@ -405,37 +606,20 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                zetaButton.setIcon(new ImageIcon(zetaImg_bg));
+                zetaButton.setIcon(zetaImg_bg);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                zetaButton.setIcon(new ImageIcon(zetaImg));
+                zetaButton.setIcon(zetaImg);
             }
+
         };
-
-        blenderButton.addMouseListener(blenderAdapter);
-
-        alphaPowerupButton.addMouseListener(alphaPowerupAdapter);
-        betaPowerupButton.addMouseListener(betaPowerupAdapter);
-        sigmaPowerupButton.addMouseListener(sigmaPowerupAdapter);
-        gammaPowerupButton.addMouseListener(gammaPowerupAdapter);
-
         etaButton.addMouseListener(etaAdapter);
         lotaButton.addMouseListener(lotaAdapter);
         thetaButton.addMouseListener(thetaAdapter);
         zetaButton.addMouseListener(zetaAdapter);
-
-        blenderButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        alphaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        betaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        sigmaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        gammaPowerupButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        etaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        lotaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        thetaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
-        zetaButton.setFocusable(false); // This is necessary so that clicking the button does not steal the focus from the main panel
     }
 
     @Override
