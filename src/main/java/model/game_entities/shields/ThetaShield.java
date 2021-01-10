@@ -4,8 +4,8 @@ import model.game_building.GameConstants;
 import model.game_entities.Atom;
 import model.game_entities.enums.ShieldType;
 import utils.MathUtils;
+import static model.game_building.GameConstants.*;
 
-import java.util.Random;
 
 public class ThetaShield extends ShieldDecorator {
 
@@ -26,6 +26,9 @@ public class ThetaShield extends ShieldDecorator {
 
     @Override
     public double getEfficiency() {
+        //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
+        //EFFECTS: the efficiency of the original atom/shielded atom will be reduced depending on some criteria
+
         double oldEfficiency = this.getAtom().getEfficiency();
         double efficiencyFactor = (1 - oldEfficiency) * THETA_EFFICIENCY_BOOST;
 
@@ -34,6 +37,8 @@ public class ThetaShield extends ShieldDecorator {
 
     @Override
     public double getAtomSpeedPercentage() {
+        //MODIFIES: the speed of the original atom, or possibly the shielded atom
+        //EFFECTS: the speed of the original atom/shielded atom will be reduced by a 9%
         return super.getAtom().getAtomSpeedPercentage() * (1 - GameConstants.THETA_SPEED_REDUCTION_PERCENTAGE);
     }
 }

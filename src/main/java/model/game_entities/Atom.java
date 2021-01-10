@@ -111,6 +111,8 @@ public class Atom extends Projectile {
 
     @Override
     public double getSpeedPercentage() {
+        //MODIFIES:
+        //EFFECTS: Since this is an unshilded atom, the percentage of the speed is 100%
         return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 }

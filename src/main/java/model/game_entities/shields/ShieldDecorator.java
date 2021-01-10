@@ -19,6 +19,10 @@ public abstract class ShieldDecorator extends Atom {
 
     @Override
     public double getSpeedPercentage() {
+        //MODIFIES: indirectly, the speed of the original atom, or possibly the shielded atom
+        //EFFECTS: the speed of the original atom/shielded atom will be reduced by a percentage depending on the
+        //type of the shield
+
         return super.getSpeedPercentage() * getAtomSpeedPercentage();
     }
 }
