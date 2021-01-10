@@ -99,10 +99,10 @@ public class Shooter extends Entity {
      * @return the current projectile at the atom
      */
     public Projectile reload() {
-        Projectile projectile = getCurrentProjectile();
+        Projectile tmp = getCurrentProjectile();
         this.setCurrentProjectile(this.nextAtom());
-        projectile.setVelocity(projectile.getSpeedPercentage());
-        return projectile;
+        tmp.setVelocity(tmp.getSpeedPercentage());
+        return tmp;
     }
 
     /**
@@ -135,6 +135,10 @@ public class Shooter extends Entity {
     }
 
     public void switchAtom() {
+        // @REQUIRES: the the projectileContainer not to be empty nor the currentProjectile on the tip of the shooter to be of type powerup.
+        // @MODIFIES: the currentProjectile object
+        // @EFFECTS: changes the projectile on the tip of the shooter to an atom if the current projectile is powerup, changes the
+        //           the projectile if the current projectile is atom to an atom of different type.
         Projectile previousProjectile = getCurrentProjectile();
         Projectile nextAtom = nextAtom();
 
@@ -146,7 +150,9 @@ public class Shooter extends Entity {
                     nextAtom = nextAtom();
                 }
                 setCurrentProjectile(nextAtom);
+
             } else {
+
                 container.addPowerUp((Powerup) previousProjectile);
                 setCurrentProjectile(nextAtom);
             }
