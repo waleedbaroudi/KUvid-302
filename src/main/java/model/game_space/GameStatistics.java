@@ -1,6 +1,11 @@
 package model.game_space;
 
+import model.game_entities.enums.ShieldType;
+
 public class GameStatistics {
+    int health; //might be doubles?
+    double score;
+    GameTimer timer;
     GameStatisticsListener statisticsListener;
 
     public GameStatistics(GameStatisticsListener statisticsListener) {
@@ -33,9 +38,9 @@ public class GameStatistics {
         statisticsListener.onTimerChanged(currentTime);
     }
 
-
-    public void updateScore(int score) {
-        statisticsListener.onScoreChanged(score);
+    public void updateScore(double score) { //assuming the score will only be incremented by 1.
+        this.score += score;
+        statisticsListener.onScoreChanged(this.score);
     }
 
     /**
@@ -46,6 +51,10 @@ public class GameStatistics {
         statisticsListener.onProjectileCountChange();
     }
 
+    public void changeShieldCount(ShieldType type, int currentNumber) {// todo: this is called from projectile container via the controller
+        statisticsListener.onShieldsCountChange(type, currentNumber);
+    }
+
     /**
      * a listener to notify the statistics window UI of any change to the statistics
      */
@@ -54,9 +63,10 @@ public class GameStatistics {
 
         void onTimerChanged(String currentTime);
 
-        void onScoreChanged(int score);
+        void onScoreChanged(double score);
 
         void onProjectileCountChange();
+        void onShieldsCountChange(ShieldType type, int newCount);
     }
 
 

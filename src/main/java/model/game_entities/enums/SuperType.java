@@ -5,5 +5,6 @@ public enum SuperType {
     ATOM,
     BLOCKER,
     POWERUP,
+    SHIELD,
     SHOOTER
 }

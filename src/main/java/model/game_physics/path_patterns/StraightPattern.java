@@ -29,7 +29,6 @@ public class StraightPattern extends PathPattern{
         return initialVelocity;
     }
 
-
     @Override
     public Coordinates nextPosition() {
         setCurrentCoords(new Coordinates(getInitialVelocity().getXv() + getCurrentCoords().getX(),
@@ -41,5 +40,10 @@ public class StraightPattern extends PathPattern{
     public void reflect(Vector n) {
         this.initialVelocity = initialVelocity.reflect(n);
         PathPattern.logger.debug("[StraightPattern] pattern reflected");
+    }
+
+    @Override
+    public void setVelocity(double velocity) {
+        initialVelocity = new Velocity(initialVelocity.getXv() * velocity, initialVelocity.getYv() * velocity);
     }
 }

@@ -4,6 +4,8 @@ import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.*;
+import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.EntityGeneratorRunnable;
@@ -30,15 +32,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
     private Player player;
+    private GameStatistics statistics;
 
     // game state
     GameState currentState, pausedState, runningState;
 
     //space objects
-    private CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
+    private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private ProjectileContainer projectileContainer;
     private Shooter shooter;
-
+    private final ShieldHandler shieldHandler;
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
     //Listener to handle game pause and resume commands
@@ -81,8 +84,10 @@ public class RunningMode {
                 config.getNumSigmaAtoms(),
                 config.getNumGammaAtoms());
 
+
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
+        this.shieldHandler = new ShieldHandler(this, shooter);
         initialize();
     }
 
@@ -188,6 +193,7 @@ public class RunningMode {
                 endGame();
             return;
         }
+        // projectileContainer.decreaseAtoms(shotEntity.getEntityType().getValue(), 1);
         addEntity(shotEntity);
     }
 
@@ -215,8 +221,8 @@ public class RunningMode {
         // TODO: change the gamerListener to removeEntity. Handle multiple entities by calling removeEntity on them one by one.
         ArrayList<AutonomousEntity> tmp = new ArrayList<>();
         tmp.add(entity);
-        gameEntitiesListener.onEntitiesRemove(tmp);
         autonomousEntities.remove(entity);
+        gameEntitiesListener.onEntitiesRemove(tmp);
     }
 
     public void setPlayer(Player player) {
@@ -226,6 +232,11 @@ public class RunningMode {
     public void updateStatisticsProjectileCount() {
         if (player != null)
             player.updateOwnedProjectiles();
+    }
+
+    public void updateStatisticsShieldCount(ShieldType type, int newCount) {
+        if (player != null)
+            player.changeShieldCount(type, newCount);
     }
 
     public void updateHealth(int damageAmount) {
@@ -247,6 +258,18 @@ public class RunningMode {
         runningStateListener.onGameOver();
     }
 
+    public void setStatisticsController(GameStatistics gameStatistics) {
+        this.statistics = gameStatistics;
+    }
+
+    public ShieldHandler getShieldHandler() {
+        return this.shieldHandler;
+    }
+
+    public void switchAtom() {
+        getShooter().switchAtom();
+    }
+
     public Blender getBlender() {
         return this.blender;
     }
@@ -263,14 +286,13 @@ public class RunningMode {
         return player;
     }
 
-    public void increaseScore() {
-        if (player != null) player.incrementScore();
+    public void increaseScore(double score) {
+        if (player != null) player.incrementScore(score);
     }
 
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
-    }
-
+      }
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
@@ -355,5 +377,4 @@ public class RunningMode {
          */
         void onGameReset();
     }
-
 }

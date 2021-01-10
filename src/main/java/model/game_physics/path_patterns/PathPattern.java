@@ -55,8 +55,9 @@ public abstract class PathPattern implements Cloneable {
     }
 
     /**
-     * get the next position in the path based on the given coordinates
-     *
+     * @Requires: Coordinates is not null
+     * @Modifies: currentCoordinates
+     * @Effects: get the next position in the path pattern based on the current coordinates
      * @return the new coordinates
      */
     public abstract Coordinates nextPosition();
@@ -73,4 +74,6 @@ public abstract class PathPattern implements Cloneable {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public void setVelocity(double velocity){};
 }

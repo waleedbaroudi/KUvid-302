@@ -28,7 +28,7 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
         if (atom.getEntityType().getValue() == molecule.getEntityType().getValue()) {
-            controller.increaseScore();
+            controller.increaseScore(atom.getEfficiency());
             defaultCollision(atom, molecule);
         }
     }

@@ -98,7 +98,11 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
                 numOfConversions = 1;
             }
 
-            runningMode.getBlender().convert(sourceRank, destinationRank, numOfConversions);
+            try {
+                runningMode.getBlender().convert(sourceRank, destinationRank, numOfConversions);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
     }
 

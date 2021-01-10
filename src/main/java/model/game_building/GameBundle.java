@@ -2,6 +2,7 @@ package model.game_building;
 
 import model.game_entities.*;
 import model.game_running.ProjectileContainer;
+import model.game_running.ShieldHandler;
 import model.game_space.Player;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class GameBundle {
     private ArrayList<Blocker> blockers;
     private ArrayList<Powerup> powerUps;
     private ArrayList<Molecule> molecules;
+    private ShieldHandler shieldHandler;
     private Shooter shooter;
     private ConfigBundle configBundle;
     private Player player;
@@ -63,6 +65,7 @@ public class GameBundle {
         private ProjectileContainer projectileContainer;
         private Player player;
         private ConfigBundle configBundle;
+        private ShieldHandler shieldHandler;
 
         public Builder() {
             atoms = new ArrayList<>();

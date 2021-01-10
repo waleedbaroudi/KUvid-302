@@ -1,8 +1,11 @@
 package services.utils;
 
 
+import java.nio.charset.CoderMalfunctionError;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import static java.lang.Math.*;
 
@@ -237,19 +240,6 @@ public class MathUtils {
         return new Coordinates(center.getX() - radius, center.getY() - radius);
     }
 
-    /*
-        int r = projectile.superType == SuperType.ATOM ? atomRadius : powerupRadius;
-
-        double theta = Math.toRadians(90 - Math.abs(getAngle()));
-
-
-        int h = (int) ((r + height/2) * Math.sin(theta));
-
-        int w = (int) ((r + height/2) * Math.cos(theta)) * theta/abs(theta);
-
-        return new Coordinates(coordinates.getX() + (getAngle() < 0 ? -1*w : w), coordinates.getY() - h);
-     */
-
     /**
      * Given an angle, returns its complement.
      *
@@ -297,5 +287,30 @@ public class MathUtils {
         return Math.abs(Math.sqrt((Math.pow(newX, 2) + Math.pow(newY, 2))));
     }
 
+    /**
+     * Given an array of integers, returns a random element from this array.
+     * @param array array of integers.
+     * @return a random element from the given array.
+     */
+    public static int chooseFrom(int[] array){
+        Random random = new Random();
+        int randomIndex = random.nextInt(array.length);
+        return array[randomIndex];
+    }
+
+    /**
+     * Given an array of doubles, returns a random element from this array.
+     * @param array array of doubles.
+     * @return a random element from the given array.
+     */
+    public static double chooseFrom(double[] array){
+        Random random = new Random();
+        int randomIndex = random.nextInt(array.length);
+        return array[randomIndex];
+    }
+
+    public static String truncateByTwo(double toBeTruncated){
+        return new DecimalFormat("#.##").format(toBeTruncated);
+    }
 
 }

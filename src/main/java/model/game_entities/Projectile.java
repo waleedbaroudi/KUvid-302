@@ -22,4 +22,9 @@ public abstract class Projectile extends AutonomousEntity{
     }
 
     public Projectile(){}
+    public void setVelocity(double velocity){
+        getPathPattern().setVelocity(velocity);
+    }
+
+    public abstract double getSpeedPercentage();
 }
