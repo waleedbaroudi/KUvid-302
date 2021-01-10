@@ -26,15 +26,18 @@ class ShooterTest {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        container = new ProjectileContainer(null, 0, 0, 0, 0, 0, 0, 0, 0);
+        // testing when the projectile container is empty. in this case , when we call switchAtom(), the current projectile is null.
+        // this is unreachable case since we end the game if the container is empty, but we assure that it gives null values.
+        container = new ProjectileContainer(null, 0, 0, 0, 0, 1, 0, 0, 0);
         shooter = new Shooter(container);
-         
 
-        Projectile current = shooter.getCurrentProjectile();
+
+        current = shooter.getCurrentProjectile();
         shooter.switchAtom();
-        Projectile switched = shooter.getCurrentProjectile();
+        switched = shooter.getCurrentProjectile();
 
-        assertEquals(switched.getSuperType(), SuperType.ATOM);
+        assertEquals(current, null);
+        assertEquals(switched, null);
 
 
     }
