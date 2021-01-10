@@ -42,6 +42,7 @@ public class ProjectileContainer {
         atomMap[1] = numOfBetaAtoms;
         atomMap[2] = numOfGammaAtoms;
         atomMap[3] = numOfSigmaAtoms;
+
         totalAtomCount = numOfAlphaAtoms + numOfBetaAtoms + numOfGammaAtoms + numOfSigmaAtoms;
 
         powerUpMap = new int[]{0, 0, 0, 0}; //the player starts with 0 power-ups
@@ -223,7 +224,6 @@ public class ProjectileContainer {
     }
 
     private int shieldedAtoms(int type) {
-        System.out.println(type);
         return shieldsMap.get(type).size();
     }
 
@@ -234,5 +234,3 @@ public class ProjectileContainer {
                 '}';
     }
 }
-
-

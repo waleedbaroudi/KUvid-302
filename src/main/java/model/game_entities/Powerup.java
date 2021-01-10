@@ -36,7 +36,6 @@ public class Powerup extends Projectile {
     }
 
     // visitor pattern. Double delegation
-
     @Override
     public void collideWith(CollisionVisitor visitor, Atom atom) {
         visitor.handleCollision(this, atom);
@@ -77,7 +76,7 @@ public class Powerup extends Projectile {
         return "Powerup{" +
                 "type=" + getEntityType() +
                 '}';}
-    
+
     public double getSpeedPercentage() {
         return GameConstants.DEFAULT_POWERUP_SPEED_PERCENTAGE;
     }

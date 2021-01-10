@@ -29,7 +29,6 @@ public class StraightPattern extends PathPattern{
         return initialVelocity;
     }
 
-
     @Override
     public Coordinates nextPosition() {
         setCurrentCoords(new Coordinates(getInitialVelocity().getXv() + getCurrentCoords().getX(),

@@ -4,7 +4,6 @@ import java.awt.*;
 
 public final class GameConstants {
 
-
     private GameConstants() {
     }//this class should not be initialized.
 
@@ -60,7 +59,7 @@ public final class GameConstants {
     public static final double ZIGZAG_SPEED = 1.0;
     public static final double ZIGZAG_SPEED_ANGLE = 45;
 
-    public static final int[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {2, 1, 2, 3}, {3, 2, 1, 2}, {4, 3, 2, 1}}; // Contains the values corresponding to blending/breaking atoms.
+    public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
     public static final int ICON_WIDTH = 50;
     public static final int ICON_HEIGHT = 50;
 

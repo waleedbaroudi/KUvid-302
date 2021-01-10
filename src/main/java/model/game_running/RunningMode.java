@@ -292,8 +292,7 @@ public class RunningMode {
 
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
-    }
-
+      }
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
@@ -378,5 +377,4 @@ public class RunningMode {
          */
         void onGameReset();
     }
-
 }

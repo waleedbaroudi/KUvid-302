@@ -28,7 +28,7 @@ public class Atom extends Projectile {
     private ShieldTuple shieldTuple;
 
     private final double ATOM_SPEED_PERCENTAGE = 1;
-    
+
     public Atom(@JsonProperty("coordinates")Coordinates coordinates,
                 @JsonProperty("hitbox")Hitbox hitbox,
                 @JsonProperty("pathPattern")PathPattern pathPattern,
@@ -48,27 +48,6 @@ public class Atom extends Projectile {
         this.numberOfNeutrons = numberOfNeutrons;
 
         this.shieldTuple = new ShieldTuple();
-    }
-
-
-    public double getEfficiency() {
-        return this.efficiency;
-    }
-
-    public double getStabilityConstant() {
-        return this.stabilityConstant;
-    }
-
-    public int getNumberOfNeutrons() {
-        return this.numberOfNeutrons;
-    }
-
-    public int getNumberOfProtons() {
-        return this.numberOfProtons;
-    }
-
-    public double getAtomSpeedPercentage() {
-        return ATOM_SPEED_PERCENTAGE;
     }
 
     // visitor pattern. Double delegation
@@ -125,8 +104,30 @@ public class Atom extends Projectile {
         return this.shieldTuple;
     }
 
+    public double getEfficiency() {
+        return this.efficiency;
+    }
+
+    public double getStabilityConstant() {
+        return this.stabilityConstant;
+    }
+
+    public int getNumberOfNeutrons() {
+        return this.numberOfNeutrons;
+    }
+
+    public int getNumberOfProtons() {
+        return this.numberOfProtons;
+    }
+
+    public double getAtomSpeedPercentage() {
+        return ATOM_SPEED_PERCENTAGE;
+    }
+
     @Override
     public double getSpeedPercentage() {
+        //MODIFIES:
+        //EFFECTS: Since this is an unshilded atom, the percentage of the speed is 100%
         return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 }

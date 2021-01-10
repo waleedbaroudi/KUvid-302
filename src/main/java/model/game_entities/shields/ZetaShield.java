@@ -13,6 +13,9 @@ public class ZetaShield extends ShieldDecorator {
 
     @Override
     public double getEfficiency() {
+        //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
+        //EFFECTS: the efficiency of the original atom/shielded atom will be reduced depending on some criteria
+
         double oldEfficiency = this.getAtom().getEfficiency();
         double efficiencyFactor = (1 - oldEfficiency) * ZETA_EFFICIENCY_BOOST;
 
@@ -25,6 +28,8 @@ public class ZetaShield extends ShieldDecorator {
 
     @Override
     public double getAtomSpeedPercentage() {
+        //MODIFIES: the speed of the original atom, or possibly the shielded atom
+        //EFFECTS: the speed of the original atom/shielded atom will be reduced by a 11%
         return super.getAtom().getAtomSpeedPercentage() * (1 - ZETA_SPEED_REDUCTION_PERCENTAGE);
     }
 }

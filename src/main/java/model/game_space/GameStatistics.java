@@ -1,8 +1,6 @@
 package model.game_space;
 
-import model.game_entities.enums.EntityType;
 import model.game_entities.enums.ShieldType;
-import model.game_entities.enums.SuperType;
 
 public class GameStatistics {
     int health; //might be doubles?

@@ -67,7 +67,7 @@ public class Blender {
             throw new ContainerNotInitializedException();
         boolean canBlend;
         for (int i = 0; i < numOfConversions; i++) {
-            canBlend = projectileContainer.decreaseAtoms(sourceAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
+            canBlend = projectileContainer.decreaseAtoms(sourceAtom, (int) GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
             if (!canBlend)
                 break;
             projectileContainer.increaseAtoms(destinationAtom, 1, null);
@@ -87,7 +87,7 @@ public class Blender {
             canBlend = projectileContainer.decreaseAtoms(sourceAtom, 1);
             if (!canBlend)
                 break;
-            projectileContainer.increaseAtoms(destinationAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom], null);
+            projectileContainer.increaseAtoms(destinationAtom, (int) GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom], null);
         }
     }
 

@@ -10,6 +10,7 @@ import model.game_running.RunningMode;
 import model.game_space.GameStatistics;
 import services.utils.MathUtils;
 import ui.movable_drawables.ImageResources;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -24,69 +25,29 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     private final RunningMode runningMode;
 
     //Icons
-    private Image atomAlphaImg;
-    private Image atomBetaImg;
-    private Image atomSigmaImg;
-    private Image atomGammaImg;
+    private Image atomAlphaImg, atomBetaImg, atomSigmaImg, atomGammaImg;
+    private Image healthImg, watchImg, blenderImg, blenderImg_bg;
 
-    private Image powerupAlphaImg;
-    private Image powerupBetaImg;
-    private Image powerupSigmaImg;
-    private Image powerupGammaImg;
-
-    private Image powerupAlphaImg_bg;
-    private Image powerupBetaImg_bg;
-    private Image powerupSigmaImg_bg;
-    private Image powerupGammaImg_bg;
-
-    private Image healthImg;
-    private Image watchImg;
-    private Image blenderImg;
-    private Image blenderImg_bg;
+    //powerups
+    private Image powerupAlphaImg, powerupBetaImg, powerupSigmaImg, powerupGammaImg;
+    private Image powerupAlphaImg_bg, powerupBetaImg_bg, powerupSigmaImg_bg, powerupGammaImg_bg;
 
     //shields
-    private JLabel etaButton;
-    private JLabel lotaButton;
-    private JLabel thetaButton;
-    private JLabel zetaButton;
+    private Image etaImg, lotaImg, thetaImg, zetaImg;
+    private Image etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
+    private JLabel etaButton, lotaButton, thetaButton, zetaButton;
+    private JLabel etaNumberLabel, lotaNumberLabel, thetaNumberLabel, zetaNumberLabel;
 
-    private Image etaImg;
-    private Image lotaImg;
-    private Image thetaImg;
-    private Image zetaImg;
+    //Atoms
 
-    private Image etaImg_bg;
-    private Image lotaImg_bg;
-    private Image thetaImg_bg;
-    private Image zetaImg_bg;
 
     // JLabels
-    JLabel gammaAtomsNumberLabel;
-    JLabel alphaAtomsNumberLabel;
-    JLabel betaAtomsNumberLabel;
-    JLabel sigmaAtomsNumberLabel;
-
-    JLabel gammaPowerupsNumberLabel;
-    JLabel alphaPowerupsNumberLabel;
-    JLabel betaPowerupsNumberLabel;
-    JLabel sigmaPowerupsNumberLabel;
-
-    JLabel healthLabel;
-    JLabel timeLabel;
-    JLabel SCORE;
-    JLabel scoreLabel;
+    private JLabel gammaAtomsNumberLabel, alphaAtomsNumberLabel, betaAtomsNumberLabel, sigmaAtomsNumberLabel;
+    private JLabel gammaPowerupsNumberLabel, alphaPowerupsNumberLabel, betaPowerupsNumberLabel, sigmaPowerupsNumberLabel;
+    private JLabel healthLabel, timeLabel, SCORE, scoreLabel;
 
     // JButtons
-    JLabel blenderButton;
-    JLabel alphaPowerupButton;
-    JLabel betaPowerupButton;
-    JLabel gammaPowerupButton;
-    JLabel sigmaPowerupButton;
-
-    JLabel etaNumberLabel;
-    JLabel lotaNumberLabel;
-    JLabel thetaNumberLabel;
-    JLabel zetaNumberLabel;
+    private JLabel blenderButton, alphaPowerupButton, betaPowerupButton, gammaPowerupButton, sigmaPowerupButton;
 
     //iconSize
     int iconSize = (int) (Configuration.getInstance().getUnitL() * GameConstants.ICON_SIZE);
@@ -288,7 +249,6 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
                 runningMode.getBlender().showBlender();
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -308,7 +268,6 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 runningMode.getShooter().setPowerup(EntityType.ALPHA);
 
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -327,7 +286,6 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.BETA);
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
@@ -346,7 +304,6 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 super.mouseClicked(e);
                 runningMode.getShooter().setPowerup(EntityType.SIGMA);
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);

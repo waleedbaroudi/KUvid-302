@@ -13,6 +13,9 @@ public class EtaShield extends ShieldDecorator {
 
     @Override
     public double getEfficiency() {
+        //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
+        //EFFECTS: the efficiency of the original atom/shielded atom will be reduced depending on some criteria
+
         double oldEfficiency = this.getAtom().getEfficiency();
         int numberOfNeutrons = this.getAtom().getNumberOfNeutrons();
         int numberOfProtons = this.getAtom().getNumberOfProtons();
@@ -30,6 +33,8 @@ public class EtaShield extends ShieldDecorator {
 
     @Override
     public double getAtomSpeedPercentage() {
+        //MODIFIES: the speed of the original atom, or possibly the shielded atom
+        //EFFECTS: the speed of the original atom/shielded atom will be reduced by a 5%
         return this.getAtom().getAtomSpeedPercentage() * (1 - GameConstants.ETA_SPEED_REDUCTION_PERCENTAGE);
     }
 }
