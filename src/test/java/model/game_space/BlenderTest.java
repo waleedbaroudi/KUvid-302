@@ -2,6 +2,7 @@ package model.game_space;
 
 import model.game_running.ProjectileContainer;
 import org.junit.jupiter.api.Test;
+import services.exceptions.ContainerNotInitializedException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +14,7 @@ class BlenderTest {
         ProjectileContainer container = new ProjectileContainer(null, 5, 5, 5, 5);
         Blender blender = new Blender(container);
 
+        try {
         //Black Box tests.
         assertArrayEquals(container.getAtomMap(), new int[]{5, 5, 5, 5});
 
@@ -26,7 +28,9 @@ class BlenderTest {
                                                                                 //  Not enough atoms to blend.
         assertArrayEquals(container.getAtomMap(), new int[]{0, 6, 6, 5});
 
+
         blender.blendAtoms(1, 2, 3);  // Blending 2 BETA into 1 GAMMA three
+
         assertArrayEquals(container.getAtomMap(), new int[]{0, 0, 9, 5});       // times.
 
         blender.blendAtoms(1, 2, 1);  // Blending 2 BETA into 1 GAMMA
@@ -49,11 +53,14 @@ class BlenderTest {
         assertArrayEquals(container.getAtomMap(), new int[]{0, 0, 0, 0});       //  Empty container.
 
         //Glass Box tests.
-        assertThrows(IllegalStateException.class,
+        assertThrows(ContainerNotInitializedException.class,
                 () -> new Blender(null).blendAtoms(1,2,1));
 
-        assertThrows(IllegalStateException.class,
+        assertThrows(ContainerNotInitializedException.class,
                 () -> new Blender(null).blendAtoms(4,1,4));
-        
+
+        } catch (ContainerNotInitializedException e) {
+            e.printStackTrace();
+        }
     }
 }
