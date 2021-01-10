@@ -13,6 +13,7 @@ class BlenderTest {
         ProjectileContainer container = new ProjectileContainer(null, 5, 5, 5, 5);
         Blender blender = new Blender(container);
 
+        //Black Box tests.
         assertArrayEquals(container.getAtomMap(), new int[]{5, 5, 5, 5});
 
         blender.blendAtoms(0, 1, 1); // Blending 2 ALPHA into 1 BETA
@@ -46,5 +47,13 @@ class BlenderTest {
 
         blender.blendAtoms(3, 3, 1);  // Blending 2 GAMMA into 1 SIGMA
         assertArrayEquals(container.getAtomMap(), new int[]{0, 0, 0, 0});       //  Empty container.
+
+        //Glass Box tests.
+        assertThrows(IllegalStateException.class,
+                () -> new Blender(null).blendAtoms(1,2,1));
+
+        assertThrows(IllegalStateException.class,
+                () -> new Blender(null).blendAtoms(4,1,4));
+        
     }
 }

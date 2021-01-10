@@ -43,7 +43,7 @@ public class Blender {
 //                blenderListener.onFailBlend();
 //        }
 //    }
-    public void convert(int sourceAtom, int destinationAtom, int numOfConversions) {
+    public void convert(int sourceAtom, int destinationAtom, int numOfConversions) throws Exception {
         if (sourceAtom > destinationAtom) {
             breakAtoms(sourceAtom, destinationAtom, numOfConversions);
         } else if (sourceAtom < destinationAtom) {
@@ -58,13 +58,14 @@ public class Blender {
      * @param destinationAtom The result atom
      * @param numOfConversions The number of the desired atom.
      */
-    public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) {
+    public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws IllegalStateException {
         //MODIFIES: projectileContainer
         //EFFECTS: If projectileContainer is not initialized it does nothing.
-        //if the projectileContainer has enough atoms to blend it decreases the number of sourceAtom by a certain number
-        // , and increases the number of destinationAtoms in projectile container
+        //if the projectileContainer has enough atoms to blend it decreases the number of sourceAtom by a certain
+        // number, and increases the number of destinationAtoms in projectile container, and does nothing when there is
+        // not enough sourceAtoms to blend into destinationAtoms.
         if (this.projectileContainer == null)
-            return;
+            throw new IllegalStateException("Projectile Container is not initialized");
         boolean canBlend;
         for (int i = 0; i < numOfConversions; i++) {
             canBlend = projectileContainer.decreaseAtoms(sourceAtom, GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]);
