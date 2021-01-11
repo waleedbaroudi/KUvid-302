@@ -123,8 +123,7 @@ public class Shooter extends Entity {
     public Atom nextAtom() {
         Atom atom = container.getRandomAtom(this.getCoordinates());
         if (onShotListener != null && atom != null) {
-            onShotListener.emptyTempShields();
-            ShieldTuple shields = container.getShields(atom.getEntityType());
+            ShieldTuple shields = new ShieldTuple(container.getShields(atom.getEntityType()));
             atom = container.shieldAtom(atom, shields);
             onShotListener.setTempShields(shields);
         }
@@ -161,10 +160,8 @@ public class Shooter extends Entity {
             if (previousProjectile.getSuperType() == SuperType.ATOM) {
                 container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1, tmpShields);
 
-
                 while (previousProjectile.getEntityType() == nextAtom.getEntityType() && !uniqueTypeAvilable()) {
                     container.increaseAtoms(nextAtom.getEntityType().getValue(), 1, onShotListener.getTempShields());
-                    onShotListener.emptyTempShields();
                     nextAtom = nextAtom();
                 }
 

@@ -23,7 +23,7 @@ public class BlockerDrawer implements Drawable {
     public void draw(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
                 blocker.getHitbox().getWidth(),
-                blocker.getHitbox().getHeight());
+                blocker.getHitbox().getHeight() * 1.28);
         g.drawImage(blockerImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
     }
 

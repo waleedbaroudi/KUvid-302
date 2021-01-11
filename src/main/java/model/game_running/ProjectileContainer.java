@@ -165,10 +165,10 @@ public class ProjectileContainer {
         if (shields != null && shields.isNotEmpty())
             shieldsMap.get(type).add(shields);
 
+        System.out.println("--------------------");
         for(ArrayList<ShieldTuple> t : shieldsMap.values())
             System.out.println(t.toString());
-        System.out.println();
-        System.out.println();
+        System.out.println("--------------------");
 
     }
 

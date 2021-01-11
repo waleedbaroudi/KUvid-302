@@ -21,9 +21,9 @@ public class ShieldHandler implements OnShotListener {
         tempShields = new ShieldTuple();
 
         shields.setShieldsCount(Configuration.getInstance().getNumOfEtaShields(), ShieldType.ETA);
-        shields.setShieldsCount(Configuration.getInstance().getNumOfEtaShields(), ShieldType.LOTA);
-        shields.setShieldsCount(Configuration.getInstance().getNumOfEtaShields(), ShieldType.THETA);
-        shields.setShieldsCount(Configuration.getInstance().getNumOfEtaShields(), ShieldType.ZETA);
+        shields.setShieldsCount(Configuration.getInstance().getNumOfLotaShields(), ShieldType.LOTA);
+        shields.setShieldsCount(Configuration.getInstance().getNumOfThetaShields(), ShieldType.THETA);
+        shields.setShieldsCount(Configuration.getInstance().getNumOfZetaShields(), ShieldType.ZETA);
     }
 
     public void applyShield(ShieldType type) {
