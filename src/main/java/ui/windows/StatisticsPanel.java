@@ -7,6 +7,7 @@ import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
+import model.game_running.ShieldHandler;
 import model.game_space.GameStatistics;
 import services.utils.MathUtils;
 import ui.movable_drawables.ImageResources;
@@ -543,7 +544,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyEtaShield();
+                runningMode.getShieldHandler().applyShield(ShieldType.ETA);
             }
 
             @Override
@@ -562,7 +563,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyLotaShield();
+                runningMode.getShieldHandler().applyShield(ShieldType.LOTA);
             }
 
             @Override
@@ -581,7 +582,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyThetaShield();
+                runningMode.getShieldHandler().applyShield(ShieldType.THETA);
             }
 
             @Override
@@ -600,7 +601,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyZetaShield();
+                runningMode.getShieldHandler().applyShield(ShieldType.ZETA);
             }
 
             @Override
@@ -638,22 +639,13 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onShieldsCountChange(ShieldType type, int newCount) {
-        String stringValue = String.valueOf(newCount);
-        switch (type) {
-            case ETA:
-                etaNumberLabel.setText(stringValue);
-                break;
-            case LOTA:
-                lotaNumberLabel.setText(stringValue);
-                break;
-            case THETA:
-                thetaNumberLabel.setText(stringValue);
-                break;
-            case ZETA:
-                zetaNumberLabel.setText(stringValue);
-                break;
-        }
+    public void onShieldsCountChange() {
+        ShieldHandler shieldHandler = this.runningMode.getShieldHandler();
+
+        etaNumberLabel.setText(shieldHandler.getShieldsCount(ShieldType.ETA));
+        lotaNumberLabel.setText(shieldHandler.getShieldsCount(ShieldType.LOTA));
+        thetaNumberLabel.setText(shieldHandler.getShieldsCount(ShieldType.THETA));
+        zetaNumberLabel.setText(shieldHandler.getShieldsCount(ShieldType.ZETA));
     }
 
     @Override

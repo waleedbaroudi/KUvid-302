@@ -8,7 +8,6 @@ public class ZetaShield extends ShieldDecorator {
 
     public ZetaShield(Atom atom) {
         super(atom);
-        addShield(ShieldType.ZETA);
     }
 
     @Override

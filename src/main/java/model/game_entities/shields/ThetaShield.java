@@ -11,7 +11,6 @@ public class ThetaShield extends ShieldDecorator {
 
     public ThetaShield(Atom atom) {
         super(atom);
-        addShield(ShieldType.THETA);
         THETA_EFFICIENCY_BOOST = getThetaEfficiency();
     }
 

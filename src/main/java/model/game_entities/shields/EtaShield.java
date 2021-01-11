@@ -8,7 +8,6 @@ public class EtaShield extends ShieldDecorator {
 
     public EtaShield(Atom atom) {
         super(atom);
-        addShield(ShieldType.ETA);
     }
 
     @Override

@@ -9,7 +9,6 @@ public class LotaShield extends ShieldDecorator {
 
     public LotaShield(Atom atom) {
         super(atom);
-        addShield(ShieldType.LOTA);
     }
 
     @Override

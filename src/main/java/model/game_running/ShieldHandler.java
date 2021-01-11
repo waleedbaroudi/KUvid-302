@@ -4,71 +4,74 @@ import model.game_building.Configuration;
 import model.game_entities.Atom;
 import model.game_entities.Shooter;
 import model.game_entities.enums.ShieldType;
-import model.game_entities.shields.EtaShield;
-import model.game_entities.shields.LotaShield;
-import model.game_entities.shields.ThetaShield;
-import model.game_entities.shields.ZetaShield;
+import model.game_entities.shields.*;
 
-public class ShieldHandler {
+public class ShieldHandler implements OnShotListener {
 
     private final RunningMode runningMode;
     private final Shooter shooter;
 
-    private int etaShields;
-    private int lotaShields;
-    private int thetaShields;
-    private int zetaShields;
+    private ShieldTuple tempShields;
+    private final ShieldTuple shields;
 
     public ShieldHandler(RunningMode runningMode, Shooter shooter) {
         this.shooter = shooter;
         this.runningMode = runningMode;
-        etaShields = Configuration.getInstance().getNumOfEtaShields();
-        lotaShields = Configuration.getInstance().getNumOfLotaShields();
-        thetaShields = Configuration.getInstance().getNumOfThetaShields();
-        zetaShields = Configuration.getInstance().getNumOfZetaShields();
+        shields = new ShieldTuple();
+        tempShields = new ShieldTuple();
+
+        shields.setShieldsCount(Configuration.getInstance().getNumOfEtaShields(), ShieldType.ETA);
+        shields.setShieldsCount(Configuration.getInstance().getNumOfLotaShields(), ShieldType.LOTA);
+        shields.setShieldsCount(Configuration.getInstance().getNumOfThetaShields(), ShieldType.THETA);
+        shields.setShieldsCount(Configuration.getInstance().getNumOfZetaShields(), ShieldType.ZETA);
     }
 
-    public void applyEtaShield() {
-        if (etaShields > 0) {
-            etaShields--;
-            runningMode.updateStatisticsShieldCount(ShieldType.ETA, etaShields);
+    public void applyShield(ShieldType type) {
+        if (shields.getShieldsCount(type) > 0) {
+            shields.decreaseShieldCount(type);
+            tempShields.addShield(type);
+            runningMode.updateStatisticsShieldCount();
             if (shooter.projectileIsAtom()) {
-                Atom shieldedAtom = new EtaShield(shooter.getAtomProjectile());
+                Atom shieldedAtom = applyShield(shooter.getAtomProjectile(), type);
                 shooter.setCurrentProjectile(shieldedAtom);
             }
         }
     }
 
-    public void applyLotaShield() {
-        if (lotaShields > 0) {
-            lotaShields--;
-            runningMode.updateStatisticsShieldCount(ShieldType.LOTA, lotaShields);
-            if (shooter.projectileIsAtom()) {
-                Atom shieldedAtom = new LotaShield(shooter.getAtomProjectile());
-                shooter.setCurrentProjectile(shieldedAtom);
-            }
+    private Atom applyShield(Atom atom, ShieldType type) {
+        switch (type) {
+            case ETA:
+                return new EtaShield(atom);
+            case LOTA:
+                return new LotaShield(atom);
+            case THETA:
+                return new ThetaShield(atom);
+            case ZETA:
+                return new ZetaShield(atom);
         }
+        return atom;
     }
 
-    public void applyThetaShield() {
-        if (thetaShields > 0) {
-            thetaShields--;
-            runningMode.updateStatisticsShieldCount(ShieldType.THETA, thetaShields);
-            if (shooter.projectileIsAtom()) {
-                Atom shieldedAtom = new ThetaShield(shooter.getAtomProjectile());
-                shooter.setCurrentProjectile(shieldedAtom);
-            }
-        }
+    @Override
+    public void emptyTempShields() {
+        tempShields.reset();
     }
 
-    public void applyZetaShield() {
-        if (zetaShields > 0) {
-            zetaShields--;
-            runningMode.updateStatisticsShieldCount(ShieldType.ZETA, zetaShields);
-            if (shooter.projectileIsAtom()) {
-                Atom shieldedAtom = new ZetaShield(shooter.getAtomProjectile());
-                shooter.setCurrentProjectile(shieldedAtom);
-            }
-        }
+    @Override
+    public ShieldTuple getTempShields() {
+        return new ShieldTuple(this.tempShields);
+    }
+
+    @Override
+    public void setTempShields(ShieldTuple shields) {
+        this.tempShields = shields;
+    }
+
+    public String getShieldsCount(ShieldType type) {
+        return shields.getShieldsCount(type) + "";
     }
 }
+
+
+
+

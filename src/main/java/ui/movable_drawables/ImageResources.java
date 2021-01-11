@@ -39,7 +39,7 @@ public class ImageResources {
 
             case BLOCKER:
                 AutonomousEntity b = (AutonomousEntity) entity;
-                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", width, height);
+                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", width,(int)(1.28* height));
 
             case MOLECULE:
                 Molecule m = (Molecule) entity;
