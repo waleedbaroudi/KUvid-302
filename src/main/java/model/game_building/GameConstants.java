@@ -4,6 +4,7 @@ import java.awt.*;
 
 public final class GameConstants {
 
+
     private GameConstants() {
     }//this class should not be initialized.
 
@@ -65,7 +66,7 @@ public final class GameConstants {
 
     public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
     public static final double GAME_PANEL_WIDTH_RATIO = 0.8;
-    public static final int PANEL_SEPARATOR_WIDTH = 3;
+    public static final int PANEL_SEPARATOR_WIDTH = 1;
 
     public static final double SPINNING_SPEED = 10;
 
@@ -102,4 +103,7 @@ public final class GameConstants {
     public static final double BETA_STABILITY_CONSTANT = 0.9;
     public static final double GAMMA_STABILITY_CONSTANT = 0.8;
     public static final double SIGMA_STABILITY_CONSTANT = 0.7;
+
+    public static final double ATOM_SPEED_PERCENTAGE = 1.0;
+
 }

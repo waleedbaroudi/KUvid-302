@@ -1,6 +1,7 @@
 package model.game_space;
 
 import model.game_entities.enums.ShieldType;
+import model.game_running.ShieldHandler;
 
 public class GameStatistics {
     int health; //might be doubles?
@@ -51,8 +52,8 @@ public class GameStatistics {
         statisticsListener.onProjectileCountChange();
     }
 
-    public void changeShieldCount(ShieldType type, int currentNumber) {// todo: this is called from projectile container via the controller
-        statisticsListener.onShieldsCountChange(type, currentNumber);
+    public void changeShieldCount() {// todo: this is called from projectile container via the controller
+        statisticsListener.onShieldsCountChange();
     }
 
     /**
@@ -66,7 +67,7 @@ public class GameStatistics {
         void onScoreChanged(double score);
 
         void onProjectileCountChange();
-        void onShieldsCountChange(ShieldType type, int newCount);
+        void onShieldsCountChange();
     }
 
 

@@ -84,10 +84,10 @@ public class RunningMode {
                 config.getNumSigmaAtoms(),
                 config.getNumGammaAtoms());
 
-
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(projectileContainer);
         this.shieldHandler = new ShieldHandler(this, shooter);
+        this.shooter.setOnShotListener(shieldHandler);
         initialize();
     }
 
@@ -234,9 +234,9 @@ public class RunningMode {
             player.updateOwnedProjectiles();
     }
 
-    public void updateStatisticsShieldCount(ShieldType type, int newCount) {
+    public void updateStatisticsShieldCount() {
         if (player != null)
-            player.changeShieldCount(type, newCount);
+            player.changeShieldCount();
     }
 
     public void updateHealth(int damageAmount) {

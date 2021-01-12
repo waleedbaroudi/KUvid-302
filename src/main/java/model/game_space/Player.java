@@ -2,6 +2,7 @@ package model.game_space;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.enums.ShieldType;
+import model.game_running.ShieldHandler;
 
 //todo: can be a controller for shooter, projectile container, and blender.
 public class Player {
@@ -56,8 +57,8 @@ public class Player {
     }
 
 
-    public void changeShieldCount(ShieldType type, int newCount){
-        statistics.changeShieldCount(type, newCount);
+    public void changeShieldCount(){
+        statistics.changeShieldCount();
     }
 
     public boolean loseHealth(int damageAmount) {
