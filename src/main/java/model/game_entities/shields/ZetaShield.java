@@ -1,8 +1,9 @@
 package model.game_entities.shields;
 
-import static model.game_building.GameConstants.*;
 import model.game_entities.Atom;
-import model.game_entities.enums.ShieldType;
+
+import static model.game_building.GameConstants.ZETA_EFFICIENCY_BOOST;
+import static model.game_building.GameConstants.ZETA_SPEED_REDUCTION_PERCENTAGE;
 
 public class ZetaShield extends ShieldDecorator {
 

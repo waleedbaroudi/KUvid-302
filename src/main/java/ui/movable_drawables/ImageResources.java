@@ -1,12 +1,9 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
-import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
-import model.game_entities.enums.EntityType;
-import model.game_entities.enums.SuperType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,7 +17,8 @@ import java.io.IOException;
  */
 public class ImageResources {
 
-    private static final String theme = Configuration.getInstance().getTheme();
+//    private static final String theme = Configuration.getInstance().getTheme();
+    private static final String theme = "PEPEGA";
 
     /**
      * @param entity the entity that needs an image to draw itself

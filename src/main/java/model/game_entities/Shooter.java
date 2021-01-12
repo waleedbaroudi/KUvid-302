@@ -15,8 +15,6 @@ import services.utils.Coordinates;
 import services.utils.MathUtils;
 import services.utils.Vector;
 
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -123,9 +121,8 @@ public class Shooter extends Entity {
     public Atom nextAtom() {
         Atom atom = container.getRandomAtom(this.getCoordinates());
         if (onShotListener != null && atom != null) {
-            ShieldTuple shields = new ShieldTuple(container.getShields(atom.getEntityType()));
-            atom = container.shieldAtom(atom, shields);
-            onShotListener.setTempShields(shields);
+            onShotListener.setTempShields(container.getShields(atom.getEntityType()));
+            atom = container.shieldAtom(atom, onShotListener.getTempShields());
         }
         return atom;
     }
@@ -165,11 +162,10 @@ public class Shooter extends Entity {
                     nextAtom = nextAtom();
                 }
 
-                setCurrentProjectile(nextAtom);
             } else {
                 container.addPowerUp((Powerup) previousProjectile);
-                setCurrentProjectile(nextAtom);
             }
+            setCurrentProjectile(nextAtom);
         }
     }
 
