@@ -36,10 +36,17 @@ public class Shooter extends Entity {
         // sets the initial coordinates
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
+
+        //todo: make it work with both themes
+//        setCoordinates(new Coordinates(
+//                config.getGameWidth() / 2.0,
+//                config.getGameHeight() - 0.5 * config.getUnitL() *
+//                        GameConstants.SHOOTER_HEIGHT - HitboxFactory.getInstance().getShooterHitbox().getHeight()));
+
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
-                        GameConstants.SHOOTER_HEIGHT - HitboxFactory.getInstance().getShooterHitbox().getHeight()));
+                        GameConstants.SHOOTER_HEIGHT));
 
         // sets the Hitbox
         setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead
@@ -91,6 +98,7 @@ public class Shooter extends Entity {
     @JsonIgnore
     private Coordinates getShootingCoords() {
         int height = (int) getHitbox().getHeight();
+        //TODO: correct the implementation to work with both themes, currently working for Disco
         int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
         double theta = MathUtils.angleComplement(this.getHitbox().getRotationDegree());
 
@@ -149,6 +157,10 @@ public class Shooter extends Entity {
     }
 
     public void switchAtom() {
+        // @REQUIRES: the the projectileContainer not to be empty nor the currentProjectile on the tip of the shooter to be of type powerup.
+        // @MODIFIES: the currentProjectile object
+        // @EFFECTS: changes the projectile on the tip of the shooter to an atom if the current projectile is powerup, changes the
+        //           the projectile if the current projectile is atom to an atom of different type.
         Projectile previousProjectile = getCurrentProjectile();
         ShieldTuple tmpShields = onShotListener.getTempShields();
         Projectile nextAtom = nextAtom();
@@ -161,7 +173,7 @@ public class Shooter extends Entity {
                     container.increaseAtoms(nextAtom.getEntityType().getValue(), 1, onShotListener.getTempShields());
                     nextAtom = nextAtom();
                 }
-
+                setCurrentProjectile(nextAtom);
             } else {
                 container.addPowerUp((Powerup) previousProjectile);
             }

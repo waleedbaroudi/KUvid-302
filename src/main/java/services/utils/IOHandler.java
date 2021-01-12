@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.log4j.Logger;
+import services.exceptions.UnsupportedNameFormatException;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,7 +97,13 @@ public class IOHandler {
      * @param name preset file raw name
      * @return prettified name
      */
-    public static String prettifyFileName(String name) {
+    public static String prettifyYAMLFileName(String name) throws NullPointerException, UnsupportedNameFormatException {
+        // @effects: given a raw file name formatted with data, returns the name in a more user-friendly format.
+        // if it given file is a default YAML file, returns "Default"
+        // if the name is not in the right format, throws an UnsupportedNameFormatException
+        // throws a null pointer exception if the given string is null
+        if (name.startsWith("Default") && name.endsWith(".yaml"))
+            return "Default";
         String[] nameComponents = name.split("-");
         try {
             return String.format("%-10s\t%s/%s/%s %s:%s",
@@ -107,8 +114,7 @@ public class IOHandler {
                     nameComponents[5],
                     nameComponents[6].substring(0, 2));
         } catch (IndexOutOfBoundsException e) {
-            logger.warn("[IOHandler] prettifyFileName: Unrecognized name format. only removed extension (.yaml)");
-            return name.replace(".yaml", "");
+            throw new UnsupportedNameFormatException(name);
         }
     }
 

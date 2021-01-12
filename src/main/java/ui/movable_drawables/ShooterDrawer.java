@@ -44,7 +44,7 @@ public class ShooterDrawer implements Drawable {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
 
-        if(!GameCommandListener.canShoot && shot)
+        if (!GameCommandListener.canShoot && shot)
             shot();
 
         Projectile projectile = shooter.getCurrentProjectile();
@@ -53,10 +53,11 @@ public class ShooterDrawer implements Drawable {
                 shooter.getHitbox().getWidth(),
                 shooter.getHitbox().getHeight());
 
-        g2d.drawImage(shooterBase,
-                (int) (shooter.getCoordinates().getX() - 0.5 * shooterBase.getWidth(null)),
-                (int) (config.getGameHeight() - config.getUnitL()*1.25),
-                null);
+        if (false)//TODO: here we will check the theme
+            g2d.drawImage(shooterBase,
+                    (int) (shooter.getCoordinates().getX() - 0.5 * shooterBase.getWidth(null)),
+                    (int) (config.getGameHeight() - config.getUnitL() * 1.25),
+                    null);
 
         g2d.rotate(Math.toRadians(
                 shooter.getAngle()),
@@ -94,15 +95,17 @@ public class ShooterDrawer implements Drawable {
     }
 
     public void shot() {
-        shot = false;
-        tmp = shootingAnim;
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                tmp = shooterImageGif;
-                shot = true;
-            }
-        }, 250);
+        //todo: check which theme is running then execute
+        return;
+//        shot = false;
+//        tmp = shootingAnim;
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                tmp = shooterImageGif;
+//                shot = true;
+//            }
+//        }, 250);
     }
 
 }

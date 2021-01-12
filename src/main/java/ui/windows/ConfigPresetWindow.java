@@ -2,6 +2,8 @@ package ui.windows;
 
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigPreset;
+import org.apache.log4j.Logger;
+import services.exceptions.UnsupportedNameFormatException;
 import services.utils.IOHandler;
 
 import javax.swing.*;
@@ -11,10 +13,13 @@ import java.util.Arrays;
 public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSelectionListener {
     ConfigPreset configPreset;
     JFrame buildingGameFrame;
-    JList configurationFilesList;
+    JList<String> configurationFilesList;
+
+    private static Logger logger;
 
     public ConfigPresetWindow(JFrame parent) {
         super("Preset Selection");
+        logger = Logger.getLogger(getClass().getName());
         this.configPreset = new ConfigPreset(this);
         this.buildingGameFrame = parent;
         this.setContentPane(new JPanel());
@@ -37,8 +42,22 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
             return false;
         }
         //create list
-        fileNames = Arrays.stream(fileNames).filter(name -> name.endsWith(".yaml")).map(IOHandler::prettifyFileName).toArray(String[]::new);
-        configurationFilesList = new JList(fileNames);
+        configurationFilesList = new JList<>();
+        fileNames = Arrays.stream(fileNames)
+                .filter(name -> name.endsWith(".yaml"))
+                .map(name -> {
+                    try {
+                        return IOHandler.prettifyYAMLFileName(name);
+                    } catch (UnsupportedNameFormatException e) {
+                        logger.error(e.getMessage(), e);
+                        return "";
+                    }
+                })
+                .filter(n -> !n.isEmpty()) //do not show files that threw unsupported name format exception
+                .toArray(String[]::new);
+
+        configurationFilesList.setListData(fileNames);
+
 
         JButton confirmPresetButton = new JButton("Confirm Preset");
         confirmPresetButton.addActionListener(e -> {

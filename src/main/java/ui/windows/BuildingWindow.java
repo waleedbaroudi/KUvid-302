@@ -295,7 +295,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
 
         themeBox = new JComboBox<>(themes);
         themeBox.setSelectedIndex(1);
-        panel.add(themeBox);
+        //panel.add(themeBox); //TODO: uncomment them to show the two themes
 
     }
 
