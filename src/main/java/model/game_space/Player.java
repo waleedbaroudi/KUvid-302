@@ -7,7 +7,8 @@ import model.game_running.ShieldHandler;
 //todo: can be a controller for shooter, projectile container, and blender.
 public class Player {
     private String username;
-    private int health, score; //might be doubles?
+    private int health; //might be double?
+    private double score;
     private GameTimer timer;
     private GameStatistics statistics;
 
@@ -39,7 +40,7 @@ public class Player {
         return health;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
