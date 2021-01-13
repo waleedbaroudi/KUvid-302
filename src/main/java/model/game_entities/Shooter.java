@@ -169,7 +169,7 @@ public class Shooter extends Entity {
             if (previousProjectile.getSuperType() == SuperType.ATOM) {
                 container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1, tmpShields);
 
-                while (previousProjectile.getEntityType() == nextAtom.getEntityType() && !uniqueTypeAvilable()) {
+                while (previousProjectile.getEntityType() == nextAtom.getEntityType() && !uniqueTypeAvailable()) {
                     container.increaseAtoms(nextAtom.getEntityType().getValue(), 1, onShotListener.getTempShields());
                     nextAtom = nextAtom();
                 }
@@ -181,7 +181,7 @@ public class Shooter extends Entity {
         }
     }
 
-    private boolean uniqueTypeAvilable() {
+    private boolean uniqueTypeAvailable() {
 
         int[] types = container.getAtomMap();
         int counter = 0;
@@ -266,6 +266,7 @@ public class Shooter extends Entity {
     /**
      * @return the projectile as an atom
      */
+    @JsonIgnore
     public Atom getAtomProjectile() {
         return (Atom) getCurrentProjectile();
     }

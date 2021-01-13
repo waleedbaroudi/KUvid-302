@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.game_entities.enums.EntityType;
@@ -26,5 +27,6 @@ public abstract class Projectile extends AutonomousEntity{
         getPathPattern().setVelocity(velocity);
     }
 
+    @JsonIgnore
     public abstract double getSpeedPercentage();
 }

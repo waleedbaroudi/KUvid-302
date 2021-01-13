@@ -52,6 +52,10 @@ public class GameBundle {
         return projectileContainer;
     }
 
+    public ShieldHandler getShieldHandler() {
+        return shieldHandler;
+    }
+
     private GameBundle() { //private because we only want to make game bundles through building.
     }
 
@@ -114,6 +118,11 @@ public class GameBundle {
             return this;
         }
 
+        public Builder setShieldHandler(ShieldHandler shieldHandler) {
+            this.shieldHandler = shieldHandler;
+            return this;
+        }
+
 
         public GameBundle build() {
             GameBundle bundle = new GameBundle();
@@ -125,6 +134,7 @@ public class GameBundle {
             bundle.configBundle = this.configBundle;
             bundle.player = this.player;
             bundle.projectileContainer = this.projectileContainer;
+            bundle.shieldHandler = this.shieldHandler;
             return bundle;
         }
     }
