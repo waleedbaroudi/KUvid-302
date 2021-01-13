@@ -54,8 +54,6 @@ public class CollisionRunnable extends GameRunnable {
                     for (Coordinates coord : coords) {
                         if (coord.getX() > config.getGamePanelDimensions().width) {
                             sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
-                            System.err.println(sourceEntity.getHitbox().getRotationDegree());
-
                             //TODO : For moayad
                             /*
                             Vector tmpVector = new Vector(

@@ -1,14 +1,16 @@
 package ui.movable_drawables;
 
+import model.game_building.Configuration;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
+import model.game_running.GameCommandListener;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
@@ -17,12 +19,24 @@ public class ShooterDrawer implements Drawable {
 
     private final Shooter shooter;
     private final Image shooterImage;
-    private Image shooterImageGif;
+    private final Image shooterImageGif;
+    private final Image shooterBase;
+    private final Image shootingAnim;
+    private Image tmp;
+    private boolean shot;
+    private final Configuration config;
+
+    private final java.util.Timer timer = new Timer();
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
+        this.config = Configuration.getInstance();
         this.shooterImage = ImageResources.get(shooter);
-        this.shooterImageGif = ImageResources.getGif();
+        this.shooterBase = ImageResources.get("shooter_base", (int) (shooter.getHitbox().getHeight() * 1.5), (int) shooter.getHitbox().getHeight());
+        this.shooterImageGif = ImageResources.getGif("shooter", (int) shooter.getHitbox().getWidth(), (int) shooter.getHitbox().getHeight());
+        this.shootingAnim = ImageResources.getGif("shootinganim", (int) shooter.getHitbox().getWidth(), (int) shooter.getHitbox().getHeight());
+        this.tmp = shooterImageGif;
+        this.shot = true;
     }
 
     @Override
@@ -30,16 +44,32 @@ public class ShooterDrawer implements Drawable {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
 
-        g2d.rotate(Math.toRadians(shooter.getAngle()),
-                (int) shooter.getCoordinates().getX(),
-                (int) shooter.getCoordinates().getY());
+        if (!GameCommandListener.canShoot && shot)
+            shot();
 
         Projectile projectile = shooter.getCurrentProjectile();
-        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(
+                shooter.getCoordinates(),
                 shooter.getHitbox().getWidth(),
                 shooter.getHitbox().getHeight());
 
-        g2d.drawImage(shooterImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
+        if (false)//TODO: here we will check the theme
+            g2d.drawImage(shooterBase,
+                    (int) (shooter.getCoordinates().getX() - 0.5 * shooterBase.getWidth(null)),
+                    (int) (config.getGameHeight() - config.getUnitL() * 1.25),
+                    null);
+
+        g2d.rotate(Math.toRadians(
+                shooter.getAngle()),
+                (shooter.getCoordinates().getPoint().x),
+                (int) (shooter.getCoordinates().getPoint().y + shooter.getHitbox().getHeight() * 0.25));
+
+        g2d.drawImage(
+                tmp,
+                drawingCoordinates.getPoint().x,
+                drawingCoordinates.getPoint().y,
+                null);
+
         if (projectile != null) {
             Coordinates projectileCoord = MathUtils.drawingCoordinates(
                     shooter.getCoordinates(),
@@ -62,6 +92,20 @@ public class ShooterDrawer implements Drawable {
                 drawingCoordinates.getPoint().y,
                 (int) shooter.getHitbox().getWidth(),
                 (int) shooter.getHitbox().getHeight());
+    }
+
+    public void shot() {
+        //todo: check which theme is running then execute
+        return;
+//        shot = false;
+//        tmp = shootingAnim;
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                tmp = shooterImageGif;
+//                shot = true;
+//            }
+//        }, 250);
     }
 
 }
