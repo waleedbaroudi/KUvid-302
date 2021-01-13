@@ -4,8 +4,6 @@ import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import model.game_entities.enums.EntityType;
-import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.EntityGeneratorRunnable;
@@ -18,6 +16,7 @@ import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
+import services.database.IDatabase;
 import services.database.MongoDBAdapter;
 import services.utils.IOHandler;
 
@@ -33,6 +32,8 @@ public class RunningMode {
     public Logger logger = Logger.getLogger(this.getClass().getName());
     private Player player;
     private GameStatistics statistics;
+
+    private IDatabase dbAdapter;
 
     // game state
     GameState currentState, pausedState, runningState;
@@ -68,6 +69,8 @@ public class RunningMode {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         Configuration config = Configuration.getInstance();
+
+        dbAdapter = MongoDBAdapter.getInstance();
 
         runningState = new RunningState(this);
         pausedState = new PausedState(this);
@@ -292,7 +295,8 @@ public class RunningMode {
 
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
-      }
+    }
+
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
@@ -355,7 +359,7 @@ public class RunningMode {
         GameBundle bundle = builder.build();
         String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
         try {
-            MongoDBAdapter.getInstance().save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
+            dbAdapter.save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
         } catch (IOException e) {
             logger.error("Could not save the game session", e);
         }

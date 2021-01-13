@@ -3,6 +3,7 @@ package model.game_running;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import org.apache.log4j.Logger;
+import services.database.IDatabase;
 import services.database.MongoDBAdapter;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class SessionLoader {
 
     private SessionLoadListener loadListener;
-    private MongoDBAdapter dbAdapter;
+    private IDatabase dbAdapter;
     private static Logger logger;
 
     public SessionLoader(SessionLoadListener loadListener) {
@@ -21,7 +22,7 @@ public class SessionLoader {
     }
 
     public void fetchSavedSessions() {
-        ArrayList<String> savedSessions = MongoDBAdapter.getInstance().getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE);
+        ArrayList<String> savedSessions = (ArrayList<String>) dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE);
         loadListener.onSessionListFetched(savedSessions);
     }
 
