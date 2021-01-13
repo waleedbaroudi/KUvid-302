@@ -133,6 +133,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.config = Configuration.getInstance();
         this.gameContentPanel.reset(drawableMap);
         this.statisticsPanel.onProjectileCountChange();
+        this.statisticsPanel.onShieldsCountChange();
         invalidate();
         repaint();
     }

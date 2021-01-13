@@ -2,10 +2,8 @@ package model.game_running;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
-import model.game_entities.Entity;
 import model.game_entities.Powerup;
 import model.game_entities.enums.EntityType;
-import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_entities.factories.AtomFactory;
 import model.game_entities.shields.ShieldTuple;
@@ -25,7 +23,7 @@ import java.util.Random;
  * on demand.
  */
 public class ProjectileContainer {
-    private static Logger logger;
+    public static Logger logger =  Logger.getLogger(ProjectileContainer.class.getName());
 
     private int[] atomMap;
     private int[] powerUpMap; // keeps the number of power-ups per type.
@@ -33,12 +31,9 @@ public class ProjectileContainer {
     int totalAtomCount;
 
     private RunningMode runningMode;
-    private Random random;
+    private Random random = new Random();
 
     public ProjectileContainer(RunningMode runningMode, int numOfAlphaAtoms, int numOfBetaAtoms, int numOfSigmaAtoms, int numOfGammaAtoms) {
-        random = new Random();
-        logger = Logger.getLogger(this.getClass().getName());
-
         this.runningMode = runningMode;
 
         atomMap = new int[4];
@@ -57,18 +52,9 @@ public class ProjectileContainer {
         shieldsMap.put(2, new ArrayList<>());
         shieldsMap.put(3, new ArrayList<>());
         random = new Random();
-        logger = Logger.getLogger(this.getClass().getName());
     }
 
-    public ProjectileContainer() {
-        shieldsMap = new HashMap<>();
-        shieldsMap.put(0, new ArrayList<>());
-        shieldsMap.put(1, new ArrayList<>());
-        shieldsMap.put(2, new ArrayList<>());
-        shieldsMap.put(3, new ArrayList<>());
-        random = new Random();
-        logger = Logger.getLogger(this.getClass().getName());
-    }
+    public ProjectileContainer() { }
 
     //  this setter is used in case the projectile container was created by loading a game session.
     @JsonIgnore
@@ -206,14 +192,17 @@ public class ProjectileContainer {
     }
 
 
+    @JsonIgnore
     public int getAtomCountForType(EntityType type) {
         return atomMap[type.getValue()];
     }
 
+    @JsonIgnore
     public int getPowerUpCountForType(EntityType type) {
         return powerUpMap[type.getValue()];
     }
 
+    @JsonIgnore
     public ShieldTuple getShields(EntityType entityType) {
         ArrayList<ShieldTuple> shieldLst = shieldsMap.get(entityType.getValue());
         if (random.nextBoolean() || shieldedAtoms(entityType.getValue()) >= getAtomCountForType(entityType))

@@ -41,7 +41,7 @@ public class RunningMode {
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private ProjectileContainer projectileContainer;
     private Shooter shooter;
-    private final ShieldHandler shieldHandler;
+    private ShieldHandler shieldHandler;
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
     //Listener to handle game pause and resume commands
@@ -317,9 +317,15 @@ public class RunningMode {
         this.projectileContainer = session.getProjectileContainer();
         this.projectileContainer.setRunningMode(this);
 
+        // update the shieldHandler
+        this.shieldHandler = session.getShieldHandler();
+        System.out.println(this.shieldHandler);
+        System.out.println(this.shieldHandler.getShields());
+
         // update the shooter state
         this.shooter = session.getShooter();
         this.shooter.setContainer(this.projectileContainer);
+        this.shooter.setOnShotListener(shieldHandler);
 
         // update the player state and statistics listener
         GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
@@ -348,7 +354,8 @@ public class RunningMode {
         builder.setPlayer(getPlayer()).
                 setShooter(getShooter()).
                 setProjectileContainer(getProjectileContainer()).
-                setConfigBundle(Configuration.getInstance().getConfigBundle());
+                setConfigBundle(Configuration.getInstance().getConfigBundle()).
+                setShieldHandler(this.shieldHandler);
 
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 

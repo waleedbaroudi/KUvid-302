@@ -1,5 +1,6 @@
 package model.game_entities.shields;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
 
 
@@ -16,6 +17,7 @@ public abstract class ShieldDecorator extends Atom {
     }
 
 
+    @JsonIgnore
     @Override
     public double getSpeedPercentage() {
         //MODIFIES: indirectly, the speed of the original atom, or possibly the shielded atom
