@@ -37,16 +37,11 @@ public class Shooter extends Entity {
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
 
-        //todo: make it work with both themes
-//        setCoordinates(new Coordinates(
-//                config.getGameWidth() / 2.0,
-//                config.getGameHeight() - 0.5 * config.getUnitL() *
-//                        GameConstants.SHOOTER_HEIGHT - HitboxFactory.getInstance().getShooterHitbox().getHeight()));
-
+        double baseHeight = config.isDiscoTheme() ? HitboxFactory.getInstance().getShooterHitbox().getHeight() : 0;
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
-                        GameConstants.SHOOTER_HEIGHT));
+                        GameConstants.SHOOTER_HEIGHT - baseHeight));
 
         // sets the Hitbox
         setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead

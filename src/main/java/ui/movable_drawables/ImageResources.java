@@ -17,8 +17,7 @@ import java.io.IOException;
  */
 public class ImageResources {
 
-//    private static final String theme = Configuration.getInstance().getTheme();
-    private static final String theme = "PEPEGA";
+    private static final String theme = Configuration.getInstance().getTheme();
 
     /**
      * @param entity the entity that needs an image to draw itself

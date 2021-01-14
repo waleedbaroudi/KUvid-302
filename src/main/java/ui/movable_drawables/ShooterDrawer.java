@@ -22,7 +22,7 @@ public class ShooterDrawer implements Drawable {
     private final Image shooterImageGif;
     private final Image shooterBase;
     private final Image shootingAnim;
-    private Image tmp;
+    private Image currentImg;
     private boolean shot;
     private final Configuration config;
 
@@ -35,7 +35,7 @@ public class ShooterDrawer implements Drawable {
         this.shooterBase = ImageResources.get("shooter_base", (int) (shooter.getHitbox().getHeight() * 1.5), (int) shooter.getHitbox().getHeight());
         this.shooterImageGif = ImageResources.getGif("shooter", (int) shooter.getHitbox().getWidth(), (int) shooter.getHitbox().getHeight());
         this.shootingAnim = ImageResources.getGif("shootinganim", (int) shooter.getHitbox().getWidth(), (int) shooter.getHitbox().getHeight());
-        this.tmp = shooterImageGif;
+        this.currentImg = shooterImageGif;
         this.shot = true;
     }
 
@@ -53,7 +53,7 @@ public class ShooterDrawer implements Drawable {
                 shooter.getHitbox().getWidth(),
                 shooter.getHitbox().getHeight());
 
-        if (false)//TODO: here we will check the theme
+        if (config.isDiscoTheme())
             g2d.drawImage(shooterBase,
                     (int) (shooter.getCoordinates().getX() - 0.5 * shooterBase.getWidth(null)),
                     (int) (config.getGameHeight() - config.getUnitL() * 1.25),
@@ -65,7 +65,7 @@ public class ShooterDrawer implements Drawable {
                 (int) (shooter.getCoordinates().getPoint().y + shooter.getHitbox().getHeight() * 0.25));
 
         g2d.drawImage(
-                tmp,
+                currentImg,
                 drawingCoordinates.getPoint().x,
                 drawingCoordinates.getPoint().y,
                 null);
@@ -95,17 +95,17 @@ public class ShooterDrawer implements Drawable {
     }
 
     public void shot() {
-        //todo: check which theme is running then execute
-        return;
-//        shot = false;
-//        tmp = shootingAnim;
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                tmp = shooterImageGif;
-//                shot = true;
-//            }
-//        }, 250);
+        if (!config.isDiscoTheme())
+            return;
+        shot = false;
+        currentImg = shootingAnim;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                currentImg = shooterImageGif;
+                shot = true;
+            }
+        }, 250);
     }
 
 }
