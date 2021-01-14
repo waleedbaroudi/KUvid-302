@@ -15,7 +15,9 @@ public class ShieldHandler implements OnShotListener {
     private ShieldTuple tempShields;
     private ShieldTuple shields;
 
-    public ShieldHandler(){}
+    public ShieldHandler() {
+    }
+
     public ShieldHandler(RunningMode runningMode, Shooter shooter) {
         this.shooter = shooter;
         this.runningMode = runningMode;
@@ -29,7 +31,7 @@ public class ShieldHandler implements OnShotListener {
     }
 
     public void applyShield(ShieldType type) {
-        if (shields.getShieldsCount(type) > 0) {
+        if (shields.getShieldsCount(type) > 0 && shooter.projectileIsAtom()) {
             shields.decreaseShieldCount(type);
             tempShields.addShield(type);
             runningMode.updateStatisticsShieldCount();
