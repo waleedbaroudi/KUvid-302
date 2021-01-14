@@ -73,9 +73,18 @@ public class CollisionHandler implements CollisionVisitor {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
         double distance = MathUtils.distanceBetween(shooter.getCoordinates(), blocker.getCoordinates());
+        double damageDone;
+        if (blocker.isExploded()) {
+            damageDone = blocker.getExplosionDamage(shooter);
+            System.out.println("Damage done: " + damageDone);
+            controller.updateHealth(damageDone);
+            controller.removeEntity(blocker);
+        }
 
-        if(distance <= GameConstants.BLOCKER_EXPLOSION_RADIUS * Configuration.getInstance().getUnitL()) {
-            double damageDone = blocker.getExplosionDamage(shooter);
+        if (distance <= GameConstants.BLOCKER_RADIUS * Configuration.getInstance().getUnitL()
+                && !blocker.isExploded()) {
+            //TODO: Make blocker explode when it hits the shooter.
+            damageDone = blocker.getExplosionDamage(shooter);
             controller.updateHealth(damageDone);
             controller.removeEntity(blocker);
         }
