@@ -58,11 +58,13 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         getContentPane().add(statisticsPanel, BorderLayout.LINE_END);
 
         //add separator
-        JPanel separator = new JPanel();
-        separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
-//        getContentPane().add(separator, BorderLayout.CENTER);
-        separator.setBackground(Color.BLACK);
-        getContentPane().add(statisticsPanel, BorderLayout.CENTER);
+        if (!config.isDiscoTheme()) {
+            JPanel separator = new JPanel();
+            separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
+            getContentPane().add(separator, BorderLayout.CENTER);
+            separator.setBackground(Color.BLACK);
+            getContentPane().add(statisticsPanel, BorderLayout.CENTER);
+        }
 
         setLocationRelativeTo(null); //centers the window in the middle of the screen
 
