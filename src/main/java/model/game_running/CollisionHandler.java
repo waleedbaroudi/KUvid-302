@@ -75,7 +75,7 @@ public class CollisionHandler implements CollisionVisitor {
         double distance = MathUtils.distanceBetween(shooter.getCoordinates(), blocker.getCoordinates());
 
         if(distance <= GameConstants.BLOCKER_EXPLOSION_RADIUS * Configuration.getInstance().getUnitL()) {
-            int damageDone = (int) Math.round(blocker.getExplosionDamage(shooter));
+            double damageDone = blocker.getExplosionDamage(shooter);
             controller.updateHealth(damageDone);
             controller.removeEntity(blocker);
         }

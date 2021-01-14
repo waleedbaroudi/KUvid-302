@@ -71,7 +71,6 @@ public class Atom extends Projectile {
         return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 
-
     // visitor pattern. Double delegation
     @Override
     public void collideWith(CollisionVisitor visitor, Atom atom) {

@@ -239,7 +239,7 @@ public class RunningMode {
             player.changeShieldCount();
     }
 
-    public void updateHealth(int damageAmount) {
+    public void updateHealth(double damageAmount) {
         if (player != null)
             if (player.loseHealth(damageAmount))
                 this.setRunningState(GameConstants.GAME_STATE_STOP);

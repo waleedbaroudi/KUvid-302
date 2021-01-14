@@ -624,8 +624,8 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onHealthChanged(int health) {
-        healthLabel.setText(String.valueOf(health));
+    public void onHealthChanged(double health) {
+        healthLabel.setText(String.format("%.2f",health));
     }
 
     @Override
