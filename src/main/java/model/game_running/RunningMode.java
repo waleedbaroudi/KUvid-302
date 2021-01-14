@@ -96,7 +96,11 @@ public class RunningMode {
      */
     private void initialize() {
         movementRunnable = new MovementRunnable(this.autonomousEntities);
-        collisionRunnable = new CollisionRunnable(this, new CollisionHandler(this));
+
+        CollisionHandler collisionHandler = new CollisionHandler(this);
+        collisionRunnable = new CollisionRunnable(this, collisionHandler);
+        collisionHandler.setCollisionRunnable(collisionRunnable); // TODO: Find better implementation.
+
         shooterRunnable = new ShooterMovementRunnable(this.shooter);
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
 

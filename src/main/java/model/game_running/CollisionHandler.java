@@ -3,14 +3,20 @@ package model.game_running;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.*;
+import model.game_running.runnables.CollisionRunnable;
 import services.utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 
     RunningMode controller;
-
+    CollisionRunnable collisionRunnable;
     CollisionHandler(RunningMode controller) {
         this.controller = controller;
+        this.collisionRunnable = null;
+    }
+
+    public void setCollisionRunnable(CollisionRunnable collisionRunnable) {
+        this.collisionRunnable = collisionRunnable;
     }
 
     /**
@@ -23,7 +29,6 @@ public class CollisionHandler implements CollisionVisitor {
         controller.removeEntity(entity1);
         controller.removeEntity(entity2);
     }
-
 
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
@@ -74,16 +79,18 @@ public class CollisionHandler implements CollisionVisitor {
         // check for close atom and molecules and destroy them.
         double distance = MathUtils.distanceBetween(shooter.getCoordinates(), blocker.getCoordinates());
         double damageDone;
+
         if (blocker.isExploded()) {
             damageDone = blocker.getExplosionDamage(shooter);
-            System.out.println("Damage done: " + damageDone);
             controller.updateHealth(damageDone);
             controller.removeEntity(blocker);
         }
 
         if (distance <= GameConstants.BLOCKER_RADIUS * Configuration.getInstance().getUnitL()
                 && !blocker.isExploded()) {
-            //TODO: Make blocker explode when it hits the shooter.
+
+            this.collisionRunnable.BlockerHitShooterBehavior(blocker);
+
             damageDone = blocker.getExplosionDamage(shooter);
             controller.updateHealth(damageDone);
             controller.removeEntity(blocker);
