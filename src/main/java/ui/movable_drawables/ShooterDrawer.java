@@ -79,10 +79,6 @@ public class ShooterDrawer implements Drawable {
             DrawableFactory.get(projectile).draw(g2d);
         }
         g2d.setTransform(old);
-
-        Coordinates a = shooter.getShootingCoords();
-        g.setColor(Color.MAGENTA);
-        g.fillOval((int) (a.getX() - projectile.getHitbox().getHeight() * 0.5), (int) (a.getY() - projectile.getHitbox().getHeight() * 0.5), 15, 15);
     }
 
     @Override
