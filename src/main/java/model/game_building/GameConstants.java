@@ -106,4 +106,7 @@ public final class GameConstants {
 
     public static final double ATOM_SPEED_PERCENTAGE = 1.0;
 
+    public static final double DEFAULT_HEALTH = 100;
+    public static final double TERMINATING_DAMAGE = DEFAULT_HEALTH;
+
 }
