@@ -2,6 +2,7 @@ package model.game_entities.shields;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.enums.ShieldType;
+import services.utils.MathUtils;
 
 public class ShieldTuple {
     private final int[] shields;

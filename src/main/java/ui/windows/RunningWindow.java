@@ -28,6 +28,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private boolean running;
     private boolean paused;
     Configuration config;
+    private Image background, background_gameOver;
+    private final JPanel backgroundPanel;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
     private SessionLoadWindow sessionLoadWindow;
@@ -46,8 +48,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         statisticsPanel = new StatisticsPanel(this.runningMode);
         Player player = new Player("player", statisticsPanel); //todo: change temp username
         this.runningMode.setPlayer(player);
-        Image background = ImageResources.backGround(getWidth(), getHeight());
-        JPanel backgroundPanel = new JPanel() {
+        background = ImageResources.backGround(getWidth(), getHeight(), false);
+        background_gameOver = ImageResources.backGround(getWidth(), getHeight(), true);
+        backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
@@ -65,7 +68,6 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
             separator.setBackground(Color.BLACK);
             getContentPane().add(statisticsPanel, BorderLayout.CENTER);
         }
-
         setLocationRelativeTo(null); //centers the window in the middle of the screen
 
         setVisible(true);
@@ -93,6 +95,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
                     if (runningMode.isGameFinished()) runningMode.endGame();
                 }
             } else {
+                background = background_gameOver;
+                backgroundPanel.repaint();
                 runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
                 gameTimer.stop();
             }
@@ -115,6 +119,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
 
     @Override
     public void onGameOver() {
+        //todo: this is not reached when the game is over
+        background = background_gameOver;
+        backgroundPanel.repaint();
         this.running = false;
     }
 

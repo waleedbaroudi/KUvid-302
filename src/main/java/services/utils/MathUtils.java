@@ -1,6 +1,8 @@
 package services.utils;
 
 
+import model.game_entities.enums.ShieldType;
+
 import java.nio.charset.CoderMalfunctionError;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class MathUtils {
         // or point is null throws nullPointerException
         // If (x of the point - x of the center coordinate)^2 + (y of the point - y of the center coordinate)^2 is less than the radius^2 return true
         // else return false.
-        if(centerCoordinates == null || point == null)
+        if (centerCoordinates == null || point == null)
             throw new NullPointerException("MathUtils.isWithinCircle");
 
         double x = point.getX();
@@ -89,7 +91,7 @@ public class MathUtils {
         double y_0 = centerCoordinates.getY();
 
         // If the radius is zero nothing can be inside the circle
-        if(radius == 0)
+        if (radius == 0)
             return false;
 
         return pow((x - x_0), 2) + pow((y - y_0), 2) <= pow(radius, 2);
@@ -276,11 +278,12 @@ public class MathUtils {
 
     /**
      * Given two points, returns the distance between them.
-     * @param firstPoint The coordinates of the first point.
+     *
+     * @param firstPoint  The coordinates of the first point.
      * @param secondPoint The coordinates of the second point.
      * @return The distance between two given points.
      */
-    public static double distanceBetween(Coordinates firstPoint, Coordinates secondPoint){
+    public static double distanceBetween(Coordinates firstPoint, Coordinates secondPoint) {
         double newX = Math.abs(firstPoint.getX() - secondPoint.getX());
         double newY = Math.abs(firstPoint.getY() - secondPoint.getY());
 
@@ -289,10 +292,11 @@ public class MathUtils {
 
     /**
      * Given an array of integers, returns a random element from this array.
+     *
      * @param array array of integers.
      * @return a random element from the given array.
      */
-    public static int chooseFrom(int[] array){
+    public static int chooseFrom(int[] array) {
         Random random = new Random();
         int randomIndex = random.nextInt(array.length);
         return array[randomIndex];
@@ -300,17 +304,26 @@ public class MathUtils {
 
     /**
      * Given an array of doubles, returns a random element from this array.
+     *
      * @param array array of doubles.
      * @return a random element from the given array.
      */
-    public static double chooseFrom(double[] array){
+    public static double chooseFrom(double[] array) {
         Random random = new Random();
         int randomIndex = random.nextInt(array.length);
         return array[randomIndex];
     }
 
-    public static String truncateByTwo(double toBeTruncated){
+    public static String truncateByTwo(double toBeTruncated) {
         return new DecimalFormat("#.##").format(toBeTruncated);
+    }
+
+    public static int argMax(int[] arr) {
+        int max = 0;
+        for (int i = 1; i < arr.length; i++)
+            if (arr[i] > arr[max])
+                max = i;
+        return max;
     }
 
 }
