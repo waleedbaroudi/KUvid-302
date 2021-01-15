@@ -3,7 +3,10 @@ package model.game_running;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import org.apache.log4j.Logger;
+import services.database.IDatabase;
+import services.database.LocalDBAdapter;
 import services.database.MongoDBAdapter;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,8 +14,11 @@ import java.util.ArrayList;
 public class SessionLoader {
 
     private SessionLoadListener loadListener;
-    private MongoDBAdapter dbAdapter;
+
+    private IDatabase dbAdapter;
     private static Logger logger;
+
+    ArrayList<String> localSessions, onlineSessions;
 
     public SessionLoader(SessionLoadListener loadListener) {
         this.loadListener = loadListener;
@@ -20,20 +26,38 @@ public class SessionLoader {
         logger = Logger.getLogger(this.getClass().getName());
     }
 
-    public void fetchSavedSessions() {
-        ArrayList<String> savedSessions = MongoDBAdapter.getInstance().getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE);
-        loadListener.onSessionListFetched(savedSessions);
+
+    public synchronized void fetchOnlineSavedSessions() {
+        dbAdapter = MongoDBAdapter.getInstance();
+        if (onlineSessions == null)
+            onlineSessions = new ArrayList<>(dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE));
+        loadListener.onSessionListFetched(onlineSessions);
+    }
+
+    public synchronized void fetchLocallySavedSession() {
+        dbAdapter = LocalDBAdapter.getInstance();
+        if (localSessions == null)
+            localSessions = new ArrayList<>(dbAdapter.getDocumentsIds("N/A"));
+        loadListener.onSessionListFetched(localSessions);
     }
 
     public void retrieveSession(String sessionID) {
         GameBundle loadedBundle = null;
         try {
-            loadedBundle = dbAdapter.load(GameConstants.SESSION_COLLECTION_TITLE, sessionID, GameBundle.class);
+            loadedBundle = dbAdapter.load(GameConstants.SESSION_COLLECTION_TITLE, IOHandler.prettyToProperFileName(sessionID), GameBundle.class);
         } catch (IOException e) {
             e.printStackTrace();
             loadListener.onLoadFailed("Could not load the selected game session.");
         }
         loadListener.onSessionRetrieved(loadedBundle);
+    }
+
+    /**
+     * resets the lists of saved sessions to null, so that they are updated on the next fetch call
+     */
+    public void resetLists() {
+        localSessions = null;
+        onlineSessions = null;
     }
 
     public interface SessionLoadListener {

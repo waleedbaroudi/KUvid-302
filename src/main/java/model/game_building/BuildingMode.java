@@ -18,7 +18,7 @@ public class BuildingMode {
     }
 
     public static ConfigBundle getDefaultBundle() throws IOException {
-        return IOHandler.readFromYaml("Default", ConfigBundle.class);
+        return IOHandler.readFromYaml("Default","configurations" , ConfigBundle.class);
     }
 
     //TODO: specify the wrong field in the warning popup window

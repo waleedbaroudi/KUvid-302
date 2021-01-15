@@ -1,6 +1,5 @@
 package services.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.log4j.Logger;
@@ -23,26 +22,22 @@ public class IOHandler {
      * @param obj      the object to be saved.
      * @param fileName the base name of the file of the saved object.
      */
-    public static void writeToYAML(Object obj, String fileName, String directoryName) {
+    public static void writeToYAML(Object obj, String fileName, String directoryName) throws IOException {
         String name = formatFileNameWithDate(fileName, ".yaml");
         writeFileWithMapper(obj, name, directoryName, YAMLMapper);
     }
 
-    public static void writeToJSON(Object obj, String fileName, String directoryName) {
+    public static void writeToJSON(Object obj, String fileName, String directoryName) throws IOException {
         String name = formatFileNameWithDate(fileName, ".json");
         writeFileWithMapper(obj, name, directoryName, JSONMapper);
     }
 
-    public static String getYamlRepresentation(Object obj) throws IOException {
+    public static String getYAMLRepresentation(Object obj) throws IOException {
         return YAMLMapper.writeValueAsString(obj);
     }
 
-    private static void writeFileWithMapper(Object obj, String fileName, String directoryName, ObjectMapper mapper) {
-        try {
-            mapper.writeValue(new File(System.getProperty("user.dir") + "/" + directoryName + "/" + fileName), obj);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static void writeFileWithMapper(Object obj, String fileName, String directoryName, ObjectMapper mapper) throws IOException {
+        mapper.writeValue(new File(System.getProperty("user.dir") + "/" + directoryName + "/" + fileName), obj);
     }
 
     /**
@@ -50,7 +45,7 @@ public class IOHandler {
      *
      * @param obj the temporary object to be written to the file.
      */
-    public static void writeToYAML(Object obj) {
+    public static void writeToYAML(Object obj) throws IOException {
         writeFileWithMapper(obj, "temp.yaml", "configurations", YAMLMapper);
     }
 
@@ -58,10 +53,11 @@ public class IOHandler {
      * Returns an Object that is loaded from the YAML file with the given name
      *
      * @param fileName name of the YAML file to be read.
+     * @param directory
      * @return a new object read from the YAML file
      */
-    public static <T> T readFromYaml(String fileName, Class<T> tClass) throws IOException {
-        return YAMLMapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), tClass);
+    public static <T> T readFromYaml(String fileName, String directory, Class<T> tClass) throws IOException {
+        return YAMLMapper.readValue(new File(System.getProperty("user.dir") + "/" + directory + "/" + fileName + ".yaml"), tClass);
     }
 
     /**
@@ -78,10 +74,11 @@ public class IOHandler {
     /**
      * Return the names of the files inside the configuration directory
      *
+     * @param directoryName name of the directory to fetch file names from
      * @return a list of strings containing the names, potentially null
      */
-    public static String[] getFilesInDirectory() {
-        File directory = new File(System.getProperty("user.dir") + "/configurations/");
+    public static String[] getFilesInDirectory(String directoryName) {
+        File directory = new File(System.getProperty("user.dir") + "/" + directoryName + "/");
         return directory.list();
     }
 

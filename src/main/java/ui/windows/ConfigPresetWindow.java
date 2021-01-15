@@ -23,7 +23,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
         this.configPreset = new ConfigPreset(this);
         this.buildingGameFrame = parent;
         this.setContentPane(new JPanel());
-        boolean presetsLoaded = this.addComponents(IOHandler.getFilesInDirectory());
+        boolean presetsLoaded = this.addComponents(IOHandler.getFilesInDirectory("configurations"));
         this.pack(); // Pack the frame around the components
         this.setLocationRelativeTo(null); // Center the blender frame
         if (presetsLoaded)
@@ -61,7 +61,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
 
         JButton confirmPresetButton = new JButton("Confirm Preset");
         confirmPresetButton.addActionListener(e -> {
-            String properFileName = IOHandler.prettyToProperFileName(configurationFilesList.getSelectedValue().toString());
+            String properFileName = IOHandler.prettyToProperFileName(configurationFilesList.getSelectedValue());
             try {
                 configPreset.getConfigBundleFromFile(properFileName);
             } catch (IOException exception) {

@@ -1,24 +1,15 @@
 package model.game_running.states;
 
-import model.game_building.Configuration;
-import model.game_building.GameBundle;
-import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
-import services.utils.IOHandler;
-import services.database.MongoDBAdapter;
-
-import java.io.IOException;
 
 public class PausedState implements GameState {
 
     private final RunningMode runningMode;
-    private final MongoDBAdapter dbAdapter;
     private static Logger logger;
 
     public PausedState(RunningMode runningMode) {
         this.runningMode = runningMode;
-        this.dbAdapter = MongoDBAdapter.getInstance();
         logger = Logger.getLogger(this.getClass().getName());
     }
 
@@ -30,6 +21,7 @@ public class PausedState implements GameState {
 
     @Override
     public void saveGameSession() {
-        runningMode.saveGameSession();
+//        runningMode.saveGameSession();
+        runningMode.getSaveSessionListener().showSaveMethodSelector();
     }
 }

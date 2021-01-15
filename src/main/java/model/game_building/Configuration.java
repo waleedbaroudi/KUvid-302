@@ -30,7 +30,7 @@ public class Configuration {
         logger = Logger.getLogger(Configuration.class.getName());
 
         try {
-            configBundle = IOHandler.readFromYaml("temp", ConfigBundle.class);
+            configBundle = IOHandler.readFromYaml("temp", "configurations", ConfigBundle.class);
         } catch (IOException exception) {
             logger.error("[Configuration] {FATAL}: Could not load game configurations.", exception);
             exception.printStackTrace();
