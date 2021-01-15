@@ -1,6 +1,7 @@
 package model.game_entities.factories;
 
 import static model.game_building.GameConstants.*;
+
 import model.game_entities.Atom;
 import model.game_entities.enums.EntityType;
 import model.game_physics.hitbox.Hitbox;
@@ -14,18 +15,18 @@ public class AtomFactory {
 
     private static AtomFactory factory = new AtomFactory();
 
-    private AtomFactory(){
+    private AtomFactory() {
     }
 
-    public static AtomFactory getInstance(){
-        if (factory == null){
+    public static AtomFactory getInstance() {
+        if (factory == null) {
             factory = new AtomFactory();
         }
         return factory;
     }
 
-    public Atom getAtom(EntityType type){
-        Coordinates atomDefaultCoordinates = new Coordinates(0,0);
+    public Atom getAtom(EntityType type) {
+        Coordinates atomDefaultCoordinates = new Coordinates(0, 0);
 
         Hitbox atomDefaultHitbox = HitboxFactory.getInstance().getAtomHitbox();
         PathPattern atomDefaultPathPattern = PathPatternFactory.getInstance().getAtomPathPattern();
@@ -33,7 +34,7 @@ public class AtomFactory {
         int numberOfNeutrons = 0;
         double efficiency = 0.0;
 
-        switch (type){
+        switch (type) {
             case ALPHA:
                 numberOfNeutrons = MathUtils.chooseFrom(ALPHA_NEUTRON_VALUES);
                 efficiency = alphaEfficiency(numberOfNeutrons);
@@ -67,19 +68,19 @@ public class AtomFactory {
         }
     }
 
-    private double alphaEfficiency(int numberOfNeutrons){
-        return  1 -  (Math.abs(numberOfNeutrons - ALPHA_PROTONS) / (double) ALPHA_PROTONS) * ALPHA_STABILITY_CONSTANT;
+    private double alphaEfficiency(int numberOfNeutrons) {
+        return (1 - (Math.abs(numberOfNeutrons - ALPHA_PROTONS) / (double) ALPHA_PROTONS)) * ALPHA_STABILITY_CONSTANT;
     }
 
-    private double betaEfficiency(int numberOfNeutrons){
-        return BETA_STABILITY_CONSTANT -  (0.5 * Math.abs(numberOfNeutrons - BETA_PROTONS) / (double) BETA_PROTONS);
+    private double betaEfficiency(int numberOfNeutrons) {
+        return BETA_STABILITY_CONSTANT - (0.5 * Math.abs(numberOfNeutrons - BETA_PROTONS) / (double) BETA_PROTONS);
     }
 
-    private double gammaEfficiency(int numberOfNeutrons){
-        return GAMMA_STABILITY_CONSTANT + (float) Math.abs(numberOfNeutrons - GAMMA_PROTONS)  / (double) 2 * GAMMA_PROTONS;
+    private double gammaEfficiency(int numberOfNeutrons) {
+        return GAMMA_STABILITY_CONSTANT + (Math.abs(numberOfNeutrons - GAMMA_PROTONS) / (2.0 * GAMMA_PROTONS));
     }
 
-    private double sigmaEfficiency(int numberOfNeutrons){
-        return (1 + (SIGMA_STABILITY_CONSTANT / 2) + (float)Math.abs(numberOfNeutrons - SIGMA_PROTONS) / (double) SIGMA_PROTONS);
+    private double sigmaEfficiency(int numberOfNeutrons) {
+        return ((1.0 + SIGMA_STABILITY_CONSTANT) / 2.0) + ((float) Math.abs(numberOfNeutrons - SIGMA_PROTONS) / (double) SIGMA_PROTONS);
     }
 }

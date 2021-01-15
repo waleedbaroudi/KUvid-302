@@ -4,9 +4,6 @@ import model.game_entities.enums.ShieldType;
 import model.game_running.ShieldHandler;
 
 public class GameStatistics {
-    double health; //might be doubles?
-    double score;
-    GameTimer timer;
     GameStatisticsListener statisticsListener;
 
     public GameStatistics(GameStatisticsListener statisticsListener) {
@@ -40,8 +37,7 @@ public class GameStatistics {
     }
 
     public void updateScore(double score) { //assuming the score will only be incremented by 1.
-        this.score += score;
-        statisticsListener.onScoreChanged(this.score);
+        statisticsListener.onScoreChanged(score);
     }
 
     /**
