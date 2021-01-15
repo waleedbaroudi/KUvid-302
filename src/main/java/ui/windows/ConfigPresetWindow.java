@@ -61,7 +61,7 @@ public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSel
 
         JButton confirmPresetButton = new JButton("Confirm Preset");
         confirmPresetButton.addActionListener(e -> {
-            String properFileName = IOHandler.prettyToProperFileName(configurationFilesList.getSelectedValue().toString());
+            String properFileName = IOHandler.prettyToProperFileName(configurationFilesList.getSelectedValue());
             try {
                 configPreset.getConfigBundleFromFile(properFileName);
             } catch (IOException exception) {

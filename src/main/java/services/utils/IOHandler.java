@@ -53,10 +53,11 @@ public class IOHandler {
      * Returns an Object that is loaded from the YAML file with the given name
      *
      * @param fileName name of the YAML file to be read.
+     * @param directory
      * @return a new object read from the YAML file
      */
-    public static <T> T readFromYaml(String fileName, Class<T> tClass) throws IOException {
-        return YAMLMapper.readValue(new File(System.getProperty("user.dir") + "/configurations/" + fileName + ".yaml"), tClass);
+    public static <T> T readFromYaml(String fileName, String directory, Class<T> tClass) throws IOException {
+        return YAMLMapper.readValue(new File(System.getProperty("user.dir") + "/" + directory + "/" + fileName + ".yaml"), tClass);
     }
 
     /**

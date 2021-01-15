@@ -27,7 +27,7 @@ public class LocalDBAdapter implements IDatabase {
 
     @Override
     public <T> T load(String collectionTitle, String uniqueID, Class<T> tClass) throws IOException {
-        return IOHandler.readFromYaml(uniqueID, tClass);
+        return IOHandler.readFromYaml(uniqueID, "sessions", tClass);
     }
 
     @Override
