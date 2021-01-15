@@ -93,18 +93,18 @@ public class MongoDBAdapter implements IDatabase {
 
     @Override
     public <T> boolean save(String collectionTitle, String uniqueID, T instance) throws IOException {
-        logger.debug("[MongoDBAtlasAdapter] saving instance with unique ID " + uniqueID + " to the mongoDB");
+        String ID = IOHandler.formatFileNameWithDate(uniqueID, "");
+        logger.debug("[MongoDBAtlasAdapter] saving instance with unique ID " + ID + " to the mongoDB");
         MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
-
         // check if the uniqueID already exists
-        if (collection.find(eq(DOC_ID_KEY, uniqueID)).first() != null) {
-            logger.warn("[MongoDBAtlasAdapter] trying to overwrite an entry with ID " + uniqueID);
+        if (collection.find(eq(DOC_ID_KEY, ID)).first() != null) {
+            logger.warn("[MongoDBAtlasAdapter] trying to overwrite an entry with ID " + ID);
             return false;
         }
 
-        String FileRepresentation = IOHandler.getYamlRepresentation(instance);
-        collection.insertOne(new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
-        logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was saved");
+        String FileRepresentation = IOHandler.getYAMLRepresentation(instance);
+        collection.insertOne(new Document().append(DOC_ID_KEY, ID).append(DOC_FILE_KEY, FileRepresentation));
+        logger.info("[MongoDBAtlasAdapter] instance with unique ID " + ID + " was saved");
         return true;
     }
 
@@ -118,7 +118,7 @@ public class MongoDBAdapter implements IDatabase {
             logger.warn("[MongoDBAtlasAdapter] trying to update a non-existing entry with ID " + uniqueID);
         }
 
-        String FileRepresentation = IOHandler.getYamlRepresentation(instance);
+        String FileRepresentation = IOHandler.getYAMLRepresentation(instance);
         collection.updateOne(eq(DOC_ID_KEY, uniqueID), new Document().append(DOC_ID_KEY, uniqueID).append(DOC_FILE_KEY, FileRepresentation));
         logger.info("[MongoDBAtlasAdapter] instance with unique ID " + uniqueID + " was updating");
         return true;

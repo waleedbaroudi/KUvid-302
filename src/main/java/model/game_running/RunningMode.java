@@ -371,9 +371,8 @@ public class RunningMode {
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
         GameBundle bundle = builder.build();
-        String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
         try {
-            database.save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
+            database.save(GameConstants.SESSION_COLLECTION_TITLE, "Session", bundle); //
         } catch (IOException e) {
             logger.error("Could not save the game session", e);
         }

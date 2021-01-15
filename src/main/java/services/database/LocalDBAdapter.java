@@ -1,33 +1,37 @@
 package services.database;
 
+import services.utils.IOHandler;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class LocalDBAdapter implements IDatabase {
 
-    private static LocalDBAdapter instance;
+    private static LocalDBAdapter adapterInstance;
 
     private LocalDBAdapter() {
     }
 
     public static synchronized LocalDBAdapter getInstance() {
-        if (instance == null)
-            instance = new LocalDBAdapter();
-        return instance;
+        if (adapterInstance == null)
+            adapterInstance = new LocalDBAdapter();
+        return adapterInstance;
     }
 
     @Override
     public <T> boolean save(String collectionTitle, String uniqueID, T instance) throws IOException {
-        return false;
+        IOHandler.writeToYAML(instance, uniqueID, "sessions");
+        return true;
     }
 
     @Override
     public <T> T load(String collectionTitle, String uniqueID, Class<T> tClass) throws IOException {
-        return null;
+        return IOHandler.readFromYaml(uniqueID, tClass);
     }
 
     @Override
     public List<String> getDocumentsIds(String collectionTitle) {
-        return null;
+        return Arrays.asList(IOHandler.getFilesInDirectory("sessions"));
     }
 }
