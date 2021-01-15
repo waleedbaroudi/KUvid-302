@@ -308,4 +308,12 @@ public class Configuration {
     public boolean isDiscoTheme() {
         return configBundle.getTheme().equalsIgnoreCase(GameConstants.DISCO);
     }
+
+    @JsonIgnore
+    public double getBaseHeight(){
+        if (isDiscoTheme())
+            return getUnitL() * GameConstants.SHOOTER_HEIGHT;
+        else
+            return 0.0;
+    }
 }

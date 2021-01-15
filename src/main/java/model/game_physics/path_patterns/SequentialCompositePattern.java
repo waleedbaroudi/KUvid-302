@@ -20,9 +20,6 @@ public class SequentialCompositePattern extends PathPattern{
     private int currentPatternIdx;
     private Coordinates currentCoords;
 
-    // TODO: remove screenSize and replace with observer from game config
-    private double screenSize = 100;
-
     public SequentialCompositePattern(ArrayList<PathPattern> patterns) {
         super(patterns.get(0).getCurrentCoords());
         this.patterns = patterns;
