@@ -1,6 +1,7 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
+import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
@@ -104,5 +105,11 @@ public class ImageResources {
             return getGif("kuvid_bc", width, height);
         else
             return getImage("kuvid_bc" + ".png", width, height);
+    }
+
+    public static Image getShieldedAtom(Atom atom, int maxShield) {
+        return getImage(atom.getSuperType() + "/" + atom.getEntityType() + maxShield + ".png",
+                (int) atom.getHitbox().getWidth(),
+                (int) atom.getHitbox().getHeight());
     }
 }

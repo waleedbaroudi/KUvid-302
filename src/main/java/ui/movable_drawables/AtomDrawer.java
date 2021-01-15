@@ -41,5 +41,4 @@ public class AtomDrawer implements Drawable {
                 (int) atom.getHitbox().getWidth(),
                 (int) atom.getHitbox().getHeight());
     }
-
 }

@@ -306,7 +306,7 @@ public class Configuration {
 
     @JsonIgnore
     public boolean isDiscoTheme() {
-        return configBundle.getTheme().equalsIgnoreCase("disco");
+        return configBundle.getTheme().equalsIgnoreCase(GameConstants.DISCO);
     }
 
     @JsonIgnore

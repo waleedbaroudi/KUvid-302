@@ -64,7 +64,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
     JComboBox<String> themeBox;
-    String[] themes = {"Pepega", "Disco"};
+    String[] themes = {GameConstants.PEPEGA, GameConstants.DISCO};
     ArrayList<Integer> atoms, powerups, blockers, molecules, shields;
 
     double l;

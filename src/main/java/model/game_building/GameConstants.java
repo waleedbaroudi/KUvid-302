@@ -4,7 +4,6 @@ import java.awt.*;
 
 public final class GameConstants {
 
-
     private GameConstants() {
     }//this class should not be initialized.
 
@@ -105,5 +104,9 @@ public final class GameConstants {
     public static final double SIGMA_STABILITY_CONSTANT = 0.7;
 
     public static final double ATOM_SPEED_PERCENTAGE = 1.0;
+
+    //Themes
+    public static final String DISCO = "disco";
+    public static final String PEPEGA = "pepega";
 
 }
