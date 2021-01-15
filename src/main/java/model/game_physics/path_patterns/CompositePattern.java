@@ -36,7 +36,14 @@ public class CompositePattern extends PathPattern {
         this.currentIteration = 0;
         this.circulate = circulate;
         // set the current pattern to the first pattern
-        setCurrentPattern(patterns.get(0));
+        try {
+            setCurrentPattern((PathPattern) patterns.get(0).clone());
+        }
+        catch (Exception e){
+            logger.error("[CompositePattern] cloning current path pattern failed");
+            e.printStackTrace();
+        }
+
     }
 
     /**
