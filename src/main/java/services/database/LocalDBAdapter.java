@@ -3,7 +3,19 @@ package services.database;
 import java.io.IOException;
 import java.util.List;
 
-public class LocalDBAdapter implements IDatabase{
+public class LocalDBAdapter implements IDatabase {
+
+    private static LocalDBAdapter instance;
+
+    private LocalDBAdapter() {
+    }
+
+    public static synchronized LocalDBAdapter getInstance() {
+        if (instance == null)
+            instance = new LocalDBAdapter();
+        return instance;
+    }
+
     @Override
     public <T> boolean save(String collectionTitle, String uniqueID, T instance) throws IOException {
         return false;
