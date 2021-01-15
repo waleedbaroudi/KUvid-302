@@ -16,7 +16,6 @@ public class GamePanel extends JPanel {
     GameCommandListener commandListener;
     private Map<AutonomousEntity, Drawable> drawableMap;
     ShooterDrawer shooterDrawer;
-    private final boolean drawHitboxes;
 
     public GamePanel(RunningMode runningMode, Map<AutonomousEntity, Drawable> drawableMap) {
         this.setPreferredSize(Configuration.getInstance().getGamePanelDimensions());
@@ -28,7 +27,6 @@ public class GamePanel extends JPanel {
         this.shooterDrawer = new ShooterDrawer(runningMode.getShooter());
         this.commandListener = new GameCommandListener(this.runningMode, shooterDrawer);
         this.addKeyListener(commandListener);
-        this.drawHitboxes = Configuration.getInstance().drawHitboxes();
     }
 
 
@@ -41,12 +39,10 @@ public class GamePanel extends JPanel {
     public void paint(Graphics g) {
         super.paintComponents(g);
         shooterDrawer.draw(g);
-        if (drawHitboxes)
-            shooterDrawer.drawHitbox(g);
+        shooterDrawer.drawHitbox(g);
         for (AutonomousEntity entity : drawableMap.keySet()) {
             drawableMap.get(entity).draw(g); //todo: fix AWT-EventQueue-0 NPE
-            if (drawHitboxes)
-                drawableMap.get(entity).drawHitbox(g);
+            drawableMap.get(entity).drawHitbox(g);
         }
     }
 }

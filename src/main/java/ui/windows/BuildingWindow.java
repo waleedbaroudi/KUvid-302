@@ -59,7 +59,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     JCheckBox isSpinningBeta;
     JCheckBox isSpinningAlpha;
     JCheckBox saveConfigPresetCheck;
-    JCheckBox drawHitboxCheck;
 
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
@@ -278,14 +277,12 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         addAlphaCheckboxActionListener();
         addBetaCheckboxActionListener();
 
-        drawHitboxCheck = new JCheckBox("draw hitboxes of entities");
-        panel.add(drawHitboxCheck);
-
         /*
         themes JComboBox
          */
-        JLabel emptyLabel = new JLabel("");
-        panel.add(emptyLabel);
+        JLabel left = new JLabel("------------>");
+        left.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(left);
 
         JLabel themeLabel = new JLabel("Theme");
         themeLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -295,6 +292,9 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         themeBox.setSelectedIndex(1);
         panel.add(themeBox);
 
+        JLabel right = new JLabel("<------------");
+        right.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(right);
 
         /*
          * Building Game Button
@@ -345,7 +345,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         return new ConfigBundle(atoms, powerups, blockers, molecules, shields, l,
                 isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
                 isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex(),
-                themeBox.getItemAt(themeBox.getSelectedIndex()), drawHitboxCheck.isSelected());
+                themeBox.getItemAt(themeBox.getSelectedIndex()));
     }
 
     /**

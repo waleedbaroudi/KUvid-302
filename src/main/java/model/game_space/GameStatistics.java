@@ -1,8 +1,5 @@
 package model.game_space;
 
-import model.game_entities.enums.ShieldType;
-import model.game_running.ShieldHandler;
-
 public class GameStatistics {
     GameStatisticsListener statisticsListener;
 

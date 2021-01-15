@@ -308,9 +308,4 @@ public class Configuration {
     public boolean isDiscoTheme() {
         return configBundle.getTheme().equalsIgnoreCase(GameConstants.DISCO);
     }
-
-    @JsonIgnore
-    public boolean drawHitboxes() {
-        return isConfigBundleSet() && configBundle.drawHitboxes();
-    }
 }

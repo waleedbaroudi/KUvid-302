@@ -119,7 +119,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
 
     @Override
     public void onGameOver() {
-        //todo: this is not reached when the game is over
+        drawableMap.clear();
         background = background_gameOver;
         backgroundPanel.repaint();
         this.running = false;
