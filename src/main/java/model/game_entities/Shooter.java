@@ -37,16 +37,11 @@ public class Shooter extends Entity {
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
 
-        //todo: make it work with both themes
-//        setCoordinates(new Coordinates(
-//                config.getGameWidth() / 2.0,
-//                config.getGameHeight() - 0.5 * config.getUnitL() *
-//                        GameConstants.SHOOTER_HEIGHT - HitboxFactory.getInstance().getShooterHitbox().getHeight()));
-
+        double baseHeight = config.isDiscoTheme() ? HitboxFactory.getInstance().getShooterHitbox().getHeight() : 0;
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
-                        GameConstants.SHOOTER_HEIGHT));
+                        GameConstants.SHOOTER_HEIGHT - baseHeight));
 
         // sets the Hitbox
         setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead
@@ -96,16 +91,16 @@ public class Shooter extends Entity {
      * @return the coordinate of the projectile where it will start moving
      */
     @JsonIgnore
-    private Coordinates getShootingCoords() {
-        int height = (int) getHitbox().getHeight();
-        //TODO: correct the implementation to work with both themes, currently working for Disco
+    public Coordinates getShootingCoords() {
+        int height = (int) (getHitbox().getHeight() * 0.75);
         int projectileRadius = (int) getCurrentProjectile().getHitbox().getHeight() / 2;
         double theta = MathUtils.angleComplement(this.getHitbox().getRotationDegree());
 
-        int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height / 2, theta);
-        int newWidth = MathUtils.getCompositeXComponent(projectileRadius, height / 2, theta);
+        int newHeight = MathUtils.getCompositeYComponent(projectileRadius, height, theta);
+        int newWidth = MathUtils.getCompositeXComponent(projectileRadius, height, theta);
 
-        return MathUtils.translate(this.getCoordinates(), new Coordinates(newWidth, -newHeight));
+        Coordinates newCenter = new Coordinates(this.getCoordinates().getX(), this.getCoordinates().getY() + 0.25 * getHitbox().getHeight());
+        return MathUtils.translate(newCenter, new Coordinates(newWidth, -newHeight));
     }
 
 

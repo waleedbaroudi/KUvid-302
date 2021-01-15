@@ -1,17 +1,13 @@
 package model.game_running;
 
-import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.*;
 import model.game_running.runnables.CollisionRunnable;
-import model.game_space.GameStatistics;
-import services.utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 
     RunningMode controller;
     CollisionRunnable collisionRunnable;
-
     CollisionHandler(RunningMode controller) {
         this.controller = controller;
         this.collisionRunnable = null;
@@ -32,6 +28,7 @@ public class CollisionHandler implements CollisionVisitor {
         controller.removeEntity(entity2);
     }
 
+
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
         if (atom.getEntityType().getValue() == molecule.getEntityType().getValue()) {
@@ -44,11 +41,11 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Atom atom, Blocker blocker) {
         // this only breaks the atom if enters the AOE of a corresponding type blocker.
 
-        if (blocker.isExploded()) {
+        if (blocker.isExploded()){
             controller.removeEntity(atom);
-        } else {
-            if (atom.getEntityType().getValue() == blocker.getEntityType().getValue())
-                controller.removeEntity(atom);
+        }else{
+             if (atom.getEntityType().getValue() == blocker.getEntityType().getValue())
+              controller.removeEntity(atom);
         }
     }
 
@@ -60,7 +57,7 @@ public class CollisionHandler implements CollisionVisitor {
 
     @Override
     public void handleCollision(Shooter shooter, Powerup powerup) {
-        if (powerup.isFalling()) {
+        if(powerup.isFalling()) {
             controller.collectPowerUp(powerup);
             controller.removeEntity(powerup);
         }
@@ -70,7 +67,7 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Molecule molecule, Blocker blocker) {
 //        defaultCollision(molecule, blocker);
         //nothing for now. this collision will be conditional: only when the blocker is exploding.
-        if (blocker.isExploded()) {
+        if (blocker.isExploded()){
             controller.removeEntity(molecule);
         }
     }
@@ -80,7 +77,6 @@ public class CollisionHandler implements CollisionVisitor {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
         double damageDone;
-        //System.out.println("DISTANCE: " + distance);
         if (blocker.isExploded()) {
             damageDone = blocker.getExplosionDamage(shooter);
             controller.updateHealth(damageDone);

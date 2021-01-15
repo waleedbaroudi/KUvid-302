@@ -177,6 +177,7 @@ public class Configuration {
     public int getNumOfEtaShields() {
         return isConfigBundleSet() ? configBundle.getNumOfEtaShields() : -1;
     }
+
     @JsonIgnore
     public int getNumOfLotaShields() {
         return isConfigBundleSet() ? configBundle.getNumOfLotaShields() : -1;
@@ -298,12 +299,18 @@ public class Configuration {
         return getUnitL() / (double) FPS;
     }
 
+    @JsonIgnore
     public String getTheme() {
         return configBundle.getTheme();
     }
 
+    @JsonIgnore
     public boolean isDiscoTheme() {
-        return configBundle.getTheme().equalsIgnoreCase("disco");
+        return configBundle.getTheme().equalsIgnoreCase(GameConstants.DISCO);
     }
 
+    @JsonIgnore
+    public boolean drawHitboxes() {
+        return isConfigBundleSet() && configBundle.drawHitboxes();
+    }
 }

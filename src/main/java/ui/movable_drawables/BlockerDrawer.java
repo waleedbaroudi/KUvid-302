@@ -22,8 +22,8 @@ public class BlockerDrawer implements Drawable {
     @Override
     public void draw(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
-                blocker.getHitbox().getWidth(),
-                blocker.getHitbox().getHeight() * 1.28);
+                2 * blocker.getHitbox().getWidth(),
+                2 * blocker.getHitbox().getHeight());
         g.drawImage(blockerImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
     }
 

@@ -1,6 +1,7 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
+import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
@@ -17,8 +18,7 @@ import java.io.IOException;
  */
 public class ImageResources {
 
-//    private static final String theme = Configuration.getInstance().getTheme();
-    private static final String theme = "PEPEGA";
+    private static final String theme = Configuration.getInstance().getTheme();
 
     /**
      * @param entity the entity that needs an image to draw itself
@@ -37,7 +37,7 @@ public class ImageResources {
 
             case BLOCKER:
                 AutonomousEntity b = (AutonomousEntity) entity;
-                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", width,(int)(1.28* height));
+                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", 2 * width, 2 * height);
 
             case MOLECULE:
                 Molecule m = (Molecule) entity;
@@ -100,10 +100,14 @@ public class ImageResources {
         return System.getProperty("user.dir") + "/assets/" + theme + "/";
     }
 
-    public static Image backGround(int width, int height) {
+    public static Image backGround(int width, int height, boolean gameOver) {
         if (theme.equalsIgnoreCase("Disco"))
-            return getGif("kuvid_bc", width, height);
+            return gameOver ?
+                    getGif("game_over", width, height) :
+                    getGif("kuvid_bc", width, height);
         else
-            return getImage("kuvid_bc" + ".png", width, height);
+            return gameOver ?
+                    getImage("kuvid_bc" + ".png", width, height) :
+                    getImage("kuvid_bc" + ".png", width, height);
     }
 }
