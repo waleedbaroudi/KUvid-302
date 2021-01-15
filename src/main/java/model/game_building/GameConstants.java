@@ -105,4 +105,7 @@ public final class GameConstants {
     public static final String DISCO = "disco";
     public static final String PEPEGA = "pepega";
 
+    public static final double DEFAULT_HEALTH = 100;
+    public static final double TERMINATING_DAMAGE = DEFAULT_HEALTH;
+
 }

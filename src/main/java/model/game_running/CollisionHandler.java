@@ -1,10 +1,8 @@
 package model.game_running;
 
-import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.*;
 import model.game_running.runnables.CollisionRunnable;
-import services.utils.MathUtils;
 
 public class CollisionHandler implements CollisionVisitor {
 
@@ -29,6 +27,7 @@ public class CollisionHandler implements CollisionVisitor {
         controller.removeEntity(entity1);
         controller.removeEntity(entity2);
     }
+
 
     @Override
     public void handleCollision(Atom atom, Molecule molecule) {
@@ -77,22 +76,18 @@ public class CollisionHandler implements CollisionVisitor {
     public void handleCollision(Shooter shooter, Blocker blocker) {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
-        double distance = MathUtils.distanceBetween(shooter.getCoordinates(), blocker.getCoordinates());
         double damageDone;
-
         if (blocker.isExploded()) {
             damageDone = blocker.getExplosionDamage(shooter);
             controller.updateHealth(damageDone);
             controller.removeEntity(blocker);
         }
 
-        if (distance <= GameConstants.BLOCKER_RADIUS * Configuration.getInstance().getUnitL()
-                && !blocker.isExploded()) {
-
+        if (!blocker.isExploded() && blocker.isCollidedWithOriginalHitbox(shooter)) {
+            blocker.setExploded(true);
             this.collisionRunnable.BlockerHitShooterBehavior(blocker);
-
-            damageDone = blocker.getExplosionDamage(shooter);
-            controller.updateHealth(damageDone);
+            //damageDone = blocker.getExplosionDamage(shooter);
+            controller.updateHealth(GameConstants.TERMINATING_DAMAGE);
             controller.removeEntity(blocker);
         }
     }

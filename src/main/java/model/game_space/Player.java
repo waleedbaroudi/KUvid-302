@@ -1,6 +1,7 @@
 package model.game_space;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import model.game_building.GameConstants;
 import model.game_entities.enums.ShieldType;
 import model.game_running.ShieldHandler;
 
@@ -14,7 +15,7 @@ public class Player {
 
     public Player(String username, GameStatistics.GameStatisticsListener statisticsListener) {
         this.username = username;
-        health = 100;
+        health = GameConstants.DEFAULT_HEALTH;
         score = 0;
         timer = new GameTimer(10);
         statistics = new GameStatistics(statisticsListener);
