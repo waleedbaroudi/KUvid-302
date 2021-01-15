@@ -1,6 +1,7 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
+import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
@@ -17,8 +18,7 @@ import java.io.IOException;
  */
 public class ImageResources {
 
-//    private static final String theme = Configuration.getInstance().getTheme();
-    private static final String theme = "PEPEGA";
+    private static final String theme = Configuration.getInstance().getTheme();
 
     /**
      * @param entity the entity that needs an image to draw itself
@@ -37,7 +37,7 @@ public class ImageResources {
 
             case BLOCKER:
                 AutonomousEntity b = (AutonomousEntity) entity;
-                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", width,(int)(1.28* height));
+                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", 2 * width, 2 * height);
 
             case MOLECULE:
                 Molecule m = (Molecule) entity;
@@ -105,5 +105,11 @@ public class ImageResources {
             return getGif("kuvid_bc", width, height);
         else
             return getImage("kuvid_bc" + ".png", width, height);
+    }
+
+    public static Image getShieldedAtom(Atom atom, int maxShield) {
+        return getImage(atom.getSuperType() + "/" + atom.getEntityType() + maxShield + ".png",
+                (int) atom.getHitbox().getWidth(),
+                (int) atom.getHitbox().getHeight());
     }
 }

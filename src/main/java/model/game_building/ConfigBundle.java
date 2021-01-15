@@ -14,6 +14,7 @@ public class ConfigBundle {
     private int difficulty; // 0, 1, 2 for easy, normal, difficult, respectively. TODO: convert to enum
     private ArrayList<Integer> atoms, powerups, molecules, blockers, shields;
     private String theme;
+    private boolean drawHitboxes;
 
     /**
      * Constructor to initialize game parameter attributes
@@ -40,7 +41,8 @@ public class ConfigBundle {
                         boolean spinningAlpha,
                         boolean spinningBeta,
                         int difficulty,
-                        String theme) {
+                        String theme,
+                        boolean drawHitboxes) {
 
         this.atoms = atoms;
         this.powerups = powerups;
@@ -54,6 +56,7 @@ public class ConfigBundle {
         this.spinningBeta = spinningBeta;
         this.difficulty = difficulty;
         this.theme = theme;
+        this.drawHitboxes = drawHitboxes;
     }
 
     public ConfigBundle() {//this Constructor is required for the yaml file
@@ -209,7 +212,11 @@ public class ConfigBundle {
         return difficulty;
     }
 
-    public String getTheme(){
+    public String getTheme() {
         return theme;
+    }
+
+    public boolean drawHitboxes() {
+        return drawHitboxes;
     }
 }
