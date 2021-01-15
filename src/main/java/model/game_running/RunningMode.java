@@ -42,7 +42,7 @@ public class RunningMode {
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private ProjectileContainer projectileContainer;
     private Shooter shooter;
-    private final ShieldHandler shieldHandler;
+    private ShieldHandler shieldHandler;
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
     //Listener to handle game pause and resume commands
@@ -99,7 +99,11 @@ public class RunningMode {
      */
     private void initialize() {
         movementRunnable = new MovementRunnable(this.autonomousEntities);
-        collisionRunnable = new CollisionRunnable(this, new CollisionHandler(this));
+
+        CollisionHandler collisionHandler = new CollisionHandler(this);
+        collisionRunnable = new CollisionRunnable(this, collisionHandler);
+        collisionHandler.setCollisionRunnable(collisionRunnable); // TODO: Find better implementation.
+
         shooterRunnable = new ShooterMovementRunnable(this.shooter);
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
 
@@ -242,10 +246,10 @@ public class RunningMode {
             player.changeShieldCount();
     }
 
-    public void updateHealth(int damageAmount) {
+    public void updateHealth(double damageAmount) {
         if (player != null)
             if (player.loseHealth(damageAmount))
-                this.setRunningState(GameConstants.GAME_STATE_STOP);
+                endGame();
     }
 
     public void updateTimer(int amountInMillis) {
@@ -321,9 +325,15 @@ public class RunningMode {
         this.projectileContainer = session.getProjectileContainer();
         this.projectileContainer.setRunningMode(this);
 
+        // update the shieldHandler
+        this.shieldHandler = session.getShieldHandler();
+        System.out.println(this.shieldHandler);
+        System.out.println(this.shieldHandler.getShields());
+
         // update the shooter state
         this.shooter = session.getShooter();
         this.shooter.setContainer(this.projectileContainer);
+        this.shooter.setOnShotListener(shieldHandler);
 
         // update the player state and statistics listener
         GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
@@ -352,7 +362,8 @@ public class RunningMode {
         builder.setPlayer(getPlayer()).
                 setShooter(getShooter()).
                 setProjectileContainer(getProjectileContainer()).
-                setConfigBundle(Configuration.getInstance().getConfigBundle());
+                setConfigBundle(Configuration.getInstance().getConfigBundle()).
+                setShieldHandler(this.shieldHandler);
 
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 

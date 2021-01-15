@@ -1,20 +1,21 @@
 package model.game_space;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import model.game_building.GameConstants;
 import model.game_entities.enums.ShieldType;
 import model.game_running.ShieldHandler;
 
 //todo: can be a controller for shooter, projectile container, and blender.
 public class Player {
     private String username;
-    private int health; //might be double?
+    private double health; //might be double?
     private double score;
     private GameTimer timer;
     private GameStatistics statistics;
 
     public Player(String username, GameStatistics.GameStatisticsListener statisticsListener) {
         this.username = username;
-        health = 100;
+        health = GameConstants.DEFAULT_HEALTH;
         score = 0;
         timer = new GameTimer(10);
         statistics = new GameStatistics(statisticsListener);
@@ -36,7 +37,7 @@ public class Player {
         return username;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
@@ -62,7 +63,7 @@ public class Player {
         statistics.changeShieldCount();
     }
 
-    public boolean loseHealth(int damageAmount) {
+    public boolean loseHealth(double damageAmount) {
         health -= damageAmount;
         if (health < 0)
             health = 0;
@@ -78,6 +79,7 @@ public class Player {
 
     public void incrementScore(double scoreIncrement) { //assuming the score will only be incremented by 1.
         this.score += scoreIncrement;
+        System.out.println("SCORE INCREMENT"+scoreIncrement);
         statistics.updateScore(this.score);
     }
 

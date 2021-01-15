@@ -15,7 +15,7 @@ public class LotaShield extends ShieldDecorator {
     public double getEfficiency() {
         //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
         //EFFECTS: the efficiency of the original atom/shielded atom will be reduced depending on some criteria
-        double oldEfficiency = this.getAtom().getEfficiency();
+        double oldEfficiency = super.getEfficiency();
         double efficiencyFactor = (1 - oldEfficiency) * LOTA_EFFICIENCY_BOOST;
         return oldEfficiency * (1 + efficiencyFactor);
     }

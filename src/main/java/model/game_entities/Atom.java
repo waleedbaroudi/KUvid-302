@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.GameBundle;
@@ -28,8 +29,8 @@ public class Atom extends Projectile {
                 @JsonProperty("entityType") EntityType type,
                 @JsonProperty("stabilityConstant") Double stabilityConstant,
                 @JsonProperty("efficiency") Double efficiency,
-                @JsonProperty("stabilityConstant") Integer numberOfProtons,
-                @JsonProperty("stabilityConstant") Integer numberOfNeutrons
+                @JsonProperty("numberOfProtons") Integer numberOfProtons,
+                @JsonProperty("numberOfNeutrons") Integer numberOfNeutrons
     ) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
@@ -39,6 +40,35 @@ public class Atom extends Projectile {
 
         this.numberOfProtons = numberOfProtons;
         this.numberOfNeutrons = numberOfNeutrons;
+    }
+
+    public double getEfficiency() {
+        return this.efficiency;
+    }
+
+    public double getStabilityConstant() {
+        return this.stabilityConstant;
+    }
+
+    public int getNumberOfNeutrons() {
+        return this.numberOfNeutrons;
+    }
+
+    public int getNumberOfProtons() {
+        return this.numberOfProtons;
+    }
+
+    @JsonIgnore
+    public double getAtomSpeedPercentage() {
+        return GameConstants.ATOM_SPEED_PERCENTAGE;
+    }
+
+    @JsonIgnore
+    @Override
+    public double getSpeedPercentage() {
+        //MODIFIES:
+        //EFFECTS: Since this is an unshilded atom, the percentage of the speed is 100%
+        return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 
     // visitor pattern. Double delegation
@@ -82,32 +112,5 @@ public class Atom extends Projectile {
         return "Atom{" +
                 "type=" + getEntityType() +
                 '}';
-    }
-
-    public double getEfficiency() {
-        return this.efficiency;
-    }
-
-    public double getStabilityConstant() {
-        return this.stabilityConstant;
-    }
-
-    public int getNumberOfNeutrons() {
-        return this.numberOfNeutrons;
-    }
-
-    public int getNumberOfProtons() {
-        return this.numberOfProtons;
-    }
-
-    public double getAtomSpeedPercentage() {
-        return GameConstants.ATOM_SPEED_PERCENTAGE;
-    }
-
-    @Override
-    public double getSpeedPercentage() {
-        //MODIFIES:
-        //EFFECTS: Since this is an unshilded atom, the percentage of the speed is 100%
-        return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 }

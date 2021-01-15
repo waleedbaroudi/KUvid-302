@@ -4,7 +4,6 @@ import java.awt.*;
 
 public final class GameConstants {
 
-
     private GameConstants() {
     }//this class should not be initialized.
 
@@ -54,19 +53,14 @@ public final class GameConstants {
 
     public static final double BLOCKER_BLOCKING_RADIUS = 1.0;
     public static final double BLOCKER_EXPLOSION_RADIUS = 2.0;
-    // Entities speed with respect to L
-    public static final double ATOM_SPEED = 1.0;
-    public static final double STRAIGHT_SPEED = 1.0;
-    public static final double ZIGZAG_SPEED = 1.0;
+
     public static final double ZIGZAG_SPEED_ANGLE = 45;
 
     public static final double[][] BLENDING_MATRIX = {{1, 2, 3, 4}, {.5, 1, 1, 1.5}, {0.333, 0.333, 1, 0.666}, {.25, .25, .25, 1}}; // Contains the values corresponding to blending/breaking atoms.
-    public static final int ICON_WIDTH = 50;
-    public static final int ICON_HEIGHT = 50;
 
     public static final double STATISTICS_PANEL_WIDTH_RATIO = 0.2;
     public static final double GAME_PANEL_WIDTH_RATIO = 0.8;
-    public static final int PANEL_SEPARATOR_WIDTH = 1;
+    public static final int PANEL_SEPARATOR_WIDTH = 2;
 
     public static final double SPINNING_SPEED = 10;
 
@@ -75,6 +69,8 @@ public final class GameConstants {
     public static final int[] BETA_NEUTRON_VALUES = {15, 16, 17, 18, 21};
     public static final int[] GAMMA_NEUTRON_VALUES = {29, 32, 33};
     public static final int[] SIGMA_NEUTRON_VALUES = {63, 64, 67};
+
+    public static final double ATOM_SPEED_PERCENTAGE = 1.0;
 
     public static final int ALPHA_PROTONS = 8; // TODO: Change implementation to something cleaner.
     public static final int BETA_PROTONS = 16;
@@ -104,6 +100,12 @@ public final class GameConstants {
     public static final double GAMMA_STABILITY_CONSTANT = 0.8;
     public static final double SIGMA_STABILITY_CONSTANT = 0.7;
 
-    public static final double ATOM_SPEED_PERCENTAGE = 1.0;
+
+    //Themes
+    public static final String DISCO = "disco";
+    public static final String PEPEGA = "pepega";
+
+    public static final double DEFAULT_HEALTH = 100;
+    public static final double TERMINATING_DAMAGE = DEFAULT_HEALTH;
 
 }

@@ -28,6 +28,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private boolean running;
     private boolean paused;
     Configuration config;
+    private Image background, background_gameOver;
+    private final JPanel backgroundPanel;
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
     private SessionLoadWindow sessionLoadWindow;
@@ -46,8 +48,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         statisticsPanel = new StatisticsPanel(this.runningMode);
         Player player = new Player("player", statisticsPanel); //todo: change temp username
         this.runningMode.setPlayer(player);
-        Image background = ImageResources.backGround(getWidth(), getHeight());
-        JPanel backgroundPanel = new JPanel() {
+        background = ImageResources.backGround(getWidth(), getHeight(), false);
+        background_gameOver = ImageResources.backGround(getWidth(), getHeight(), true);
+        backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
@@ -58,12 +61,13 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         getContentPane().add(statisticsPanel, BorderLayout.LINE_END);
 
         //add separator
-        JPanel separator = new JPanel();
-        separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
-//        getContentPane().add(separator, BorderLayout.CENTER);
-        separator.setBackground(Color.BLACK);
-        getContentPane().add(statisticsPanel, BorderLayout.CENTER);
-
+        if (!config.isDiscoTheme()) {
+            JPanel separator = new JPanel();
+            separator.setPreferredSize(new Dimension(GameConstants.PANEL_SEPARATOR_WIDTH, getHeight()));
+            getContentPane().add(separator, BorderLayout.CENTER);
+            separator.setBackground(Color.BLACK);
+            getContentPane().add(statisticsPanel, BorderLayout.CENTER);
+        }
         setLocationRelativeTo(null); //centers the window in the middle of the screen
 
         setVisible(true);
@@ -91,6 +95,8 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
                     if (runningMode.isGameFinished()) runningMode.endGame();
                 }
             } else {
+                background = background_gameOver;
+                backgroundPanel.repaint();
                 runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
                 gameTimer.stop();
             }
@@ -113,6 +119,9 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
 
     @Override
     public void onGameOver() {
+        drawableMap.clear();
+        background = background_gameOver;
+        backgroundPanel.repaint();
         this.running = false;
     }
 
@@ -133,6 +142,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         this.config = Configuration.getInstance();
         this.gameContentPanel.reset(drawableMap);
         this.statisticsPanel.onProjectileCountChange();
+        this.statisticsPanel.onShieldsCountChange();
         invalidate();
         repaint();
     }

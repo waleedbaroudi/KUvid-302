@@ -312,19 +312,20 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.insets = new Insets((int) (7 * fiveUnits), 0, 0, 0);
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
-        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridwidth = 2;
 
         //score
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridx = 1;
         gridBagConstraints.weighty = 0;
-        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         add(SCORE, gridBagConstraints);
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         add(scoreLabel, gridBagConstraints);
 
         //health and time
+        gridBagConstraints.gridwidth = 1;
         gridBagConstraints.weighty = 1;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new Insets((int) (2 * fiveUnits), 0, 0, 0);
@@ -333,17 +334,21 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.anchor = GridBagConstraints.EAST;
         add(new JLabel(healthImg), gridBagConstraints);
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         add(healthLabel, gridBagConstraints);
         gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridwidth = 1;
         gridBagConstraints.anchor = GridBagConstraints.EAST;
         add(new JLabel(watchImg), gridBagConstraints);
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         gridBagConstraints.insets = new Insets((int) (2 * fiveUnits), 0, 0, (int) (2 * fiveUnits));
         add(timeLabel, gridBagConstraints);
 
         //powerups
+        gridBagConstraints.gridwidth = 1;
         gridBagConstraints.insets = new Insets((int) (14 * fiveUnits), (int) (10 * fiveUnits), 0, 0);
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridx = 0;
@@ -387,12 +392,14 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
 
         //atom labels and shields buttons
         int leftMargin = (int) (3 * fiveUnits);
+        int leftMargin2 = (int) (6 * fiveUnits);
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.insets = new Insets((int) (6 * fiveUnits), leftMargin, 0, 0);
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridx = 1;
         add(alphaAtomsNumberLabel, gridBagConstraints);
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new Insets((int) (8 * fiveUnits), leftMargin2, 0, 0);
         add(etaButton, gridBagConstraints);
 
         gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
@@ -400,6 +407,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridx = 1;
         add(betaAtomsNumberLabel, gridBagConstraints);
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new Insets(0, leftMargin2, 0, 0);
         add(lotaButton, gridBagConstraints);
 
         gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
@@ -407,6 +415,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridx = 1;
         add(gammaAtomsNumberLabel, gridBagConstraints);
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new Insets(0, leftMargin2, 0, 0);
         add(thetaButton, gridBagConstraints);
 
         gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
@@ -414,20 +423,21 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gridBagConstraints.gridx = 1;
         add(sigmaAtomsNumberLabel, gridBagConstraints);
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new Insets(0, leftMargin2, 0, 0);
         add(zetaButton, gridBagConstraints);
 
         //shields labels
-        gridBagConstraints.insets = new Insets((int) (0.8 * fiveUnits), leftMargin, 0, 0);
+        gridBagConstraints.insets = new Insets((int) (0.8 * fiveUnits), leftMargin2, 0, 0);
         gridBagConstraints.weighty = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridx = 3;
         add(etaNumberLabel, gridBagConstraints);
-        gridBagConstraints.insets = new Insets(0, leftMargin, 0, 0);
+        gridBagConstraints.insets = new Insets(0, leftMargin2, 0, 0);
         gridBagConstraints.gridy = 8;
         add(lotaNumberLabel, gridBagConstraints);
         gridBagConstraints.gridy = 10;
         add(thetaNumberLabel, gridBagConstraints);
-        gridBagConstraints.insets = new Insets(0, leftMargin, (int) (4 * fiveUnits), 0);
+        gridBagConstraints.insets = new Insets(0, leftMargin2, (int) (4 * fiveUnits), 0);
         gridBagConstraints.gridy = 12;
         add(zetaNumberLabel, gridBagConstraints);
     }
@@ -624,8 +634,8 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     }
 
     @Override
-    public void onHealthChanged(int health) {
-        healthLabel.setText(String.valueOf(health));
+    public void onHealthChanged(double health) {
+        healthLabel.setText(String.format("%.2f",health));
     }
 
     @Override

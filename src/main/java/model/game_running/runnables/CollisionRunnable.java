@@ -7,6 +7,7 @@ import model.game_running.CollisionVisitor;
 import model.game_running.RunningMode;
 import services.utils.Coordinates;
 import services.utils.Vector;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class CollisionRunnable extends GameRunnable {
                     }
                     // check if the entity left the game view from the top or bottom boarder
                     if (sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height)
+                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height - config.getBaseHeight())
                         sourceEntity.reachBoundary(this);
 
                     ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
@@ -94,11 +95,21 @@ public class CollisionRunnable extends GameRunnable {
     }
 
     public void BlockerBoundaryBehavior(Blocker blocker) {
+        if (blocker.isCollidedWithExplodingHitbox(runningMode.getShooter())) {
+            blocker.acceptCollision(collisionHandler, runningMode.getShooter());
+        }
         for (AutonomousEntity entity : runningMode.getAutonomousEntities()) {
             if (blocker.isCollidedWithExplodingHitbox(entity))
                 blocker.acceptCollision(collisionHandler, entity);
         }
-        if (blocker.isExploded())
-            runningMode.removeEntity(blocker);
+        runningMode.removeEntity(blocker);
+    }
+
+    public void BlockerHitShooterBehavior(Blocker blocker) {
+        for (AutonomousEntity entity : runningMode.getAutonomousEntities()) {
+            if (blocker.isCollidedWithExplodingHitbox(entity))
+                blocker.acceptCollision(collisionHandler, entity);
+        }
+        runningMode.removeEntity(blocker);
     }
 }

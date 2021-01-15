@@ -1,6 +1,8 @@
 package model.game_entities.shields;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.enums.ShieldType;
+import services.utils.MathUtils;
 
 public class ShieldTuple {
     private final int[] shields;
@@ -25,8 +27,13 @@ public class ShieldTuple {
         shields[type.getValue()]++;
     }
 
+    @JsonIgnore
     public int getShieldsCount(ShieldType type) {
         return shields[type.getValue()];
+    }
+
+    public int[] getShields() {
+        return shields;
     }
 
     public void reset() {
@@ -44,6 +51,7 @@ public class ShieldTuple {
                 ", zeta = " + shields[3];
     }
 
+    @JsonIgnore
     public boolean isNotEmpty() {
         return shields[0] > 0 || shields[1] > 0 || shields[2] > 0 || shields[3] > 0;
     }

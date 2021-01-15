@@ -16,13 +16,13 @@ public class ZetaShield extends ShieldDecorator {
         //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
         //EFFECTS: the efficiency of the original atom/shielded atom will be reduced depending on some criteria
 
-        double oldEfficiency = this.getAtom().getEfficiency();
+        double oldEfficiency = super.getEfficiency();
         double efficiencyFactor = (1 - oldEfficiency) * ZETA_EFFICIENCY_BOOST;
-
-        boolean canImprove = this.getAtom().getNumberOfNeutrons() == this.getAtom().getNumberOfProtons();
+        boolean canImprove = super.getNumberOfNeutrons() == this.getAtom().getNumberOfProtons();
 
         if (canImprove)
             return oldEfficiency * (1 + efficiencyFactor);
+
         return oldEfficiency;
     }
 

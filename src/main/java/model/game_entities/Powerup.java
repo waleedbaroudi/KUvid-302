@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.game_building.GameBundle;
@@ -77,6 +78,7 @@ public class Powerup extends Projectile {
                 "type=" + getEntityType() +
                 '}';}
 
+    @JsonIgnore
     public double getSpeedPercentage() {
         return GameConstants.DEFAULT_POWERUP_SPEED_PERCENTAGE;
     }

@@ -89,6 +89,10 @@ public class Blocker extends AutonomousEntity {
         return this.getBlockingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
+    public boolean isCollidedWithOriginalHitbox(Entity entity) {
+        return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
     public boolean isCollidedWithExplodingHitbox(Entity entity) {
         return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
@@ -117,6 +121,10 @@ public class Blocker extends AutonomousEntity {
 
     public boolean isExploded(){
         return this.exploded;
+    }
+
+    public void setExploded(boolean isExploded){
+        this.exploded = isExploded;
     }
 
     @Override

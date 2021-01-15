@@ -1,5 +1,6 @@
 package model.game_running;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_building.Configuration;
 import model.game_entities.Atom;
 import model.game_entities.Shooter;
@@ -8,11 +9,14 @@ import model.game_entities.shields.*;
 
 public class ShieldHandler implements OnShotListener {
 
-    private final RunningMode runningMode;
-    private final Shooter shooter;
+    private RunningMode runningMode;
+    private Shooter shooter;
 
     private ShieldTuple tempShields;
-    private final ShieldTuple shields;
+    private ShieldTuple shields;
+
+    public ShieldHandler() {
+    }
 
     public ShieldHandler(RunningMode runningMode, Shooter shooter) {
         this.shooter = shooter;
@@ -27,7 +31,7 @@ public class ShieldHandler implements OnShotListener {
     }
 
     public void applyShield(ShieldType type) {
-        if (shields.getShieldsCount(type) > 0) {
+        if (shields.getShieldsCount(type) > 0 && shooter.projectileIsAtom()) {
             shields.decreaseShieldCount(type);
             tempShields.addShield(type);
             runningMode.updateStatisticsShieldCount();
@@ -67,6 +71,11 @@ public class ShieldHandler implements OnShotListener {
         this.tempShields = shields;
     }
 
+    public ShieldTuple getShields() {
+        return shields;
+    }
+
+    @JsonIgnore
     public String getShieldsCount(ShieldType type) {
         return shields.getShieldsCount(type) + "";
     }

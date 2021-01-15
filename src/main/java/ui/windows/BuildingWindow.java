@@ -63,7 +63,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
     JComboBox<String> themeBox;
-    String[] themes = {"Pepega", "Disco"};
+    String[] themes = {GameConstants.PEPEGA, GameConstants.DISCO};
     ArrayList<Integer> atoms, powerups, blockers, molecules, shields;
 
     double l;
@@ -192,7 +192,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         sigmaBlockersTextField = new JTextField(4);
         panel.add(sigmaBlockersTextField);
 
-
         // Molecules labels and textfields
         JLabel alphaMoleculeLabel = new JLabel("Alpha Molecules");
         panel.add(alphaMoleculeLabel);
@@ -279,6 +278,25 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         addBetaCheckboxActionListener();
 
         /*
+        themes JComboBox
+         */
+        JLabel left = new JLabel("------------>");
+        left.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(left);
+
+        JLabel themeLabel = new JLabel("Theme");
+        themeLabel.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(themeLabel);
+
+        themeBox = new JComboBox<>(themes);
+        themeBox.setSelectedIndex(1);
+        panel.add(themeBox);
+
+        JLabel right = new JLabel("<------------");
+        right.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(right);
+
+        /*
          * Building Game Button
          */
         JButton buildGameButton = new JButton("Build Game!");
@@ -292,11 +310,6 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         //add LoadConfig Action Listener and create bundle
         loadConfigPresetButton.addActionListener(e -> new ConfigPresetWindow(this));
         panel.add(loadConfigPresetButton);
-
-        themeBox = new JComboBox<>(themes);
-        themeBox.setSelectedIndex(1);
-        //panel.add(themeBox); //TODO: uncomment them to show the two themes
-
     }
 
     private void loadDefaultParams() {
@@ -331,7 +344,8 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         getParametersValues();
         return new ConfigBundle(atoms, powerups, blockers, molecules, shields, l,
                 isLinearAlpha.isSelected(), isLinearBeta.isSelected(), isSpinningAlpha.isSelected(),
-                isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex(), themeBox.getItemAt(themeBox.getSelectedIndex()));
+                isSpinningBeta.isSelected(), difficultyBox.getSelectedIndex(),
+                themeBox.getItemAt(themeBox.getSelectedIndex()));
     }
 
     /**

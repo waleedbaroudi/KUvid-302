@@ -15,11 +15,11 @@ public class EtaShield extends ShieldDecorator {
         //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
         //EFFECTS: the efficiency of the original atom/shielded atom will be reduced depending on some criteria
 
-        double oldEfficiency = this.getAtom().getEfficiency();
-        int numberOfNeutrons = this.getAtom().getNumberOfNeutrons();
-        int numberOfProtons = this.getAtom().getNumberOfProtons();
+        double oldEfficiency = super.getEfficiency();
+        int numberOfNeutrons = super.getNumberOfNeutrons();
+        int numberOfProtons = super.getNumberOfProtons();
 
-        double efficiencyFactor = 0;
+        double efficiencyFactor;
 
         if (numberOfProtons != numberOfNeutrons) {
             efficiencyFactor = (1 - oldEfficiency) * Math.abs(numberOfNeutrons - numberOfProtons) /

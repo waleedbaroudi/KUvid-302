@@ -1,5 +1,6 @@
 package model.game_entities.shields;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
 
 
@@ -7,7 +8,15 @@ public abstract class ShieldDecorator extends Atom {
     protected Atom atom;
 
     public ShieldDecorator(Atom atom) {
-        super(atom.getCoordinates(), atom.getHitbox(), atom.getPathPattern(), atom.getEntityType(), atom.getSpeedPercentage(), atom.getEfficiency(), atom.getNumberOfProtons(), atom.getNumberOfNeutrons());
+        super(atom.getCoordinates(),
+                atom.getHitbox(),
+                atom.getPathPattern(),
+                atom.getEntityType(),
+                atom.getSpeedPercentage(),
+                atom.getEfficiency(),
+                atom.getNumberOfProtons(),
+                atom.getNumberOfNeutrons());
+
         this.atom = atom;
     }
 
@@ -15,7 +24,12 @@ public abstract class ShieldDecorator extends Atom {
         return this.atom;
     }
 
+    @Override
+    public double getEfficiency() {
+        return atom.getEfficiency();
+    }
 
+    @JsonIgnore
     @Override
     public double getSpeedPercentage() {
         //MODIFIES: indirectly, the speed of the original atom, or possibly the shielded atom

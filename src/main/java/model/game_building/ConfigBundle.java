@@ -209,7 +209,7 @@ public class ConfigBundle {
         return difficulty;
     }
 
-    public String getTheme(){
+    public String getTheme() {
         return theme;
     }
 }

@@ -1,12 +1,6 @@
 package model.game_space;
 
-import model.game_entities.enums.ShieldType;
-import model.game_running.ShieldHandler;
-
 public class GameStatistics {
-    int health; //might be doubles?
-    double score;
-    GameTimer timer;
     GameStatisticsListener statisticsListener;
 
     public GameStatistics(GameStatisticsListener statisticsListener) {
@@ -26,7 +20,7 @@ public class GameStatistics {
      *
      * @param health the value of the player's health after the update
      */
-    public void updateHealth(int health) {
+    public void updateHealth(double health) {
         statisticsListener.onHealthChanged(health);
     }
 
@@ -40,8 +34,7 @@ public class GameStatistics {
     }
 
     public void updateScore(double score) { //assuming the score will only be incremented by 1.
-        this.score += score;
-        statisticsListener.onScoreChanged(this.score);
+        statisticsListener.onScoreChanged(score);
     }
 
     /**
@@ -60,7 +53,7 @@ public class GameStatistics {
      * a listener to notify the statistics window UI of any change to the statistics
      */
     public interface GameStatisticsListener {
-        void onHealthChanged(int health);
+        void onHealthChanged(double health);
 
         void onTimerChanged(String currentTime);
 
