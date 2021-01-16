@@ -253,7 +253,7 @@ public class Shooter extends Entity {
                     c.getX() + gunWidth / 2, c.getY() - gunHeight / 2.0);
         }
         rotatedShooter = rotatedShooter.rotateVector(angle);
-        return !(angle > 90) && !(angle < -90) && rotatedShooter.getPositionCoordinate().getX() >= 0 &&
+        return !(angle > 70) && !(angle < -70) && rotatedShooter.getPositionCoordinate().getX() >= 0 &&
                 rotatedShooter.getPositionCoordinate().getX() <= config.getGamePanelDimensions().width;
     }
 
