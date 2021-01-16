@@ -8,6 +8,7 @@ import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_running.ShieldHandler;
+import model.game_running.listeners.GameStatisticsListener;
 import model.game_space.GameStatistics;
 import services.utils.MathUtils;
 import ui.movable_drawables.ImageResources;
@@ -21,7 +22,7 @@ import java.awt.event.MouseEvent;
  * This class draws the Statistics window. through this window, the player
  * can observe the statistics of the game such as atom/power numbers and score...
  */
-public class StatisticsPanel extends JPanel implements GameStatistics.GameStatisticsListener {
+public class StatisticsPanel extends JPanel implements GameStatisticsListener {
 
     private final RunningMode runningMode;
     private final Configuration config;

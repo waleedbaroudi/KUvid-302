@@ -4,13 +4,11 @@ import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
-import model.game_running.GameCommandListener;
+import model.game_running.listeners.ShooterEventListener;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +16,7 @@ import java.util.TimerTask;
 /**
  * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
  */
-public class ShooterDrawer implements Drawable, Shooter.ShooterEventListener {
+public class ShooterDrawer implements Drawable, ShooterEventListener {
 
     private final Shooter shooter;
     private final Image shooterBase;

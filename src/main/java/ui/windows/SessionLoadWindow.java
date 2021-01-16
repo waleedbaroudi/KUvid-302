@@ -2,6 +2,7 @@ package ui.windows;
 
 import model.game_building.GameBundle;
 import model.game_running.SessionLoader;
+import model.game_running.listeners.SessionLoadListener;
 import services.exceptions.UnsupportedNameFormatException;
 import services.utils.IOHandler;
 
@@ -10,7 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-public class SessionLoadWindow extends JFrame implements SessionLoader.SessionLoadListener {
+public class SessionLoadWindow extends JFrame implements SessionLoadListener {
     private SessionLoader sessionLoader;
     private JFrame context;
     JList<String> saveFilesNamesList;

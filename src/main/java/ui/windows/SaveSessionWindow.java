@@ -1,6 +1,6 @@
 package ui.windows;
 
-import model.game_running.RunningMode;
+import model.game_running.listeners.SaveSessionListener;
 import services.database.IDatabase;
 import services.database.LocalDBAdapter;
 import services.database.MongoDBAdapter;
@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class SaveSessionWindow extends JFrame implements RunningMode.SaveSessionListener {
+public class SaveSessionWindow extends JFrame implements SaveSessionListener {
 
     private final RunningWindow context;
 

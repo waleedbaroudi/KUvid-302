@@ -5,6 +5,8 @@ import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_running.RunningMode;
+import model.game_running.listeners.GameEntitiesListener;
+import model.game_running.listeners.RunningStateListener;
 import model.game_space.Player;
 import services.database.IDatabase;
 import ui.movable_drawables.Drawable;
@@ -22,7 +24,7 @@ import java.util.concurrent.CountDownLatch;
  * This class draws the game running window.
  * all game animations and actions will happen in this window
  */
-public class RunningWindow extends JFrame implements RunningMode.RunningStateListener, RunningMode.GameEntitiesListener {
+public class RunningWindow extends JFrame implements RunningStateListener, GameEntitiesListener {
     RunningMode runningMode;
     GamePanel gameContentPanel;
     StatisticsPanel statisticsPanel;

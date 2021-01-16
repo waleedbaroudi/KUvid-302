@@ -1,16 +1,14 @@
 package ui.windows;
 
-import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigConfirmation;
 import model.game_building.GameConstants;
+import model.game_running.listeners.ParametersConfirmationListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class ConfirmationWindow extends JFrame implements ConfigConfirmation.ParametersConfirmationListener {
+public class ConfirmationWindow extends JFrame implements ParametersConfirmationListener {
     ConfigConfirmation configConfirmation;
     JFrame buildingGameFrame;
     JPanel panel;

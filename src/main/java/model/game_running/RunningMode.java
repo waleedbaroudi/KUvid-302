@@ -6,6 +6,7 @@ import model.game_building.GameConstants;
 import model.game_entities.*;
 import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
+import model.game_running.listeners.*;
 import model.game_running.runnables.*;
 import model.game_running.states.GameState;
 import model.game_running.states.PausedState;
@@ -44,7 +45,7 @@ public class RunningMode {
     //Listeners
     private final RunningStateListener runningStateListener;
     private final GameEntitiesListener gameEntitiesListener;
-    private final SessionLoader.SessionLoadListener sessionLoadListener;
+    private final SessionLoadListener sessionLoadListener;
     private final SaveSessionListener saveSessionListener;
 
     // Runnables
@@ -64,7 +65,7 @@ public class RunningMode {
     // Blender
     private Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoader.SessionLoadListener sessionLoadListener, SaveSessionListener saveSessionListener) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoadListener sessionLoadListener, SaveSessionListener saveSessionListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         Configuration config = Configuration.getInstance();
@@ -167,7 +168,7 @@ public class RunningMode {
         return autonomousEntities;
     }
 
-    public SessionLoader.SessionLoadListener getSessionLoadListener() {
+    public SessionLoadListener getSessionLoadListener() {
         return sessionLoadListener;
     }
 
@@ -341,7 +342,7 @@ public class RunningMode {
         this.shooter.setOnShotListener(shieldHandler);
 
         // update the player state and statistics listener
-        GameStatistics.GameStatisticsListener listener = this.player.getStatisticsListener();
+        GameStatisticsListener listener = this.player.getStatisticsListener();
         this.player = session.getPlayer();
         this.player.setStatisticsListener(listener);
 
@@ -409,24 +410,4 @@ public class RunningMode {
         return resumedState;
     }
 
-    public interface RunningStateListener {
-        void onRunningStateChanged(int state);
-
-        void onGameOver();
-    }
-
-    public interface GameEntitiesListener {
-        void onEntityAdd(AutonomousEntity entity);
-
-        void onEntitiesRemove(Collection<AutonomousEntity> entities);
-
-        /**
-         * Reset all game components in the UI
-         */
-        void onGameReset();
-    }
-
-    public interface SaveSessionListener {
-        void showSaveMethodSelector();
-    }
 }
