@@ -21,7 +21,6 @@ public final class GameConstants {
     public static final int SHOOTER_MOVEMENT_STILL = 12;
     public static final int SHOOTER_ROTATION_LEFT = -5;
     public static final int SHOOTER_ROTATION_RIGHT = 5;
-    public static final int SHOOTER_ROTATION_STILL = 0;
 
     public static final String SESSION_COLLECTION_TITLE = "GameSessions";
 

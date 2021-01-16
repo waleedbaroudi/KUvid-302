@@ -192,9 +192,10 @@ public class Shooter extends Entity {
     }
 
     public boolean rotate(int direction) {
-        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ROTATION_STEP * direction))
+        int rotationDirection = direction == GameConstants.SHOOTER_ROTATION_LEFT ? -1 : 1;
+        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ROTATION_STEP * rotationDirection))
             return false;
-        getHitbox().rotate(DEFAULT_ROTATION_STEP * direction);
+        getHitbox().rotate(DEFAULT_ROTATION_STEP * rotationDirection);
         return true;
     }
 

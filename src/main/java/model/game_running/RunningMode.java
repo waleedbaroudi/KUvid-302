@@ -4,11 +4,9 @@ import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.*;
+import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
-import model.game_running.runnables.CollisionRunnable;
-import model.game_running.runnables.EntityGeneratorRunnable;
-import model.game_running.runnables.MovementRunnable;
-import model.game_running.runnables.ShooterMovementRunnable;
+import model.game_running.runnables.*;
 import model.game_running.states.GameState;
 import model.game_running.states.PausedState;
 import model.game_running.states.RunningState;
@@ -48,6 +46,7 @@ public class RunningMode {
     private final SaveSessionListener saveSessionListener;
 
     // Runnables
+    private ArrayList<GameRunnable> gameRunnables;
     private MovementRunnable movementRunnable;
     private CollisionRunnable collisionRunnable;
     private ShooterMovementRunnable shooterRunnable;
@@ -96,14 +95,20 @@ public class RunningMode {
      * instantiates the threads and runnables. fills the list. sets "initialized" to true
      */
     private void initialize() {
+        gameRunnables = new ArrayList<>();
+
         movementRunnable = new MovementRunnable(this.autonomousEntities);
+        gameRunnables.add(movementRunnable);
 
         CollisionHandler collisionHandler = new CollisionHandler(this);
         collisionRunnable = new CollisionRunnable(this, collisionHandler);
-        collisionHandler.setCollisionRunnable(collisionRunnable); // TODO: Find better implementation.
+        collisionHandler.setCollisionRunnable(collisionRunnable); // TODO: Find better implementation. (refine coupling task)
+        gameRunnables.add(collisionRunnable);
 
         shooterRunnable = new ShooterMovementRunnable(this.shooter);
+        gameRunnables.add(shooterRunnable);
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
+        gameRunnables.add(entityGeneratorRunnable);
 
         movementThread = new Thread(this.movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
@@ -134,24 +139,16 @@ public class RunningMode {
     }
 
     /**
-     * calls pause on all runnables and interrupts all threads.
-     */
-    public void stop() {
-        setRunningState(GameConstants.GAME_STATE_PAUSED);
-        movementThread.interrupt();
-        collisionThread.interrupt();
-        shooterThread.interrupt();
-    }
-
-    /**
      * Pauses/Resumes/Stops all runnables.
      */
     public void setRunningState(int state) {
+        // set the state of game model threads
+        gameRunnables.forEach(runnable -> runnable.setRunnableState(state));
+
+        // set the state of the UI
         runningStateListener.onRunningStateChanged(state);
-        movementRunnable.setRunnableState(state);
-        collisionRunnable.setRunnableState(state);
-        shooterRunnable.setRunnableState(state);
-        entityGeneratorRunnable.setRunnableState(state);
+
+        // set current state of game model controller.
         if (state == GameConstants.GAME_STATE_PAUSED)
             currentState = pausedState;
         else if (state == GameConstants.GAME_STATE_RESUMED)
@@ -163,7 +160,7 @@ public class RunningMode {
     }
 
     public void rotateShooter(int direction) {
-        shooterRunnable.setRotationState(direction);
+        currentState.rotateShooter(direction);
     }
 
     /**
@@ -390,6 +387,10 @@ public class RunningMode {
 
     public void setOutOfEntities() {
         outOfEntities = true;
+    }
+
+    public void applyShield(ShieldType shieldType) {
+        currentState.applyShield(shieldType);
     }
 
     public interface RunningStateListener {

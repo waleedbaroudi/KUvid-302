@@ -560,7 +560,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.ETA);
+                runningMode.applyShield(ShieldType.ETA);
             }
 
             @Override
@@ -579,7 +579,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.LOTA);
+                runningMode.applyShield(ShieldType.LOTA);
             }
 
             @Override
@@ -598,7 +598,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.THETA);
+                runningMode.applyShield(ShieldType.THETA);
             }
 
             @Override
@@ -617,7 +617,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.ZETA);
+                runningMode.applyShield(ShieldType.ZETA);
             }
 
             @Override

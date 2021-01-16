@@ -9,13 +9,11 @@ public class ShooterMovementRunnable extends GameRunnable {
     Shooter shooter;
 
     private int movementState;
-    private int rotationState;
 
     public ShooterMovementRunnable(Shooter shooter) {
         super();
         this.shooter = shooter;
         this.movementState = SHOOTER_MOVEMENT_STILL;
-        this.rotationState = SHOOTER_ROTATION_STILL;
     }
 
     @Override
@@ -30,14 +28,6 @@ public class ShooterMovementRunnable extends GameRunnable {
                   else
                       this.shooter.move(-1);
                 }
-                if (this.rotationState != SHOOTER_ROTATION_STILL) {
-                  if(this.rotationState == SHOOTER_ROTATION_RIGHT)
-                      this.shooter.rotate(1);
-                  else
-                      this.shooter.rotate(-1);
-                  this.rotationState = SHOOTER_ROTATION_STILL;
-                }
-
                 Thread.sleep(GAME_THREAD_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -48,10 +38,6 @@ public class ShooterMovementRunnable extends GameRunnable {
 
     public void setMovementState(int state) {
         this.movementState = state;
-    }
-
-    public void setRotationState(int state) {
-        this.rotationState = state;
     }
 
     public void setShooter(Shooter shooter) {
