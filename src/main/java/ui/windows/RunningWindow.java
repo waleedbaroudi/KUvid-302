@@ -101,6 +101,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
                 background = background_gameOver;
                 backgroundPanel.repaint();
                 runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
+                unregisterInputListeners();
                 gameTimer.stop();
             }
         };
@@ -108,11 +109,16 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
         gameTimer.start();
     }
 
+    private void unregisterInputListeners() {
+        gameContentPanel.unregisterInputListeners();
+        statisticsPanel.removeButtonListeners();
+    }
+
     public void loadGameSession(GameBundle bundle) {
         runningMode.loadGameSession(bundle);
     }
 
-    public void saveAdapterSelected(IDatabase database){
+    public void saveAdapterSelected(IDatabase database) {
         runningMode.saveWithAdapter(database);
     }
 

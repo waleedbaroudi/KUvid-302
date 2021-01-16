@@ -1,5 +1,6 @@
 package model.game_running.states;
 
+import model.game_entities.enums.ShieldType;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
 
@@ -20,5 +21,15 @@ public class RunningState implements GameState {
     @Override
     public void showSavedSessions() {
         logger.warn("Cannot load session while the game is running. pause the game first.");
+    }
+
+    @Override
+    public void applyShield(ShieldType shieldType) {
+        runningMode.getShieldHandler().applyShield(shieldType);
+    }
+
+    @Override
+    public void rotateShooter(int direction) {
+        runningMode.getShooter().rotate(direction);
     }
 }

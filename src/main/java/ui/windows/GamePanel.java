@@ -9,6 +9,7 @@ import ui.movable_drawables.ShooterDrawer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.util.Map;
 
 public class GamePanel extends JPanel {
@@ -25,8 +26,12 @@ public class GamePanel extends JPanel {
         this.drawableMap = drawableMap;
         this.setOpaque(false);
         this.shooterDrawer = new ShooterDrawer(runningMode.getShooter());
-        this.commandListener = new GameCommandListener(this.runningMode, shooterDrawer);
+        this.commandListener = new GameCommandListener(this.runningMode);
         this.addKeyListener(commandListener);
+    }
+
+    public void unregisterInputListeners() {
+            removeKeyListener(commandListener);
     }
 
 
@@ -40,9 +45,10 @@ public class GamePanel extends JPanel {
         super.paintComponents(g);
         shooterDrawer.draw(g);
         shooterDrawer.drawHitbox(g);
-        for (AutonomousEntity entity : drawableMap.keySet()) {
-            drawableMap.get(entity).draw(g); //todo: fix AWT-EventQueue-0 NPE
-            drawableMap.get(entity).drawHitbox(g);
-        }
+        drawableMap.values().forEach(drawable -> {
+            drawable.draw(g);
+            //for demonstration, draw the hitboxes of the entities
+            drawable.drawHitbox(g);
+        });
     }
 }

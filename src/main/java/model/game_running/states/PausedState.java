@@ -1,5 +1,6 @@
 package model.game_running.states;
 
+import model.game_entities.enums.ShieldType;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
 
@@ -19,9 +20,21 @@ public class PausedState implements GameState {
         runningMode.getSessionLoadListener().getSavedSessions();
     }
 
+
     @Override
     public void saveGameSession() {
 //        runningMode.saveGameSession();
         runningMode.getSaveSessionListener().showSaveMethodSelector();
+    }
+
+
+    @Override
+    public void applyShield(ShieldType shieldType) {
+        logger.warn("cannot apply shields while game is paused");
+    }
+
+    @Override
+    public void rotateShooter(int direction) {
+        logger.warn("cannot rotate shooter while the game is paused");
     }
 }

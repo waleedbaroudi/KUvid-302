@@ -46,8 +46,14 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
     private ImageIcon etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
     private ImageIcon etaImg, lotaImg, thetaImg, zetaImg;
 
+    //mouse adapters
+
     //iconSize
     private final int iconSize;
+    private MouseAdapter blenderAdapter;
+    private MouseAdapter alphaPowerupAdapter, betaPowerupAdapter, gammaPowerupAdapter, sigmaPowerupAdapter;
+    private MouseAdapter etaAdapter, lotaAdapter, thetaAdapter, zetaAdapter;
+
 
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
@@ -444,7 +450,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
 
     private void setButtonListeners() {
         //blender listener
-        MouseAdapter blenderAdapter = new MouseAdapter() {
+        blenderAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -467,7 +473,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         blenderButton.addMouseListener(blenderAdapter);
 
         //powerups listeners
-        MouseAdapter alphaPowerupAdapter = new MouseAdapter() {
+        alphaPowerupAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -487,7 +493,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 alphaPowerupButton.setIcon(powerupAlphaImg);
             }
         };
-        MouseAdapter betaPowerupAdapter = new MouseAdapter() {
+        betaPowerupAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -506,7 +512,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 betaPowerupButton.setIcon(powerupBetaImg);
             }
         };
-        MouseAdapter sigmaPowerupAdapter = new MouseAdapter() {
+        sigmaPowerupAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -525,7 +531,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 sigmaPowerupButton.setIcon(powerupSigmaImg);
             }
         };
-        MouseAdapter gammaPowerupAdapter = new MouseAdapter() {
+        gammaPowerupAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -550,11 +556,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         gammaPowerupButton.addMouseListener(gammaPowerupAdapter);
 
         //shields listeners
-        MouseAdapter etaAdapter = new MouseAdapter() {
+        etaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.ETA);
+                runningMode.applyShield(ShieldType.ETA);
             }
 
             @Override
@@ -569,11 +575,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 etaButton.setIcon(etaImg);
             }
         };
-        MouseAdapter lotaAdapter = new MouseAdapter() {
+        lotaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.LOTA);
+                runningMode.applyShield(ShieldType.LOTA);
             }
 
             @Override
@@ -588,11 +594,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 lotaButton.setIcon(lotaImg);
             }
         };
-        MouseAdapter thetaAdapter = new MouseAdapter() {
+        thetaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.THETA);
+                runningMode.applyShield(ShieldType.THETA);
             }
 
             @Override
@@ -607,11 +613,11 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
                 thetaButton.setIcon(thetaImg);
             }
         };
-        MouseAdapter zetaAdapter = new MouseAdapter() {
+        zetaAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.getShieldHandler().applyShield(ShieldType.ZETA);
+                runningMode.applyShield(ShieldType.ZETA);
             }
 
             @Override
@@ -633,9 +639,23 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         zetaButton.addMouseListener(zetaAdapter);
     }
 
+    public void removeButtonListeners() {
+        blenderButton.removeMouseListener(blenderAdapter);
+
+        alphaPowerupButton.removeMouseListener(alphaPowerupAdapter);
+        betaPowerupButton.removeMouseListener(betaPowerupAdapter);
+        sigmaPowerupButton.removeMouseListener(sigmaPowerupAdapter);
+        gammaPowerupButton.removeMouseListener(gammaPowerupAdapter);
+
+        etaButton.removeMouseListener(etaAdapter);
+        lotaButton.removeMouseListener(lotaAdapter);
+        thetaButton.removeMouseListener(thetaAdapter);
+        zetaButton.removeMouseListener(zetaAdapter);
+    }
+
     @Override
     public void onHealthChanged(double health) {
-        healthLabel.setText(String.format("%.2f",health));
+        healthLabel.setText(String.format("%.2f", health));
     }
 
     @Override

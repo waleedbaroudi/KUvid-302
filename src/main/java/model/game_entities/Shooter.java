@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class Shooter extends Entity {
     private Projectile currentProjectile;
     private ProjectileContainer container;
-    private OnShotListener onShotListener;
+    private OnShotListener onShotListener; //TODO: CHECK THIS
 
     Configuration config = Configuration.getInstance();
 
@@ -29,10 +29,11 @@ public class Shooter extends Entity {
     private final double DEFAULT_ROTATION_STEP = 10;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
+    private ShooterEventListener shooterListener;
+
     public Shooter(ProjectileContainer container) {
         // Turn off logger
         logger.setLevel(Level.OFF);
-
         // sets the initial coordinates
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
@@ -54,6 +55,10 @@ public class Shooter extends Entity {
 
     }
 
+    public void setShooterListener(ShooterEventListener shooterListener) {
+        this.shooterListener = shooterListener;
+    }
+
     public void setOnShotListener(OnShotListener onShotListener) {
         this.onShotListener = onShotListener;
     }
@@ -66,7 +71,7 @@ public class Shooter extends Entity {
     public Projectile shoot() {
         if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
-
+        shooterListener.onShot();
         onShotListener.emptyTempShields();
         this.adjustProjectilePosition();
         return this.reload();
@@ -192,9 +197,10 @@ public class Shooter extends Entity {
     }
 
     public boolean rotate(int direction) {
-        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ROTATION_STEP * direction))
+        int rotationDirection = direction == GameConstants.SHOOTER_ROTATION_LEFT ? -1 : 1;
+        if (!checkLegalMovement(this.getCoordinates(), this.getAngle() + DEFAULT_ROTATION_STEP * rotationDirection))
             return false;
-        getHitbox().rotate(DEFAULT_ROTATION_STEP * direction);
+        getHitbox().rotate(DEFAULT_ROTATION_STEP * rotationDirection);
         return true;
     }
 
@@ -204,6 +210,7 @@ public class Shooter extends Entity {
             logger.info("[Shooter] shooter cannot move to the new coordinates" + this.getCoordinates());
             return false;
         }
+        shooterListener.onMoved();
         this.setCoordinates(newCoords);
         logger.info("[Shooter] shooter moved to a new coordinates" + this.getCoordinates());
         return true;
@@ -241,12 +248,11 @@ public class Shooter extends Entity {
         if (c.getX() < Configuration.getInstance().getGameWidth() / 2.0) {
             rotatedShooter = new Vector(c.getX() - gunWidth / 2, c.getY(),
                     c.getX() - gunWidth / 2, c.getY() - gunHeight / 2.0);
-            rotatedShooter = rotatedShooter.rotateVector(angle);
         } else {
             rotatedShooter = new Vector(c.getX() + gunWidth / 2, c.getY(),
                     c.getX() + gunWidth / 2, c.getY() - gunHeight / 2.0);
-            rotatedShooter = rotatedShooter.rotateVector(angle);
         }
+        rotatedShooter = rotatedShooter.rotateVector(angle);
         return !(angle > 90) && !(angle < -90) && rotatedShooter.getPositionCoordinate().getX() >= 0 &&
                 rotatedShooter.getPositionCoordinate().getX() <= config.getGamePanelDimensions().width;
     }
@@ -304,5 +310,17 @@ public class Shooter extends Entity {
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
+    }
+
+    public void stop() {
+        shooterListener.onStopped();
+    }
+
+    public interface ShooterEventListener {
+        void onShot();
+
+        void onMoved();
+
+        void onStopped();
     }
 }
