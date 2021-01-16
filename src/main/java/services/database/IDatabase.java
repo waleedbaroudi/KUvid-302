@@ -7,21 +7,28 @@ import java.util.List;
 public interface IDatabase {
     /**
      * Remove the registered collection **if exists** from the DB
+     *
      * @param collectionTitle
      * @return deletion success state
      */
-    boolean removeCollection(String collectionTitle);
+    default boolean removeCollection(String collectionTitle) {
+        return false;
+    }
 
     /**
      * register a new collection **if not exists** in the DB
+     *
      * @param collectionTitle
      * @return removement success state
      */
-    boolean registerCollection(String collectionTitle);
+    default boolean registerCollection(String collectionTitle) {
+        return false;
+    }
 
     /**
      * Save a new instance under the given collectionTitle and bound the unique id. No two instance should be able to bound
      * to the same uniqueID
+     *
      * @param collectionTitle
      * @param uniqueID
      * @param instance
@@ -34,6 +41,7 @@ public interface IDatabase {
     /**
      * update the instance bounded to the unique ID under the specific collection. In no instance is bounded to the
      * give unique id, it write a new instance
+     *
      * @param collectionTitle
      * @param uniqueID
      * @param instance
@@ -42,18 +50,24 @@ public interface IDatabase {
      * @throws IOException
      */
 
-    <T> boolean update(String collectionTitle, String uniqueID, T instance) throws IOException;
+    default <T> boolean update(String collectionTitle, String uniqueID, T instance) throws IOException {
+        return false;
+    }
 
     /**
      * delete the instance **if exists** that is bounded to the give unique id.
+     *
      * @param collectionTitle
      * @param uniqueID
      * @return
      */
-    boolean delete(String collectionTitle, String uniqueID);
+    default boolean delete(String collectionTitle, String uniqueID) {
+        return false;
+    }
 
     /**
      * load the instance bounded to the given unique id.
+     *
      * @param collectionTitle
      * @param uniqueID
      * @param tClass
@@ -65,6 +79,7 @@ public interface IDatabase {
 
     /**
      * get all the documents unique id in the collection
+     *
      * @param collectionTitle
      * @return
      */

@@ -13,7 +13,7 @@ public class ConfigPreset {
 
 
     public void getConfigBundleFromFile(String filename) throws IOException {
-        ConfigBundle bundle = IOHandler.readFromYaml(filename, ConfigBundle.class);
+        ConfigBundle bundle = IOHandler.readFromYaml(filename, "configurations", ConfigBundle.class);
         if (bundle == null)
             listener.onPresetsFailure("could not load preset configurations!");
         else

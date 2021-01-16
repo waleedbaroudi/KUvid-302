@@ -2,6 +2,8 @@ package model.game_building;
 
 import services.utils.IOHandler;
 
+import java.io.IOException;
+
 public class ConfigConfirmation {
     private final ParametersConfirmationListener confirmationListener;
 
@@ -11,9 +13,15 @@ public class ConfigConfirmation {
 
     public void confirm(ConfigBundle bundle, boolean isSaving) {
         //write the selected config into a temporary file that will be read in Configuration class.
-        IOHandler.writeToYAML(bundle);
-        if (isSaving)
-            IOHandler.writeToYAML(bundle, "preset","configurations");
+        try {
+            IOHandler.writeToYAML(bundle);
+            if (isSaving) {
+
+                IOHandler.writeToYAML(bundle, "preset", "configurations");
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
         // Send a signal to close the building-mode window (Frame)
         confirmationListener.onConfirmedParameters();
 

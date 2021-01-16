@@ -4,8 +4,6 @@ import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import model.game_entities.enums.EntityType;
-import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
 import model.game_running.runnables.CollisionRunnable;
 import model.game_running.runnables.EntityGeneratorRunnable;
@@ -18,6 +16,7 @@ import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
+import services.database.IDatabase;
 import services.database.MongoDBAdapter;
 import services.utils.IOHandler;
 
@@ -44,10 +43,11 @@ public class RunningMode {
     private ShieldHandler shieldHandler;
     private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
 
-    //Listener to handle game pause and resume commands
+    //Listeners
     private final RunningStateListener runningStateListener;
     private final GameEntitiesListener gameEntitiesListener;
     private final SessionLoader.SessionLoadListener sessionLoadListener;
+    private final SaveSessionListener saveSessionListener;
 
     // Runnables
     private MovementRunnable movementRunnable;
@@ -64,7 +64,7 @@ public class RunningMode {
     // Blender
     private Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoader.SessionLoadListener sessionLoadListener) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoader.SessionLoadListener sessionLoadListener, SaveSessionListener saveSessionListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
 
         Configuration config = Configuration.getInstance();
@@ -76,6 +76,8 @@ public class RunningMode {
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
         this.sessionLoadListener = sessionLoadListener;
+        this.saveSessionListener = saveSessionListener;
+
 
         this.projectileContainer = new ProjectileContainer(
                 this,
@@ -175,7 +177,11 @@ public class RunningMode {
     }
 
     public SessionLoader.SessionLoadListener getSessionLoadListener() {
-        return this.sessionLoadListener;
+        return sessionLoadListener;
+    }
+
+    public SaveSessionListener getSaveSessionListener() {
+        return saveSessionListener;
     }
 
     /**
@@ -296,7 +302,8 @@ public class RunningMode {
 
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
-      }
+    }
+
     public boolean isGameFinished() {
         return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
     }
@@ -353,7 +360,7 @@ public class RunningMode {
         this.currentState.saveGameSession();
     }
 
-    public void saveGameSession() {
+    public void saveWithAdapter(IDatabase database) {
         GameBundle.Builder builder = new GameBundle.Builder();
         builder.setPlayer(getPlayer()).
                 setShooter(getShooter()).
@@ -364,9 +371,8 @@ public class RunningMode {
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
         GameBundle bundle = builder.build();
-        String fileName = IOHandler.formatFileNameWithDate("Session1", ""); // TODO: Take name from user
         try {
-            MongoDBAdapter.getInstance().save(GameConstants.SESSION_COLLECTION_TITLE, fileName, bundle); //
+            database.save(GameConstants.SESSION_COLLECTION_TITLE, "Session", bundle); //
         } catch (IOException e) {
             logger.error("Could not save the game session", e);
         }
@@ -387,5 +393,9 @@ public class RunningMode {
          * Reset all game components in the UI
          */
         void onGameReset();
+    }
+
+    public interface SaveSessionListener {
+        void showSaveMethodSelector();
     }
 }
