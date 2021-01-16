@@ -11,4 +11,8 @@ public interface GameState {
     void applyShield(ShieldType shieldType);
 
     void rotateShooter(int direction);
+
+    void resume();
+
+    void pause();
 }

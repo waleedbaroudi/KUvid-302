@@ -1,5 +1,6 @@
 package model.game_running.states;
 
+import model.game_building.GameConstants;
 import model.game_entities.enums.ShieldType;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
@@ -36,5 +37,16 @@ public class PausedState implements GameState {
     @Override
     public void rotateShooter(int direction) {
         logger.warn("cannot rotate shooter while the game is paused");
+    }
+
+    @Override
+    public void resume() {
+        runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+        runningMode.setCurrentState(runningMode.getResumedState());
+    }
+
+    @Override
+    public void pause() {
+        logger.info("Game is already paused");
     }
 }

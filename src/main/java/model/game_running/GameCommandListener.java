@@ -20,13 +20,13 @@ public class GameCommandListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_P:
-                runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+                runningMode.pause();
                 break;
             case KeyEvent.VK_R:
-                runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+                runningMode.resume();
                 break;
             case KeyEvent.VK_B:
-                runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+                runningMode.pause();
                 runningMode.getBlender().showBlender();
                 break;
             case KeyEvent.VK_C:
