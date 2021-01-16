@@ -13,10 +13,10 @@ import ui.movable_drawables.ImageResources;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * This class draws the game running window.
@@ -27,7 +27,6 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     GamePanel gameContentPanel;
     StatisticsPanel statisticsPanel;
     private boolean running;
-    private boolean paused;
     Configuration config;
     private Image background, background_gameOver;
     private final JPanel backgroundPanel;
@@ -35,6 +34,7 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
     private BlenderWindow blenderWindow; //todo: remove this?
     private final SessionLoadWindow sessionLoadWindow;
     private final SaveSessionWindow saveSessionWindow;
+    private CountDownLatch pauseLatch;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
@@ -84,29 +84,27 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
      */
     private void start() {
         running = true; // this will be made false somewhere else (when health or time are over)
+        pauseLatch = new CountDownLatch(0);
         runningMode.startThreads();
         startDrawingThread();
     }
 
     private void startDrawingThread() {
-        Timer gameTimer = new Timer(GameConstants.GAME_THREAD_DELAY, null);
-        ActionListener listener = e -> {
-            if (running) {
-                if (!paused) {
+        Thread drawingThread = new Thread(() -> {
+            while (running) {
+                try {
+                    pauseLatch.await();
                     runningMode.updateTimer(GameConstants.GAME_THREAD_DELAY);
                     repaint();
                     if (runningMode.isGameFinished()) runningMode.endGame();
+                    Thread.sleep(GameConstants.GAME_THREAD_DELAY);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
-            } else {
-                background = background_gameOver;
-                backgroundPanel.repaint();
-                runningMode.setRunningState(GameConstants.GAME_STATE_STOP);
-                unregisterInputListeners();
-                gameTimer.stop();
             }
-        };
-        gameTimer.addActionListener(listener);
-        gameTimer.start();
+        });
+
+        drawingThread.start();
     }
 
     private void unregisterInputListeners() {
@@ -127,14 +125,17 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
      */
     @Override
     public void onRunningStateChanged(int state) {
-        this.paused = (state == GameConstants.GAME_STATE_PAUSED);
+        if (state == GameConstants.GAME_STATE_PAUSED)
+            pauseLatch = new CountDownLatch(1);
+        else
+            pauseLatch.countDown();
     }
 
     @Override
     public void onGameOver() {
+        unregisterInputListeners();
         drawableMap.clear();
         background = background_gameOver;
-        backgroundPanel.repaint();
         this.running = false;
     }
 
