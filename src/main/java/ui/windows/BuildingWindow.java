@@ -88,7 +88,7 @@ public class BuildingWindow extends JFrame implements BuildingMode.ParametersVal
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
-        this.add(panel);
+        this.setContentPane(panel);
 
         /*
          * calling user defined method for adding components to the panel.
