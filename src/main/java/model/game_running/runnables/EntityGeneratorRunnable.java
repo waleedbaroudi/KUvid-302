@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import services.utils.Coordinates;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -75,7 +74,8 @@ public class EntityGeneratorRunnable extends GameRunnable {
                 Collections.shuffle(randomTypes);
                 if (randomTypes.isEmpty()) {
                     logger.info("[EntityGeneratorRunnable] OUT OF ENTITIES TO DROP");
-                    runningMode.endGame();
+                    runningMode.setOutOfEntities();
+                    break;
                 } else {
                     AutonomousEntity entity = GetRandomEntity(randomTypes.get(0));
                     this.runningMode.addEntity(entity);
@@ -89,6 +89,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
     }
 
     private AutonomousEntity GetRandomEntity(int choice) {
+
         switch (choice) {
             case 0:
                 return generateMolecule();
@@ -121,7 +122,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         logger.info("[ObjectGeneratorRunnable] generating a blocker at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
         Blocker blocker = BlockerFactory.getInstance().getBlocker(EntityType.forValue(randomTypes.get(0)));
-        blockerCountPerType.replace(blocker.getEntityType(), blockerCountPerType.get(blocker.getEntityType()));
+        blockerCountPerType.replace(blocker.getEntityType(), blockerCountPerType.get(blocker.getEntityType()) - 1);
         blocker.setCoordinates(new Coordinates(x_coord, 1));
         return blocker;
     }
@@ -146,7 +147,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         logger.info("[ObjectGenerator: generating a powerup at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
         Powerup powerup = PowerupFactory.getInstance().getPowerup(EntityType.forValue(randomTypes.get(0)));
-        powerUpCountPerType.replace(powerup.getEntityType(), powerUpCountPerType.get(powerup.getEntityType()));
+        powerUpCountPerType.replace(powerup.getEntityType(), powerUpCountPerType.get(powerup.getEntityType()) - 1);
         powerup.setCoordinates(new Coordinates(x_coord, 0));
         return powerup;
     }
@@ -171,7 +172,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         logger.info("[ObjectGenerator: generating a molecule at coordinates " + new Coordinates(x_coord, 0) + " ]");
 
         Molecule molecule = MoleculeFactory.getInstance().getMolecule(EntityType.forValue(randomTypes.get(0)));
-        moleculeCountPerType.replace(molecule.getEntityType(), moleculeCountPerType.get(molecule.getEntityType()));
+        moleculeCountPerType.replace(molecule.getEntityType(), moleculeCountPerType.get(molecule.getEntityType()) - 1);
         molecule.setCoordinates(new Coordinates(x_coord, 0));
 
         // spinning molecule
