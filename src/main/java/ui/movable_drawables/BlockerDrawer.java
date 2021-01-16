@@ -1,5 +1,6 @@
 package ui.movable_drawables;
 
+import model.game_building.Configuration;
 import model.game_entities.Blocker;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
@@ -21,9 +22,17 @@ public class BlockerDrawer implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
-                2 * blocker.getHitbox().getWidth(),
-                2 * blocker.getHitbox().getHeight());
+        Coordinates drawingCoordinates;
+        if (Configuration.getInstance().isDiscoTheme())
+
+            drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+                    2 * blocker.getHitbox().getWidth(),
+                    2 * blocker.getHitbox().getHeight());
+        else
+            drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
+                    blocker.getHitbox().getWidth(),
+                    blocker.getHitbox().getHeight());
+
         g.drawImage(blockerImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
     }
 

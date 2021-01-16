@@ -37,7 +37,11 @@ public class ImageResources {
 
             case BLOCKER:
                 AutonomousEntity b = (AutonomousEntity) entity;
-                return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", 2 * width, 2 * height);
+                if (config.isDiscoTheme())
+                    return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", 2 * width, 2 * height);
+                else
+                    return getImage(b.getSuperType() + "/" + b.getEntityType() + ".png", width, height);
+
 
             case MOLECULE:
                 Molecule m = (Molecule) entity;

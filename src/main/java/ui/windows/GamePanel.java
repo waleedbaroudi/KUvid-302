@@ -10,6 +10,7 @@ import ui.movable_drawables.ShooterDrawer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.util.Map;
 
 public class GamePanel extends JPanel {
