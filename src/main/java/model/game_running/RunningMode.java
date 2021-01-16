@@ -17,8 +17,6 @@ import model.game_space.GameStatistics;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
 import services.database.IDatabase;
-import services.database.MongoDBAdapter;
-import services.utils.IOHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +52,7 @@ public class RunningMode {
     private CollisionRunnable collisionRunnable;
     private ShooterMovementRunnable shooterRunnable;
     private EntityGeneratorRunnable entityGeneratorRunnable;
+    private boolean outOfEntities; // flags that the entity generator runnable has run out of entities to drop
 
     // Threads
     private Thread movementThread;
@@ -214,6 +213,13 @@ public class RunningMode {
         return true;
     }
 
+    public boolean noEntitiesOnScreen() {
+        for (Entity entity : autonomousEntities)
+            if (entity.getSuperType() != SuperType.ATOM && entity.getSuperType() != SuperType.SHOOTER)
+                return false;
+        return true;
+    }
+
     /**
      * @param removedEntities autonomous entities to be removed from the list of elements in the space
      */
@@ -305,7 +311,11 @@ public class RunningMode {
     }
 
     public boolean isGameFinished() {
-        return shooter.getCurrentProjectile() == null && noAtomsOnScreen();
+        if (shooter.getCurrentProjectile() == null)
+            return noAtomsOnScreen();
+        if (outOfEntities)
+            return noEntitiesOnScreen();
+        return false;
     }
 
 
@@ -376,6 +386,10 @@ public class RunningMode {
         } catch (IOException e) {
             logger.error("Could not save the game session", e);
         }
+    }
+
+    public void setOutOfEntities() {
+        outOfEntities = true;
     }
 
     public interface RunningStateListener {
