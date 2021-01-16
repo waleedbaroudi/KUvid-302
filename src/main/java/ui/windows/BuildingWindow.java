@@ -3,6 +3,7 @@ package ui.windows;
 import model.game_building.BuildingMode;
 import model.game_building.ConfigBundle;
 import model.game_building.GameConstants;
+import model.game_running.listeners.ParametersValidationListener;
 import org.apache.log4j.Logger;
 import services.utils.IOHandler;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * This class draws the game building window. through this window, the player
  * can specify game parameters.
  */
-public class BuildingWindow extends JFrame implements BuildingMode.ParametersValidationListener {
+public class BuildingWindow extends JFrame implements ParametersValidationListener {
     private static Logger logger;
 
     BuildingMode buildingMode;

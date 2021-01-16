@@ -1,6 +1,7 @@
 package model.game_building;
 
 
+import model.game_running.listeners.ParametersValidationListener;
 import services.utils.IOHandler;
 
 import java.io.IOException;
@@ -116,20 +117,6 @@ public class BuildingMode {
      */
     private boolean isValidLength(double l) {
         return l > 0;
-    }
-
-    public interface ParametersValidationListener {
-        /**
-         * this method is called after game parameters get checked and proved valid.
-         */
-        void onValidParameters(ConfigBundle bundle);
-
-        /**
-         * this method is called after game parameters get checked and proved invalid.
-         *
-         * @param message takes a message indicating that some parameters are invalid as well as those parameters.
-         */
-        void onInvalidParameters(ArrayList<String> message);
     }
 
 

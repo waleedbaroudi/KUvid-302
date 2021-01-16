@@ -1,5 +1,7 @@
 package model.game_space;
 
+import model.game_running.listeners.GameStatisticsListener;
+
 public class GameStatistics {
     GameStatisticsListener statisticsListener;
 
@@ -47,20 +49,6 @@ public class GameStatistics {
 
     public void changeShieldCount() {// todo: this is called from projectile container via the controller
         statisticsListener.onShieldsCountChange();
-    }
-
-    /**
-     * a listener to notify the statistics window UI of any change to the statistics
-     */
-    public interface GameStatisticsListener {
-        void onHealthChanged(double health);
-
-        void onTimerChanged(String currentTime);
-
-        void onScoreChanged(double score);
-
-        void onProjectileCountChange();
-        void onShieldsCountChange();
     }
 
 

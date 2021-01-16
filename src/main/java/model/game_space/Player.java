@@ -2,8 +2,7 @@ package model.game_space;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_building.GameConstants;
-import model.game_entities.enums.ShieldType;
-import model.game_running.ShieldHandler;
+import model.game_running.listeners.GameStatisticsListener;
 
 //todo: can be a controller for shooter, projectile container, and blender.
 public class Player {
@@ -13,7 +12,7 @@ public class Player {
     private GameTimer timer;
     private GameStatistics statistics;
 
-    public Player(String username, GameStatistics.GameStatisticsListener statisticsListener) {
+    public Player(String username, GameStatisticsListener statisticsListener) {
         this.username = username;
         health = GameConstants.DEFAULT_HEALTH;
         score = 0;
@@ -26,7 +25,7 @@ public class Player {
         statistics = new GameStatistics(null); // listener to be set later
     }
 
-    public void setStatisticsListener(GameStatistics.GameStatisticsListener listener) {
+    public void setStatisticsListener(GameStatisticsListener listener) {
         statistics.setStatisticsListener(listener);
         statistics.updateHealth(health);
         statistics.updateTimer(timer.getCurrentTimer());
@@ -50,7 +49,7 @@ public class Player {
     }
 
     @JsonIgnore
-    public GameStatistics.GameStatisticsListener getStatisticsListener(){
+    public GameStatisticsListener getStatisticsListener(){
         return this.statistics.getStatisticsListener();
     }
 

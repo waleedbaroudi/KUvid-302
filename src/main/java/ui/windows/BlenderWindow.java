@@ -3,14 +3,14 @@ package ui.windows;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_running.RunningMode;
-import model.game_space.Blender;
+import model.game_running.listeners.BlenderListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class BlenderWindow extends JFrame implements Blender.BlenderListener {
+public class BlenderWindow extends JFrame implements BlenderListener {
     private JPanel contentPane; // TODO: delete this and use getContentPane() instead.
 
     // Labels

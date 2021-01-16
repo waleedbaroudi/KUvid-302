@@ -3,6 +3,7 @@ package model.game_space;
 
 import model.game_building.GameConstants;
 import model.game_running.ProjectileContainer;
+import model.game_running.listeners.BlenderListener;
 import services.exceptions.ContainerNotInitializedException;
 
 import java.util.logging.Level;
@@ -103,20 +104,4 @@ public class Blender {
         this.projectileContainer = projectileContainer;
     }
 
-    public interface BlenderListener {
-        /**
-         * this method is called after game parameters get checked and proved valid.
-         */
-        default void onBlend() {
-            logger.warning("Listener is not yet initialized");
-        }
-
-        default void onFailBlend() {
-            logger.warning("Listener is not yet initialized");
-        }
-
-        default void onShow() {
-            logger.warning("Listener is not yet initialized");
-        }
-    }
 }

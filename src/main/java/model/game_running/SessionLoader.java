@@ -2,6 +2,7 @@ package model.game_running;
 
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
+import model.game_running.listeners.SessionLoadListener;
 import org.apache.log4j.Logger;
 import services.database.IDatabase;
 import services.database.LocalDBAdapter;
@@ -58,16 +59,6 @@ public class SessionLoader {
     public void resetLists() {
         localSessions = null;
         onlineSessions = null;
-    }
-
-    public interface SessionLoadListener {
-        void onSessionListFetched(ArrayList<String> sessions);
-
-        void onSessionRetrieved(GameBundle bundle);
-
-        void onLoadFailed(String errorMessage);
-
-        void getSavedSessions();
     }
 
 }

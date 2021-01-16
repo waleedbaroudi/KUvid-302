@@ -2,6 +2,7 @@ package ui.windows;
 
 import model.game_building.ConfigBundle;
 import model.game_building.ConfigPreset;
+import model.game_running.listeners.PresetSelectionListener;
 import org.apache.log4j.Logger;
 import services.exceptions.UnsupportedNameFormatException;
 import services.utils.IOHandler;
@@ -10,7 +11,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ConfigPresetWindow extends JFrame implements ConfigPreset.PresetSelectionListener {
+public class ConfigPresetWindow extends JFrame implements PresetSelectionListener {
     ConfigPreset configPreset;
     JFrame buildingGameFrame;
     JList<String> configurationFilesList;

@@ -1,5 +1,6 @@
 package model.game_building;
 
+import model.game_running.listeners.PresetSelectionListener;
 import services.utils.IOHandler;
 
 import java.io.IOException;
@@ -21,15 +22,4 @@ public class ConfigPreset {
     }
 
 
-    public interface PresetSelectionListener {
-        /**
-         * this method is called after game parameters get checked and proved valid.
-         */
-        void onSelectedPreset(ConfigBundle bundle);
-
-        /**
-         * if the user has no presets saved.
-         */
-        void onPresetsFailure(String message);
-    }
 }

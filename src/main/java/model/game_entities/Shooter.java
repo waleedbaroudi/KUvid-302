@@ -11,6 +11,7 @@ import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_running.CollisionVisitor;
 import model.game_running.ProjectileContainer;
+import model.game_running.listeners.ShooterEventListener;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 import services.utils.Vector;
@@ -316,11 +317,4 @@ public class Shooter extends Entity {
         shooterListener.onStopped();
     }
 
-    public interface ShooterEventListener {
-        void onShot();
-
-        void onMoved();
-
-        void onStopped();
-    }
 }
