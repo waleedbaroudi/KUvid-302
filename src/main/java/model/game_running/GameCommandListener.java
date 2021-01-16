@@ -11,10 +11,8 @@ public class GameCommandListener implements KeyListener {
     private boolean canShoot = true;
     private final Timer timer = new Timer();
     private final RunningMode runningMode;
-    private OnShooterKeyListener onShooterKeyListener;
 
-    public GameCommandListener(RunningMode runningMode, OnShooterKeyListener onShooterKeyListener) {
-        this.onShooterKeyListener = onShooterKeyListener;
+    public GameCommandListener(RunningMode runningMode) {
         this.runningMode = runningMode;
     }
 
@@ -36,7 +34,6 @@ public class GameCommandListener implements KeyListener {
                 break;
             case KeyEvent.VK_UP:
                 if (canShoot) { // TODO: Change implementation later.
-                    onShooterKeyListener.onShot();
                     runningMode.shootProjectile();
                     canShoot = false;
                     timer.schedule(new TimerTask() { // Creates a TimerTask object that will make canShoot true after a specified time (DEFAULT_SHOOTER_DELAY)
@@ -48,11 +45,9 @@ public class GameCommandListener implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_LEFT:
-                onShooterKeyListener.onMoved();
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_LEFT);
                 break;
             case KeyEvent.VK_RIGHT:
-                onShooterKeyListener.onMoved();
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_RIGHT);
                 break;
         }
@@ -63,7 +58,6 @@ public class GameCommandListener implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_RIGHT:
-                onShooterKeyListener.onStoped();
                 runningMode.moveShooter(GameConstants.SHOOTER_MOVEMENT_STILL);
                 break;
             case KeyEvent.VK_D:
@@ -84,14 +78,5 @@ public class GameCommandListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-    }
-
-    public interface OnShooterKeyListener {
-        void onShot();
-
-        void onMoved();
-
-        void onStoped();
     }
 }

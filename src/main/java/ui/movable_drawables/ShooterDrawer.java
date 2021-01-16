@@ -18,7 +18,7 @@ import java.util.TimerTask;
 /**
  * This class is responsible for drawing the Shooter given the Shooter entity in the constructor
  */
-public class ShooterDrawer implements Drawable, GameCommandListener.OnShooterKeyListener {
+public class ShooterDrawer implements Drawable, Shooter.ShooterEventListener {
 
     private final Shooter shooter;
     private final Image shooterBase;
@@ -31,6 +31,7 @@ public class ShooterDrawer implements Drawable, GameCommandListener.OnShooterKey
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
+        this.shooter.setShooterListener(this);
         this.config = Configuration.getInstance();
         this.shooterImage = ImageResources.get(shooter);
         this.shooterBase = ImageResources.get("shooter_base", (int) (shooter.getHitbox().getHeight() * 1.5), (int) shooter.getHitbox().getHeight());
@@ -119,7 +120,7 @@ public class ShooterDrawer implements Drawable, GameCommandListener.OnShooterKey
     }
 
     @Override
-    public void onStoped() {
+    public void onStopped() {
         if (config.isDiscoTheme())
             currentBeltImg = belt;
     }

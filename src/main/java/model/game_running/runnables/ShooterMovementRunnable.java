@@ -1,5 +1,6 @@
 package model.game_running.runnables;
 
+import model.game_building.GameConstants;
 import model.game_entities.Shooter;
 
 import static model.game_building.GameConstants.*;
@@ -38,6 +39,8 @@ public class ShooterMovementRunnable extends GameRunnable {
 
     public void setMovementState(int state) {
         this.movementState = state;
+        if (state == SHOOTER_MOVEMENT_STILL)
+            shooter.stop();
     }
 
     public void setShooter(Shooter shooter) {
