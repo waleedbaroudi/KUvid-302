@@ -1,7 +1,6 @@
 package ui.movable_drawables;
 
 import model.game_building.Configuration;
-import model.game_entities.Atom;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
@@ -18,7 +17,8 @@ import java.io.IOException;
  */
 public class ImageResources {
 
-    private static final String theme = Configuration.getInstance().getTheme();
+    private static final Configuration config = Configuration.getInstance();
+    private static final String theme = config.getTheme();
 
     /**
      * @param entity the entity that needs an image to draw itself
@@ -89,6 +89,13 @@ public class ImageResources {
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
+
+    public static Image getPauseIndicator() {
+        double width = config.getGameWidth() / 5.0;
+        double height = width * 86.0 / 407.0;
+
+        return getImage("paused.png", (int) width, (int) height);
     }
 
     public static Image getGif(String name, int width, int height) {

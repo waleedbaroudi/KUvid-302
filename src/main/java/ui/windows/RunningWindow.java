@@ -125,10 +125,13 @@ public class RunningWindow extends JFrame implements RunningMode.RunningStateLis
      */
     @Override
     public void onRunningStateChanged(int state) {
-        if (state == GameConstants.GAME_STATE_PAUSED)
+        if (state == GameConstants.GAME_STATE_PAUSED) {
             pauseLatch = new CountDownLatch(1);
-        else
+            gameContentPanel.showPauseIndicator(true);
+        } else {
             pauseLatch.countDown();
+            gameContentPanel.showPauseIndicator(false);
+        }
     }
 
     @Override
