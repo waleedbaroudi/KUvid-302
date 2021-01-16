@@ -77,7 +77,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
-                runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+                runningMode.resume();
             }
         });
     }
@@ -109,7 +109,7 @@ public class BlenderWindow extends JFrame implements Blender.BlenderListener {
     @Override
     public void onBlend() {
         this.setVisible(false);
-        runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+        runningMode.resume();
         // this.dispose();
     }
 

@@ -9,7 +9,7 @@ import model.game_entities.enums.SuperType;
 import model.game_running.runnables.*;
 import model.game_running.states.GameState;
 import model.game_running.states.PausedState;
-import model.game_running.states.RunningState;
+import model.game_running.states.ResumedState;
 import model.game_space.Blender;
 import model.game_space.GameStatistics;
 import model.game_space.Player;
@@ -30,7 +30,9 @@ public class RunningMode {
     private GameStatistics statistics;
 
     // game state
-    GameState currentState, pausedState, runningState;
+    GameState currentState;
+    GameState pausedState;
+    GameState resumedState;
 
     //space objects
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
@@ -67,9 +69,9 @@ public class RunningMode {
 
         Configuration config = Configuration.getInstance();
 
-        runningState = new RunningState(this);
+        resumedState = new ResumedState(this);
         pausedState = new PausedState(this);
-        currentState = runningState;
+        currentState = resumedState;
 
         this.runningStateListener = runningStateListener;
         this.gameEntitiesListener = gameEntitiesListener;
@@ -144,15 +146,8 @@ public class RunningMode {
     public void setRunningState(int state) {
         // set the state of game model threads
         gameRunnables.forEach(runnable -> runnable.setRunnableState(state));
-
         // set the state of the UI
         runningStateListener.onRunningStateChanged(state);
-
-        // set current state of game model controller.
-        if (state == GameConstants.GAME_STATE_PAUSED)
-            currentState = pausedState;
-        else if (state == GameConstants.GAME_STATE_RESUMED)
-            currentState = runningState;
     }
 
     public void moveShooter(int direction) {
@@ -391,6 +386,27 @@ public class RunningMode {
 
     public void applyShield(ShieldType shieldType) {
         currentState.applyShield(shieldType);
+    }
+
+    public void resume() {
+        currentState.resume();
+    }
+
+    public void pause() {
+        currentState.pause();
+    }
+
+
+    public void setCurrentState(GameState currentState) {
+        this.currentState = currentState;
+    }
+
+    public GameState getPausedState() {
+        return pausedState;
+    }
+
+    public GameState getResumedState() {
+        return resumedState;
     }
 
     public interface RunningStateListener {

@@ -454,7 +454,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+                runningMode.pause();
                 runningMode.getBlender().showBlender();
             }
 
@@ -472,7 +472,7 @@ public class StatisticsPanel extends JPanel implements GameStatistics.GameStatis
         };
         blenderButton.addMouseListener(blenderAdapter);
 
-        //powerups listeners
+        //power-ups listeners
         alphaPowerupAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
