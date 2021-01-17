@@ -31,7 +31,7 @@ public class SessionSaveWindow extends JFrame implements SessionSaveListener {
             @Override
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
-                context.setFocusableWindowState(true);
+                context.setEnabled(true);
                 context.toFront();
             }
         });
@@ -48,13 +48,13 @@ public class SessionSaveWindow extends JFrame implements SessionSaveListener {
 
     private void saveMethodSelected(IDatabase selectedMethod) {
         context.saveAdapterSelected(selectedMethod);
-        context.setFocusableWindowState(true);
+        context.setEnabled(true);
         dispose();
     }
 
     @Override
     public void showSaveMethodSelector() {
         setVisible(true);
-        context.setFocusableWindowState(false);
+        context.setEnabled(false);
     }
 }

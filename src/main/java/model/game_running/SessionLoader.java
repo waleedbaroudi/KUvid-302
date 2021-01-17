@@ -22,15 +22,16 @@ public class SessionLoader {
 
     ArrayList<String> sessions;
 
-    public SessionLoader(SessionLoadListener loadListener, String dbType) {
+    public SessionLoader(SessionLoadListener loadListener) {
         this.loadListener = loadListener;
-        dbAdapter = getDatabaseAdapter(dbType);
         logger = Logger.getLogger(this.getClass().getName());
     }
 
 
-    public synchronized void fetchSavedSessions() {
+    public synchronized void fetchSavedSessions(String database) {
+        dbAdapter = getDatabaseAdapter(database);
         ArrayList<String> sessions = new ArrayList<>(dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE));
+
         loadListener.onSessionListFetched(sessions);
     }
 
@@ -47,7 +48,7 @@ public class SessionLoader {
     }
 
     private IDatabase getDatabaseAdapter(String databaseType){
-        if(databaseType.equals("local"))
+        if(databaseType.equalsIgnoreCase("local"))
             return LocalDBAdapter.getInstance();
         else
             return MongoDBAdapter.getInstance();
