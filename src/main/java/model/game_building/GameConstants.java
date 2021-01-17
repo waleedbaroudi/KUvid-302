@@ -63,7 +63,7 @@ public final class GameConstants {
     public static final double GAME_PANEL_WIDTH_RATIO = 0.8;
     public static final int PANEL_SEPARATOR_WIDTH = 2;
 
-    public static final double SPINNING_SPEED = 10;
+    public static final double SPINNING_SPEED = 4;
 
     // Shields and Atoms constants.
     public static final int[] ALPHA_NEUTRON_VALUES = {7, 8, 9};

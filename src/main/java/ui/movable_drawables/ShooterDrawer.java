@@ -23,11 +23,11 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
     private final Image shooterBase;
     private final Image shooterImageGif, shootingAnim;
     private final Image belt, beltAnim;
+    private final Configuration config;
+    private final java.util.Timer timer = new Timer();
     private Image currentBeltImg;
     private Image currentImg;
     private Image[] shieldsImages;
-    private final Configuration config;
-    private final java.util.Timer timer = new Timer();
 
     public ShooterDrawer(Shooter shooter) {
         this.shooter = shooter;
@@ -119,6 +119,7 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
         g2d.setTransform(old);
     }
 
+    @Override
     public void drawHitbox(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
                 shooter.getHitbox().getWidth(),
