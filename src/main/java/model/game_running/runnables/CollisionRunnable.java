@@ -82,13 +82,10 @@ public class CollisionRunnable extends GameRunnable {
         for (Coordinates coord : coords) {
             if (coord.getX() > config.getGamePanelDimensions().width) {
                 sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
-                //TODO : For moayad
-                sourceEntity.move();
                 GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
             }
             if (coord.getX() < 0) {
                 sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
-                sourceEntity.move();
                 GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
             }
         }
