@@ -165,4 +165,10 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         invalidate();
         repaint();
     }
+
+    public void setEnabled(boolean enabled){
+        setFocusableWindowState(enabled);
+        gameContentPanel.setFocusable(enabled);
+        statisticsPanel.setFocusable(enabled);
+    }
 }
