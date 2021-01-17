@@ -25,15 +25,14 @@ import java.util.concurrent.CountDownLatch;
  * all game animations and actions will happen in this window
  */
 public class RunningWindow extends JFrame implements RunningStateListener, GameEntitiesListener {
-    RunningMode runningMode;
-    GamePanel gameContentPanel;
-    StatisticsPanel statisticsPanel;
+    private final RunningMode runningMode;
+    private final GamePanel gameContentPanel;
+    private final StatisticsPanel statisticsPanel;
     private boolean running;
-    Configuration config;
-    private Image background, background_gameOver;
-    private final JPanel backgroundPanel;
+    private Configuration config;
+    private Image background;
+    private final Image background_gameOver;
     private final Map<AutonomousEntity, Drawable> drawableMap;
-    private BlenderWindow blenderWindow; //todo: remove this?
     private final SessionLoadWindow sessionLoadWindow;
     private final SessionSaveWindow saveSessionWindow;
     private CountDownLatch pauseLatch;
@@ -48,14 +47,15 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         this.saveSessionWindow = new SessionSaveWindow(this);
         this.runningMode = new RunningMode(this, this, sessionLoadWindow, saveSessionWindow);
         System.out.println("in running window" + runningMode.getBlender());
-        blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
+        //todo: remove this?
+        BlenderWindow blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
         Player player = new Player("player", statisticsPanel); //todo: change temp username
         this.runningMode.setPlayer(player);
         background = ImageResources.backGround(getWidth(), getHeight(), false);
         background_gameOver = ImageResources.backGround(getWidth(), getHeight(), true);
-        backgroundPanel = new JPanel() {
+        JPanel backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
@@ -166,7 +166,7 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         repaint();
     }
 
-    public void setEnabled(boolean enabled){
+    public void setEnabled(boolean enabled) {
         setFocusableWindowState(enabled);
         gameContentPanel.setFocusable(enabled);
         statisticsPanel.setFocusable(enabled);

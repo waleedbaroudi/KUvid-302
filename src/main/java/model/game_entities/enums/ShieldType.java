@@ -8,7 +8,8 @@ public enum ShieldType {
 
     private int value;
 
-    ShieldType() {
+    @SuppressWarnings("unused")
+    ShieldType() {//this is needed for the save/load functionality
     }
 
     ShieldType(int value) {

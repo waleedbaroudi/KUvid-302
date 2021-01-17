@@ -2,7 +2,6 @@ package model.game_running;
 
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import model.game_running.runnables.CollisionRunnable;
 
 public class CollisionHandler implements CollisionVisitor {
 

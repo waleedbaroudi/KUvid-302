@@ -11,11 +11,13 @@ import services.utils.Velocity;
  */
 @JsonTypeName("straight-pattern")
 @JsonIdentityReference(alwaysAsId = true)
-public class StraightPattern extends PathPattern{
+public class StraightPattern extends PathPattern {
     private Velocity initialVelocity;
 
-    public StraightPattern(){
+    @SuppressWarnings("unused")
+    public StraightPattern() {//this is needed for the save/load functionality
     }
+
     public StraightPattern(Coordinates initialCoords, Velocity initialVelocity) {
         super(initialCoords);
         this.initialVelocity = initialVelocity;

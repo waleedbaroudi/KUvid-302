@@ -15,10 +15,13 @@ import java.util.Collections;
  */
 @JsonTypeName("zigzag-pattern")
 @JsonIdentityReference(alwaysAsId = true)
-public class ZigzagPatten extends PathPattern{
+public class ZigzagPatten extends PathPattern {
     private CompositePattern zigzagPattern;
 
-    public ZigzagPatten(){}
+    @SuppressWarnings("unused")
+    public ZigzagPatten() {//this is needed for the save/load functionality
+    }
+
     public ZigzagPatten(Velocity rightDiagonalVelocity, Velocity leftDiagonalVelocity, int rightDescendSteps, int leftDescentSteps, boolean rightFirst) {
         // prepare the composite pattern
         ArrayList<PathPattern> patterns = new ArrayList<>();
@@ -32,7 +35,7 @@ public class ZigzagPatten extends PathPattern{
         patterns.add(new StraightPattern(leftDiagonalVelocity));
         iters.add(leftDescentSteps);
 
-        if(!rightFirst){
+        if (!rightFirst) {
             // swap the patterns, and corresponding iterations
             Collections.swap(patterns, 0, 1);
             Collections.swap(iters, 0, 1);
@@ -42,7 +45,7 @@ public class ZigzagPatten extends PathPattern{
         this.zigzagPattern = new CompositePattern(patterns, iters);
     }
 
-    public ZigzagPatten(Velocity rightDiagonalVelocity, Velocity leftDiagonalVelocity, int rightDescendSteps, int leftDescentSteps){
+    public ZigzagPatten(Velocity rightDiagonalVelocity, Velocity leftDiagonalVelocity, int rightDescendSteps, int leftDescentSteps) {
         this(rightDiagonalVelocity, leftDiagonalVelocity, rightDescendSteps, leftDescentSteps, true);
     }
 
@@ -56,7 +59,7 @@ public class ZigzagPatten extends PathPattern{
         // add the left diagonal pattern
         patterns.add(new StraightPattern(new Velocity(-1 * diagonalVelocity.getXv(), diagonalVelocity.getYv())));
 
-        if(!rightFirst){
+        if (!rightFirst) {
             // swap the patterns, and corresponding iterations
             Collections.swap(patterns, 0, 1);
         }
@@ -67,10 +70,6 @@ public class ZigzagPatten extends PathPattern{
 
     public ZigzagPatten(Velocity diagonalVelocity, int iterationStep) {
         this(diagonalVelocity, iterationStep, true);
-    }
-
-    public CompositePattern getZigzagPattern() {
-        return zigzagPattern;
     }
 
     @Override

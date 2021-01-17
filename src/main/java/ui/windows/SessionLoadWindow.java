@@ -12,8 +12,8 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class SessionLoadWindow extends JFrame implements SessionLoadListener {
-    private SessionLoader sessionLoader;
-    private JFrame context;
+    private final SessionLoader sessionLoader;
+    private final JFrame context;
     JList<String> saveFilesNamesList;
 
     public SessionLoadWindow(JFrame context) {// resets the lists in the load up window closing

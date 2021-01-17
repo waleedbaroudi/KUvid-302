@@ -1,12 +1,15 @@
 package model.game_running.runnables;
 
 import model.game_building.Configuration;
-import model.game_entities.*;
+import model.game_building.GameConstants;
+import model.game_entities.AutonomousEntity;
+import model.game_entities.Blocker;
+import model.game_entities.Molecule;
+import model.game_entities.Powerup;
 import model.game_entities.enums.EntityType;
 import model.game_entities.factories.BlockerFactory;
 import model.game_entities.factories.MoleculeFactory;
 import model.game_entities.factories.PowerupFactory;
-import model.game_building.GameConstants;
 import model.game_running.RunningMode;
 import org.apache.log4j.Logger;
 import services.utils.Coordinates;
@@ -20,10 +23,8 @@ import java.util.stream.Stream;
  */
 public class EntityGeneratorRunnable extends GameRunnable {
     private Map<EntityType, Integer> moleculeCountPerType, blockerCountPerType, powerUpCountPerType;
-    private RunningMode runningMode;
-
+    private final RunningMode runningMode;
     private static final Logger logger = Logger.getLogger(EntityGeneratorRunnable.class.getName());
-
 
     public EntityGeneratorRunnable(RunningMode runningMode) {
         super();

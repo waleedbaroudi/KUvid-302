@@ -15,7 +15,7 @@ import java.util.List;
  */
 @JsonTypeName("ratio-pattern")
 @JsonIdentityReference(alwaysAsId = true)
-public class RatioPattern extends PathPattern{
+public class RatioPattern extends PathPattern {
 
     private List<PathPattern> patterns;
     private List<Double> ratios;
@@ -23,10 +23,14 @@ public class RatioPattern extends PathPattern{
     private int currentPatternIdx;
     private double lastYCoords;
 
-    public RatioPattern(){}
+
+    @SuppressWarnings("unused")
+    public RatioPattern() {//this is needed for the save/load functionality
+    }
+
     /**
      * @param patterns List of patterns to follow
-     * @param ratios List of screen ration corresponding to the patterns
+     * @param ratios   List of screen ration corresponding to the patterns
      */
     public RatioPattern(List<PathPattern> patterns, List<Double> ratios) {
         this.patterns = patterns;
@@ -35,8 +39,8 @@ public class RatioPattern extends PathPattern{
         // set the current pattern to the first pattern
         setCurrentPattern(patterns.get(0));
     }
-    
-    
+
+
     public List<PathPattern> getPatterns() {
         return patterns;
     }
@@ -59,9 +63,9 @@ public class RatioPattern extends PathPattern{
 
     @Override
     public Coordinates nextPosition() {
-        if(getCurrentCoords().getY() - lastYCoords
-                >= ratios.get(currentPatternIdx) * Configuration.getInstance().getGamePanelDimensions().height){
-            getLogger().debug("[RatioPattern] ratio of the " + (this.currentPatternIdx+1) + "th pattern finished");
+        if (getCurrentCoords().getY() - lastYCoords
+                >= ratios.get(currentPatternIdx) * Configuration.getInstance().getGamePanelDimensions().height) {
+            getLogger().debug("[RatioPattern] ratio of the " + (this.currentPatternIdx + 1) + "th pattern finished");
             getLogger().debug("[RatioPattern] transition coordinates are " + this.getCurrentCoords());
             // update the last y coordinates and the current pattern
             Coordinates tmpCoords = getCurrentCoords();
@@ -84,8 +88,7 @@ public class RatioPattern extends PathPattern{
         try {
             currentPattern = (PathPattern) currentPattern.clone();
             currentPattern.reflect(n);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

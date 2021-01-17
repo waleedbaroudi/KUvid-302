@@ -81,10 +81,10 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
 
         //draw projectile
         if (projectile != null) {
-            Coordinates projectileCoord = MathUtils.drawingCoordinates(
+            Coordinates projectileCoordinates = MathUtils.drawingCoordinates(
                     shooter.getCoordinates(),
                     0, projectile.getHitbox().getHeight() + shooter.getHitbox().getHeight());
-            projectile.setCoordinates(projectileCoord);
+            projectile.setCoordinates(projectileCoordinates);
             DrawableFactory.get(projectile).draw(g2d);
         }
 

@@ -5,7 +5,6 @@ import model.game_building.ConfigBundle;
 import model.game_building.GameConstants;
 import model.game_running.listeners.ParametersValidationListener;
 import org.apache.log4j.Logger;
-import services.utils.IOHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,12 +63,10 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
     String[] difficultyLevels = {"Easy", "Medium", "Hard"};
     JComboBox<String> difficultyBox;
     JComboBox<String> themeBox;
-    String[] themes = {GameConstants.PEPEGA, GameConstants.DISCO};
+    String[] themes = {GameConstants.DISCO, GameConstants.PEPEGA};
     ArrayList<Integer> atoms, powerups, blockers, molecules, shields;
 
     double l;
-
-    IOHandler ioHandler;
 
     /**
      * Constructor initiates the Scanner and BuildingMode instances
@@ -97,6 +94,10 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
         placeComponents(panel);
         loadDefaultParams();
         // Fits the borders to the content
+
+    }
+
+    public void start() {
         this.pack();
         this.setLocationRelativeTo(null); //centers the window in the middle of the screen
         // Setting the frame visibility to true.
@@ -168,7 +169,7 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
         panel.add(sigmaPowerupsTextField);
 
 
-        // Blockers labels and textfields
+        // Blockers labels and text fields
         JLabel alphaBlockerLabel = new JLabel("Alpha Blockers");
         panel.add(alphaBlockerLabel);
 
@@ -193,7 +194,7 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
         sigmaBlockersTextField = new JTextField(4);
         panel.add(sigmaBlockersTextField);
 
-        // Molecules labels and textfields
+        // Molecules labels and text fields
         JLabel alphaMoleculeLabel = new JLabel("Alpha Molecules");
         panel.add(alphaMoleculeLabel);
 
@@ -243,7 +244,7 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
         zetaShieldTextField = new JTextField(4);
         panel.add(zetaShieldTextField);
 
-        // Length label and textfield.
+        // Length label and text field.
         JLabel lengthLabel = new JLabel("L unit ");
         panel.add(lengthLabel);
 
@@ -281,7 +282,7 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
         /*
         themes JComboBox
          */
-        JLabel left = new JLabel("------------>");
+        JLabel left = new JLabel("------------>>");
         left.setHorizontalAlignment(JLabel.CENTER);
         panel.add(left);
 
@@ -290,10 +291,10 @@ public class BuildingWindow extends JFrame implements ParametersValidationListen
         panel.add(themeLabel);
 
         themeBox = new JComboBox<>(themes);
-        themeBox.setSelectedIndex(1);
+        themeBox.setSelectedIndex(0);
         panel.add(themeBox);
 
-        JLabel right = new JLabel("<------------");
+        JLabel right = new JLabel("<<------------");
         right.setHorizontalAlignment(JLabel.CENTER);
         panel.add(right);
 

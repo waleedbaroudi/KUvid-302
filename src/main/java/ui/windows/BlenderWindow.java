@@ -14,14 +14,10 @@ public class BlenderWindow extends JFrame implements BlenderListener {
     private JPanel contentPane; // TODO: delete this and use getContentPane() instead.
 
     // Labels
-    private JLabel sourceLabel;
-    private JLabel destinationLabel;
-    private JLabel destinationQuantityLabel;
-    private JLabel errorLabel;
+    private JLabel sourceLabel, destinationLabel, destinationQuantityLabel, errorLabel;
 
     // ComboBoxes
-    private JComboBox sourceComboBox;
-    private JComboBox destinationComboBox;
+    private JComboBox sourceComboBox, destinationComboBox;
 
     private JTextField destinationQuantityField;
     private JButton blendButton;
@@ -45,7 +41,7 @@ public class BlenderWindow extends JFrame implements BlenderListener {
     /**
      * Add all the components to the content panel
      *
-     * @param contentPane
+     * @param contentPane to which the components will be added
      */
     private void addComponents(JPanel contentPane) {
         sourceLabel = new JLabel("Source");
@@ -85,10 +81,10 @@ public class BlenderWindow extends JFrame implements BlenderListener {
     /**
      * add action listener to the button to call the blend method on the domain object
      *
-     * @param btn
+     * @param button to which the listener will be added
      */
-    private void addButtonActionListener(JButton btn) {
-        btn.addActionListener(e -> {
+    private void addButtonActionListener(JButton button) {
+        button.addActionListener(e -> {
             int sourceRank = sourceComboBox.getSelectedIndex();
             int destinationRank = destinationComboBox.getSelectedIndex();
             int numOfConversions;

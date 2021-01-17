@@ -6,7 +6,7 @@ import services.utils.IOHandler;
 import java.io.IOException;
 
 public class ConfigPreset {
-    PresetSelectionListener listener;
+    private final PresetSelectionListener listener;
 
     public ConfigPreset(PresetSelectionListener listener) {
         this.listener = listener;
