@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class ConfigPresetWindow extends JFrame implements PresetSelectionListener {
-    ConfigPreset configPreset;
-    JFrame buildingGameFrame;
-    JList<String> configurationFilesList;
+    private final ConfigPreset configPreset;
+    private final JFrame buildingGameFrame;
+    private JList<String> configurationFilesList;
 
     private static Logger logger;
 

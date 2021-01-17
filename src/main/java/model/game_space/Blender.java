@@ -29,21 +29,7 @@ public class Blender {
      * @param destinationAtom  The result atom
      * @param numOfConversions The number of the desired atom.
      */
-//    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {
-//        boolean canBlend;
-//        System.out.println(sourceAtom + " " + " ");
-//        canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
-//                (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]));
-//        if (canBlend) {
-//            projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
-//                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom][sourceAtom]));
-//            if (blenderListener != null)
-//                blenderListener.onBlend();
-//        } else {
-//            if (blenderListener != null)
-//                blenderListener.onFailBlend();
-//        }
-//    }
+
     public void convert(int sourceAtom, int destinationAtom, int numOfConversions) throws Exception {
         if (sourceAtom > destinationAtom) {
             breakAtoms(sourceAtom, destinationAtom, numOfConversions);
@@ -55,8 +41,9 @@ public class Blender {
 
     /**
      * Blends a number of source atoms into a number of target atoms.
-     * @param sourceAtom The atom to be blended.
-     * @param destinationAtom The result atom.
+     *
+     * @param sourceAtom       The atom to be blended.
+     * @param destinationAtom  The result atom.
      * @param numOfConversions The number of the desired atom.
      */
     public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException {
@@ -74,13 +61,15 @@ public class Blender {
             projectileContainer.increaseAtoms(destinationAtom, 1, null);
         }
     }
+
     /**
      * Breaks a number of source atoms into a number of target atoms.
-     * @param sourceAtom The atom to be blended.
-     * @param destinationAtom The result atom.
+     *
+     * @param sourceAtom       The atom to be blended.
+     * @param destinationAtom  The result atom.
      * @param numOfConversions The number of the desired atom.
      */
-    private void breakAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException{
+    private void breakAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException {
         boolean canBlend;
         if (this.projectileContainer == null)
             throw new ContainerNotInitializedException();

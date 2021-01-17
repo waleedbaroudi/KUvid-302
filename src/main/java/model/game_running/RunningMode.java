@@ -63,9 +63,12 @@ public class RunningMode {
     // Blender
     private final Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener,
-                       SessionLoadListener sessionLoadListener, SessionSaveListener sessionSaveListener,
+    public RunningMode(RunningStateListener runningStateListener,
+                       GameEntitiesListener gameEntitiesListener,
+                       SessionLoadListener sessionLoadListener,
+                       SessionSaveListener sessionSaveListener,
                        OnGameStateListener onGameStateListener) {
+
         autonomousEntities = new CopyOnWriteArrayList<>();
         // Config
         Configuration config = Configuration.getInstance();
@@ -130,7 +133,6 @@ public class RunningMode {
     }
 
     // Shooter ////
-
     public void moveShooter(int direction) {
         currentState.moveShooter(direction);
     }
@@ -222,7 +224,6 @@ public class RunningMode {
     }
 
     // Player ////
-
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -256,7 +257,6 @@ public class RunningMode {
     }
 
     // Save-Load ////
-
     public void showSavedSessions() {
         currentState.showSavedSessions();
     }
@@ -288,7 +288,6 @@ public class RunningMode {
 
         // update runnables
         this.blender.setProjectileContainer(projectileContainer);
-//        this.shooterRunnable.setShooter(this.shooter);
         this.entityGeneratorRunnable.initializeMaps();
 
         // reflect the changes in the UI
@@ -329,7 +328,6 @@ public class RunningMode {
     }
 
     // Game State ////
-
     public void resume() {
         try {
             onGameStateListener.onGameResume();
@@ -383,7 +381,6 @@ public class RunningMode {
     }
 
     // Getters ////
-
     public ProjectileContainer getProjectileContainer() {
         return this.projectileContainer;
     }

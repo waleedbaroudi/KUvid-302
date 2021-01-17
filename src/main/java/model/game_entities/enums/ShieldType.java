@@ -8,7 +8,8 @@ public enum ShieldType {
 
     private int value;
 
-    ShieldType() {
+    @SuppressWarnings("unused")
+    ShieldType() {//this is needed for the save/load functionality
     }
 
     ShieldType(int value) {
@@ -17,6 +18,12 @@ public enum ShieldType {
 
     public int getValue() {
         return value;
+    }
+
+    public static ShieldType forValue(int val) {
+        for (ShieldType type : values())
+            if (type.getValue() == val) return type;
+        return ETA;
     }
 
 }

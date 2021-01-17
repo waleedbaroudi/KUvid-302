@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 public class ResumedState implements GameState {
     private static Logger logger;
-    private RunningMode runningMode;
+    private final RunningMode runningMode;
 
     public ResumedState(RunningMode runningMode) {
         logger = Logger.getLogger(ResumedState.class.getName());

@@ -22,24 +22,15 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class MongoDBAdapter implements IDatabase {
 
-    // Local configuration
-    //    private String HOST_ADDRESS = "localhost";
-    //    private int HOST_PORT = 27017;
-    //    private String DB_NAME = "KuvidGameDB";
-    //    private String DOC_ID_KEY = "_id";
-    //    private String DOC_FILE_KEY = "_file";
-    //    private String USER_NAME = "pepega-shared";
-    //    private String PASSWORD = "69420";
-
     private static MongoDBAdapter instance;
 
-    private String CLUSTER_TITLE = "pepega-kuvid";
-    private String DB_TITLE = "pepega-kuvid";
-    private int HOST_PORT = 27017;
-    private String DOC_ID_KEY = "_id";
-    private String DOC_FILE_KEY = "_file";
-    private String USER_NAME = "pepega_shared";
-    private String PASSWORD = "69420";
+    private final String CLUSTER_TITLE = "pepega-kuvid";
+    private final String DB_TITLE = "pepega-kuvid";
+    private final int HOST_PORT = 27017;
+    private final String DOC_ID_KEY = "_id";
+    private final String DOC_FILE_KEY = "_file";
+    private final String USER_NAME = "pepega_shared";
+    private final String PASSWORD = "69420";
 
     public static Logger logger = Logger.getLogger(MongoDBAdapter.class.getName());
     private MongoDatabase database;
@@ -47,7 +38,7 @@ public class MongoDBAdapter implements IDatabase {
 
     private MongoDBAdapter() {
         logger.setLevel(Level.ALL);
-        Logger.getLogger( "com.mongodb" ).setLevel(Level.OFF);
+        Logger.getLogger("com.mongodb").setLevel(Level.OFF);
         // prepare the connection
         String URL = "mongodb+srv://" + USER_NAME + ":" + PASSWORD + "@" + CLUSTER_TITLE + ".opsl3.mongodb.net/" + DB_TITLE + "?retryWrites=true&w=majority";
         MongoClientURI uri = new MongoClientURI(URL);

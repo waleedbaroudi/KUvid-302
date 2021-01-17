@@ -9,7 +9,6 @@ import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_running.ShieldHandler;
 import model.game_running.listeners.GameStatisticsListener;
-import model.game_space.GameStatistics;
 import services.utils.MathUtils;
 import ui.movable_drawables.ImageResources;
 
@@ -47,15 +46,14 @@ public class StatisticsPanel extends JPanel implements GameStatisticsListener {
     private ImageIcon etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
     private ImageIcon etaImg, lotaImg, thetaImg, zetaImg;
 
-    //mouse adapters
-
     //iconSize
     private final int iconSize;
+
+    //mouse adapters
     private MouseAdapter blenderAdapter;
     private MouseAdapter alphaPowerupAdapter, betaPowerupAdapter, gammaPowerupAdapter, sigmaPowerupAdapter;
     private MouseAdapter etaAdapter, lotaAdapter, thetaAdapter, zetaAdapter;
-
-
+    
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
         this.config = Configuration.getInstance();
@@ -197,21 +195,7 @@ public class StatisticsPanel extends JPanel implements GameStatisticsListener {
     }
 
     private void setPepegaThemeContent() {
-
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-
-        // Defining our buttons
-        blenderButton = new JLabel(blenderImg);
-        alphaPowerupButton = new JLabel(powerupAlphaImg);
-        betaPowerupButton = new JLabel(powerupBetaImg);
-        gammaPowerupButton = new JLabel(powerupGammaImg);
-        sigmaPowerupButton = new JLabel(powerupSigmaImg);
-
-        etaButton = new JLabel(etaImg);
-        lotaButton = new JLabel(lotaImg);
-        thetaButton = new JLabel(thetaImg);
-        zetaButton = new JLabel(zetaImg);
-
 
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipady = 6;

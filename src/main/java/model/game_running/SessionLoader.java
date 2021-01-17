@@ -1,6 +1,5 @@
 package model.game_running;
 
-import com.mongodb.Mongo;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_running.listeners.SessionLoadListener;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 public class SessionLoader {
 
-    private SessionLoadListener loadListener;
+    private final SessionLoadListener loadListener;
 
     private IDatabase dbAdapter;
     private static Logger logger;
@@ -26,7 +25,6 @@ public class SessionLoader {
         this.loadListener = loadListener;
         logger = Logger.getLogger(this.getClass().getName());
     }
-
 
     public synchronized void fetchSavedSessions(String database) {
         dbAdapter = getDatabaseAdapter(database);

@@ -8,10 +8,9 @@ public enum EntityType {
 
     private int value;
 
-    EntityType() {
+    @SuppressWarnings("unused")
+    EntityType() {//this is needed for the save/load functionality
     }
-
-
 
     // constructor with value
     EntityType(int value) {
@@ -27,9 +26,8 @@ public enum EntityType {
     }
 
     public static EntityType forValue(int val) {
-        for (EntityType type : values()) {
+        for (EntityType type : values())
             if (type.getValue() == val) return type;
-        }
-        return null;
+        return ALPHA;
     }
 }

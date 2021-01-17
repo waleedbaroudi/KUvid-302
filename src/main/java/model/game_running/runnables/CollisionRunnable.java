@@ -10,8 +10,6 @@ import services.utils.Coordinates;
 import services.utils.Vector;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -35,7 +33,6 @@ public class CollisionRunnable extends GameRunnable {
     @Override
     public void run() {
         running = true;
-        Set<AutonomousEntity> toRemoveEntities = new HashSet<>();
         while (running) {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
@@ -82,13 +79,10 @@ public class CollisionRunnable extends GameRunnable {
         for (Coordinates coord : coords) {
             if (coord.getX() > config.getGamePanelDimensions().width) {
                 sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
-                //TODO : For moayad
-                sourceEntity.move();
                 GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
             }
             if (coord.getX() < 0) {
                 sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
-                sourceEntity.move();
                 GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
             }
         }
