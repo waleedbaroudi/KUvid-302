@@ -21,6 +21,10 @@ public class MoleculeDrawer implements Drawable {
         this.moleculeImage = ImageResources.get(molecule);
     }
 
+    /**
+     * draw molecule on game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void draw(Graphics g) {
         // rotate the molecule
@@ -34,6 +38,10 @@ public class MoleculeDrawer implements Drawable {
 
     }
 
+    /**
+     * draw a hit box around the molecule on the game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void drawHitbox(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(molecule.getCoordinates(),
