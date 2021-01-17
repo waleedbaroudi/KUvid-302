@@ -61,9 +61,7 @@ public class StatisticsPanel extends JPanel implements GameStatisticsListener {
         this.config = Configuration.getInstance();
         this.iconSize = (int) (config.getUnitL() * GameConstants.ICON_SIZE);
         //Controller
-        GameStatistics gameStatistics = new GameStatistics(this);
         this.runningMode = runningMode;
-        runningMode.setStatisticsController(gameStatistics);
         GridBagLayout gridLayout = new GridBagLayout();
         setLayout(gridLayout);
         setOpaque(false);

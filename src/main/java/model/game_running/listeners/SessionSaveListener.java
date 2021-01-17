@@ -1,5 +1,5 @@
 package model.game_running.listeners;
 
-public interface SaveSessionListener {
+public interface SessionSaveListener {
     void showSaveMethodSelector();
 }

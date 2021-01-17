@@ -25,7 +25,7 @@ public class PausedState implements GameState {
     @Override
     public void saveGameSession() {
 //        runningMode.saveGameSession();
-        runningMode.getSaveSessionListener().showSaveMethodSelector();
+        runningMode.getSessionSaveListener().showSaveMethodSelector();
     }
 
 
@@ -46,7 +46,7 @@ public class PausedState implements GameState {
 
     @Override
     public void resume() {
-        runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+        runningMode.applyRunningState(GameConstants.GAME_STATE_RESUMED);
         runningMode.setCurrentState(runningMode.getResumedState());
     }
 

@@ -46,7 +46,7 @@ public class ResumedState implements GameState {
 
     @Override
     public void pause() {
-        runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+        runningMode.applyRunningState(GameConstants.GAME_STATE_PAUSED);
         runningMode.setCurrentState(runningMode.getPausedState());
     }
 }
