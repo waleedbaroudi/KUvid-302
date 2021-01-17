@@ -50,7 +50,6 @@ public class RunningMode {
 
     // Runnables
     private ArrayList<GameRunnable> gameRunnables;
-    private CollisionRunnable collisionRunnable;
     private EntityGeneratorRunnable entityGeneratorRunnable;
     private boolean outOfEntities; // flags that the entity generator runnable has run out of entities to drop
 
@@ -101,15 +100,14 @@ public class RunningMode {
         gameRunnables.add(movementRunnable);
 
         CollisionHandler collisionHandler = new CollisionHandler(this);
-        collisionRunnable = new CollisionRunnable(this, collisionHandler);
-        collisionHandler.setCollisionRunnable(collisionRunnable); // TODO: Find better implementation. (refine coupling task)
+        GameRunnable collisionRunnable = new CollisionRunnable(this, collisionHandler);
         gameRunnables.add(collisionRunnable);
 
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
         gameRunnables.add(entityGeneratorRunnable);
 
         movementThread = new Thread(movementRunnable);
-        collisionThread = new Thread(this.collisionRunnable);
+        collisionThread = new Thread(collisionRunnable);
         entityGeneratorThread = new Thread(this.entityGeneratorRunnable);
 
         this.isInitialized = true;

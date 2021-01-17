@@ -1,6 +1,7 @@
 package model.game_running.runnables;
 
 import model.game_building.Configuration;
+import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Blocker;
 import model.game_running.CollisionVisitor;
@@ -19,6 +20,7 @@ import java.util.concurrent.CountDownLatch;
 public class CollisionRunnable extends GameRunnable {
 
     private final RunningMode runningMode;
+    Configuration config;
     private final CollisionVisitor collisionHandler;
     private final CountDownLatch latch;
 
@@ -27,65 +29,67 @@ public class CollisionRunnable extends GameRunnable {
         this.runningMode = runningMode;
         this.latch = new CountDownLatch(0);
         this.collisionHandler = collisionHandler;
+        config = Configuration.getInstance();
     }
 
     @Override
     public void run() {
         running = true;
         Set<AutonomousEntity> toRemoveEntities = new HashSet<>();
-        Configuration config = Configuration.getInstance();
         while (running) {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
                 for (AutonomousEntity sourceEntity : runningMode.getAutonomousEntities()) {
-                    if (sourceEntity.isCollidedWith(runningMode.getShooter()))
-                        sourceEntity.acceptCollision(collisionHandler, runningMode.getShooter());
                     for (AutonomousEntity targetEntity : runningMode.getAutonomousEntities()) {
-                        if (sourceEntity == targetEntity) //don't collision check an entity with itself
-                            continue;
-                        if (sourceEntity.isCollidedWith(targetEntity))
-                            sourceEntity.acceptCollision(collisionHandler, targetEntity);
+                        entityEntityCheck(sourceEntity, targetEntity);
                     }
-                    // check if the entity left the game view from the top or bottom boarder
-                    if (sourceEntity.getCoordinates().getY() < 0 ||
-                            sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height - config.getBaseHeight())
-                        sourceEntity.reachBoundary(this);
-
-                    ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
-                    for (Coordinates coord : coords) {
-                        if (coord.getX() > config.getGamePanelDimensions().width) {
-                            sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
-                            //TODO : For moayad
-                            /*
-                            Vector tmpVector = new Vector(
-                                    Math.cos(Math.toRadians(sourceEntity.getHitbox().getRotationDegree())),
-                                    Math.sin(Math.toRadians(sourceEntity.getHitbox().getRotationDegree())));
-                            System.err.println(tmpVector);
-
-                            Vector areaVector = new Vector(new Coordinates(1, 0));
-                            System.err.println(areaVector);
-
-                            Vector rotatedV = areaVector.scale(areaVector.dot(tmpVector) * 2).subtract(tmpVector).reverse();
-                            System.err.println(rotatedV);
-
-                            sourceEntity.getHitbox().rotate(Math.toDegrees(Math.tanh(rotatedV.getY() / rotatedV.getX())));
-                            System.err.println(Math.toDegrees(Math.tanh(rotatedV.getY() / rotatedV.getX())));
-                            */
-                            sourceEntity.move();
-                            GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
-                        }
-                        if (coord.getX() < 0) {
-                            sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
-                            sourceEntity.move();
-                            GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
-                        }
-                    }
+                    // check if the entity collided with the shooter
+                    entityShooterCheck(sourceEntity);
+                    // check if the entity left the game view from and end boundary (top bottom)
+                    entityEndBoundaryCheck(sourceEntity);
+                    // check if the entity collided with a side boundary
+                    entitySideBoundaryCheck(sourceEntity);
                 }
-                runningMode.removeAutonomousEntities(toRemoveEntities);
+
                 // TODO make the collision delay more than the movement delay
-                Thread.sleep(15);
+                Thread.sleep(GameConstants.GAME_THREAD_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private void entityEntityCheck(AutonomousEntity sourceEntity, AutonomousEntity targetEntity) {
+        if (sourceEntity == targetEntity) //don't collision check an entity with itself
+            return;
+        if (sourceEntity.isCollidedWith(targetEntity))
+            sourceEntity.acceptCollision(collisionHandler, targetEntity);
+    }
+
+    private void entityShooterCheck(AutonomousEntity sourceEntity) {
+        if (sourceEntity.isCollidedWith(runningMode.getShooter()))
+            sourceEntity.acceptCollision(collisionHandler, runningMode.getShooter());
+    }
+
+    private void entityEndBoundaryCheck(AutonomousEntity sourceEntity) {
+        if (sourceEntity.getCoordinates().getY() < 0 ||
+                sourceEntity.getCoordinates().getY() > config.getGamePanelDimensions().height - config.getBaseHeight())
+            sourceEntity.reachBoundary(this);
+    }
+
+    private void entitySideBoundaryCheck(AutonomousEntity sourceEntity) {
+        ArrayList<Coordinates> coords = sourceEntity.getBoundaryPoints();
+        for (Coordinates coord : coords) {
+            if (coord.getX() > config.getGamePanelDimensions().width) {
+                sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(1, 0)));
+                //TODO : For moayad
+                sourceEntity.move();
+                GameRunnable.logger.debug("[CollisionRunnable] entity collided with the left boarder");
+            }
+            if (coord.getX() < 0) {
+                sourceEntity.getPathPattern().reflect(new Vector(new Coordinates(-1, 0)));
+                sourceEntity.move();
+                GameRunnable.logger.debug("[CollisionRunnable] entity collided with the right boarder");
             }
         }
     }
@@ -105,11 +109,4 @@ public class CollisionRunnable extends GameRunnable {
         runningMode.removeEntity(blocker);
     }
 
-    public void BlockerHitShooterBehavior(Blocker blocker) {
-        for (AutonomousEntity entity : runningMode.getAutonomousEntities()) {
-            if (blocker.isCollidedWithExplodingHitbox(entity))
-                blocker.acceptCollision(collisionHandler, entity);
-        }
-        runningMode.removeEntity(blocker);
-    }
 }

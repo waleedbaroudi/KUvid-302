@@ -86,11 +86,15 @@ public class Blocker extends AutonomousEntity {
 
     @Override
     public boolean isCollidedWith(Entity entity) {
-        return this.getBlockingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+        return this.getExplodingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
     public boolean isCollidedWithOriginalHitbox(Entity entity) {
         return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
+    }
+
+    public boolean isCollidedWithBlockingHitbox(Entity entity) {
+        return this.getBlockingHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
     public boolean isCollidedWithExplodingHitbox(Entity entity) {
