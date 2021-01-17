@@ -47,11 +47,11 @@ public class GamePanel extends JPanel {
         graphics = g;
         super.paintComponents(g);
         shooterDrawer.draw(g);
-        shooterDrawer.drawHitbox(g);
+        //shooterDrawer.drawHitbox(g);
         drawableMap.values().forEach(drawable -> {
             drawable.draw(g);
             //for demonstration, draw the hitboxes of the entities
-            drawable.drawHitbox(g);
+            //drawable.drawHitbox(g);
 
             if (showPausedIndicator) {
                 drawIndicator(g);
