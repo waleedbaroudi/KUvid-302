@@ -4,6 +4,7 @@ import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.Projectile;
 import model.game_entities.Shooter;
+import model.game_entities.enums.EntityType;
 import model.game_running.listeners.ShooterEventListener;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
@@ -24,6 +25,7 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
     private final Image belt, beltAnim;
     private Image currentBeltImg;
     private Image currentImg;
+    private Image[] shieldsImages;
     private final Configuration config;
     private final java.util.Timer timer = new Timer();
 
@@ -38,7 +40,14 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
         this.belt = ImageResources.get("belt", (config.getGameWidth()), (int) (0.2 * config.getUnitL()));
         this.beltAnim = ImageResources.getGif("belt", (config.getGameWidth()), (int) (0.2 * config.getUnitL()));
         this.currentBeltImg = belt;
+    }
 
+    private void setShieldsImages(int size) {
+        this.shieldsImages = new Image[4];
+        this.shieldsImages[0] = ImageResources.getShieldImage(EntityType.ALPHA, size);
+        this.shieldsImages[1] = ImageResources.getShieldImage(EntityType.BETA, size);
+        this.shieldsImages[2] = ImageResources.getShieldImage(EntityType.GAMMA, size);
+        this.shieldsImages[3] = ImageResources.getShieldImage(EntityType.SIGMA, size);
     }
 
     @Override
@@ -85,7 +94,26 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
                     shooter.getCoordinates(),
                     0, projectile.getHitbox().getHeight() + shooter.getHitbox().getHeight());
             projectile.setCoordinates(projectileCoordinates);
+
+            //draw the atom on tip of the shooter
             DrawableFactory.get(projectile).draw(g2d);
+
+            //draw shield on top of the atom
+            if (shooter.isAtomShielded()) {
+                if (shieldsImages == null)
+                    setShieldsImages((int) projectile.getHitbox().getWidth());
+
+                Coordinates shieldDrawingCoordinates = MathUtils.drawingCoordinates(
+                        projectile.getCoordinates(),
+                        projectile.getHitbox().getWidth(),
+                        projectile.getHitbox().getHeight());
+
+                g.drawImage(
+                        shieldsImages[projectile.getEntityType().getValue()],
+                        shieldDrawingCoordinates.getPoint().x,
+                        shieldDrawingCoordinates.getPoint().y,
+                        null);
+            }
         }
 
         g2d.setTransform(old);

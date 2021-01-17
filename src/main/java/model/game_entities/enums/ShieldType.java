@@ -20,4 +20,10 @@ public enum ShieldType {
         return value;
     }
 
+    public static ShieldType forValue(int val) {
+        for (ShieldType type : values())
+            if (type.getValue() == val) return type;
+        return ETA;
+    }
+
 }

@@ -304,6 +304,12 @@ public class Shooter extends Entity {
         shieldHandler.setShooter(this);
     }
 
+    public boolean isAtomShielded() {
+        if (projectileIsAtom())
+            return shieldHandler.getTempShields().isNotEmpty();
+        return false;
+    }
+
     @Override
     public String toString() {
         return "Shooter{" +

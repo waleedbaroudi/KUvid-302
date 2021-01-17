@@ -4,6 +4,9 @@ import model.game_building.Configuration;
 import model.game_entities.AutonomousEntity;
 import model.game_entities.Entity;
 import model.game_entities.Molecule;
+import model.game_entities.enums.EntityType;
+import model.game_entities.enums.ShieldType;
+import model.game_entities.enums.SuperType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -120,5 +123,10 @@ public class ImageResources {
             return gameOver ?
                     getImage("kuvid_bc" + ".png", width, height) :
                     getImage("kuvid_bc" + ".png", width, height);
+    }
+
+    public static Image getShieldImage(EntityType entityType, int size){
+        ShieldType type = ShieldType.forValue(entityType.getValue());
+        return ImageResources.getStatIcon(SuperType.SHIELD + "", type + "", size, false).getImage();
     }
 }
