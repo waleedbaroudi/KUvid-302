@@ -20,6 +20,8 @@ import org.apache.log4j.Logger;
 import services.database.IDatabase;
 import services.utils.SoundHandler;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -47,7 +49,7 @@ public class RunningMode {
     private final GameEntitiesListener gameEntitiesListener;
     private final SessionLoadListener sessionLoadListener;
     private final SessionSaveListener sessionSaveListener;
-
+    private final OnGameStateListener onGameStateListener;
     // Runnables
     private ArrayList<GameRunnable> gameRunnables;
     private EntityGeneratorRunnable entityGeneratorRunnable;
@@ -61,7 +63,9 @@ public class RunningMode {
     // Blender
     private final Blender blender;
 
-    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener, SessionLoadListener sessionLoadListener, SessionSaveListener sessionSaveListener) {
+    public RunningMode(RunningStateListener runningStateListener, GameEntitiesListener gameEntitiesListener,
+                       SessionLoadListener sessionLoadListener, SessionSaveListener sessionSaveListener,
+                       OnGameStateListener onGameStateListener) {
         autonomousEntities = new CopyOnWriteArrayList<>();
         // Config
         Configuration config = Configuration.getInstance();
@@ -85,6 +89,7 @@ public class RunningMode {
                 config.getNumGammaAtoms());
         this.blender = new Blender(this.projectileContainer);
         this.shooter = new Shooter(this);
+        this.onGameStateListener = onGameStateListener;
         initialize();
     }
 
@@ -107,6 +112,12 @@ public class RunningMode {
         movementThread = new Thread(movementRunnable);
         collisionThread = new Thread(collisionRunnable);
         entityGeneratorThread = new Thread(this.entityGeneratorRunnable);
+
+        try {
+            onGameStateListener.onGameStart();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -133,6 +144,12 @@ public class RunningMode {
      */
     public void shootProjectile() {
         Projectile shotEntity = this.shooter.shoot();
+        try {
+            onGameStateListener.onShoot();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (shotEntity == null) {
             if (noAtomsOnScreen())
                 endGame();
@@ -314,10 +331,21 @@ public class RunningMode {
     // Game State ////
 
     public void resume() {
+        try {
+            onGameStateListener.onGameResume();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         currentState.resume();
     }
 
     public void pause() {
+        try {
+            onGameStateListener.onGamePaused();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         currentState.pause();
     }
 
@@ -344,6 +372,12 @@ public class RunningMode {
     }
 
     public void endGame() {
+        try {
+            onGameStateListener.onGameOver();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         applyRunningState(GameConstants.GAME_STATE_STOP);
         runningStateListener.onGameOver();
     }
@@ -374,4 +408,16 @@ public class RunningMode {
         return shooter.getShieldHandler();
     }
 
+    public interface OnGameStateListener {
+
+        void onGameStart() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onGameOver() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onGamePaused() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onGameResume() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onShoot() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+    }
 }
