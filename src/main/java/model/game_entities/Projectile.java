@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.game_entities.enums.EntityType;
-import model.game_physics.hitbox.CircularHitbox;
 import model.game_physics.hitbox.Hitbox;
-import model.game_physics.hitbox.RectangularHitbox;
 import model.game_physics.path_patterns.PathPattern;
 import services.utils.Coordinates;
 /**
@@ -22,7 +20,6 @@ public abstract class Projectile extends AutonomousEntity{
         super(coordinates, hitbox, pathPattern, type);
     }
 
-    public Projectile(){}
     public void setVelocity(double velocity){
         getPathPattern().setVelocity(velocity);
     }

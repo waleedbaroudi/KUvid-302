@@ -40,8 +40,9 @@ public class Blender {
 
     /**
      * Blends a number of source atoms into a number of target atoms.
-     * @param sourceAtom The atom to be blended.
-     * @param destinationAtom The result atom.
+     *
+     * @param sourceAtom       The atom to be blended.
+     * @param destinationAtom  The result atom.
      * @param numOfConversions The number of the desired atom.
      */
     public void blendAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException {
@@ -59,13 +60,15 @@ public class Blender {
             projectileContainer.increaseAtoms(destinationAtom, 1, null);
         }
     }
+
     /**
      * Breaks a number of source atoms into a number of target atoms.
-     * @param sourceAtom The atom to be blended.
-     * @param destinationAtom The result atom.
+     *
+     * @param sourceAtom       The atom to be blended.
+     * @param destinationAtom  The result atom.
      * @param numOfConversions The number of the desired atom.
      */
-    private void breakAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException{
+    private void breakAtoms(int sourceAtom, int destinationAtom, int numOfConversions) throws ContainerNotInitializedException {
         boolean canBlend;
         if (this.projectileContainer == null)
             throw new ContainerNotInitializedException();

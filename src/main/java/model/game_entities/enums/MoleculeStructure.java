@@ -4,4 +4,5 @@ public enum MoleculeStructure {
     LINEAR_SPINNING,
     LINEAR_NON_SPINNING,
     CIRCULAR
+
 }

@@ -209,6 +209,18 @@ public class ConfigBundle {
         return difficulty;
     }
 
+    @JsonIgnore
+    public String getDifficultyString(){
+        switch (getDifficulty()){
+            case 0:
+                return "Easy";
+            case 1:
+                return "Normal";
+            default:
+                return "Hard";
+        }
+    }
+
     public String getTheme() {
         return theme;
     }

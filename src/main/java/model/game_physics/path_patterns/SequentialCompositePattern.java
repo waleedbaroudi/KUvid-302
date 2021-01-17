@@ -15,7 +15,7 @@ import java.util.ArrayList;
 @JsonTypeName("sequential-pattern")
 @JsonIdentityReference(alwaysAsId = true)
 public class SequentialCompositePattern extends PathPattern{
-    private ArrayList<PathPattern> patterns;
+    private final ArrayList<PathPattern> patterns;
     private PathPattern currentPattern;
     private int currentPatternIdx;
     private Coordinates currentCoords;

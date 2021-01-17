@@ -25,11 +25,11 @@ public class AtomDrawer implements Drawable {
      */
     @Override
     public void draw(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(atom.getCoordinates(),
                 atom.getHitbox().getWidth(),
                 atom.getHitbox().getHeight());
 
-        g.drawImage(atomImage, drawingCoord.getPoint().x, drawingCoord.getPoint().y, null);
+        g.drawImage(atomImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
 
     }
 
@@ -39,13 +39,13 @@ public class AtomDrawer implements Drawable {
      */
     @Override
     public void drawHitbox(Graphics g) {
-        Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(),
+        Coordinates drawingCoordinates = MathUtils.drawingCoordinates(atom.getCoordinates(),
                 atom.getHitbox().getWidth(),
                 atom.getHitbox().getHeight());
 
         g.drawOval(
-                drawingCoord.getPoint().x,
-                drawingCoord.getPoint().y,
+                drawingCoordinates.getPoint().x,
+                drawingCoordinates.getPoint().y,
                 (int) atom.getHitbox().getWidth(),
                 (int) atom.getHitbox().getHeight());
     }

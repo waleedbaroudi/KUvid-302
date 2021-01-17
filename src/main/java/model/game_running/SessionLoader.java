@@ -1,6 +1,5 @@
 package model.game_running;
 
-import com.mongodb.Mongo;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_running.listeners.SessionLoadListener;
@@ -15,24 +14,23 @@ import java.util.ArrayList;
 
 public class SessionLoader {
 
-    private SessionLoadListener loadListener;
+    private final SessionLoadListener loadListener;
 
     private IDatabase dbAdapter;
     private static Logger logger;
 
     ArrayList<String> sessions;
 
-    public SessionLoader(SessionLoadListener loadListener, String dbType) {
+    public SessionLoader(SessionLoadListener loadListener) {
         this.loadListener = loadListener;
-        dbAdapter = getDatabaseAdapter(dbType);
         logger = Logger.getLogger(this.getClass().getName());
     }
-
 
     /**
      * Retrieve a list of saved sessions and pass them to the load listener
      */
-    public synchronized void fetchSavedSessions() {
+    public synchronized void fetchSavedSessions(String database) {
+        dbAdapter = getDatabaseAdapter(database);
         ArrayList<String> sessions = new ArrayList<>(dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE));
         loadListener.onSessionListFetched(sessions);
     }
@@ -58,7 +56,7 @@ public class SessionLoader {
      * @return a database adapter
      */
     private IDatabase getDatabaseAdapter(String databaseType){
-        if(databaseType.equals("local"))
+        if(databaseType.equalsIgnoreCase("local"))
             return LocalDBAdapter.getInstance();
         else
             return MongoDBAdapter.getInstance();

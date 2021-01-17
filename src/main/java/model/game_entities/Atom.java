@@ -18,7 +18,6 @@ import services.utils.Coordinates;
 @JsonTypeName("atom")
 public class Atom extends Projectile {
 
-    private final double stabilityConstant;
     private final double efficiency;
     private final int numberOfProtons;
     private final int numberOfNeutrons;
@@ -27,7 +26,6 @@ public class Atom extends Projectile {
                 @JsonProperty("hitbox") Hitbox hitbox,
                 @JsonProperty("pathPattern") PathPattern pathPattern,
                 @JsonProperty("entityType") EntityType type,
-                @JsonProperty("stabilityConstant") Double stabilityConstant,
                 @JsonProperty("efficiency") Double efficiency,
                 @JsonProperty("numberOfProtons") Integer numberOfProtons,
                 @JsonProperty("numberOfNeutrons") Integer numberOfNeutrons
@@ -35,7 +33,6 @@ public class Atom extends Projectile {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.ATOM;
 
-        this.stabilityConstant = stabilityConstant;
         this.efficiency = efficiency;
 
         this.numberOfProtons = numberOfProtons;
@@ -44,10 +41,6 @@ public class Atom extends Projectile {
 
     public double getEfficiency() {
         return this.efficiency;
-    }
-
-    public double getStabilityConstant() {
-        return this.stabilityConstant;
     }
 
     public int getNumberOfNeutrons() {
@@ -67,7 +60,7 @@ public class Atom extends Projectile {
     @Override
     public double getSpeedPercentage() {
         //MODIFIES:
-        //EFFECTS: Since this is an unshilded atom, the percentage of the speed is 100%
+        //EFFECTS: Since this is an unshielded atom, the percentage of the speed is 100%
         return GameConstants.DEFAULT_ATOM_SPEED_PERCENTAGE;
     }
 

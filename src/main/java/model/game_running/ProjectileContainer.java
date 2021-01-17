@@ -23,7 +23,7 @@ import java.util.Random;
  * on demand.
  */
 public class ProjectileContainer {
-    public static Logger logger =  Logger.getLogger(ProjectileContainer.class.getName());
+    public static Logger logger = Logger.getLogger(ProjectileContainer.class.getName());
 
     private int[] atomMap;
     private int[] powerUpMap; // keeps the number of power-ups per type.
@@ -54,7 +54,9 @@ public class ProjectileContainer {
         random = new Random();
     }
 
-    public ProjectileContainer() { }
+    @SuppressWarnings("unused")
+    public ProjectileContainer() {//this is needed for the save/load functionality
+    }
 
     //  this setter is used in case the projectile container was created by loading a game session.
     @JsonIgnore
@@ -72,7 +74,7 @@ public class ProjectileContainer {
      */
     private Atom getAtom(Coordinates coordinates, int type) {
         if (updateProjectileMap(atomMap, SuperType.ATOM, type, -1)) {
-            Atom atom = AtomFactory.getInstance().getAtom((EntityType.forValue(type))); //TODO: FIX indices
+            Atom atom = AtomFactory.getInstance().getAtom((EntityType.forValue(type)));
             if (atom != null)
                 atom.setCoordinates(coordinates);
             return atom;
@@ -111,8 +113,8 @@ public class ProjectileContainer {
      * @param type:        the type of desired power-up
      * @return the desired power-up if there are remaining power-ups of that type. null otherwise.
      */
-    public Powerup getPowerUp(Coordinates coordinates, EntityType type) { //todo: to be implemented
-        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue(), -1)) // TODO: when changing the updateProjectileMap to take type as Entitytype remove .getValue() from this line
+    public Powerup getPowerUp(Coordinates coordinates, EntityType type) {
+        if (updateProjectileMap(powerUpMap, SuperType.POWERUP, type.getValue(), -1)) //
             return new Powerup(coordinates, HitboxFactory.getInstance().getPowerUpHitbox(),
                     PathPatternFactory.getInstance().getPowerUpPathPattern(),
                     EntityType.forValue(type.getValue()), false);
@@ -140,11 +142,10 @@ public class ProjectileContainer {
      *
      * @param type  type to be increased
      * @param count the amount of increase
-     * @return returns whether the decrease was successful (purpose TBD)
      */
     public boolean increaseAtoms(int type, int count, ShieldTuple shields) { //todo: make this method take an enum type instead of an int
         addShields(type, shields);
-        return updateProjectileMap(atomMap, SuperType.ATOM, type, count); //todo: fix index
+        return updateProjectileMap(atomMap, SuperType.ATOM, type, count);
     }
 
     public void addShields(int type, ShieldTuple shields) {
@@ -164,7 +165,7 @@ public class ProjectileContainer {
      * @return the result of the check and decrement.
      */
     private boolean updateProjectileMap(int[] map, SuperType superType, int type, int count) {
-        //System.out.println(type + " : " + count); //TODO: Change to logger
+        logger.info(type + " : " + count);
         int remaining = map[type];
         if (remaining < -count)
             return false;
@@ -183,14 +184,17 @@ public class ProjectileContainer {
         return this.atomMap;
     }
 
+    @SuppressWarnings("unused")
     public int getTotalAtomCount() {
+        //needed for serialization
         return totalAtomCount;
     }
 
+    @SuppressWarnings("unused")
     public int[] getPowerUpMap() {
+        //needed for serialization
         return powerUpMap;
     }
-
 
     @JsonIgnore
     public int getAtomCountForType(EntityType type) {

@@ -2,15 +2,22 @@ package model.game_running;
 
 import model.game_building.GameConstants;
 import model.game_entities.*;
-import model.game_running.runnables.CollisionRunnable;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 
 public class CollisionHandler implements CollisionVisitor {
 
     RunningMode controller;
+    private final OnCollisionListener onCollisionListener;
 
-    CollisionHandler(RunningMode controller) {
+    CollisionHandler(RunningMode controller, OnCollisionListener onCollisionListener) {
         this.controller = controller;
+        this.onCollisionListener = onCollisionListener;
+
     }
+
     /**
      * this method calls the removeEntity method of the runningMode object to remove the entities from the game view
      *
@@ -28,7 +35,16 @@ public class CollisionHandler implements CollisionVisitor {
         if (atom.getEntityType().getValue() == molecule.getEntityType().getValue()) {
             controller.increaseScore(atom.getEfficiency());
             defaultCollision(atom, molecule);
+
+            if (onCollisionListener != null) {
+                try {
+                    onCollisionListener.onAtomMoleculeCollision();
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+            }
         }
+    }
     }
 
     @Override
@@ -39,16 +55,29 @@ public class CollisionHandler implements CollisionVisitor {
             controller.removeEntity(atom);
         } else {
             if (blocker.isCollidedWithBlockingHitbox(atom))
-                if (atom.getEntityType().getValue() == blocker.getEntityType().getValue())
+                if (atom.getEntityType().getValue() == blocker.getEntityType().getValue()) {
                     controller.removeEntity(atom);
+                    try {
+                        onCollisionListener.onAtomBlockerCollision();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
         }
     }
 
     @Override
     public void handleCollision(Powerup powerup, Blocker blocker) {
         if (blocker.isCollidedWithBlockingHitbox(powerup))
-            if ((blocker.getEntityType().getValue() == powerup.getEntityType().getValue()) && !powerup.isFalling())
+            if ((blocker.getEntityType().getValue() == powerup.getEntityType().getValue()) && !powerup.isFalling()) {
                 defaultCollision(powerup, blocker);
+                try {
+                    onCollisionListener.onPowerupBlockerCollision();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
     }
 
     @Override
@@ -56,6 +85,11 @@ public class CollisionHandler implements CollisionVisitor {
         if (powerup.isFalling()) {
             controller.collectPowerUp(powerup);
             controller.removeEntity(powerup);
+            try {
+                onCollisionListener.onShooterPowerupCollision();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -73,14 +107,35 @@ public class CollisionHandler implements CollisionVisitor {
         // decrease the health of the player.
         // check for close atom and molecules and destroy them.
         double damageDone;
+
+        try {
         if (blocker.isExploded()) {
             damageDone = blocker.getExplosionDamage(shooter);
             controller.updateHealth(damageDone);
             controller.removeEntity(blocker);
+            this.onCollisionListener.onShooterBlockerCollision();
         } else if (blocker.isCollidedWithOriginalHitbox(shooter)) {
             blocker.setExploded(true);
             controller.updateHealth(GameConstants.TERMINATING_DAMAGE);
             controller.removeEntity(blocker);
+            this.onCollisionListener.onPowerupBlockerCollision();
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public interface OnCollisionListener {
+
+        void onShooterBlockerCollision() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onAtomMoleculeCollision() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onShooterPowerupCollision() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onPowerupBlockerCollision() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
+        void onAtomBlockerCollision() throws UnsupportedAudioFileException, IOException, LineUnavailableException;
+
     }
 }

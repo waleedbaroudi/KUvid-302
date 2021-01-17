@@ -26,12 +26,12 @@ public class Blocker extends AutonomousEntity {
     private boolean exploded; // Might change to a different implementation.
 
 
-    public Blocker(@JsonProperty("coordinates")Coordinates coordinates,
-                @JsonProperty("hitbox")Hitbox hitbox,
-                @JsonProperty("blockingHitbox")Hitbox blockingHitbox,
-                @JsonProperty("explodingHitbox")Hitbox explodingHitbox,
-                @JsonProperty("pathPattern")PathPattern pathPattern,
-                @JsonProperty("entityType")EntityType type) {
+    public Blocker(@JsonProperty("coordinates") Coordinates coordinates,
+                   @JsonProperty("hitbox") Hitbox hitbox,
+                   @JsonProperty("blockingHitbox") Hitbox blockingHitbox,
+                   @JsonProperty("explodingHitbox") Hitbox explodingHitbox,
+                   @JsonProperty("pathPattern") PathPattern pathPattern,
+                   @JsonProperty("entityType") EntityType type) {
         super(coordinates, hitbox, pathPattern, type);
         this.superType = SuperType.BLOCKER;
 
@@ -44,42 +44,22 @@ public class Blocker extends AutonomousEntity {
         exploded = false;
     }
 
-//    public Blocker(Coordinates coordinates, Hitbox hitbox, Hitbox blockingHitbox, Hitbox explodingHitbox, PathPattern pathPattern, EntityType type) {
-//        super(coordinates, hitbox, pathPattern, type);
-//        this.superType = SuperType.BLOCKER;
-//
-//        this.blockingRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_BLOCKING_RADIUS;
-//        this.explosionRadius = Configuration.getInstance().getUnitL() * GameConstants.BLOCKER_EXPLOSION_RADIUS;
-//
-//        this.blockingHitbox = blockingHitbox;
-//        this.explodingHitbox = explodingHitbox;
-//
-//        isExploded = false;
-//    }
-//
-//    public Blocker(){}
-
-
+    @SuppressWarnings("unused")
+    public Blocker() {//this is needed for the save/load functionality
+    }
 
     public double getBlockingRadius() {
         return blockingRadius;
-    }
-
-    public void setExplosionRadius(double explosionRadius) {
-        this.explosionRadius = explosionRadius;
-    }
-
-    public void setBlockingRadius(double blockingRadius) {
-        this.blockingRadius = blockingRadius;
     }
 
     public double getExplosionRadius() {
         return explosionRadius;
     }
 
-    public Hitbox getExplodingHitbox(){
+    public Hitbox getExplodingHitbox() {
         return this.explodingHitbox;
     }
+
     public Hitbox getBlockingHitbox() {
         return this.blockingHitbox;
     }
@@ -103,10 +83,11 @@ public class Blocker extends AutonomousEntity {
 
     /**
      * Returns the amount of damage is done from a blocker to a given entity.
+     *
      * @param entity The entity to calculate the damage with respect to.
      * @return The amount of damage with respect to a given entity.
      */
-    public double getExplosionDamage(Entity entity){
+    public double getExplosionDamage(Entity entity) {
         double distance = MathUtils.distanceBetween(this.getCoordinates(), entity.getCoordinates());
         return Configuration.getInstance().getGameWidth() / distance;
     }
@@ -123,11 +104,11 @@ public class Blocker extends AutonomousEntity {
         builder.addEntity(this);
     }
 
-    public boolean isExploded(){
+    public boolean isExploded() {
         return this.exploded;
     }
 
-    public void setExploded(boolean isExploded){
+    public void setExploded(boolean isExploded) {
         this.exploded = isExploded;
     }
 

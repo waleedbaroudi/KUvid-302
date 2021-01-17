@@ -17,7 +17,7 @@ import services.utils.Coordinates;
  */
 @JsonTypeName("powerup")
 public class Powerup extends Projectile {
-    private boolean falling; // This variable indicates whether the powerup is falling or being shot.
+    private final boolean falling; // This variable indicates whether the powerup is falling or being shot.
 
 
     public Powerup(@JsonProperty("coordinates")Coordinates coordinates,
