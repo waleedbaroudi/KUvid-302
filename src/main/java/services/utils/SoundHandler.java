@@ -78,7 +78,7 @@ public class SoundHandler implements CollisionHandler.OnCollisionListener, Runni
         gameStateClip.open(gameStateAudioInputStream);
 
         FloatControl volumeControl = (FloatControl) gameStateClip.getControl(FloatControl.Type.MASTER_GAIN);
-        volumeControl.setValue(-25.0f);
+        volumeControl.setValue(-28.0f);
 
         this.gameStateClip.loop(Clip.LOOP_CONTINUOUSLY);
         gameStateClip.start();
