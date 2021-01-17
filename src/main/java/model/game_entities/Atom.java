@@ -125,7 +125,7 @@ public class Atom extends Projectile {
     }
 
     /**
-     * apply the visitor pattern to handle collisions between entities
+     * apply the visitor pattern to handle collisions between entities and the atom object
      * @param visitor
      * @param entity
      */
