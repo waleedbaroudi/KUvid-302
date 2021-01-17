@@ -4,12 +4,21 @@ import model.game_building.Configuration;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
+import model.game_entities.Entity;
+import model.game_entities.Shooter;
+import model.game_physics.path_patterns.PathPattern;
+import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
+import model.game_running.SessionLoader;
 import model.game_running.listeners.GameEntitiesListener;
 import model.game_running.listeners.RunningStateListener;
+import model.game_running.runnables.EntityGeneratorRunnable;
+import model.game_running.runnables.GameRunnable;
 import model.game_space.Player;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import services.database.IDatabase;
+import services.database.MongoDBAdapter;
 import services.utils.SoundHandler;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
@@ -38,12 +47,11 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
     private final SessionLoadWindow sessionLoadWindow;
     private final SessionSaveWindow saveSessionWindow;
     private CountDownLatch pauseLatch;
-    private static Logger logger;
+    private static Logger logger = Logger.getLogger(RunningWindow.class.getName());;
 
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
-        logger = Logger.getLogger(this.getClass().getName());
         drawableMap = new ConcurrentHashMap<>(); // concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
@@ -52,7 +60,6 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         this.saveSessionWindow = new SessionSaveWindow(this);
         this.runningMode = new RunningMode(this, this, sessionLoadWindow,
                 saveSessionWindow, new SoundHandler());
-        System.out.println("in running window" + runningMode.getBlender());
         BlenderWindow blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
@@ -83,6 +90,20 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         setVisible(true);
         pack();
         start();
+
+
+        // configure loggers
+        Logger.getLogger(RunningWindow.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(GameRunnable.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(Entity.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(Shooter.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(PathPattern.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(ProjectileContainer.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(EntityGeneratorRunnable.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(RunningMode.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(SessionLoader.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(Player.class.getName()).setLevel(Level.DEBUG);
+        Logger.getLogger(MongoDBAdapter.class.getName()).setLevel(Level.DEBUG);
     }
 
 

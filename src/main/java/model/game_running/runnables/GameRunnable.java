@@ -12,7 +12,6 @@ public abstract class GameRunnable implements Runnable {
     public static Logger logger = Logger.getLogger(GameRunnable.class.getName());
 
     public GameRunnable() {
-        logger.setLevel(Level.OFF);
         latch = new CountDownLatch(0);
     }
 

@@ -19,7 +19,6 @@ public class Blender {
 
     public Blender(ProjectileContainer projectileContainer) {
         this.projectileContainer = projectileContainer;
-        logger.setLevel(Level.ALL);
     }
 
     /**
