@@ -35,7 +35,6 @@ public abstract class PathPattern implements Cloneable {
 
     protected PathPattern(Coordinates currentCoords) {
         // Turn off the logger
-        logger.setLevel(Level.OFF);
         this.currentCoords = currentCoords;
     }
 

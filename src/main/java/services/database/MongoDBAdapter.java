@@ -37,8 +37,6 @@ public class MongoDBAdapter implements IDatabase {
 
 
     private MongoDBAdapter() {
-        logger.setLevel(Level.ALL);
-        Logger.getLogger("com.mongodb").setLevel(Level.OFF);
         // prepare the connection
         String URL = "mongodb+srv://" + USER_NAME + ":" + PASSWORD + "@" + CLUSTER_TITLE + ".opsl3.mongodb.net/" + DB_TITLE + "?retryWrites=true&w=majority";
         MongoClientURI uri = new MongoClientURI(URL);
@@ -83,8 +81,8 @@ public class MongoDBAdapter implements IDatabase {
     }
 
     @Override
-    public <T> boolean save(String collectionTitle, String uniqueID, T instance) throws IOException {
-        String ID = IOHandler.formatFileNameWithDate(uniqueID, "");
+    public <T> boolean save(String collectionTitle, String uID, T instance) throws IOException {
+        String ID = IOHandler.formatFileNameWithDate(uID, "");
         logger.debug("[MongoDBAtlasAdapter] saving instance with unique ID " + ID + " to the mongoDB");
         MongoCollection<Document> collection = this.database.getCollection(collectionTitle);
         // check if the uniqueID already exists

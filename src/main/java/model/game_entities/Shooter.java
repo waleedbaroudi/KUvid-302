@@ -12,12 +12,11 @@ import model.game_running.CollisionVisitor;
 import model.game_running.RunningMode;
 import model.game_running.ShieldHandler;
 import model.game_running.listeners.ShooterEventListener;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 import services.utils.Vector;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static model.game_building.GameConstants.DEFAULT_ROTATION_STEP;
 
@@ -36,7 +35,6 @@ public class Shooter extends Entity {
 
     public Shooter(RunningMode runningMode) {
         // Turn off logger
-        logger.setLevel(Level.OFF);
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
         // sets the initial coordinates
@@ -231,7 +229,7 @@ public class Shooter extends Entity {
         }
         shooterListener.onMoved();
         this.setCoordinates(newCoords);
-        logger.info("[Shooter] shooter moved to a new coordinates" + this.getCoordinates());
+        logger.debug("[Shooter] shooter moved to a new coordinates" + this.getCoordinates());
     }
 
     /**
@@ -313,6 +311,7 @@ public class Shooter extends Entity {
         shieldHandler.setShooter(this);
     }
 
+    @JsonIgnore
     public boolean isAtomShielded() {
         if (projectileIsAtom())
             return shieldHandler.getTempShields().isNotEmpty();
