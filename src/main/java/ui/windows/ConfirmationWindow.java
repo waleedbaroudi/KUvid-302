@@ -136,7 +136,7 @@ public class ConfirmationWindow extends JFrame implements ParametersConfirmation
         panel.add(lengthLabel);
 
         // Difficulty label
-        JLabel difficultyLabel = new JLabel("Difficulty " + bundle.getDifficulty());
+        JLabel difficultyLabel = new JLabel("Difficulty: " + bundle.getDifficultyString());
         panel.add(difficultyLabel);
 
         JButton confirmButton = new JButton("Confirm");

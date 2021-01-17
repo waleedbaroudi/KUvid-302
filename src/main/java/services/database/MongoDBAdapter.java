@@ -47,7 +47,7 @@ public class MongoDBAdapter implements IDatabase {
 
     private MongoDBAdapter() {
         logger.setLevel(Level.ALL);
-
+        Logger.getLogger( "com.mongodb" ).setLevel(Level.OFF);
         // prepare the connection
         String URL = "mongodb+srv://" + USER_NAME + ":" + PASSWORD + "@" + CLUSTER_TITLE + ".opsl3.mongodb.net/" + DB_TITLE + "?retryWrites=true&w=majority";
         MongoClientURI uri = new MongoClientURI(URL);
