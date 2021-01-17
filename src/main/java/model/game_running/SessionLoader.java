@@ -1,5 +1,6 @@
 package model.game_running;
 
+import com.mongodb.Mongo;
 import model.game_building.GameBundle;
 import model.game_building.GameConstants;
 import model.game_running.listeners.SessionLoadListener;
@@ -19,28 +20,20 @@ public class SessionLoader {
     private IDatabase dbAdapter;
     private static Logger logger;
 
-    ArrayList<String> localSessions, onlineSessions;
+    ArrayList<String> sessions;
 
-    public SessionLoader(SessionLoadListener loadListener) {
+    public SessionLoader(SessionLoadListener loadListener, String dbType) {
         this.loadListener = loadListener;
-        dbAdapter = MongoDBAdapter.getInstance();
+        dbAdapter = getDatabaseAdapter(dbType);
         logger = Logger.getLogger(this.getClass().getName());
     }
 
 
-    public synchronized void fetchOnlineSavedSessions() {
-        dbAdapter = MongoDBAdapter.getInstance();
-        if (onlineSessions == null)
-            onlineSessions = new ArrayList<>(dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE));
-        loadListener.onSessionListFetched(onlineSessions);
+    public synchronized void fetchSavedSessions() {
+        ArrayList<String> sessions = new ArrayList<>(dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE));
+        loadListener.onSessionListFetched(sessions);
     }
 
-    public synchronized void fetchLocallySavedSession() {
-        dbAdapter = LocalDBAdapter.getInstance();
-        if (localSessions == null)
-            localSessions = new ArrayList<>(dbAdapter.getDocumentsIds("N/A"));
-        loadListener.onSessionListFetched(localSessions);
-    }
 
     public void retrieveSession(String sessionID) {
         GameBundle loadedBundle = null;
@@ -53,12 +46,18 @@ public class SessionLoader {
         loadListener.onSessionRetrieved(loadedBundle);
     }
 
+    private IDatabase getDatabaseAdapter(String databaseType){
+        if(databaseType.equals("local"))
+            return LocalDBAdapter.getInstance();
+        else
+            return MongoDBAdapter.getInstance();
+    }
+
     /**
      * resets the lists of saved sessions to null, so that they are updated on the next fetch call
      */
-    public void resetLists() {
-        localSessions = null;
-        onlineSessions = null;
+    public void resetList() {
+        sessions = null;
     }
 
 }

@@ -20,7 +20,7 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
 
     private final Shooter shooter;
     private final Image shooterBase;
-    private final Image shooterImage, shooterImageGif, shootingAnim;
+    private final Image shooterImageGif, shootingAnim;
     private final Image belt, beltAnim;
     private Image currentBeltImg;
     private Image currentImg;
@@ -31,7 +31,6 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
         this.shooter = shooter;
         this.shooter.setShooterListener(this);
         this.config = Configuration.getInstance();
-        this.shooterImage = ImageResources.get(shooter);
         this.shooterBase = ImageResources.get("shooter_base", (int) (shooter.getHitbox().getHeight() * 1.5), (int) shooter.getHitbox().getHeight());
         this.shooterImageGif = ImageResources.getGif("shooter", (int) shooter.getHitbox().getWidth(), (int) shooter.getHitbox().getHeight());
         this.shootingAnim = ImageResources.getGif("shootinganim", (int) shooter.getHitbox().getWidth(), (int) shooter.getHitbox().getHeight());

@@ -24,7 +24,7 @@ public class SessionLoadWindow extends JFrame implements SessionLoadListener {
             @Override
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
-                sessionLoader.resetLists();
+                sessionLoader.resetList();
             }
         });
 
@@ -32,7 +32,6 @@ public class SessionLoadWindow extends JFrame implements SessionLoadListener {
         this.pack(); // Pack the frame around the components
         this.setLocationRelativeTo(null); // Center the blender frame
 
-        sessionLoader = new SessionLoader(this);
     }
 
     @Override
@@ -50,10 +49,10 @@ public class SessionLoadWindow extends JFrame implements SessionLoadListener {
             sessionLoader.retrieveSession(sessionID);
             this.dispose();
             //reset loader lists when disposed
-            sessionLoader.resetLists();
+            sessionLoader.resetList();
         });
 
-        sessionLoader.fetchOnlineSavedSessions();
+        sessionLoader.fetchSavedSessions();
     }
 
     @Override
@@ -78,9 +77,10 @@ public class SessionLoadWindow extends JFrame implements SessionLoadListener {
         databaseSelector.setSelectedIndex(0);
         databaseSelector.addActionListener(e -> {
             if (databaseSelector.getSelectedIndex() == 0) {
-                sessionLoader.fetchOnlineSavedSessions();
+                sessionLoader = new SessionLoader(this, "online");
             } else
-                sessionLoader.fetchLocallySavedSession();
+                sessionLoader = new SessionLoader(this, "local");
+                sessionLoader.fetchSavedSessions();
         });
 
         getContentPane().add(databaseSelector);
