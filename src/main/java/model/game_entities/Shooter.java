@@ -145,6 +145,10 @@ public class Shooter extends Entity {
         this.currentProjectile = currentProjectile;
     }
 
+    /**
+     * this method is used to set a powerup of the given type on the tip of the shooter
+     * @param type
+     */
     public void setPowerup(EntityType type) {
         Projectile previousProjectile = getCurrentProjectile();
         Powerup currentPowerup = runningMode.getProjectileContainer().getPowerUp(this.getCoordinates(), type);
@@ -158,6 +162,9 @@ public class Shooter extends Entity {
         }
     }
 
+    /**
+     * this methods is used for changing the atom on tip of the shooter to an atom of different type.
+     */
     public void switchAtom() {
         // @REQUIRES: the the projectileContainer not to be empty nor the currentProjectile on the tip of the shooter to be of type powerup.
         // @MODIFIES: the currentProjectile object
