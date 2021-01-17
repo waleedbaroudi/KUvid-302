@@ -157,6 +157,7 @@ public class ConfirmationWindow extends JFrame implements ParametersConfirmation
     public void onConfirmedParameters() {
         // Close the current game-building frame.
         buildingGameFrame.dispose();
+        this.dispose();
 
         new RunningWindow(GameConstants.GAME_TITLE); //todo: maybe start somewhere else?
     }
