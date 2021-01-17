@@ -22,7 +22,7 @@ public class LotaShield extends ShieldDecorator {
         double efficiencyFactor = (1 - oldEfficiency) * LOTA_EFFICIENCY_BOOST;
         return oldEfficiency * (1 + efficiencyFactor);
     }
-    
+
     /**
      *
      * @return the percentage value that the speed will be decreased by.
