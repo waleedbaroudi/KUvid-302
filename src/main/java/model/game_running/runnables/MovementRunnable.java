@@ -2,7 +2,7 @@ package model.game_running.runnables;
 
 import model.game_building.GameConstants;
 import model.game_entities.AutonomousEntity;
-import java.util.concurrent.CopyOnWriteArrayList;
+import model.game_running.RunningMode;
 
 
 /**
@@ -10,11 +10,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MovementRunnable extends GameRunnable {
 
-    CopyOnWriteArrayList<AutonomousEntity> entities; // A reference to the list of autonomous game entities in the space.
+    RunningMode runningMode;
 
-    public MovementRunnable(CopyOnWriteArrayList<AutonomousEntity> entities) {
+    public MovementRunnable(RunningMode runningMode) {
         super();
-        this.entities = entities;
+        this.runningMode = runningMode;
     }
 
     @Override
@@ -24,7 +24,8 @@ public class MovementRunnable extends GameRunnable {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.
                 // move all entities in the space
-                for (AutonomousEntity entity : entities)
+                runningMode.getShooter().move();
+                for (AutonomousEntity entity : runningMode.getAutonomousEntities())
                     entity.move();
 
                 Thread.sleep(GameConstants.GAME_THREAD_DELAY);

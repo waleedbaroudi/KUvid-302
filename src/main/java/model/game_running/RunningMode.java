@@ -40,7 +40,7 @@ public class RunningMode {
     private ProjectileContainer projectileContainer;
     private Shooter shooter;
     private ShieldHandler shieldHandler;
-    private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized
+    private boolean isInitialized = false; //to indicate whether the runnable, thread, and list have been initialized //todo: this needed?
 
     //Listeners
     private final RunningStateListener runningStateListener;
@@ -51,14 +51,12 @@ public class RunningMode {
     // Runnables
     private ArrayList<GameRunnable> gameRunnables;
     private CollisionRunnable collisionRunnable;
-    private ShooterMovementRunnable shooterRunnable;
     private EntityGeneratorRunnable entityGeneratorRunnable;
     private boolean outOfEntities; // flags that the entity generator runnable has run out of entities to drop
 
     // Threads
     private Thread movementThread;
     private Thread collisionThread;
-    private Thread shooterThread;
     private Thread entityGeneratorThread;
 
     // Blender
@@ -99,7 +97,7 @@ public class RunningMode {
     private void initialize() {
         gameRunnables = new ArrayList<>();
 
-        GameRunnable movementRunnable = new MovementRunnable(this.autonomousEntities);
+        GameRunnable movementRunnable = new MovementRunnable(this);
         gameRunnables.add(movementRunnable);
 
         CollisionHandler collisionHandler = new CollisionHandler(this);
@@ -107,14 +105,11 @@ public class RunningMode {
         collisionHandler.setCollisionRunnable(collisionRunnable); // TODO: Find better implementation. (refine coupling task)
         gameRunnables.add(collisionRunnable);
 
-        shooterRunnable = new ShooterMovementRunnable(this.shooter);
-        gameRunnables.add(shooterRunnable);
         entityGeneratorRunnable = new EntityGeneratorRunnable(this);
         gameRunnables.add(entityGeneratorRunnable);
 
         movementThread = new Thread(movementRunnable);
         collisionThread = new Thread(this.collisionRunnable);
-        shooterThread = new Thread(this.shooterRunnable);
         entityGeneratorThread = new Thread(this.entityGeneratorRunnable);
 
         this.isInitialized = true;
@@ -132,12 +127,11 @@ public class RunningMode {
         // Starting the threads.
         movementThread.start();
         collisionThread.start();
-        shooterThread.start();
         entityGeneratorThread.start();
     }
 
     public void moveShooter(int direction) {
-        shooterRunnable.setMovementState(direction);
+        currentState.moveShooter(direction);
     }
 
     public void rotateShooter(int direction) {
@@ -323,7 +317,7 @@ public class RunningMode {
 
         // update runnables
         this.blender.setProjectileContainer(projectileContainer);
-        this.shooterRunnable.setShooter(this.shooter);
+//        this.shooterRunnable.setShooter(this.shooter);
         this.entityGeneratorRunnable.initializeMaps();
 
         // reflect the changes in the UI

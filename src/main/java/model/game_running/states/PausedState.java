@@ -31,12 +31,17 @@ public class PausedState implements GameState {
 
     @Override
     public void applyShield(ShieldType shieldType) {
-        logger.warn("cannot apply shields while game is paused");
+        logger.warn("cannot apply shields while the game is paused");
     }
 
     @Override
     public void rotateShooter(int direction) {
         logger.warn("cannot rotate shooter while the game is paused");
+    }
+
+    @Override
+    public void moveShooter(int direction) {
+        logger.info("cannot move shooter while the game is paused");
     }
 
     @Override

@@ -24,6 +24,8 @@ public class Shooter extends Entity {
     private ProjectileContainer container;
     private OnShotListener onShotListener; //TODO: CHECK THIS
 
+    private int movementState;
+
     Configuration config = Configuration.getInstance();
 
     // TODO move to game configuration
@@ -38,12 +40,13 @@ public class Shooter extends Entity {
         // sets the initial coordinates
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
-
         double baseHeight = config.getBaseHeight();
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
                 config.getGameHeight() - 0.5 * config.getUnitL() *
                         GameConstants.SHOOTER_HEIGHT - baseHeight));
+
+        movementState = GameConstants.SHOOTER_MOVEMENT_STILL;
 
         // sets the Hitbox
         setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead
@@ -53,7 +56,7 @@ public class Shooter extends Entity {
     }
 
     public Shooter() {
-
+        movementState = GameConstants.SHOOTER_MOVEMENT_STILL;
     }
 
     public void setShooterListener(ShooterEventListener shooterListener) {
@@ -205,16 +208,25 @@ public class Shooter extends Entity {
         return true;
     }
 
-    public boolean move(int direction) {
+    public void setMovementState(int movementState) {
+        this.movementState = movementState;
+    }
+
+    @Override
+    public void move() {
+        if (movementState == GameConstants.SHOOTER_MOVEMENT_STILL) {
+            shooterListener.onStopped(); //stop belt animation (for disco theme)
+            return;
+        }
+        int direction = movementState == GameConstants.SHOOTER_MOVEMENT_RIGHT ? 1 : -1;
         Coordinates newCoords = new Coordinates(getCoordinates().getX() + direction * config.getShooterSpeed(), getCoordinates().getY());
         if (!checkLegalMovement(newCoords, this.getAngle())) {
             logger.info("[Shooter] shooter cannot move to the new coordinates" + this.getCoordinates());
-            return false;
+            return;
         }
         shooterListener.onMoved();
         this.setCoordinates(newCoords);
         logger.info("[Shooter] shooter moved to a new coordinates" + this.getCoordinates());
-        return true;
     }
 
     /**
@@ -311,10 +323,6 @@ public class Shooter extends Entity {
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
-    }
-
-    public void stop() {
-        shooterListener.onStopped();
     }
 
 }

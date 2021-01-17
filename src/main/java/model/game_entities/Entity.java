@@ -47,6 +47,8 @@ public abstract class Entity implements Collidable {
         return this.getHitbox().isInside(getCoordinates(), entity.getHitbox().getBoundaryPoints(entity.getCoordinates()));
     }
 
+    public abstract void move();
+
     public SuperType getSuperType() {
         return superType;
     }
