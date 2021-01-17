@@ -14,7 +14,7 @@ public class SessionSaveWindow extends JFrame implements SessionSaveListener {
     private final RunningWindow context;
 
     public SessionSaveWindow(RunningWindow context) {
-        super("Load Session");
+        super("Save Session");
         this.context = context;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

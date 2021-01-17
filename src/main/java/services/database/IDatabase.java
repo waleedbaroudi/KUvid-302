@@ -8,7 +8,7 @@ public interface IDatabase {
     /**
      * Remove the registered collection **if exists** from the DB
      *
-     * @param collectionTitle
+     * @param collectionTitle to be removed
      * @return deletion success state
      */
     default boolean removeCollection(String collectionTitle) {
@@ -18,7 +18,7 @@ public interface IDatabase {
     /**
      * register a new collection **if not exists** in the DB
      *
-     * @param collectionTitle
+     * @param collectionTitle to be registered
      * @return removement success state
      */
     default boolean registerCollection(String collectionTitle) {
@@ -29,8 +29,8 @@ public interface IDatabase {
      * Save a new instance under the given collectionTitle and bound the unique id. No two instance should be able to bound
      * to the same uniqueID
      *
-     * @param collectionTitle
-     * @param uniqueID
+     * @param collectionTitle to be saved
+     * @param uniqueID of the collectionTitle
      * @param instance
      * @param <T>
      * @return saving success state. Should return false in case the unique ID is already bounded to another instance

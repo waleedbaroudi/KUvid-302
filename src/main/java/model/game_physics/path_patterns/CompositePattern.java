@@ -22,12 +22,14 @@ public class CompositePattern extends PathPattern {
     private int currentPatternIdx;
     private boolean circulate;
 
-    public CompositePattern(){}
+    @SuppressWarnings("unused")
+    public CompositePattern() {//this is needed for the save/load functionality
+    }
+
     /**
-     *
-     * @param patterns arraylist of patterns to follow
+     * @param patterns   arraylist of patterns to follow
      * @param iterations arraylist of step sizes corresponding to the pattern
-     * @param circulate True if circulating around the patterns after the iterations of the last pattern finishes
+     * @param circulate  True if circulating around the patterns after the iterations of the last pattern finishes
      */
     public CompositePattern(ArrayList<PathPattern> patterns, ArrayList<Integer> iterations, boolean circulate) {
         super(patterns.get(0).getCurrentCoords());
@@ -38,8 +40,7 @@ public class CompositePattern extends PathPattern {
         // set the current pattern to the first pattern
         try {
             setCurrentPattern((PathPattern) patterns.get(0).clone());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.error("[CompositePattern] cloning current path pattern failed");
             e.printStackTrace();
         }
@@ -47,10 +48,9 @@ public class CompositePattern extends PathPattern {
     }
 
     /**
-     *
-     * @param patterns arraylist of patterns to follow
+     * @param patterns      arraylist of patterns to follow
      * @param iterationSize a fixed number of iteration that all paths follow
-     * @param circulate True if circulating around the patterns after the iterations of the last pattern finishes
+     * @param circulate     True if circulating around the patterns after the iterations of the last pattern finishes
      */
     public CompositePattern(ArrayList<PathPattern> patterns, int iterationSize, boolean circulate) {
         this(patterns, new ArrayList<>(Collections.nCopies(patterns.size(), iterationSize)), circulate);
@@ -58,7 +58,8 @@ public class CompositePattern extends PathPattern {
 
     /**
      * Default is circulating around the patterns after the iterations of the last pattern finishes
-     * @param patterns arraylist of patterns to follow
+     *
+     * @param patterns   arraylist of patterns to follow
      * @param iterations arraylist of step sizes corresponding to the pattern
      */
     public CompositePattern(ArrayList<PathPattern> patterns, ArrayList<Integer> iterations) {
@@ -67,7 +68,8 @@ public class CompositePattern extends PathPattern {
 
     /**
      * Default is circulating around the patterns after the iterations of the last pattern finishes
-     * @param patterns arraylist of patterns to follow
+     *
+     * @param patterns      arraylist of patterns to follow
      * @param iterationSize a fixed number of iteration that all paths follow
      */
     public CompositePattern(ArrayList<PathPattern> patterns, int iterationSize) {
@@ -92,8 +94,8 @@ public class CompositePattern extends PathPattern {
 
     @Override
     public Coordinates nextPosition() {
-        if(this.currentIteration >= getIterations().get(currentPatternIdx)){
-            getLogger().debug("[CompositePattern] iteration of the " + (this.currentPatternIdx+1) + "th pattern finished");
+        if (this.currentIteration >= getIterations().get(currentPatternIdx)) {
+            getLogger().debug("[CompositePattern] iteration of the " + (this.currentPatternIdx + 1) + "th pattern finished");
             getLogger().debug("[CompositePattern] transition coordinates are " + this.getCurrentCoords());
             // update the current pattern with initial coordinates corresponding to the current coordinates
             this.currentIteration = 0;
@@ -103,8 +105,7 @@ public class CompositePattern extends PathPattern {
             try {
                 setCurrentPattern((PathPattern) getPatterns().get(this.currentPatternIdx).clone());
                 getCurrentPattern().setCurrentCoords(getCurrentCoords());
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 logger.error("[CompositePattern] cloning current path pattern failed");
                 e.printStackTrace();
             }

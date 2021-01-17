@@ -17,7 +17,8 @@ public class CircularHitbox extends Hitbox {
         this.radius = radius;
     }
 
-    public CircularHitbox() {
+    @SuppressWarnings("unused")
+    public CircularHitbox() {//this is needed for the save/load functionality
 
     }
 

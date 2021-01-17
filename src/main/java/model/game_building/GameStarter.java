@@ -9,5 +9,6 @@ public class GameStarter {
         BasicConfigurator.configure();
         // note: running mode starts as a result of finishing building mode
         BuildingWindow buildingWindow = new BuildingWindow("Game Build");
+        buildingWindow.start();
     }
 }

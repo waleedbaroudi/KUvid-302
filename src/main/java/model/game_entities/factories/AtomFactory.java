@@ -31,8 +31,8 @@ public class AtomFactory {
         Hitbox atomDefaultHitbox = HitboxFactory.getInstance().getAtomHitbox();
         PathPattern atomDefaultPathPattern = PathPatternFactory.getInstance().getAtomPathPattern();
 
-        int numberOfNeutrons = 0;
-        double efficiency = 0.0;
+        int numberOfNeutrons;
+        double efficiency;
 
         switch (type) {
             case ALPHA:
@@ -40,28 +40,28 @@ public class AtomFactory {
                 efficiency = alphaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.ALPHA,
-                        ALPHA_STABILITY_CONSTANT, efficiency, ALPHA_PROTONS, numberOfNeutrons);
+                        efficiency, ALPHA_PROTONS, numberOfNeutrons);
 
             case BETA:
                 numberOfNeutrons = MathUtils.chooseFrom(BETA_NEUTRON_VALUES);
                 efficiency = betaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.BETA,
-                        BETA_STABILITY_CONSTANT, efficiency, BETA_PROTONS, numberOfNeutrons);
+                        efficiency, BETA_PROTONS, numberOfNeutrons);
 
             case GAMMA:
                 numberOfNeutrons = MathUtils.chooseFrom(GAMMA_NEUTRON_VALUES);
                 efficiency = gammaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.GAMMA,
-                        GAMMA_STABILITY_CONSTANT, efficiency, GAMMA_PROTONS, numberOfNeutrons);
+                        efficiency, GAMMA_PROTONS, numberOfNeutrons);
 
             case SIGMA:
                 numberOfNeutrons = MathUtils.chooseFrom(SIGMA_NEUTRON_VALUES);
                 efficiency = sigmaEfficiency(numberOfNeutrons);
 
                 return new Atom(atomDefaultCoordinates, atomDefaultHitbox, atomDefaultPathPattern, EntityType.SIGMA,
-                        SIGMA_STABILITY_CONSTANT, efficiency, SIGMA_PROTONS, numberOfNeutrons);
+                        efficiency, SIGMA_PROTONS, numberOfNeutrons);
 
             default:
                 return null;

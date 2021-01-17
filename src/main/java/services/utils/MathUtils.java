@@ -1,9 +1,6 @@
 package services.utils;
 
 
-import model.game_entities.enums.ShieldType;
-
-import java.nio.charset.CoderMalfunctionError;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -232,16 +229,6 @@ public class MathUtils {
         return new Coordinates(center.getX() - x / 2, center.getY() - y / 2);
     }
 
-
-    /**
-     * @param center Coordinates that will be translated
-     * @param radius amount for center Coordinates to be translated
-     * @return drawing Coordinates
-     */
-    public static Coordinates drawingCoordinates(Coordinates center, int radius) {
-        return new Coordinates(center.getX() - radius, center.getY() - radius);
-    }
-
     /**
      * Given an angle, returns its complement.
      *
@@ -314,16 +301,13 @@ public class MathUtils {
         return array[randomIndex];
     }
 
+    /**
+     * truncate a double with two decimals and convert it to string
+     * @param toBeTruncated the number to be truncated
+     * @return the number given with a maximum of 2 decimal points as string
+     */
     public static String truncateByTwo(double toBeTruncated) {
         return new DecimalFormat("#.##").format(toBeTruncated);
-    }
-
-    public static int argMax(int[] arr) {
-        int max = 0;
-        for (int i = 1; i < arr.length; i++)
-            if (arr[i] > arr[max])
-                max = i;
-        return max;
     }
 
 }
