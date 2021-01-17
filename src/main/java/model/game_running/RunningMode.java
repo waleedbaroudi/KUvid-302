@@ -18,6 +18,8 @@ import model.game_space.Blender;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
 import services.database.IDatabase;
+import services.utils.SoundHandler;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -95,7 +97,7 @@ public class RunningMode {
         GameRunnable movementRunnable = new MovementRunnable(this);
         gameRunnables.add(movementRunnable);
 
-        CollisionHandler collisionHandler = new CollisionHandler(this);
+        CollisionHandler collisionHandler = new CollisionHandler(this, new SoundHandler());
         GameRunnable collisionRunnable = new CollisionRunnable(this, collisionHandler);
         gameRunnables.add(collisionRunnable);
 
