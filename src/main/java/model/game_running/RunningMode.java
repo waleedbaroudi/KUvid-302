@@ -39,7 +39,6 @@ public class RunningMode {
     private final CopyOnWriteArrayList<AutonomousEntity> autonomousEntities;
     private ProjectileContainer projectileContainer;
     private Shooter shooter;
-    private ShieldHandler shieldHandler;
 
     //Listeners
     private final RunningStateListener runningStateListener;
@@ -83,9 +82,7 @@ public class RunningMode {
                 config.getNumSigmaAtoms(),
                 config.getNumGammaAtoms());
         this.blender = new Blender(this.projectileContainer);
-        this.shooter = new Shooter(projectileContainer);
-        this.shieldHandler = new ShieldHandler(this, shooter);
-        this.shooter.setOnShotListener(shieldHandler);
+        this.shooter = new Shooter(this);
         initialize();
     }
 
@@ -260,15 +257,10 @@ public class RunningMode {
         this.projectileContainer = session.getProjectileContainer();
         this.projectileContainer.setRunningMode(this);
 
-        // update the shieldHandler
-        this.shieldHandler = session.getShieldHandler();
-        System.out.println(this.shieldHandler);
-        System.out.println(this.shieldHandler.getShields());
-
         // update the shooter state
-        this.shooter = session.getShooter();
-        this.shooter.setContainer(this.projectileContainer);
-        this.shooter.setOnShotListener(shieldHandler);
+        shooter = session.getShooter();
+        shooter.setRunningMode(this);
+        shooter.initializeShieldHandler();
 
         // update the player state and statistics listener
         GameStatisticsListener listener = this.player.getStatisticsListener();
@@ -297,8 +289,7 @@ public class RunningMode {
         builder.setPlayer(player).
                 setShooter(getShooter()).
                 setProjectileContainer(getProjectileContainer()).
-                setConfigBundle(Configuration.getInstance().getConfigBundle()).
-                setShieldHandler(this.shieldHandler);
+                setConfigBundle(Configuration.getInstance().getConfigBundle());
 
         getAutonomousEntities().forEach(entity -> entity.saveState(builder));
 
@@ -378,7 +369,7 @@ public class RunningMode {
     }
 
     public ShieldHandler getShieldHandler() {
-        return this.shieldHandler;
+        return shooter.getShieldHandler();
     }
 
 }

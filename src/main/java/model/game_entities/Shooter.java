@@ -5,12 +5,12 @@ import model.game_building.Configuration;
 import model.game_building.GameConstants;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
-import model.game_entities.shields.OnShotListener;
 import model.game_entities.shields.ShieldTuple;
 import model.game_physics.hitbox.HitboxFactory;
 import model.game_physics.path_patterns.PathPatternFactory;
 import model.game_running.CollisionVisitor;
-import model.game_running.ProjectileContainer;
+import model.game_running.RunningMode;
+import model.game_running.ShieldHandler;
 import model.game_running.listeners.ShooterEventListener;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
@@ -21,8 +21,8 @@ import java.util.logging.Logger;
 
 public class Shooter extends Entity {
     private Projectile currentProjectile;
-    private ProjectileContainer container;
-    private OnShotListener onShotListener; //TODO: CHECK THIS
+    private RunningMode runningMode;
+    private ShieldHandler shieldHandler; //TODO: CHECK THIS
 
     private int movementState;
 
@@ -34,12 +34,12 @@ public class Shooter extends Entity {
 
     private ShooterEventListener shooterListener;
 
-    public Shooter(ProjectileContainer container) {
+    public Shooter(RunningMode runningMode) {
         // Turn off logger
         logger.setLevel(Level.OFF);
-        // sets the initial coordinates
         // TODO 1: get initial coords from the game configuration
         // TODO 2: set this in super instead
+        // sets the initial coordinates
         double baseHeight = config.getBaseHeight();
         setCoordinates(new Coordinates(
                 config.getGameWidth() / 2.0,
@@ -48,10 +48,12 @@ public class Shooter extends Entity {
 
         movementState = GameConstants.SHOOTER_MOVEMENT_STILL;
 
+        shieldHandler = new ShieldHandler(this);
+
         // sets the Hitbox
         setHitbox(HitboxFactory.getInstance().getShooterHitbox()); //TODO: set this in super instead
         this.superType = SuperType.SHOOTER;
-        this.container = container;
+        this.runningMode = runningMode;
         this.setCurrentProjectile(this.nextAtom());
     }
 
@@ -63,10 +65,6 @@ public class Shooter extends Entity {
         this.shooterListener = shooterListener;
     }
 
-    public void setOnShotListener(OnShotListener onShotListener) {
-        this.onShotListener = onShotListener;
-    }
-
     /**
      * Shoot the projectile on the tip of the shooter to the game space
      *
@@ -76,13 +74,13 @@ public class Shooter extends Entity {
         if (getCurrentProjectile() == null)//get atom from the container returned null. (no more of the selected type)
             return null;
         shooterListener.onShot();
-        onShotListener.emptyTempShields();
+        shieldHandler.emptyTempShields();
         this.adjustProjectilePosition();
         return this.reload();
     }
 
-    public void setContainer(ProjectileContainer container) {
-        this.container = container;
+    public void setRunningMode(RunningMode runningMode) {
+        this.runningMode = runningMode;
     }
 
     /**
@@ -131,10 +129,10 @@ public class Shooter extends Entity {
      * @return a random atom
      */
     public Atom nextAtom() {
-        Atom atom = container.getRandomAtom(this.getCoordinates());
-        if (onShotListener != null && atom != null) {
-            onShotListener.setTempShields(container.getShields(atom.getEntityType()));
-            atom = container.shieldAtom(atom, onShotListener.getTempShields());
+        Atom atom = runningMode.getProjectileContainer().getRandomAtom(getCoordinates());
+        if (shieldHandler != null && atom != null) {
+            shieldHandler.setTempShields(runningMode.getProjectileContainer().getShields(atom.getEntityType()));
+            atom = runningMode.getProjectileContainer().shieldAtom(atom, shieldHandler.getTempShields());
         }
         return atom;
     }
@@ -149,13 +147,13 @@ public class Shooter extends Entity {
 
     public void setPowerup(EntityType type) {
         Projectile previousProjectile = getCurrentProjectile();
-        Powerup currentPowerup = container.getPowerUp(this.getCoordinates(), type);
+        Powerup currentPowerup = runningMode.getProjectileContainer().getPowerUp(this.getCoordinates(), type);
         if (currentPowerup != null) {
             if (previousProjectile.superType == SuperType.ATOM) {
-                container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1, onShotListener.getTempShields());
-                onShotListener.emptyTempShields();
+                runningMode.getProjectileContainer().increaseAtoms(previousProjectile.getEntityType().getValue(), 1, shieldHandler.getTempShields());
+                shieldHandler.emptyTempShields();
             } else
-                container.addPowerUp((Powerup) previousProjectile);
+                runningMode.getProjectileContainer().addPowerUp((Powerup) previousProjectile);
             setCurrentProjectile(currentPowerup);
         }
     }
@@ -166,20 +164,20 @@ public class Shooter extends Entity {
         // @EFFECTS: changes the projectile on the tip of the shooter to an atom if the current projectile is powerup, changes the
         //           the projectile if the current projectile is atom to an atom of different type.
         Projectile previousProjectile = getCurrentProjectile();
-        ShieldTuple tmpShields = onShotListener.getTempShields();
+        ShieldTuple tmpShields = shieldHandler.getTempShields();
         Projectile nextAtom = nextAtom();
 
         if (nextAtom != null) {
             if (previousProjectile.getSuperType() == SuperType.ATOM) {
-                container.increaseAtoms(previousProjectile.getEntityType().getValue(), 1, tmpShields);
+                runningMode.getProjectileContainer().increaseAtoms(previousProjectile.getEntityType().getValue(), 1, tmpShields);
 
                 while (previousProjectile.getEntityType() == nextAtom.getEntityType() && !uniqueTypeAvailable()) {
-                    container.increaseAtoms(nextAtom.getEntityType().getValue(), 1, onShotListener.getTempShields());
+                    runningMode.getProjectileContainer().increaseAtoms(nextAtom.getEntityType().getValue(), 1, shieldHandler.getTempShields());
                     nextAtom = nextAtom();
                 }
                 setCurrentProjectile(nextAtom);
             } else {
-                container.addPowerUp((Powerup) previousProjectile);
+                runningMode.getProjectileContainer().addPowerUp((Powerup) previousProjectile);
             }
             setCurrentProjectile(nextAtom);
         }
@@ -187,7 +185,7 @@ public class Shooter extends Entity {
 
     private boolean uniqueTypeAvailable() {
 
-        int[] types = container.getAtomMap();
+        int[] types = runningMode.getProjectileContainer().getAtomMap();
         int counter = 0;
         for (int type : types)
             if (type == 0)
@@ -285,6 +283,19 @@ public class Shooter extends Entity {
         return (Atom) getCurrentProjectile();
     }
 
+
+    public void updateStatisticsShieldCount() {
+        runningMode.updateStatisticsShieldCount();
+    }
+
+    public ShieldHandler getShieldHandler() {
+        return shieldHandler;
+    }
+
+    public void initializeShieldHandler() {
+        shieldHandler.setShooter(this);
+    }
+
     @Override
     public String toString() {
         return "Shooter{" +
@@ -293,8 +304,8 @@ public class Shooter extends Entity {
                 ", currentProjectile=" + currentProjectile +
                 '}';
     }
-
     // visitor pattern. Double delegation
+
     @Override
     public void collideWith(CollisionVisitor visitor, Atom atom) {
         visitor.handleCollision(this, atom);
@@ -324,5 +335,4 @@ public class Shooter extends Entity {
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);
     }
-
 }
