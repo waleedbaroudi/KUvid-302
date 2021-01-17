@@ -10,6 +10,10 @@ public class EtaShield extends ShieldDecorator {
         super(atom);
     }
 
+
+    /**
+     * @return the value of efficiency of the atom.
+     */
     @Override
     public double getEfficiency() {
         //MODIFIES: the efficiency of the original atom, or possibly the shielded atom
@@ -30,6 +34,10 @@ public class EtaShield extends ShieldDecorator {
         return oldEfficiency * (1 + efficiencyFactor);
     }
 
+    /**
+     *
+     * @return the percentage value that the speed will be decreased by.
+     */
     @Override
     public double getAtomSpeedPercentage() {
         //MODIFIES: the speed of the original atom, or possibly the shielded atom
