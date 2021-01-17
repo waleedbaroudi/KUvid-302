@@ -21,6 +21,10 @@ public class PowerupDrawer implements Drawable {
         this.powerupImage = ImageResources.get(powerup);
     }
 
+    /**
+     * draw the powerup on the gave view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -38,6 +42,10 @@ public class PowerupDrawer implements Drawable {
         g2d.setTransform(old);
     }
 
+    /**
+     * draw a hit box around the powerup on the game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void drawHitbox(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(powerup.getCoordinates(),

@@ -19,6 +19,10 @@ public class AtomDrawer implements Drawable {
         this.atomImage = ImageResources.get(atom);
     }
 
+    /**
+     * draw the atom on game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void draw(Graphics g) {
         Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(),
@@ -29,6 +33,10 @@ public class AtomDrawer implements Drawable {
 
     }
 
+    /**
+     * draw a hit box around the atom on the game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void drawHitbox(Graphics g) {
         Coordinates drawingCoord = MathUtils.drawingCoordinates(atom.getCoordinates(),

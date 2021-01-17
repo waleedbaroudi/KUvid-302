@@ -20,6 +20,10 @@ public class BlockerDrawer implements Drawable {
         this.blockerImage = ImageResources.get(blocker);
     }
 
+    /**
+     * draw the blocker on game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void draw(Graphics g) {
         Coordinates drawingCoordinates;
@@ -36,6 +40,10 @@ public class BlockerDrawer implements Drawable {
         g.drawImage(blockerImage, drawingCoordinates.getPoint().x, drawingCoordinates.getPoint().y, null);
     }
 
+    /**
+     * draw a hit box around the atom on the game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void drawHitbox(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(blocker.getCoordinates(),
