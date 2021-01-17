@@ -2,7 +2,6 @@ package model.game_entities.shields;
 
 import model.game_entities.Atom;
 import model.game_entities.enums.EntityType;
-import model.game_entities.factories.AtomFactory;
 import model.game_physics.hitbox.CircularHitbox;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
@@ -14,16 +13,14 @@ import services.utils.MathUtils;
 import services.utils.Velocity;
 
 import static model.game_building.GameConstants.*;
-import static model.game_building.GameConstants.SIGMA_PROTONS;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ShieldsEfficiencyTest {
 
     Coordinates coords;
     Hitbox hitbox;
     PathPattern pathPattern;
-    double delta = 0.00001;
 
     double stabilityConstant1, stabilityConstant2, stabilityConstant3, stabilityConstant4;
     double efficiency1, efficiency2, efficiency3, efficiency4;
@@ -64,10 +61,10 @@ public class ShieldsEfficiencyTest {
 
     @Test
     void isCorrectAtomEfficiency() {
-        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
 
         assertEquals(atom1.getEfficiency(), efficiency1);
         assertEquals(atom2.getEfficiency(), efficiency2);
@@ -77,10 +74,10 @@ public class ShieldsEfficiencyTest {
 
     @Test
     void isCorrectEtaEfficiency() {
-        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
         assertEquals(atom1.getEfficiency(), efficiency1);
         assertEquals(atom2.getEfficiency(), efficiency2);
         assertEquals(atom3.getEfficiency(), efficiency3);
@@ -129,10 +126,10 @@ public class ShieldsEfficiencyTest {
 
     @Test
     void isCorrectLotaEfficiency() {
-        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
         assertEquals(atom1.getEfficiency(), efficiency1);
         assertEquals(atom2.getEfficiency(), efficiency2);
         assertEquals(atom3.getEfficiency(), efficiency3);
@@ -155,10 +152,10 @@ public class ShieldsEfficiencyTest {
 
     @Test
     void isCorrectTetaEfficiency() {
-        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
         assertEquals(atom1.getEfficiency(), efficiency1);
         assertEquals(atom2.getEfficiency(), efficiency2);
         assertEquals(atom3.getEfficiency(), efficiency3);
@@ -190,10 +187,10 @@ public class ShieldsEfficiencyTest {
 
     @Test
     void isCorrectZetaEfficiency() {
-        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
         assertEquals(atom1.getEfficiency(), efficiency1);
         assertEquals(atom2.getEfficiency(), efficiency2);
         assertEquals(atom3.getEfficiency(), efficiency3);

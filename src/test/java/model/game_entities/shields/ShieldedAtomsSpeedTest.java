@@ -29,16 +29,15 @@ public class ShieldedAtomsSpeedTest {
 
     @Test
     void isValidAtomSpeed() {
-        double stabilityConstant1 = 1, stabilityConstant2 = 1, stabilityConstant3 = 1, stabilityConstant4 = 1;
         double efficiency1 = 1, efficiency2 = 1, efficiency3 = 1, efficiency4 = 1;
         int numberOfP1 = 1, numberOfP2 = 1, numberOfP3 = 1, numberOfP4 = 1;
         int numberOfN1 = 1, numberOfN2 = 1, numberOfN3 = 1, numberOfN4 = 1;
 
 
-        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(coords, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(coords, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(coords, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(coords, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
 
         assertEquals(atom1.getSpeedPercentage(), 1.0, delta);
         assertEquals(atom2.getSpeedPercentage(), 1.0, delta);
@@ -52,16 +51,15 @@ public class ShieldedAtomsSpeedTest {
         Hitbox hitbox = new CircularHitbox(1);
         PathPattern pathPattern = new StraightPattern(c, new Velocity(1, 1));
 
-        double stabilityConstant1 = 1, stabilityConstant2 = 1, stabilityConstant3 = 1, stabilityConstant4 = 1;
         double efficiency1 = 1, efficiency2 = 1, efficiency3 = 1, efficiency4 = 1;
         int numberOfP1 = 1, numberOfP2 = 1, numberOfP3 = 1, numberOfP4 = 1;
         int numberOfN1 = 1, numberOfN2 = 1, numberOfN3 = 1, numberOfN4 = 1;
 
 
-        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
 
         assertEquals(atom1.getSpeedPercentage(), 1.0, delta);
         assertEquals(atom2.getSpeedPercentage(), 1.0, delta);
@@ -102,16 +100,15 @@ public class ShieldedAtomsSpeedTest {
         Hitbox hitbox = new CircularHitbox(1);
         PathPattern pathPattern = new StraightPattern(c, new Velocity(1, 1));
 
-        double stabilityConstant1 = 1, stabilityConstant2 = 1, stabilityConstant3 = 1, stabilityConstant4 = 1;
         double efficiency1 = 1, efficiency2 = 1, efficiency3 = 1, efficiency4 = 1;
         int numberOfP1 = 1, numberOfP2 = 1, numberOfP3 = 1, numberOfP4 = 1;
         int numberOfN1 = 1, numberOfN2 = 1, numberOfN3 = 1, numberOfN4 = 1;
 
 
-        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
 
         assertEquals(atom1.getSpeedPercentage(), 1.0, delta);
         assertEquals(atom2.getSpeedPercentage(), 1.0, delta);
@@ -153,16 +150,15 @@ public class ShieldedAtomsSpeedTest {
         Hitbox hitbox = new CircularHitbox(1);
         PathPattern pathPattern = new StraightPattern(c, new Velocity(1, 1));
 
-        double stabilityConstant1 = 1, stabilityConstant2 = 1, stabilityConstant3 = 1, stabilityConstant4 = 1;
         double efficiency1 = 1, efficiency2 = 1, efficiency3 = 1, efficiency4 = 1;
         int numberOfP1 = 1, numberOfP2 = 1, numberOfP3 = 1, numberOfP4 = 1;
         int numberOfN1 = 1, numberOfN2 = 1, numberOfN3 = 1, numberOfN4 = 1;
 
 
-        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
 
         assertEquals(atom1.getSpeedPercentage(), 1.0, delta);
         assertEquals(atom2.getSpeedPercentage(), 1.0, delta);
@@ -203,16 +199,15 @@ public class ShieldedAtomsSpeedTest {
         Hitbox hitbox = new CircularHitbox(1);
         PathPattern pathPattern = new StraightPattern(c, new Velocity(1, 1));
 
-        double stabilityConstant1 = 1, stabilityConstant2 = 1, stabilityConstant3 = 1, stabilityConstant4 = 1;
         double efficiency1 = 1, efficiency2 = 1, efficiency3 = 1, efficiency4 = 1;
         int numberOfP1 = 1, numberOfP2 = 1, numberOfP3 = 1, numberOfP4 = 1;
         int numberOfN1 = 1, numberOfN2 = 1, numberOfN3 = 1, numberOfN4 = 1;
 
 
-        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, stabilityConstant1, efficiency1, numberOfN1, numberOfP1);
-        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, stabilityConstant2, efficiency2, numberOfN2, numberOfP2);
-        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, stabilityConstant3, efficiency3, numberOfN3, numberOfP3);
-        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, stabilityConstant4, efficiency4, numberOfN4, numberOfP4);
+        Atom atom1 = new Atom(c, hitbox, pathPattern, EntityType.ALPHA, efficiency1, numberOfN1, numberOfP1);
+        Atom atom2 = new Atom(c, hitbox, pathPattern, EntityType.BETA, efficiency2, numberOfN2, numberOfP2);
+        Atom atom3 = new Atom(c, hitbox, pathPattern, EntityType.GAMMA, efficiency3, numberOfN3, numberOfP3);
+        Atom atom4 = new Atom(c, hitbox, pathPattern, EntityType.SIGMA, efficiency4, numberOfN4, numberOfP4);
 
         assertEquals(atom1.getSpeedPercentage(), 1.0, delta);
         assertEquals(atom2.getSpeedPercentage(), 1.0, delta);

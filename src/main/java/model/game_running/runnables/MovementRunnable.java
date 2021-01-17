@@ -10,7 +10,7 @@ import model.game_running.RunningMode;
  */
 public class MovementRunnable extends GameRunnable {
 
-    RunningMode runningMode;
+    private final RunningMode runningMode;
 
     public MovementRunnable(RunningMode runningMode) {
         super();

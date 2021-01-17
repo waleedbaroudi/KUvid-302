@@ -10,8 +10,6 @@ import services.utils.Coordinates;
 import services.utils.Vector;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -35,7 +33,6 @@ public class CollisionRunnable extends GameRunnable {
     @Override
     public void run() {
         running = true;
-        Set<AutonomousEntity> toRemoveEntities = new HashSet<>();
         while (running) {
             try {
                 latch.await(); // if the game is paused, this latch clogs this runnable.

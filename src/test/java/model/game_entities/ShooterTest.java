@@ -3,17 +3,31 @@ package model.game_entities;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.SuperType;
 import model.game_running.ProjectileContainer;
+import model.game_running.RunningMode;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ShooterTest {
 
     @Test
     void switchAtom() {
 
-        ProjectileContainer container = new ProjectileContainer(null, 10, 10, 10, 10);
-        Shooter shooter = new Shooter(null); // todo: fix this test (shooter used to take projectile container, now takes running mode)
+        ProjectileContainer container = new ProjectileContainer(
+                null,
+                10,
+                10,
+                10,
+                10);
+
+        RunningMode runningMode = new RunningMode(
+                null,
+                null,
+                null,
+                null,
+                null);
+        Shooter shooter = new Shooter(runningMode); // todo: fix this test (shooter used to take projectile container, now takes running mode)
 
         // testing when the current projectile is powerup. in this case , when we call switchAtom(), the current projectile set to atom.
         shooter.setCurrentProjectile(container.getPowerUp(shooter.getCoordinates(), EntityType.ALPHA));
@@ -76,10 +90,5 @@ class ShooterTest {
 
         // they  should have the same type
         assertFalse(switchedType == currentType);
-
-       
-
-
-
     }
 }

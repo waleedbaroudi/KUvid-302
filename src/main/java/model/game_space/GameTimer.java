@@ -15,9 +15,9 @@ public class GameTimer {
         this.remainingTimeMillis = (int) (timeInMinutes * MIN_TO_MILLS_CONVERSION_CONSTANT);
     }
 
-    public GameTimer(){} // needed for serialization
-
-
+    @SuppressWarnings("unused")
+    public GameTimer() {//this is needed for the save/load functionality
+    }
 
     /**
      * decreases the game timer.

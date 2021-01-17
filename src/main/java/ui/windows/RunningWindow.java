@@ -8,7 +8,9 @@ import model.game_running.RunningMode;
 import model.game_running.listeners.GameEntitiesListener;
 import model.game_running.listeners.RunningStateListener;
 import model.game_space.Player;
+import org.apache.log4j.Logger;
 import services.database.IDatabase;
+import services.utils.SoundHandler;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
 import ui.movable_drawables.ImageResources;
@@ -25,37 +27,40 @@ import java.util.concurrent.CountDownLatch;
  * all game animations and actions will happen in this window
  */
 public class RunningWindow extends JFrame implements RunningStateListener, GameEntitiesListener {
-    RunningMode runningMode;
-    GamePanel gameContentPanel;
-    StatisticsPanel statisticsPanel;
+    private final RunningMode runningMode;
+    private final GamePanel gameContentPanel;
+    private final StatisticsPanel statisticsPanel;
     private boolean running;
-    Configuration config;
-    private Image background, background_gameOver;
-    private final JPanel backgroundPanel;
+    private Configuration config;
+    private Image background;
+    private final Image background_gameOver;
     private final Map<AutonomousEntity, Drawable> drawableMap;
-    private BlenderWindow blenderWindow; //todo: remove this?
     private final SessionLoadWindow sessionLoadWindow;
     private final SessionSaveWindow saveSessionWindow;
     private CountDownLatch pauseLatch;
+    private static Logger logger;
+
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
+        logger = Logger.getLogger(this.getClass().getName());
         drawableMap = new ConcurrentHashMap<>(); // concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.sessionLoadWindow = new SessionLoadWindow(this);
         this.saveSessionWindow = new SessionSaveWindow(this);
-        this.runningMode = new RunningMode(this, this, sessionLoadWindow, saveSessionWindow);
+        this.runningMode = new RunningMode(this, this, sessionLoadWindow,
+                saveSessionWindow, new SoundHandler());
         System.out.println("in running window" + runningMode.getBlender());
-        blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
+        BlenderWindow blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
         Player player = new Player("player", statisticsPanel); //todo: change temp username
         this.runningMode.setPlayer(player);
         background = ImageResources.backGround(getWidth(), getHeight(), false);
         background_gameOver = ImageResources.backGround(getWidth(), getHeight(), true);
-        backgroundPanel = new JPanel() {
+        JPanel backgroundPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
@@ -166,7 +171,7 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         repaint();
     }
 
-    public void setEnabled(boolean enabled){
+    public void setEnabled(boolean enabled) {
         setFocusableWindowState(enabled);
         gameContentPanel.setFocusable(enabled);
         statisticsPanel.setFocusable(enabled);

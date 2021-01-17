@@ -12,7 +12,6 @@ public abstract class ShieldDecorator extends Atom {
                 atom.getHitbox(),
                 atom.getPathPattern(),
                 atom.getEntityType(),
-                atom.getSpeedPercentage(),
                 atom.getEfficiency(),
                 atom.getNumberOfProtons(),
                 atom.getNumberOfNeutrons());
@@ -32,7 +31,7 @@ public abstract class ShieldDecorator extends Atom {
     @JsonIgnore
     @Override
     public double getSpeedPercentage() {
-        //MODIFIES: indirectly, the speed of the original atom, or possibly the shielded atom
+        //MODIFIES: the speed of the original atom, or possibly the shielded atom
         //EFFECTS: the speed of the original atom/shielded atom will be reduced by a percentage depending on the
         //type of the shield
 

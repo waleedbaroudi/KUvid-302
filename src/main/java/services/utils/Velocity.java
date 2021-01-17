@@ -17,7 +17,9 @@ public class Velocity {
         this.velocityVector = velocityVector;
     }
 
-    public Velocity(){}
+    @SuppressWarnings("unused")
+    public Velocity(){//this is needed for the save/load functionality
+    }
 
     @JsonIgnore
     public double getXv() {
@@ -31,17 +33,6 @@ public class Velocity {
 
     public Vector getVelocityVector() {
         return velocityVector;
-    }
-
-    /**
-     * displacement of the objects based on the velocity vector
-     * @param C_0 initial displacement
-     * @param t time
-     */
-    public Coordinates getDisplacement(Coordinates C_0, double t){
-        double x = C_0.getX() + t * getXv();
-        double y = C_0.getY() + t * getYv();
-        return new Coordinates(x, y);
     }
 
     public Velocity reflect(Vector n){

@@ -5,17 +5,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import services.utils.Coordinates;
 import services.utils.MathUtils;
 import services.utils.Vector;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import java.util.ArrayList;
+
 @JsonTypeName("rectangular-hitbox")
 public class RectangularHitbox extends Hitbox {
 
     private double width;
     private double height;
 
-    RectangularHitbox(){};
+    @SuppressWarnings("unused")
+    RectangularHitbox() {//this is needed for the save/load functionality
+    }
+
     public RectangularHitbox(double width, double height) {
         this.width = width;
         this.height = height;
@@ -33,7 +38,7 @@ public class RectangularHitbox extends Hitbox {
 
     @Override
     public ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords) {
-        Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth()/2, entityCoords.getY() + getHeight()/2);
+        Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth() / 2, entityCoords.getY() + getHeight() / 2);
         Vector cornerVector = new Vector(entityCoords, cornerCoords);
         ArrayList<Coordinates> pts = MathUtils.getRectangularBoundaryCoordinates(cornerVector, NUMBER_OF_POINTS);
         // apply rotation to all coordinates
@@ -43,7 +48,7 @@ public class RectangularHitbox extends Hitbox {
     @Override
     public boolean isInside(Coordinates entityCoords, Coordinates checkCoords) {
         checkCoords = MathUtils.applyRotation(-getRotationDegree(), entityCoords, checkCoords);
-        Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth()/2, entityCoords.getY() + getHeight()/2);
+        Coordinates cornerCoords = new Coordinates(entityCoords.getX() + getWidth() / 2, entityCoords.getY() + getHeight() / 2);
         Vector cornerVector = new Vector(entityCoords, cornerCoords);
         return MathUtils.isWithinRectangle(cornerVector, checkCoords);
     }

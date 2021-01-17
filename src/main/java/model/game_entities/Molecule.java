@@ -19,12 +19,6 @@ public class Molecule extends AutonomousEntity {
 
     private MoleculeStructure structure;
 
-//    public Molecule(Coordinates coordinates, Hitbox hitbox, PathPattern pathPattern, EntityType type, MoleculeStructure structure) {
-//        super(coordinates, hitbox, pathPattern, type);
-//        superType = SuperType.MOLECULE;
-//        this.structure = structure;
-//    }
-
     public Molecule(@JsonProperty("coordinates") Coordinates coordinates,
                     @JsonProperty("hitbox") Hitbox hitbox,
                     @JsonProperty("pathPattern") PathPattern pathPattern,
@@ -34,9 +28,6 @@ public class Molecule extends AutonomousEntity {
         superType = SuperType.MOLECULE;
         this.structure = structure;
     }
-
-//    public Molecule() {
-//    }
 
     public void setStructure(MoleculeStructure structure) {
         this.structure = structure;
