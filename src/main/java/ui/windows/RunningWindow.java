@@ -9,6 +9,7 @@ import model.game_running.listeners.GameEntitiesListener;
 import model.game_running.listeners.RunningStateListener;
 import model.game_space.Player;
 import services.database.IDatabase;
+import services.utils.SoundHandler;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
 import ui.movable_drawables.ImageResources;
@@ -46,7 +47,8 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.sessionLoadWindow = new SessionLoadWindow(this);
         this.saveSessionWindow = new SessionSaveWindow(this);
-        this.runningMode = new RunningMode(this, this, sessionLoadWindow, saveSessionWindow);
+        this.runningMode = new RunningMode(this, this, sessionLoadWindow,
+                saveSessionWindow, new SoundHandler());
         System.out.println("in running window" + runningMode.getBlender());
         blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
