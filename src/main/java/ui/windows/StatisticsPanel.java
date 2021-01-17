@@ -9,7 +9,6 @@ import model.game_running.ProjectileContainer;
 import model.game_running.RunningMode;
 import model.game_running.ShieldHandler;
 import model.game_running.listeners.GameStatisticsListener;
-import model.game_space.GameStatistics;
 import services.utils.MathUtils;
 import ui.movable_drawables.ImageResources;
 
@@ -197,21 +196,7 @@ public class StatisticsPanel extends JPanel implements GameStatisticsListener {
     }
 
     private void setPepegaThemeContent() {
-
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-
-        // Defining our buttons
-        blenderButton = new JLabel(blenderImg);
-        alphaPowerupButton = new JLabel(powerupAlphaImg);
-        betaPowerupButton = new JLabel(powerupBetaImg);
-        gammaPowerupButton = new JLabel(powerupGammaImg);
-        sigmaPowerupButton = new JLabel(powerupSigmaImg);
-
-        etaButton = new JLabel(etaImg);
-        lotaButton = new JLabel(lotaImg);
-        thetaButton = new JLabel(thetaImg);
-        zetaButton = new JLabel(zetaImg);
-
 
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipady = 6;

@@ -18,6 +18,7 @@ import model.game_space.Blender;
 import model.game_space.Player;
 import org.apache.log4j.Logger;
 import services.database.IDatabase;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -117,7 +118,6 @@ public class RunningMode {
     }
 
     // Shooter ////
-
     public void moveShooter(int direction) {
         currentState.moveShooter(direction);
     }
@@ -203,7 +203,6 @@ public class RunningMode {
     }
 
     // Player ////
-
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -237,7 +236,6 @@ public class RunningMode {
     }
 
     // Save-Load ////
-
     public void showSavedSessions() {
         currentState.showSavedSessions();
     }
@@ -269,7 +267,6 @@ public class RunningMode {
 
         // update runnables
         this.blender.setProjectileContainer(projectileContainer);
-//        this.shooterRunnable.setShooter(this.shooter);
         this.entityGeneratorRunnable.initializeMaps();
 
         // reflect the changes in the UI
@@ -310,7 +307,6 @@ public class RunningMode {
     }
 
     // Game State ////
-
     public void resume() {
         currentState.resume();
     }
@@ -347,7 +343,6 @@ public class RunningMode {
     }
 
     // Getters ////
-
     public ProjectileContainer getProjectileContainer() {
         return this.projectileContainer;
     }

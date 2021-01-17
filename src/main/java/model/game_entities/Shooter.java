@@ -19,17 +19,17 @@ import services.utils.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static model.game_building.GameConstants.DEFAULT_ROTATION_STEP;
+
 public class Shooter extends Entity {
     private Projectile currentProjectile;
     private RunningMode runningMode;
     private ShieldHandler shieldHandler; //TODO: CHECK THIS
-
     private int movementState;
 
     Configuration config = Configuration.getInstance();
 
     // TODO move to game configuration
-    private final double DEFAULT_ROTATION_STEP = 10;
     public static Logger logger = Logger.getLogger(Shooter.class.getName());
 
     private ShooterEventListener shooterListener;
@@ -230,41 +230,49 @@ public class Shooter extends Entity {
     /**
      * Check if the shooter config.getShooterSpeed() is within the game view
      *
-     * @param c
-     * @param angle
-     * @return
+     * @param coordinates to be checked if inside the game view
+     * @param angle       of the shooter
+     * @return true if the movement is legal
      */
-    private boolean checkLegalMovement(Coordinates c, double angle) {
+    private boolean checkLegalMovement(Coordinates coordinates, double angle) {
         double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
-        if (c.getX() + gunWidth / 2 > config.getGamePanelDimensions().getWidth())
+        if (coordinates.getX() + gunWidth / 2 > config.getGamePanelDimensions().getWidth())
             return false;
-        else if (c.getX() - gunWidth / 2 < 0)
+        else if (coordinates.getX() - gunWidth / 2 < 0)
             return false;
-        return checkLegalAngle(c, angle);
+        return checkLegalAngle(coordinates, angle);
     }
 
     /**
      * Check if the shooter rotation is within the game view
      *
-     * @param c
-     * @param angle
-     * @return
+     * @param coordinates to be checked if inside the game view
+     * @param angle       of the shooter
+     * @return true of rotating the shooter is legal
      */
-    private boolean checkLegalAngle(Coordinates c, double angle) {
+    private boolean checkLegalAngle(Coordinates coordinates, double angle) {
         double gunWidth = config.getUnitL() * GameConstants.SHOOTER_WIDTH;
         double gunHeight = config.getUnitL() * GameConstants.SHOOTER_HEIGHT;
 
         // assume the left side if the shooter is in the left half of the screen, and right otherwise
         Vector rotatedShooter;
-        if (c.getX() < Configuration.getInstance().getGameWidth() / 2.0) {
-            rotatedShooter = new Vector(c.getX() - gunWidth / 2, c.getY(),
-                    c.getX() - gunWidth / 2, c.getY() - gunHeight / 2.0);
+        if (coordinates.getX() < Configuration.getInstance().getGameWidth() / 2.0) {
+            rotatedShooter = new Vector(
+                    coordinates.getX() - gunWidth / 2,
+                    coordinates.getY(),
+                    coordinates.getX() - gunWidth / 2,
+                    coordinates.getY() - gunHeight / 2.0);
         } else {
-            rotatedShooter = new Vector(c.getX() + gunWidth / 2, c.getY(),
-                    c.getX() + gunWidth / 2, c.getY() - gunHeight / 2.0);
+            rotatedShooter = new Vector(
+                    coordinates.getX() + gunWidth / 2,
+                    coordinates.getY(),
+                    coordinates.getX() + gunWidth / 2,
+                    coordinates.getY() - gunHeight / 2.0);
         }
         rotatedShooter = rotatedShooter.rotateVector(angle);
-        return !(angle > 80) && !(angle < -80) && rotatedShooter.getPositionCoordinate().getX() >= 0 &&
+        return !(angle > 80) &&
+                !(angle < -80) &&
+                rotatedShooter.getPositionCoordinate().getX() >= 0 &&
                 rotatedShooter.getPositionCoordinate().getX() <= config.getGamePanelDimensions().width;
     }
 

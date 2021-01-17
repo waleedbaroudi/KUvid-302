@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class ErrorWindow {
 
-
     public ErrorWindow(JFrame frame, ArrayList<String> invalidFields) {
         String errorMessage = parseErrors(invalidFields);
         displayError(frame, errorMessage);
