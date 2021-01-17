@@ -8,6 +8,9 @@ import services.utils.Vector;
 
 import java.util.ArrayList;
 
+/**
+ * Circular Hitbox with radius R.
+ */
 @JsonTypeName("circular-hitbox")
 public class CircularHitbox extends Hitbox {
 

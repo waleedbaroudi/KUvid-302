@@ -9,8 +9,10 @@ import services.utils.Coordinates;
 import services.utils.Vector;
 
 /**
- * This class serves as a super class for path patterns.
+ * Represent a patten of movement in the game space. This pattern is invariant
+ * for the coordinates of the entity.
  */
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY, property = "type") @JsonSubTypes({
 
@@ -47,7 +49,6 @@ public abstract class PathPattern implements Cloneable {
         this.currentCoords = currentCoords;
     }
 
-    //TODO check if we need this? (Sarieh)
     public Coordinates getNextNthPosition(Coordinates currentCoords, int N) {
         for (int i = 0; i < N; i++)
             currentCoords = nextPosition();
