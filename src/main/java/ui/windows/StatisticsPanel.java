@@ -46,15 +46,14 @@ public class StatisticsPanel extends JPanel implements GameStatisticsListener {
     private ImageIcon etaImg_bg, lotaImg_bg, thetaImg_bg, zetaImg_bg;
     private ImageIcon etaImg, lotaImg, thetaImg, zetaImg;
 
-    //mouse adapters
-
     //iconSize
     private final int iconSize;
+
+    //mouse adapters
     private MouseAdapter blenderAdapter;
     private MouseAdapter alphaPowerupAdapter, betaPowerupAdapter, gammaPowerupAdapter, sigmaPowerupAdapter;
     private MouseAdapter etaAdapter, lotaAdapter, thetaAdapter, zetaAdapter;
-
-
+    
     public StatisticsPanel(RunningMode runningMode) {
         this.setPreferredSize(Configuration.getInstance().getStatisticsPanelDimensions());
         this.config = Configuration.getInstance();
