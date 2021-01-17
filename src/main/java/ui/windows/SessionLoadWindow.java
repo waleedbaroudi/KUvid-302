@@ -3,6 +3,7 @@ package ui.windows;
 import model.game_building.GameBundle;
 import model.game_running.SessionLoader;
 import model.game_running.listeners.SessionLoadListener;
+import org.apache.log4j.Logger;
 import services.exceptions.UnsupportedNameFormatException;
 import services.utils.IOHandler;
 
@@ -14,10 +15,13 @@ import java.util.ArrayList;
 public class SessionLoadWindow extends JFrame implements SessionLoadListener {
     private final SessionLoader sessionLoader;
     private final JFrame context;
-    JList<String> saveFilesNamesList;
+    private JList<String> saveFilesNamesList;
+    private static Logger logger;
+
 
     public SessionLoadWindow(JFrame context) {// resets the lists in the load up window closing
         super("Load Session");
+        logger = Logger.getLogger(getClass().getName());
         this.context = context;
 
         addWindowListener(new WindowAdapter() {
@@ -95,6 +99,6 @@ public class SessionLoadWindow extends JFrame implements SessionLoadListener {
     @Override
     public void onLoadFailed(String errorMessage) {
         // todo: display error message window
-        System.out.println("ERROR: " + errorMessage);
+        logger.error("ERROR: " + errorMessage);
     }
 }

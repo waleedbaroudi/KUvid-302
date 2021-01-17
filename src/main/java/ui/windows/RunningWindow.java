@@ -8,6 +8,7 @@ import model.game_running.RunningMode;
 import model.game_running.listeners.GameEntitiesListener;
 import model.game_running.listeners.RunningStateListener;
 import model.game_space.Player;
+import org.apache.log4j.Logger;
 import services.database.IDatabase;
 import ui.movable_drawables.Drawable;
 import ui.movable_drawables.DrawableFactory;
@@ -36,9 +37,12 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
     private final SessionLoadWindow sessionLoadWindow;
     private final SessionSaveWindow saveSessionWindow;
     private CountDownLatch pauseLatch;
+    private static Logger logger;
+
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
+        logger = Logger.getLogger(this.getClass().getName());
         drawableMap = new ConcurrentHashMap<>(); // concurrent so that it supports concurrent addition and deletion.
         this.config = Configuration.getInstance();
         this.setSize(config.getRunningWindowDimension());
@@ -46,7 +50,7 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         this.sessionLoadWindow = new SessionLoadWindow(this);
         this.saveSessionWindow = new SessionSaveWindow(this);
         this.runningMode = new RunningMode(this, this, sessionLoadWindow, saveSessionWindow);
-        System.out.println("in running window" + runningMode.getBlender());
+        logger.info("in running window" + runningMode.getBlender());
         //todo: remove this?
         BlenderWindow blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);

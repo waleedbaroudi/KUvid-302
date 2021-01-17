@@ -7,6 +7,7 @@ import model.game_entities.Molecule;
 import model.game_entities.enums.EntityType;
 import model.game_entities.enums.ShieldType;
 import model.game_entities.enums.SuperType;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class ImageResources {
 
     private static final Configuration config = Configuration.getInstance();
     private static final String theme = config.getTheme();
+    private static final Logger logger = Logger.getLogger("ImageResources");
 
     /**
      * @param entity the entity that needs an image to draw itself
@@ -56,7 +58,7 @@ public class ImageResources {
 
             //A default black image will be returned in case of any error
             default:
-                System.err.println("Error: ImageResources::get :" + entity.toString() + ", " + width + ", " + height);
+                logger.error("Error: ImageResources::get :" + entity.toString() + ", " + width + ", " + height);
                 return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
     }
@@ -92,7 +94,7 @@ public class ImageResources {
         try {
             img = ImageIO.read(new File(getPath() + image));
         } catch (IOException e) {
-            System.err.println("error retrieving image: " + e.getMessage() + " - image: " + image + " - path: " + getPath() + image);
+            logger.error("error retrieving image: " + e.getMessage() + " - image: " + image + " - path: " + getPath() + image);
             return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         }
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -125,7 +127,7 @@ public class ImageResources {
                     getImage("kuvid_bc" + ".png", width, height);
     }
 
-    public static Image getShieldImage(EntityType entityType, int size){
+    public static Image getShieldImage(EntityType entityType, int size) {
         ShieldType type = ShieldType.forValue(entityType.getValue());
         return ImageResources.getStatIcon(SuperType.SHIELD + "", type + "", size, false).getImage();
     }

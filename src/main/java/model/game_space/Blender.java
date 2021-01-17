@@ -29,21 +29,7 @@ public class Blender {
      * @param destinationAtom  The result atom
      * @param numOfConversions The number of the desired atom.
      */
-//    public void blend(int sourceAtom, int destinationAtom, int destinationAtomQuantity) {
-//        boolean canBlend;
-//        System.out.println(sourceAtom + " " + " ");
-//        canBlend = projectileContainer.decreaseAtoms(sourceAtom, destinationAtomQuantity *
-//                (int) Math.ceil(sourceAtom * GameConstants.BLENDING_MATRIX[sourceAtom][destinationAtom]));
-//        if (canBlend) {
-//            projectileContainer.increaseAtoms(destinationAtom, destinationAtomQuantity *
-//                    (int) Math.ceil(destinationAtom * GameConstants.BLENDING_MATRIX[destinationAtom][sourceAtom]));
-//            if (blenderListener != null)
-//                blenderListener.onBlend();
-//        } else {
-//            if (blenderListener != null)
-//                blenderListener.onFailBlend();
-//        }
-//    }
+
     public void convert(int sourceAtom, int destinationAtom, int numOfConversions) throws Exception {
         if (sourceAtom > destinationAtom) {
             breakAtoms(sourceAtom, destinationAtom, numOfConversions);
