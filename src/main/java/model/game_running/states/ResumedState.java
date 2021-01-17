@@ -35,13 +35,18 @@ public class ResumedState implements GameState {
     }
 
     @Override
+    public void moveShooter(int direction) {
+        runningMode.getShooter().setMovementState(direction);
+    }
+
+    @Override
     public void resume() {
         logger.info("Game is already resumed");
     }
 
     @Override
     public void pause() {
-        runningMode.setRunningState(GameConstants.GAME_STATE_PAUSED);
+        runningMode.applyRunningState(GameConstants.GAME_STATE_PAUSED);
         runningMode.setCurrentState(runningMode.getPausedState());
     }
 }

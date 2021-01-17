@@ -164,7 +164,7 @@ public class EntityGeneratorRunnable extends GameRunnable {
         Collections.shuffle(randomTypes);
 
         if (randomTypes.isEmpty())
-            return null; //no more powerups
+            return null; //no more power-ups
 
         double l = GameConstants.MOLECULE_RADIUS * Configuration.getInstance().getUnitL();
         double r = Configuration.getInstance().getGamePanelDimensions().getWidth() - GameConstants.MOLECULE_RADIUS * Configuration.getInstance().getUnitL();
@@ -175,9 +175,6 @@ public class EntityGeneratorRunnable extends GameRunnable {
         moleculeCountPerType.replace(molecule.getEntityType(), moleculeCountPerType.get(molecule.getEntityType()) - 1);
         molecule.setCoordinates(new Coordinates(x_coord, 0));
 
-        // spinning molecule
-        if (molecule.isSpinnable())
-            molecule.registerSpinningController(runningMode.getMovementRunnable());
         return molecule;
     }
 }

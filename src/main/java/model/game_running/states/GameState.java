@@ -12,6 +12,8 @@ public interface GameState {
 
     void rotateShooter(int direction);
 
+    void moveShooter(int direction);
+
     void resume();
 
     void pause();

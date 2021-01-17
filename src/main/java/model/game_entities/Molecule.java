@@ -10,13 +10,12 @@ import model.game_entities.enums.SuperType;
 import model.game_physics.hitbox.Hitbox;
 import model.game_physics.path_patterns.PathPattern;
 import model.game_running.CollisionVisitor;
-import model.game_running.Spinnable;
 import services.utils.Coordinates;
 
 /**
  * Molecule: Handles the Molecule game object.
  */
-public class Molecule extends AutonomousEntity implements Spinnable {
+public class Molecule extends AutonomousEntity {
 
     private MoleculeStructure structure;
 
@@ -26,11 +25,11 @@ public class Molecule extends AutonomousEntity implements Spinnable {
 //        this.structure = structure;
 //    }
 
-    public Molecule(@JsonProperty("coordinates")Coordinates coordinates,
-                   @JsonProperty("hitbox")Hitbox hitbox,
-                   @JsonProperty("pathPattern")PathPattern pathPattern,
-                   @JsonProperty("entityType")EntityType type,
-                   @JsonProperty("structure") MoleculeStructure structure) {
+    public Molecule(@JsonProperty("coordinates") Coordinates coordinates,
+                    @JsonProperty("hitbox") Hitbox hitbox,
+                    @JsonProperty("pathPattern") PathPattern pathPattern,
+                    @JsonProperty("entityType") EntityType type,
+                    @JsonProperty("structure") MoleculeStructure structure) {
         super(coordinates, hitbox, pathPattern, type);
         superType = SuperType.MOLECULE;
         this.structure = structure;
@@ -48,12 +47,10 @@ public class Molecule extends AutonomousEntity implements Spinnable {
     }
 
     @JsonIgnore
-    @Override
     public double getRotationDegree() {
         return this.getHitbox().getRotationDegree();
     }
 
-    @Override
     public void spin() {
         this.getHitbox().rotate(GameConstants.SPINNING_SPEED);
     }
@@ -64,11 +61,10 @@ public class Molecule extends AutonomousEntity implements Spinnable {
     }
 
     @Override
-    public String toString() {
-        return "Molecule{" +
-                "type=" + getEntityType() +
-                ", structure=" + structure +
-                '}';
+    public void move() {
+        super.move();
+        if (isSpinnable())
+            spin();
     }
 
     // visitor pattern. Double delegation
@@ -105,5 +101,13 @@ public class Molecule extends AutonomousEntity implements Spinnable {
     @Override
     public void saveState(GameBundle.Builder builder) {
         builder.addEntity(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Molecule{" +
+                "type=" + getEntityType() +
+                ", structure=" + structure +
+                '}';
     }
 }

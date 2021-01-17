@@ -35,7 +35,7 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
     private final Map<AutonomousEntity, Drawable> drawableMap;
     private BlenderWindow blenderWindow; //todo: remove this?
     private final SessionLoadWindow sessionLoadWindow;
-    private final SaveSessionWindow saveSessionWindow;
+    private final SessionSaveWindow saveSessionWindow;
     private CountDownLatch pauseLatch;
 
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
@@ -45,7 +45,7 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         this.setSize(config.getRunningWindowDimension());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.sessionLoadWindow = new SessionLoadWindow(this);
-        this.saveSessionWindow = new SaveSessionWindow(this);
+        this.saveSessionWindow = new SessionSaveWindow(this);
         this.runningMode = new RunningMode(this, this, sessionLoadWindow, saveSessionWindow);
         System.out.println("in running window" + runningMode.getBlender());
         blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern

@@ -25,13 +25,13 @@ public class PausedState implements GameState {
     @Override
     public void saveGameSession() {
 //        runningMode.saveGameSession();
-        runningMode.getSaveSessionListener().showSaveMethodSelector();
+        runningMode.getSessionSaveListener().showSaveMethodSelector();
     }
 
 
     @Override
     public void applyShield(ShieldType shieldType) {
-        logger.warn("cannot apply shields while game is paused");
+        logger.warn("cannot apply shields while the game is paused");
     }
 
     @Override
@@ -40,8 +40,13 @@ public class PausedState implements GameState {
     }
 
     @Override
+    public void moveShooter(int direction) {
+        logger.info("cannot move shooter while the game is paused");
+    }
+
+    @Override
     public void resume() {
-        runningMode.setRunningState(GameConstants.GAME_STATE_RESUMED);
+        runningMode.applyRunningState(GameConstants.GAME_STATE_RESUMED);
         runningMode.setCurrentState(runningMode.getResumedState());
     }
 

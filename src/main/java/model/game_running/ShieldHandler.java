@@ -7,9 +7,8 @@ import model.game_entities.Shooter;
 import model.game_entities.enums.ShieldType;
 import model.game_entities.shields.*;
 
-public class ShieldHandler implements OnShotListener {
+public class ShieldHandler {
 
-    private RunningMode runningMode;
     private Shooter shooter;
 
     private ShieldTuple tempShields;
@@ -18,9 +17,8 @@ public class ShieldHandler implements OnShotListener {
     public ShieldHandler() {
     }
 
-    public ShieldHandler(RunningMode runningMode, Shooter shooter) {
+    public ShieldHandler(Shooter shooter) {
         this.shooter = shooter;
-        this.runningMode = runningMode;
         shields = new ShieldTuple();
         tempShields = new ShieldTuple();
 
@@ -34,7 +32,7 @@ public class ShieldHandler implements OnShotListener {
         if (shields.getShieldsCount(type) > 0 && shooter.projectileIsAtom()) {
             shields.decreaseShieldCount(type);
             tempShields.addShield(type);
-            runningMode.updateStatisticsShieldCount();
+            shooter.updateStatisticsShieldCount();
             if (shooter.projectileIsAtom()) {
                 Atom shieldedAtom = applyShield(shooter.getAtomProjectile(), type);
                 shooter.setCurrentProjectile(shieldedAtom);
@@ -56,17 +54,14 @@ public class ShieldHandler implements OnShotListener {
         return atom;
     }
 
-    @Override
     public void emptyTempShields() {
         tempShields.reset();
     }
 
-    @Override
     public ShieldTuple getTempShields() {
         return new ShieldTuple(this.tempShields);
     }
 
-    @Override
     public void setTempShields(ShieldTuple shields) {
         this.tempShields = shields;
     }
@@ -78,6 +73,11 @@ public class ShieldHandler implements OnShotListener {
     @JsonIgnore
     public String getShieldsCount(ShieldType type) {
         return shields.getShieldsCount(type) + "";
+    }
+
+    @JsonIgnore
+    public void setShooter(Shooter shooter) {
+        this.shooter = shooter;
     }
 }
 
