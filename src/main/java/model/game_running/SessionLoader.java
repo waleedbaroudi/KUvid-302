@@ -29,12 +29,18 @@ public class SessionLoader {
     }
 
 
+    /**
+     * Retrieve a list of saved sessions and pass them to the load listener
+     */
     public synchronized void fetchSavedSessions() {
         ArrayList<String> sessions = new ArrayList<>(dbAdapter.getDocumentsIds(GameConstants.SESSION_COLLECTION_TITLE));
         loadListener.onSessionListFetched(sessions);
     }
 
-
+    /**
+     * Given an ID retrieve a save that corresponds to that ID and pass it to the load listener
+     * @param sessionID
+     */
     public void retrieveSession(String sessionID) {
         GameBundle loadedBundle = null;
         try {
@@ -46,6 +52,11 @@ public class SessionLoader {
         loadListener.onSessionRetrieved(loadedBundle);
     }
 
+    /**
+     * Given a database type as a String return the database adapter object.
+     * @param databaseType
+     * @return a database adapter
+     */
     private IDatabase getDatabaseAdapter(String databaseType){
         if(databaseType.equals("local"))
             return LocalDBAdapter.getInstance();
