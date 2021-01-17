@@ -209,6 +209,7 @@ public class ConfigBundle {
         return difficulty;
     }
 
+    @JsonIgnore
     public String getDifficultyString(){
         switch (getDifficulty()){
             case 0:
