@@ -2,6 +2,7 @@ package services.database;
 
 import org.bson.Document;
 import org.junit.jupiter.api.*;
+import services.utils.IOHandler;
 
 import java.io.IOException;
 
@@ -46,7 +47,8 @@ class MongoDBAdapterTest {
         }
         //retrieve the document
         try {
-            Document doc = this.database.load(COLLECTION_TITLE, uID, Document.class);
+            String ID = IOHandler.formatFileNameWithDate(uID, "");
+            Document doc = this.database.load(COLLECTION_TITLE, ID, Document.class);
             assertEquals("Best project of the year", doc.get("Pepega"));
         } catch (IOException e) {
             fail();
@@ -71,7 +73,8 @@ class MongoDBAdapterTest {
         //retrieve the document
         DummyClass dummyClass = null;
         try {
-            dummyClass = this.database.load(COLLECTION_TITLE, uID, DummyClass.class);
+            String ID = IOHandler.formatFileNameWithDate(uID, "");
+            dummyClass = this.database.load(COLLECTION_TITLE, ID, DummyClass.class);
         } catch (IOException e) {
             e.printStackTrace();
             fail();

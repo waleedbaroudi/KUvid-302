@@ -68,6 +68,10 @@ public class ZigzagPatten extends PathPattern {
         this.zigzagPattern = new CompositePattern(patterns, iterationStep);
     }
 
+    public CompositePattern getZigzagPattern() {
+        return zigzagPattern;
+    }
+
     public ZigzagPatten(Velocity diagonalVelocity, int iterationStep) {
         this(diagonalVelocity, iterationStep, true);
     }

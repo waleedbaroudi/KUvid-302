@@ -95,8 +95,8 @@ public class CompositePattern extends PathPattern {
     @Override
     public Coordinates nextPosition() {
         if (this.currentIteration >= getIterations().get(currentPatternIdx)) {
-            getLogger().debug("[CompositePattern] iteration of the " + (this.currentPatternIdx + 1) + "th pattern finished");
-            getLogger().debug("[CompositePattern] transition coordinates are " + this.getCurrentCoords());
+           // getLogger().debug("[CompositePattern] iteration of the " + (this.currentPatternIdx + 1) + "th pattern finished");
+           // getLogger().debug("[CompositePattern] transition coordinates are " + this.getCurrentCoords());
             // update the current pattern with initial coordinates corresponding to the current coordinates
             this.currentIteration = 0;
             this.currentPatternIdx += 1;

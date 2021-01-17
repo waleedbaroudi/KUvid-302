@@ -165,7 +165,6 @@ public class ProjectileContainer {
      * @return the result of the check and decrement.
      */
     private boolean updateProjectileMap(int[] map, SuperType superType, int type, int count) {
-        logger.info(type + " : " + count);
         int remaining = map[type];
         if (remaining < -count)
             return false;
