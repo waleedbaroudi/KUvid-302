@@ -3,6 +3,9 @@ package model.game_physics.hitbox;
 import model.game_building.Configuration;
 import model.game_building.GameConstants;
 
+/**
+ * a factory for hitbox that contains the logic of creating hitbox for each type of entity
+ */
 public class HitboxFactory {
 
     private static HitboxFactory factory = new HitboxFactory();
