@@ -13,6 +13,7 @@ import services.utils.Velocity;
 @JsonIdentityReference(alwaysAsId = true)
 public class StraightPattern extends PathPattern {
     private Velocity initialVelocity;
+    private int sinceReflected = 100;
 
     @SuppressWarnings("unused")
     public StraightPattern() {//this is needed for the save/load functionality
@@ -31,17 +32,25 @@ public class StraightPattern extends PathPattern {
         return initialVelocity;
     }
 
+
     @Override
     public Coordinates nextPosition() {
         setCurrentCoords(new Coordinates(getInitialVelocity().getXv() + getCurrentCoords().getX(),
                 getInitialVelocity().getYv() + getCurrentCoords().getY()));
+        this.sinceReflected++;
         return getCurrentCoords();
     }
 
     @Override
     public void reflect(Vector n) {
-        this.initialVelocity = initialVelocity.reflect(n);
-        PathPattern.logger.debug("[StraightPattern] pattern reflected");
+        if(sinceReflected > 3) {
+            this.initialVelocity = initialVelocity.reflect(n);
+            this.sinceReflected = 0;
+            PathPattern.logger.debug("[StraightPattern] pattern reflected");
+        }
+        else {
+            PathPattern.logger.debug("[StraightPattern] pattern was already reflected");
+        }
     }
 
     @Override
