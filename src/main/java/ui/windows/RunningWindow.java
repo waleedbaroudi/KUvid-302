@@ -40,7 +40,6 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
     private CountDownLatch pauseLatch;
     private static Logger logger;
 
-
     public RunningWindow(String title) { // TODO: CLEAN: maybe move panel to a separate class.
         super(title);
         logger = Logger.getLogger(this.getClass().getName());
@@ -52,7 +51,7 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         this.saveSessionWindow = new SessionSaveWindow(this);
         this.runningMode = new RunningMode(this, this, sessionLoadWindow,
                 saveSessionWindow, new SoundHandler());
-        System.out.println("in running window" + runningMode.getBlender());
+        logger.info("in running window" + runningMode.getBlender());
         BlenderWindow blenderWindow = new BlenderWindow(runningMode); // Window that implements the blending listener for the observer pattern
         gameContentPanel = new GamePanel(this.runningMode, drawableMap);
         statisticsPanel = new StatisticsPanel(this.runningMode);
@@ -80,11 +79,11 @@ public class RunningWindow extends JFrame implements RunningStateListener, GameE
         }
         setLocationRelativeTo(null); //centers the window in the middle of the screen
 
+        setResizable(false);
         setVisible(true);
         pack();
         start();
     }
-
 
     /**
      * starts the the game loop (drawing, movement, and collision checks)
