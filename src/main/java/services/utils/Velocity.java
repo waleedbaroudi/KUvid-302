@@ -47,4 +47,11 @@ public class Velocity {
     public Velocity reflect(Vector n){
         return new Velocity(n.scale(n.dot(getVelocityVector()) * 2).subtract(getVelocityVector()).reverse());
     }
+
+    @Override
+    public String toString() {
+        return "Velocity{" +
+                "velocityVector=" + velocityVector +
+                '}';
+    }
 }
