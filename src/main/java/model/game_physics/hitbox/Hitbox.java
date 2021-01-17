@@ -10,6 +10,9 @@ import java.util.ArrayList;
         @JsonSubTypes.Type(value = RectangularHitbox.class, name = "rectangular-hitbox"),
         @JsonSubTypes.Type(value = CircularHitbox.class, name = "circular-hitbox")
 })
+/**
+ * A Hitbox that will surrounds entities and represents its dimensions, and rotation in the game space.
+ */
 public abstract class Hitbox {
 
     protected double rotationDegree = 0;
@@ -35,6 +38,11 @@ public abstract class Hitbox {
      */
     public abstract boolean isInside(Coordinates entityCoords, Coordinates checkCoords);
 
+    /**
+     * get a set of sample points on the boundary of the Hitbox.
+     * @param entityCoords the center coordinates of the entity which represents the center of the hitbox
+     * @return a set of sample points in the boundary.
+     */
     public abstract ArrayList<Coordinates> getBoundaryPoints(Coordinates entityCoords);
 
     public abstract double getWidth();

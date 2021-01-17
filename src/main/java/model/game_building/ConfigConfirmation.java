@@ -12,6 +12,12 @@ public class ConfigConfirmation {
         this.confirmationListener = confirmationListener;
     }
 
+    /**
+     * This method is called when the user clicks to confirm their configuration summary and it will notify the listener
+     * that the user confirmed to start the game.
+     * @param bundle
+     * @param isSaving
+     */
     public void confirm(ConfigBundle bundle, boolean isSaving) {
         //write the selected config into a temporary file that will be read in Configuration class.
         try {

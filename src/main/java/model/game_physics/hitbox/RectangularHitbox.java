@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 
+/**
+ * Representation for a rectangular hitbox.
+ */
 @JsonTypeName("rectangular-hitbox")
 public class RectangularHitbox extends Hitbox {
 

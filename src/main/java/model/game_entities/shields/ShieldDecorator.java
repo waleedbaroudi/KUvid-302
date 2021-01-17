@@ -3,9 +3,12 @@ package model.game_entities.shields;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.game_entities.Atom;
 
-
+/**
+ * Decorator pattern to add new attributes to atom class following open-closed principle.
+ */
 public abstract class ShieldDecorator extends Atom {
     protected Atom atom;
+
 
     public ShieldDecorator(Atom atom) {
         super(atom.getCoordinates(),

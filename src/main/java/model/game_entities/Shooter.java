@@ -145,6 +145,10 @@ public class Shooter extends Entity {
         this.currentProjectile = currentProjectile;
     }
 
+    /**
+     * this method is used to set a powerup of the given type on the tip of the shooter
+     * @param type
+     */
     public void setPowerup(EntityType type) {
         Projectile previousProjectile = getCurrentProjectile();
         Powerup currentPowerup = runningMode.getProjectileContainer().getPowerUp(this.getCoordinates(), type);
@@ -158,6 +162,9 @@ public class Shooter extends Entity {
         }
     }
 
+    /**
+     * this methods is used for changing the atom on tip of the shooter to an atom of different type.
+     */
     public void switchAtom() {
         // @REQUIRES: the the projectileContainer not to be empty nor the currentProjectile on the tip of the shooter to be of type powerup.
         // @MODIFIES: the currentProjectile object
@@ -291,7 +298,9 @@ public class Shooter extends Entity {
         return (Atom) getCurrentProjectile();
     }
 
-
+    /**
+     * update number of shields in statistics window
+     */
     public void updateStatisticsShieldCount() {
         runningMode.updateStatisticsShieldCount();
     }
@@ -320,31 +329,61 @@ public class Shooter extends Entity {
     }
     // visitor pattern. Double delegation
 
+    /**
+     * handle collision with atom
+     * @param visitor
+     * @param atom
+     */
     @Override
     public void collideWith(CollisionVisitor visitor, Atom atom) {
         visitor.handleCollision(this, atom);
     }
 
+    /**
+     * handle collision with blocker
+     * @param visitor
+     * @param blocker
+     */
     @Override
     public void collideWith(CollisionVisitor visitor, Blocker blocker) {
         visitor.handleCollision(this, blocker);
     }
 
+    /**
+     * handle collision with molecule
+     * @param visitor
+     * @param molecule
+     */
     @Override
     public void collideWith(CollisionVisitor visitor, Molecule molecule) {
         visitor.handleCollision(this, molecule);
     }
 
+    /**
+     * handle collision with powerup
+     * @param visitor
+     * @param powerup
+     */
     @Override
     public void collideWith(CollisionVisitor visitor, Powerup powerup) {
         visitor.handleCollision(this, powerup);
     }
 
+    /**
+     * handle collision with shooter
+     * @param visitor
+     * @param shooter
+     */
     @Override
     public void collideWith(CollisionVisitor visitor, Shooter shooter) {
         visitor.handleCollision(this, shooter);
     }
 
+    /**
+     * apply the visitor pattern to handle collisions between entities and the molecule object
+     * @param visitor
+     * @param entity
+     */
     @Override
     public void acceptCollision(CollisionVisitor visitor, Entity entity) {
         entity.collideWith(visitor, this);

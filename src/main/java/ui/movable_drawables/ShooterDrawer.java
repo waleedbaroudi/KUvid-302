@@ -50,6 +50,10 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
         this.shieldsImages[3] = ImageResources.getShieldImage(EntityType.SIGMA, size);
     }
 
+    /**
+     * draw shooter on the game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -119,7 +123,10 @@ public class ShooterDrawer implements Drawable, ShooterEventListener {
         g2d.setTransform(old);
     }
 
-    @Override
+    /**
+     * draw a hit box around the shooter on the game view
+     * @param g Graphics instance passed to be used in drawing
+     */
     public void drawHitbox(Graphics g) {
         Coordinates drawingCoordinates = MathUtils.drawingCoordinates(shooter.getCoordinates(),
                 shooter.getHitbox().getWidth(),

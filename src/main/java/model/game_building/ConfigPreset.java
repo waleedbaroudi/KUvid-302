@@ -12,7 +12,11 @@ public class ConfigPreset {
         this.listener = listener;
     }
 
-
+    /**
+     * given a filename retrieve the bundle from the file and pass it to the listener
+     * @param filename
+     * @throws IOException
+     */
     public void getConfigBundleFromFile(String filename) throws IOException {
         ConfigBundle bundle = IOHandler.readFromYaml(filename, "configurations", ConfigBundle.class);
         if (bundle == null)

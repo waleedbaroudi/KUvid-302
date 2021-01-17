@@ -133,10 +133,19 @@ public class RunningMode {
     }
 
     // Shooter ////
+
+    /**
+     * move shooter in a given direction.
+     * @param direction
+     */
     public void moveShooter(int direction) {
         currentState.moveShooter(direction);
     }
 
+    /**
+     * rotate shooter in a given direction
+     * @param direction
+     */
     public void rotateShooter(int direction) {
         currentState.rotateShooter(direction);
     }
@@ -161,14 +170,25 @@ public class RunningMode {
         addEntity(shotEntity);
     }
 
+    /**
+     * switch atom at the tip of the gun
+     */
     public void switchAtom() {
         getShooter().switchAtom();
     }
 
+    /**
+     * add a given powerup to projectileContainer
+     * @param powerup
+     */
     public void collectPowerUp(Powerup powerup) {
         projectileContainer.addPowerUp(powerup);
     }
 
+    /**
+     * apply a given shield on the atom at the tip of the gun
+     * @param shieldType
+     */
     public void applyShield(ShieldType shieldType) {
         currentState.applyShield(shieldType);
     }
@@ -193,8 +213,7 @@ public class RunningMode {
     }
 
     /**
-     * TODO ADD DOCUMENTATION
-     *
+     *remove entity from the arraylist to be removed from the game view.
      * @param entity to be removed
      */
     public void removeEntity(AutonomousEntity entity) {
@@ -212,6 +231,10 @@ public class RunningMode {
         return true;
     }
 
+    /**
+     *
+     * @return true if there is no entities other than atoms and shooter on the screen.
+     */
     public boolean noEntitiesOnScreen() {
         for (Entity entity : autonomousEntities)
             if (entity.getSuperType() != SuperType.ATOM && entity.getSuperType() != SuperType.SHOOTER)
@@ -228,12 +251,20 @@ public class RunningMode {
         this.player = player;
     }
 
+    /**
+     * decrease the health of the player by a given damage amount.
+     * @param damageAmount
+     */
     public void updateHealth(double damageAmount) {
         if (player != null)
             if (player.loseHealth(damageAmount))
                 endGame();
     }
 
+    /**
+     * update the timer of the game
+     * @param amountInMillis
+     */
     public void updateTimer(int amountInMillis) {
         if (player != null) {
             boolean timerOver = !player.updateTime(amountInMillis);
@@ -242,25 +273,43 @@ public class RunningMode {
         }
     }
 
+    /**
+     * update the number of projectiles on the statistics window
+     */
     public void updateStatisticsProjectileCount() {
         if (player != null)
             player.updateOwnedProjectiles();
     }
 
+    /**
+     * update the number of shields on the statistics window
+     */
     public void updateStatisticsShieldCount() {
         if (player != null)
             player.changeShieldCount();
     }
 
+    /**
+     * increase the score of the player by a given score value.
+     * @param score
+     */
     public void increaseScore(double score) {
         if (player != null) player.incrementScore(score);
     }
 
     // Save-Load ////
+
+    /**
+     * display saved sessions of the game
+     */
     public void showSavedSessions() {
         currentState.showSavedSessions();
     }
 
+    /**
+     * load a saved session of the game to play
+     * @param session
+     */
     public void loadGameSession(GameBundle session) {
 
         // update the game configuration
@@ -298,6 +347,9 @@ public class RunningMode {
 
     }
 
+    /**
+     * request for saving a game session
+     */
     public void saveGameRequest() {
         this.currentState.saveGameSession();
     }
@@ -328,6 +380,10 @@ public class RunningMode {
     }
 
     // Game State ////
+
+    /**
+     * resume game
+     */
     public void resume() {
         try {
             onGameStateListener.onGameResume();
@@ -337,6 +393,9 @@ public class RunningMode {
         currentState.resume();
     }
 
+    /**
+     * pause game
+     */
     public void pause() {
         try {
             onGameStateListener.onGamePaused();
@@ -347,6 +406,10 @@ public class RunningMode {
         currentState.pause();
     }
 
+    /**
+     * change the state of the game to a given state.
+     * @param currentState
+     */
     public void setCurrentState(GameState currentState) {
         this.currentState = currentState;
     }
@@ -361,6 +424,10 @@ public class RunningMode {
         runningStateListener.onRunningStateChanged(state);
     }
 
+    /**
+     *
+     * @return true if the game is finished.
+     */
     public boolean isGameFinished() {
         if (shooter.getCurrentProjectile() == null)
             return noAtomsOnScreen();
@@ -369,6 +436,9 @@ public class RunningMode {
         return false;
     }
 
+    /**
+     * call for the end of the game
+     */
     public void endGame() {
         try {
             onGameStateListener.onGameOver();

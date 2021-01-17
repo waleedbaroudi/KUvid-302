@@ -29,7 +29,6 @@ public class Blender {
      * @param destinationAtom  The result atom
      * @param numOfConversions The number of the desired atom.
      */
-
     public void convert(int sourceAtom, int destinationAtom, int numOfConversions) throws Exception {
         if (sourceAtom > destinationAtom) {
             breakAtoms(sourceAtom, destinationAtom, numOfConversions);
